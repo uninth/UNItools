@@ -1,0 +1,46 @@
+#!/bin/sh
+# $Id: tailbox,v 1.3 2003/08/15 19:40:37 tom Exp $
+: ${DIALOG=dialog}
+
+MYNAME="UNItools system monitoring tools"
+VERSION="1.0"
+ 
+PROG=itop
+EXEC=/var/opt/UNItools/bin/$PROG
+USAGE="`$PROG -h`"
+WHATIS="itop - top-like interrupt load monitor"
+MAN="/var/opt/UNItools/docs/SPM/itop.0.1.1/itop.txt"
+
+USAGE_FILE=/tmp/tmpfile
+$USAGE > $USAGE_FILE 2>&1
+
+# select / menubox1
+$DIALOG --clear --backtitle "$MYNAME - $VERSION" \
+	--title "Main UNItools menu" \
+        --menu "Use arrow keys, mouse, number keys 1-9 or \
+first letter to choose an option.\n" 20 70 10 \
+"$PROG"  "$WHATIS" \
+"MSDOS"  "Microsoft DOS" 2> /dev/null
+
+# tool/usage/man
+$DIALOG --clear --backtitle "$MYNAME - $VERSION" \
+	--title "$PROG / Usage / Manual" \
+	--default-item "$USAGE" \
+        --menu "Use arrow keys, mouse, number keys 1-9 or \
+first letter to choose an option.\n" 20 70 10 \
+"Run $PROG ... " "" \
+"Command Usage ... " "" \
+"Command manual ... " "" #2> /dev/null
+
+# man page
+$DIALOG --backtitle "$MYNAME - $VERSION"	\
+	--title "$WHATIS"	\
+        --textbox  $MAN 24 80
+
+case $? in
+  0)
+    echo "OK";;
+  255)
+    echo "ESC pressed.";;
+esac
+

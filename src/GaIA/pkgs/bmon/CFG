@@ -1,0 +1,15 @@
+URL="http://freshmeat.net/redir/bmon/36580/url_tgz/bmon-2.0.1.tar.gz"
+PKG="bmon"
+VER="2.0.1"
+NAME="Portable bandwidth monitor and rate estimator"
+VENDOR="Thomas Graf <tgraf@suug.ch>"
+SRC="bmon-2.0.1"
+ROOT="/var/opt/UNItools"
+CONFIGURE="configure --prefix=$ROOT --mandir=$ROOT/share/man --bindir=$ROOT/bin --sbindir=$ROOT/bin"
+BUILD="make"
+INSTALL="make install"
+INSTALL_MORE="/bin/sh install_more.sh"
+MAKECLEAN="make distclean"
+DELEFILES="*.bak"
+
+# slut

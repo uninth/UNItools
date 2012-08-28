@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./menubox6</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir">#!/bin/sh</span>
+<span class="line">    1 </span><span class="dir"># $Id: menubox6,v 1.3 2004/12/19 23:18:53 tom Exp $</span>
+<span class="line">    2 </span><span class="dir"># example showing the --colors option</span>
+<span class="line">    3 </span><span class="sym">:</span> $<span class="sym">{</span>DIALOG<span class="sym">=</span>dialog<span class="sym">}</span>
+<span class="line">    4 </span>
+<span class="line">    5 </span>tempfile<span class="sym">=</span>`tempfile <span class="num">2</span><span class="sym">&gt;/</span>dev<span class="sym">/</span>null` <span class="sym">||</span> tempfile<span class="sym">=/</span>tmp<span class="sym">/</span>test$$
+<span class="line">    6 </span>trap <span class="str">&quot;rm -f $tempfile&quot;</span> <span class="num">0 1 2 5 15</span>
+<span class="line">    7 </span>
+<span class="line">    8 </span>$DIALOG <span class="sym">--</span>clear <span class="sym">--</span>item<span class="sym">-</span>help <span class="sym">--</span>title <span class="str">&quot;MENU BOX&quot;</span> <span class="sym">--</span>colors \
+<span class="line">    9 </span>        <span class="sym">--</span>menu <span class="str">&quot;Hi, this is a</span> <span class="esc">\Z</span><span class="str">umenu</span><span class="esc">\Z</span><span class="str">n box. You can use this to</span> <span class="esc">\n\</span>
+<span class="line">   10 </span><span class="str">present a list of choices for the user to</span> <span class="esc">\n\</span>
+<span class="line">   11 </span><span class="str">choose. If there are more items than can fit</span> <span class="esc">\n\</span>
+<span class="line">   12 </span><span class="str">on the screen, the menu will be scrolled.</span> <span class="esc">\n\</span>
+<span class="line">   13 </span><span class="str">You can use the</span> <span class="esc">\Z</span><span class="str">4UP/DOWN</span><span class="esc">\Z</span><span class="str">n arrow keys, the first</span> <span class="esc">\n\</span>
+<span class="line">   14 </span><span class="str">letter of the choice as a hot key, or the</span> <span class="esc">\n\</span>
+<span class="line">   15 </span><span class="str"></span><span class="esc">\Z</span><span class="str">2number</span><span class="esc">\Z</span><span class="str">n keys 1-9 to choose an option.</span><span class="esc">\n\</span>
+<span class="line">   16 </span><span class="str">Try it now!</span><span class="esc">\n\n\</span>
+<span class="line">   17 </span><span class="str">          Choose the OS you like:&quot;</span> <span class="num">20 51 4</span> \
+<span class="line">   18 </span>        <span class="str">&quot;Linux&quot;</span>  <span class="str">&quot;The Great Unix Clone for</span> <span class="esc">\Z</span><span class="str">u386/486&quot;</span>    <span class="str">&quot;Why use</span> <span class="esc">\Z</span><span class="str">bLinux?&quot;</span> \
+<span class="line">   19 </span>        <span class="str">&quot;NetBSD&quot;</span> <span class="str">&quot;Another free Unix Clone for</span> <span class="esc">\Z</span><span class="str">u386/486&quot;</span> <span class="str">&quot;Or</span> <span class="esc">\Z</span><span class="str">bNetBSD?&quot;</span> \
+<span class="line">   20 </span>        <span class="str">&quot;OS/2&quot;</span>   <span class="str">&quot;IBM OS/2&quot;</span>                            <span class="str">&quot;aka</span> <span class="esc">\&quot;</span><span class="str">Warp</span><span class="esc">\&quot;</span><span class="str">&quot;</span> \
+<span class="line">   21 </span>        <span class="str">&quot;WIN NT&quot;</span> <span class="str">&quot;Microsoft Windows NT&quot;</span>                <span class="str">&quot;hmm&quot;</span> \
+<span class="line">   22 </span>        <span class="str">&quot;PCDOS&quot;</span>  <span class="str">&quot;IBM PC</span> <span class="esc">\Z</span><span class="str">rDOS&quot;</span>                          <span class="str">&quot;clone of a clone&quot;</span> \
+<span class="line">   23 </span>        <span class="str">&quot;MSDOS&quot;</span>  <span class="str">&quot;Microsoft</span> <span class="esc">\Z</span><span class="str">rDOS&quot;</span>                       <span class="str">&quot;</span><span class="esc">\Z</span><span class="str">bDOS</span><span class="esc">\Z</span><span class="str">n:</span> <span class="esc">\Z</span><span class="str">b</span><span class="esc">\Z</span><span class="str">3D</span><span class="esc">\Z</span><span class="str">nisk</span> <span class="esc">\Z</span><span class="str">b</span><span class="esc">\Z</span><span class="str">3O</span><span class="esc">\Z</span><span class="str">nperating</span> <span class="esc">\Z</span><span class="str">b</span><span class="esc">\Z</span><span class="str">3S</span><span class="esc">\Z</span><span class="str">nystem, originally for an IBM contract, hence using the same jargon&quot;</span> <span class="num">2</span><span class="sym">&gt;</span> $tempfile
+<span class="line">   24 </span>
+<span class="line">   25 </span>retval<span class="sym">=</span>$?
+<span class="line">   26 </span>
+<span class="line">   27 </span>choice<span class="sym">=</span>`cat $tempfile`
+<span class="line">   28 </span>
+<span class="line">   29 </span><span class="kwa">case</span> $retval in
+<span class="line">   30 </span>  <span class="num">0</span><span class="sym">)</span>
+<span class="line">   31 </span>    echo <span class="str">&quot;OK '$choice' chosen.&quot;</span><span class="sym">;;</span>
+<span class="line">   32 </span>  <span class="num">1</span><span class="sym">)</span>
+<span class="line">   33 </span>    echo <span class="str">&quot;Cancel pressed.&quot;</span><span class="sym">;;</span>
+<span class="line">   34 </span>  <span class="num">2</span><span class="sym">)</span>
+<span class="line">   35 </span>    echo <span class="str">&quot;HELP '$choice' chosen.&quot;</span><span class="sym">;;</span>
+<span class="line">   36 </span>  <span class="num">255</span><span class="sym">)</span>
+<span class="line">   37 </span>    echo <span class="str">&quot;ESC pressed.&quot;</span><span class="sym">;;</span>
+<span class="line">   38 </span>  <span class="sym">*)</span>
+<span class="line">   39 </span>    echo <span class="str">&quot;Unexpected code $retval&quot;</span><span class="sym">;;</span>
+<span class="line">   40 </span>esac
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

@@ -1,0 +1,42 @@
+# Download URL, product name and version
+URL="http://www.insecure.org/nmap/dist/nmap-3.93.tgz"
+PKG="nmap"
+VER="3.93"
+
+# Description used internally
+NAME="Network exploration tool and security scanner"
+
+# The creator/copyright holder
+VENDOR="Fyodor <fyodor@insecure.org>"
+
+# Local source location
+SRC="/lan/ssi/projects/UNItools/src/Linux/2.4.21-20cpsmp/pkgs/nmap/nmap-3.93"
+
+# prefix for ''make install' Do not change
+ROOT="/var/opt/UNItools"
+
+# Arguments to configure, build command and installation command
+CONFIGURE="configure --prefix=/var/opt/UNItools --mandir=/var/opt/UNItools/share/man --bindir=/var/opt/UNItools/bin --without-nmapfe --with-openssl=/usr/local/ssl/"
+BUILD="make"
+INSTALL="make install"
+# clean-up commands
+MAKECLEAN="make distclean"
+DELEFILES="*.bak"
+
+# Script to add information not added by make install
+INSTALL_MORE="/bin/sh install_more.sh"
+
+# Prototype rc start/stop script (absolute path or relative to CFG)
+RCPROTO=""
+# RCSTART="S88unizlib"
+RCSTART=""
+# RCSTOP="S88unizlib"
+RCSTOP=""
+# Run level /etc/rcX.d. Network: 3, hernel S, user space (databases etc): 3
+# netværksdaemoner: normalt 2, kerneting normalt S, databaser mv normalt 3
+# RCSTARTDIRS="3"
+RCSTARTDIRS=""
+# Same for stop scripts: S, 0 and 1 - multible doesn't make any difference
+# RCSTOPDIRS="S 0 1"
+RCSTOPDIRS=""
+

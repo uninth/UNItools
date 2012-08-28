@@ -1,0 +1,59 @@
+#!/bin/sh
+#
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/dhcpdmon/scripts/dhcping/dhcpdmon,v 1.1 2009/08/26 14:13:20 root Exp $
+#
+# Init file for dhcpd monitor
+#
+# chkconfig: 2345 55 25
+# description:	dhcpd monitor / restarter
+# config:	/home/admin/.dhcping.conf
+#
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source networking configuration.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ ${NETWORKING} = "no" ]	&& exit 1
+
+PROG=dhcpd-monitor.sh
+SERVER=/var/opt/UNItools/dhcping/$PROG
+
+[ -x $SERVER  	]	|| exit 1
+
+MYPID=`/bin/ps  -xau| awk '$NF == "'$SERVER'" { print $2 }'`
+
+case "$1" in
+	start)	if [ -z "$MYPID" ]; then
+			$SERVER &
+		else
+			echo $SERVER running on $MYPID
+		fi
+		RETVAL=$?
+		echo
+       	;;
+	stop)	if [ -n "$MYPID" ]; then
+			kill -9 $MYPID
+		fi
+		RETVAL=$?
+		echo
+ 	 ;;
+
+	status)	if [ -n "$MYPID" ]; then
+			echo "$SERVER running on pid $MYPID ... "
+		else
+			echo "$SERVER not running"
+		fi
+		RETVAL=$?
+		echo
+	;;
+	restart) $0 stop; $0 start
+	;;
+	*)
+        echo "Usage: $0 {start|stop|restart|status}"
+        exit 1
+esac
+
+exit 0

@@ -1,0 +1,215 @@
+head	1.4;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.4
+date	2016.05.31.16.03.16;	author root;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2015.06.25.13.18.22;	author root;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2015.06.25.13.10.54;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2014.05.13.21.45.47;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@.
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@#!/bin/bash
+#
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/setup/setup-1.0/RCS/setup.sh,v 1.3 2015/06/25 13:18:22 root Exp root $
+#
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+if [ -f /etc/profile.d/CP.sh ]; then 
+	.  /etc/profile.d/CP.sh
+fi
+
+if [ -f /etc/profile.d/CPshell.sh ]; then 
+	.  /etc/profile.d/CPshell.sh
+fi      
+
+if [ "x$SHLVL" != "x1" ]; then # We're not a login shell
+	for i in /etc/profile.d/*.sh; do
+		if [ -x $i ]; then 
+			. $i    
+		fi      
+	done    
+fi
+
+trap 'echo "please do NOT attempt to stop the installation process"' 1 2 3 13 15
+
+echo "Wellcome to UNItools configuration for GaIA R77.10, 20, 30 and beyond"
+
+echo "changing admin user shell and inactivity-timeout"
+echo "user = admin shell = /bin/bash inactivity-timeout 720"
+
+tmpfile=/tmp/"$$"."$(awk 'BEGIN {srand();printf "%d\n", rand() * 10^8}')"
+
+cat << EOF > ${tmpfile}
+set user admin shell /bin/bash
+set inactivity-timeout 720
+EOF
+
+clish -i -s -f ${tmpfile}
+echo "clish command done"
+
+/bin/rm -f ${tmpfile}
+
+echo  "enabeling admin scp in /etc/scpusers ... "
+echo "admin" > /etc/scpusers
+
+/bin/chown root:root /etc/scpusers
+/bin/chmod 444 /etc/scpusers
+
+echo "done"
+
+echo "configuring .bash_profile for the admin user ... "
+/bin/cp /var/opt/UNItools/conf/.bash_profile /home/admin
+
+echo "Setting up ssh keys for user admin (aka root, uid 0) ... "
+
+if [ ! -f "$HOME/.ssh/authorized_keys" ]; then
+echo "creating rsa key ... "
+ssh-keygen -t dsa -b 4096 -q -N "" -f $HOME/admin/.ssh/id_rsa
+echo "" | ssh-keygen -t rsa 2>/dev/null
+#echo "" | ssh-keygen -t rsa 2>/dev/null
+#echo "" | ssh-keygen -t rsa1 2>/dev/null
+echo "adding our key to authorized_keys ... "
+cat << EOF > /home/admin/.ssh/authorized_keys
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDFzg7XMQuCJ/nOs4eUN734PsPEbE82xYDS04qxgaC0CotkUK+4hzGUeHawuuIDAtJL6LTS304mYj7MYaFTG/Qx0QK5xopzVriX3WmZtnuDq5d7ddzOIcmpYDYG6lHnEZs/LZhOEultYlEKtzNozDFqUyfuzAFpgv1harC+2YPzxgw0CLZFWz10YOQDo9spNEQX684Zy4j/0IMa+e8ijPFiGhGItZkRkHDUkf15G9K9F2rnHecIHo6IL0rMARrktexiQsVLCl0lFZVDP3ApiHaaDoQClP106XuSqd+oBUGN2/3Hkn8gtnDWUREeTCtS6QHfFa1NYtR5Z0MJUjGscNGTsBF8p4rHKG2sumf0HFi7mGQ5TmAGF1+/eIZTOB2Fq5YxWrwKdCqx/KbgkgGEc9Mgm3QtLEqyPr7vaT0hbtSip30Ad40RWOWlIu50ljz8bijxRWMyqwbVrcaOS+KVitbWwKubf1oeHEVeLbcFNMgj74HWm+wqqqRwbgaL7yU0WTnzClns/d4+zHMxK3XjKHjOJsmaeDPVDEHe66nGG1iF+zvVhaC5KHGHZwuH2dbjETvF5CxnNy58GRZc098gBy+bOf6NKBHXfJgU+X22NjBPrZCZ5LDU/J6DHF5ZCAT/akJ8wmtPIan9WEQcBzRkTRq1O6w5BhJ0NB3ujaTR8TwsOw== root@@buh
+EOF
+else
+echo "existing ssh configuration not changed"
+fi
+
+chmod -R 700 $HOME/.ssh $HOME/.ssh/*
+
+grep -q 130.225.245.210 /etc/hosts
+case $? in
+	0) echo "found 130.225.245.210 in /etc/hosts"
+	;;
+	*) clish -sc "add host name fwgui ipv4-address 130.225.245.210"
+	   echo "added 130.225.245.210 to /etc/hosts"
+	;;
+esac
+
+echo "done. ssh access w/o password granted from SSI"
+
+echo "Enabeling scheduled backup of Check Point firewall-1 ... "
+
+if [ -d /etc/cron.d ]; then
+	cat << EOF > /etc/cron.d/UNItools_backup
+# periodic firewall backup
+40 7 * * * root /var/opt/UNItools/fwbu/bin/UNIcpfwbu.sh
+EOF
+	chmod 644 /etc/cron.d/UNItools_backup
+
+	/etc/init.d/crond restart
+else
+	echo "no /etc/cron.d please fix"
+fi
+            
+echo "setting up softlinks ... "
+(
+	cd /var/opt/UNItools/bin
+	for FILE in tar gunzip gzip bash domainname hostname md5sum
+	do
+		/bin/rm -f ${FILE}
+		ln -s `type ${FILE} | awk '{ print $NF }'` ${FILE}
+		echo "${FILE} ... "
+	done
+)
+
+find /var/opt/UNItools/bin -type l -exec ls -l {} \; 
+
+echo "undo by un-install UNItools and remove admin user auth. keys"
+echo "use clish to change admin users SHELL and time out"
+echo "remove /etc/hosts entries with clish"
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d3 1
+a3 1
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/setup/setup-1.0/RCS/setup.sh,v 1.2 2015/06/25 13:10:54 root Exp root $
+d60 3
+a62 3
+echo "creating dsa key ... "
+ssh-keygen -t dsa -b 1024 -q -N "" -f $HOME/admin/.ssh/id_dsa
+echo "" | ssh-keygen -t dsa 2>/dev/null
+d67 1
+a67 1
+ssh-dss AAAAB3NzaC1kc3MAAACBAKUq/J8WuZgxZ++M4H7LplAd2xhKLpSHeL733LHpd6At2Yb9GgT7vfQYhqHCCMz8X1W3rt//BI0gm+8Dm7+Lkkh/4MY9l2LiQzzXOb1SzyQxOw90O6VyysuWnOkot+oxY2VD7305R3LLHgUy4ZvekyFcuh0hSPHEeL8U2rziLzSJAAAAFQCJ6NgOjgBWO6xoULsK5kTrPlGXGwAAAIBD9FFz5+dPhioq2trpEhDfA17WxqTU5P+udvLsvO+yfkoPSt1OuSFgP2p8sXBigqBKkte8fqjGsMRW1AwEo6UumDfiiTJP5tecp9EoVQi1SvlNF+4G0zWokVumeuFlfo7aES5eu9lFbjlSj3WOWyG/AdMBfIU30m02gXlFhXnjxAAAAIAMKYAU/QVAkE6hYoZMcXU1lNocFDwnq2olz0kr2Aq6biXGxE/tgkpfq35fJD5xteaxVWNuv0y+w8+Ny5l5D6NTHAC+Rro0W8riTforrWjVYwdNCZCguf/CwWe1M/RtjbHh5WnCDLRwwG16k/zlJfWuewwbxwfsvh5uaK1ZCVg1fw== uninth@@caliban.ssi.uni-c.dk
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d3 1
+a3 1
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/setup/setup-1.0/RCS/setup.sh,v 1.1 2014/05/13 21:45:47 root Exp $
+d60 2
+a61 1
+echo "creating default dsa, rsa and sha1 keys ... "
+d63 2
+a64 2
+echo "" | ssh-keygen -t rsa 2>/dev/null
+echo "" | ssh-keygen -t rsa1 2>/dev/null
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d3 1
+a3 1
+# $Header$
+d27 1
+a27 2
+echo "Wellcome to UNItools configuration for GaIA R77.10"
+echo "Stop now if you dont like changes"
+d29 1
+a29 1
+sleep 5
+d34 1
+a34 2
+clish -sc "set user admin shell /bin/bash"
+clish -sc "set inactivity-timeout 720"
+d36 6
+d44 2
+@

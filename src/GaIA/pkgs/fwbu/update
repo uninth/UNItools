@@ -1,0 +1,10 @@
+:
+
+echo 'sed "/ssi/d; /gentor/d; /^backup/!d; /@/!d; s/^.*@//; s/:.*//;" /etc/rsnapshot.conf ' |
+ssh buh 2>/dev/null | sort -u | while read IP
+do
+
+	echo "bash doit $IP &"
+
+done
+

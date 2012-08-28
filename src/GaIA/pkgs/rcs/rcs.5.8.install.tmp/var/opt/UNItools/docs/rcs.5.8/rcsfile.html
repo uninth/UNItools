@@ -1,0 +1,329 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of RCSFILE</TITLE>
+</HEAD><BODY>
+<H1>RCSFILE</H1>
+Section: File Formats (5)<BR>Updated: 2011-08-30<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+rcsfile - <FONT SIZE="-1">RCS</FONT> file format
+<A NAME="lbAC">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+An <FONT SIZE="-1">RCS</FONT> file's
+contents are described by the grammar
+below.
+<P>
+
+The text is free format: space, backspace, tab, newline, vertical
+tab, form feed, and carriage return (collectively,
+<I>white space)</I>
+
+have no significance except in strings.
+However, white space cannot appear within an id, num, or sym,
+and an <FONT SIZE="-1">RCS</FONT> file must end with a newline.
+<P>
+
+Strings are enclosed by
+<B>@</B>.
+
+If a string contains a
+<B>@</B>,
+
+it must be doubled;
+otherwise, strings can contain arbitrary binary data.
+<P>
+
+The meta syntax uses the following conventions: `|' (bar) separates
+alternatives; `{' and `}' enclose optional phrases; `{' and `}*' enclose
+phrases that can be repeated zero or more times;
+`{' and '}+' enclose phrases that must appear at least once and can be
+repeated;
+Terminal symbols are in
+<B>boldface</B>;
+
+nonterminal symbols are in
+<I>italics</I>.
+
+<P>
+
+
+
+
+
+
+
+
+
+
+
+
+<PRE>
+<I>rcstext</I>     ::=  <I>admin</I> {<I>delta</I>}* <I>desc</I> {<I>deltatext</I>}*
+
+<I>admin</I>       ::=  <B>head</B>         {<I>num</I>}<B>;</B>
+                 { <B>branch</B>     {<I>num</I>}<B>;</B> }
+                 <B>access</B>       {<I>id</I>}*<B>;</B>
+                 <B>symbols</B>      {<I>sym</I> <B>:</B> <I>num</I>}*<B>;</B>
+                 <B>locks</B>        {<I>id</I> <B>:</B> <I>num</I>}*<B>;</B>  {<B>strict  ;</B>}
+                 { <B>integrity</B>  {<I>string</I>}<B>;</B> }
+                 { <B>comment</B>    {<I>string</I>}<B>;</B> }
+                 { <B>expand</B>     {<I>string</I>}<B>;</B> }
+
+<I>delta</I>       ::=  <I>num</I>
+                 <B>date</B>         <I>num</I><B>;</B>
+                 <B>author</B>       <I>id</I><B>;</B>
+                 <B>state</B>        {<I>id</I>}<B>;</B>
+                 <B>branches</B>     {<I>num</I>}*<B>;</B>
+                 <B>next</B>         {<I>num</I>}<B>;</B>
+                 { <B>commitid</B> <I>sym</I><B>;</B> }
+
+<I>desc</I>        ::=  <B>desc</B>         <I>string</I>
+
+<I>deltatext</I>   ::=  <I>num</I>
+                 <B>log</B>          <I>string</I>
+                 <B>text</B>         <I>string</I>
+
+<I>num</I>         ::=  {<I>digit</I> | <B>.</B>}+
+
+<I>digit</I>       ::=  <B>0</B> | <B>1</B> | <B>2</B> | <B>3</B> | <B>4</B> | <B>5</B> | <B>6</B> | <B>7</B> | <B>8</B> | <B>9</B>
+
+<I>id</I>          ::=  {<I>idchar</I> | <B>.</B>}+
+
+<I>sym</I>         ::=  {<I>idchar</I>}+
+
+<I>idchar</I>      ::=  any visible graphic character except <I>special</I>
+
+<I>special</I>     ::=  <B>$</B> | <B>,</B> | <B>.</B> | <B>:</B> | <B>;</B> | <B>@</B>
+
+<I>string</I>      ::=  <B>@</B>{any character, with <B>@</B> doubled}*<B>@</B>
+
+<I>word</I>        ::=  <I>id</I> | <I>num</I> | <I>string</I> | <B>:</B>
+</PRE>
+
+<P>
+
+Identifiers are case sensitive.  Keywords are in lower case only.
+The sets of keywords and identifiers can overlap.
+In most environments <FONT SIZE="-1">RCS</FONT> uses the <FONT SIZE="-1">ISO</FONT> 8859/1 encoding:
+visible graphic characters are codes 041-176 and 240-377,
+and white space characters are codes 010-015 and 040.
+<P>
+
+Dates, which appear after the
+<B>date</B>
+
+keyword, are of the form
+<I>Y</I><B>.</B><I>mm</I><B>.</B><I>dd</I><B>.</B><I>hh</I><B>.</B><I>mm</I><B>.</B><I>ss</I>,
+where
+<I>Y</I>
+
+is the year,
+<I>mm</I>
+
+the month (01-12),
+<I>dd</I>
+
+the day (01-31),
+<I>hh</I>
+
+the hour (00-23),
+<I>mm</I>
+
+the minute (00-59),
+and
+<I>ss</I>
+
+the second (00-60).
+<I>Y</I>
+
+contains just the last two digits of the year
+for years from 1900 through 1999,
+and all the digits of years thereafter.
+Dates use the Gregorian calendar; times use UTC.
+<P>
+
+The
+<I>delta</I>
+
+nodes form a tree.  All nodes whose numbers
+consist of a single pair
+(e.g., 2.3, 2.1, 1.3, etc.)
+are on the trunk, and are linked through the
+<B>next</B>
+
+field in order of decreasing numbers.
+The
+<B>head</B>
+
+field in the
+<I>admin</I>
+
+node points to the head of that sequence (i.e., contains
+the highest pair).
+The
+<B>branch</B>
+
+node in the admin node indicates the default
+branch (or revision) for most <FONT SIZE="-1">RCS</FONT> operations.
+If empty, the default
+branch is the highest branch on the trunk.
+<P>
+
+All
+<I>delta</I>
+
+nodes whose numbers consist of
+2<I>n</I>
+
+fields
+(<I>n</I>&gt;2)
+
+(e.g., 3.1.1.1, 2.1.2.2, etc.)
+are linked as follows.
+All nodes whose first
+2<I>n</I>-1
+
+number fields are identical are linked through the
+<B>next</B>
+
+field in order of increasing numbers.
+For each such sequence,
+the
+<I>delta</I>
+
+node whose number is identical to the first
+2<I>n</I>-2
+
+number fields of the deltas on that sequence is called the branchpoint.
+The
+<B>branches</B>
+
+field of a node contains a list of the
+numbers of the first nodes of all sequences for which it is a branchpoint.
+This list is ordered in increasing numbers.
+<P>
+
+The following diagram shows an example of an <FONT SIZE="-1">RCS</FONT> file's organization.
+<PRE>
+
+
+
+
+
+
+                           Head
+                             |
+                             |
+                             v                        / \
+                         ---------                   /   \
+   / \          / \      |       |      / \         /     \
+  /   \        /   \     |  2.1  |     /   \       /       \
+ /     \      /     \    |       |    /     \     /         \
+/1.2.1.3\    /1.3.1.1\   |       |   /1.2.2.2\   /1.2.2.1.1.1\
+---------    ---------   ---------   ---------   -------------
+    ^            ^           |           ^             ^
+    |            |           |           |             |
+    |            |           v           |             |
+   / \           |       ---------      / \            |
+  /   \          |       \  1.3  /     /   \           |
+ /     \         ---------\     /     /     \-----------
+/1.2.1.1\      1.3.1       \   /     /1.2.2.1\     1.2.2.1.1
+---------                   \ /      ---------
+    ^                        |           ^
+    |                        |           |
+    |                        v           |
+    |                    ---------       |
+    |                    \  1.2  /       |
+    ----------------------\     /---------
+  1.2.1                    \   /       1.2.2
+                            \ /
+                             |
+                             |
+                             v
+                         ---------
+                         \  1.1  /
+                          \     /
+                           \   /
+                            \ /
+
+
+
+
+</PRE>
+
+
+
+
+
+<P>
+
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>IDENTIFICATION</H2>
+
+Author: Walter F. Tichy.
+<BR>
+
+Manual Page Revision: 5.8; Release Date: 2011-08-30.
+<BR>
+
+Copyright &#169; 2010, 2011 Thien-Thi Nguyen.
+<BR>
+
+Copyright &#169; 1990, 1991, 1992, 1993, 1994, 1995 Paul Eggert.
+<BR>
+
+Copyright &#169; 1982, 1988, 1989 Walter F. Tichy.
+<BR>
+
+<A NAME="lbAE">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="../man1/rcsintro.1.html">rcsintro</A></B>(1),
+
+<B><A HREF="../man1/ci.1.html">ci</A></B>(1),
+
+<B><A HREF="../man1/co.1.html">co</A></B>(1),
+
+<B><A HREF="../man1/ident.1.html">ident</A></B>(1),
+
+<B><A HREF="../man1/rcs.1.html">rcs</A></B>(1),
+
+<B><A HREF="../man1/rcsclean.1.html">rcsclean</A></B>(1),
+
+<B><A HREF="../man1/rcsdiff.1.html">rcsdiff</A></B>(1),
+
+<B><A HREF="../man1/rcsmerge.1.html">rcsmerge</A></B>(1),
+
+<B><A HREF="../man1/rlog.1.html">rlog</A></B>(1).
+
+<P>
+
+Walter F. Tichy,
+<FONT SIZE="-1">RCS</FONT>--A System for Version Control,
+<I>Software--Practice &amp; Experience</I>
+
+<B>15</B>,
+
+7 (July 1985), 637-654.
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAD">IDENTIFICATION</A><DD>
+<DT><A HREF="#lbAE">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 18:55:30 GMT, August 22, 2012
+</BODY>
+</HTML>

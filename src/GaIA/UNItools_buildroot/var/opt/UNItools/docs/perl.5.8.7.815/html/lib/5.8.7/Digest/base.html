@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<title>Digest::base - Digest base class</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',3);</script>
+<h1><a>Digest::base - Digest base class</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Digest::base - Digest base class</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  package Digest::Foo;
+  use base 'Digest::base';</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The <code>Digest::base</code> class provide implementations of the methods
+<code>addfile</code> and <code>add_bits</code> in terms of <code>add</code>, and of the methods
+<code>hexdigest</code> and <code>b64digest</code> in terms of <code>digest</code>.</p>
+<p>Digest implementations might want to inherit from this class to get
+this implementations of the alternative <em>add</em> and <em>digest</em> methods.
+A minimal subclass needs to implement the following methods by itself:</p>
+<pre>
+    new
+    clone
+    add
+    digest</pre>
+<p>The arguments and expected behaviour of these methods are described in
+<a href="../../../lib/5.8.7/Digest.html">the Digest manpage</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../lib/5.8.7/Digest.html">the Digest manpage</a></p>
+
+</body>
+
+</html>

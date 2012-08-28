@@ -1,0 +1,48 @@
+2005/04/05 Duane Wssels
+
+    Mark Foster found a bug with the source+SLD list.  It was being
+    updated for 3RD-level domain names as well.  Mark also suggested
+    that the '@' key should display the source+SLD screen, just as
+    '3' and '#' work for 3RD-level.
+
+2005/01/21 Sam Norris
+
+    Added support for third-level domain statistics.  Use the -t
+    command line option to enable collection of 3rd-level stats,
+    and use '3' while running to display them.  Note that enabling
+    3rd-level stats collection does not automatically also enable
+    2nd-level stats.
+
+2005/01/13 Duane Wessels
+
+    Added a non-interactive mode.  If you specify a savefile and
+    stdout is not a TTY, dnstop prints each table at the end.
+
+2004/03/09 Duane Wessels
+
+    Added filter support.  Filters can be used to restrict the input
+    stream to queries with certain characteristics.  The currently
+    defined filters are:
+
+    unknown-tlds        Only includes queries for TLDs that are
+			bogus.  Useful for identifying hosts/servers
+			that leak queries for things like "localhost"
+			or "workgroup."
+
+    A-for-A             Only includes A queries for names that are
+			already IP addresses.  Certain Microsoft
+			Windows DNS servers have a known bug that
+			forward these queries.
+
+    rfc1918-ptr         PTR queries for addresses in RFC1918 space.
+			These should never leak from inside an
+			organization.
+
+2003/11/13 Mark Foster <mark@foster.cc>
+
+    Added 'c' to display options. This screen will combine the
+    source and sld fields to show "who is querying for what" -
+    reason: we see alot of duplicate querys for whatever reason.
+    This will help separate the legitimate queries from the broken
+    resolvers, etc. See http://www.circleid.com/article/102_0_1_0_C/
+    for more about that.

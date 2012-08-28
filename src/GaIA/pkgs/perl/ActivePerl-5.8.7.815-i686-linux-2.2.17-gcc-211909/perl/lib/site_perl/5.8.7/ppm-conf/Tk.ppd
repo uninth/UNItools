@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOFTPKG NAME="Tk" VERSION="804,27,0,4">
+  <TITLE>Tk</TITLE>
+  <ABSTRACT>Tk - a Graphical User Interface Toolkit</ABSTRACT>
+  <AUTHOR>Nick Ing-Simmons &lt;nick@ing-simmons.net></AUTHOR>
+  <IMPLEMENTATION>
+    <CODEBASE HREF="http://ppm.ActiveState.com/PPMPackages/5.8-linux/i686-linux-thread-multi-5.8/Tk.tar.gz"/>
+  </IMPLEMENTATION>
+</SOFTPKG>

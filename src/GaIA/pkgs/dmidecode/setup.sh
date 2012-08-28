@@ -1,0 +1,1 @@
+setup.dmidecode.2.12.sh

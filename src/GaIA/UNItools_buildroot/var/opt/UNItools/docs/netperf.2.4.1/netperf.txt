@@ -1,0 +1,156 @@
+netperf(1)							    netperf(1)
+
+
+
+NAME
+       netperf - a network performance benchmark
+
+
+SYNOPSIS
+       netperf [global options] -- [test specific options]
+
+
+DESCRIPTION
+       Netperf	is  a benchmark that can be used to measure various aspects of
+       networking performance.	Currently, its focus is on bulk data  transfer
+       and  request/response  performance  using  either  TCP  or UDP, and the
+       Berkeley Sockets interface. In  addition,  tests	 for  DLPI,  and  Unix
+       Domain Sockets, tests for IPv6 may be conditionally compiled-in.
+
+
+   GLOBAL OPTIONS
+       -a sizespec
+	      Alter  the  send and receive buffer alignments on the local sys-
+	      tem.  This defaults to 8 bytes.
+
+       -A sizespec
+	      As -a, but for the remote system.
+
+       -c [rate]
+	      Request CPU utilization and service demand calculations for  the
+	      local  system. If the optional rate parameter is specified, net-
+	      perf will use that instead of calculating the rate itself.
+
+       -C [rate]
+	      As -c, but for the remote system.
+
+       -d     Increase the quantity of debugging  output  displayed  during  a
+	      test (possibly at the expense of performance).
+
+       -f GMKgmk
+	      Change  the units of measure for *_STREAM tests. Capital letters
+	      are powers of two, lowercase are powers of ten.
+
+       -F fill_file
+	      Pre-fill the send buffers with data from the named file. This is
+	      intended to provide a means for avoiding buffers that are filled
+	      with data which is trivially easy to compress. A good choice for
+	      a	 file  that  should be present on any system is this manpage -
+	      netperf.man.  Other files may be provided as part of the distri-
+	      bution.
+
+       -h     Display a usage string, and exit.
+
+       -H remote_host,local_host
+	      Set the hostname (or IP address) of the remote system. Passing a
+	      single name with no comma will only  set	remote_host  and  will
+	      leave  selection	of local IP address for the control connection
+	      to the stack.  Specifying ",local_host" will only set local_host
+	      and will leave remote_host at the default.
+
+       -i max,min
+	      Set  the maximum and minimum number of iterations when trying to
+	      reach certain confidence levels.
+
+       -I lvl,[,intvl]
+	      Specify the confidence level (either  95	or  99	-  99  is  the
+	      default)	 and  the  width  of  the  confidence  interval	 as  a
+	      percentage (default 10)
+
+       -l testlen
+	      Specify the length of the test (default 10 seconds).  A negative
+	      value  sets  the number of request/response transactions, or the
+	      number of bytes for a stream test.
+
+       -n numcpus
+	      Specify the number of CPU’s in the system on those  systems  for
+	      which netperf has no way to find the number of CPU’s programati-
+	      cally.
+
+       -o sizespec
+	      Set an offset from the alignment specified with -a.
+
+       -O sizespec
+	      As -o, but for the remote system.
+
+       -p portnum,locport
+	      Connect to a listening on the specified port, rather than	 using
+	      /etc/services. If ",locport" is specified the control connection
+	      will be established from that local port number.	 Specifying  a
+	      single  port  number  with no comma will specify only the remote
+	      port number and will leave local port number  selection  to  the
+	      stack.
+
+       -P 0|1 Show (1) or suppress (0) the test banner.
+
+       -t testname
+	      Specify  the  test  to  perform.	 Valid	testnames are (but not
+	      always compiled-in):
+		     TCP_STREAM
+		     TCP_MAERTS
+		     TCP_RR
+		     TCP_CRR
+		     UDP_STREAM
+		     UDP_RR
+		     TCPIPV6_STREAM
+		     TCPIPV6_RR
+		     TCPIPV6_CRR
+		     UDPIPV6_STREAM
+		     UDPIPV6_RR
+		     DLCO_STREAM
+		     DLCO_RR
+		     DLCL_STREAM
+		     DLCL_RR
+		     STREAM_STREAM
+		     STREAM_RR
+		     DG_STREAM
+		     DG_RR
+		     LOC_CPU
+		     REM_CPU
+
+       -v verbosity
+	      Set the verbosity level for the test (only with -P).
+
+       -V     Enable the copy-avoidance features (HP-UX 9.0 and later only).
+
+
+   TEST SPECIFIC OPTIONS
+       -h     Display a usage string based on the test name set with  -t,  and
+	      exit.
+
+	      Please consult the netperf manual Netperf: A Network Performance
+	      Benchmark (netperf.ps) for more information. Or you can join and
+	      mail to netperf-talk@netperf.org.
+
+
+BUGS
+       There  is  a  fairly large list of known defects and misfeatures in the
+       manual. If you think you have found a bug, please send  email  to  Rick
+       Jones <raj@cup.hp.com>.
+
+
+SEE ALSO
+       Netperf: A Network Performance Benchmark
+       http://www.netperf.org/
+
+
+AUTHORS
+       HP Information Networks Division - Networking Performance Team.
+       Rick Jones     <raj@cup.hp.com>
+       Karen Choy     HP IND
+       Dave Shield    <daves@csc.liv.ac.uk>    (man pages)
+       Others too numerous to mention here - see the ACKNWLDGMNTS file
+
+
+
+								    netperf(1)

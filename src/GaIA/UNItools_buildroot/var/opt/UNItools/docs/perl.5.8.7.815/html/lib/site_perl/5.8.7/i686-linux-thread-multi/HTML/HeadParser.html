@@ -1,0 +1,169 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>HTML::HeadParser - Parse &lt;HEAD&gt; section of a HTML document</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>HTML::HeadParser - Parse &lt;HEAD&gt; section of a HTML document</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#example">EXAMPLE</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>HTML::HeadParser - Parse &lt;HEAD&gt; section of a HTML document</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ require HTML::HeadParser;
+ $p = HTML::HeadParser-&gt;new;
+ $p-&gt;parse($text) and  print &quot;not finished&quot;;</pre>
+<pre>
+ $p-&gt;header('Title')          # to access &lt;title&gt;....&lt;/title&gt;
+ $p-&gt;header('Content-Base')   # to access &lt;base href=&quot;<a href="http://...">http://...</a>&quot;&gt;
+ $p-&gt;header('Foo')            # to access &lt;meta http-equiv=&quot;Foo&quot; content=&quot;...&quot;&gt;</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The <code>HTML::HeadParser</code> is a specialized (and lightweight)
+<code>HTML::Parser</code> that will only parse the &lt;HEAD&gt;...&lt;/HEAD&gt;
+section of an HTML document.  The <code>parse()</code> method
+will return a FALSE value as soon as some &lt;BODY&gt; element or body
+text are found, and should not be called again after this.</p>
+<p>Note that the <code>HTML::HeadParser</code> might get confused if raw undecoded
+UTF-8 is passed to the <code>parse()</code> method.  Make sure the strings are
+properly decoded before passing them on.</p>
+<p>The <code>HTML::HeadParser</code> keeps a reference to a header object, and the
+parser will update this header object as the various elements of the
+&lt;HEAD&gt; section of the HTML document are recognized.  The following
+header fields are affected:</p>
+<dl>
+<dt><strong><a name="item_content_2dbase_3a">Content-Base:</a></strong>
+
+<dd>
+<p>The <em>Content-Base</em> header is initialized from the &lt;base
+href=``...''&gt; element.</p>
+</dd>
+</li>
+<dt><strong><a name="item_title_3a">Title:</a></strong>
+
+<dd>
+<p>The <em>Title</em> header is initialized from the &lt;title&gt;...&lt;/title&gt;
+element.</p>
+</dd>
+</li>
+<dt><strong><a name="item_isindex_3a">Isindex:</a></strong>
+
+<dd>
+<p>The <em>Isindex</em> header will be added if there is a &lt;isindex&gt;
+element in the &lt;head&gt;.  The header value is initialized from the
+<em>prompt</em> attribute if it is present.  If no <em>prompt</em> attribute is
+given it will have '?' as the value.</p>
+</dd>
+</li>
+<dt><strong><a name="item_x_2dmeta_2dfoo_3a">X-Meta-Foo:</a></strong>
+
+<dd>
+<p>All &lt;meta&gt; elements will initialize headers with the prefix
+``<code>X-Meta-</code>'' on the name.  If the &lt;meta&gt; element contains a
+<code>http-equiv</code> attribute, then it will be honored as the header name.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<p>The following methods (in addition to those provided by the
+superclass) are available:</p>
+<dl>
+<dt><strong><a name="item_new">$hp = HTML::HeadParser-&gt;new</a></strong>
+
+<dt><strong>$hp = HTML::HeadParser-&gt;new( $header )</strong>
+
+<dd>
+<p>The object constructor.  The optional $header argument should be a
+reference to an object that implement the <a href="#item_header"><code>header()</code></a> and <code>push_header()</code>
+methods as defined by the <code>HTTP::Headers</code> class.  Normally it will be
+of some class that isa or delegates to the <code>HTTP::Headers</code> class.</p>
+</dd>
+<dd>
+<p>If no $header is given <code>HTML::HeadParser</code> will create an
+<code>HTTP::Header</code> object by itself (initially empty).</p>
+</dd>
+</li>
+<dt><strong><a name="item_header">$hp-&gt;header;</a></strong>
+
+<dd>
+<p>Returns a reference to the header object.</p>
+</dd>
+</li>
+<dt><strong>$hp-&gt;header( $key )</strong>
+
+<dd>
+<p>Returns a header value.  It is just a shorter way to write
+<a href="#item_header"><code>$hp-&gt;header-&gt;header($key)</code></a>.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="example">EXAMPLE</a></h1>
+<pre>
+ $h = HTTP::Headers-&gt;new;
+ $p = HTML::HeadParser-&gt;new($h);
+ $p-&gt;parse(&lt;&lt;EOT);
+ &lt;title&gt;Stupid example&lt;/title&gt;
+ &lt;base href=&quot;<a href="http://www.linpro.no/lwp/">http://www.linpro.no/lwp/</a>&quot;&gt;
+ Normal text starts here.
+ EOT
+ undef $p;
+ print $h-&gt;title;   # should print &quot;Stupid example&quot;</pre>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/HTML/Parser.html">the HTML::Parser manpage</a>, <a href="../../../../../lib/site_perl/5.8.7/HTTP/Headers.html">the HTTP::Headers manpage</a></p>
+<p>The <code>HTTP::Headers</code> class is distributed as part of the
+<em>libwww-perl</em> package.  If you don't have that distribution installed
+you need to provide the $header argument to the <code>HTML::HeadParser</code>
+constructor with your own object that implements the documented
+protocol.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright 1996-2001 Gisle Aas. All rights reserved.</p>
+<p>This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

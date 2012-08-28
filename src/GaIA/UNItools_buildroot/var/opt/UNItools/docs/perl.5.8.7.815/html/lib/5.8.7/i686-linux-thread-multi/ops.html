@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<title>ops - Perl pragma to restrict unsafe operations when compiling</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',3);</script>
+<h1><a>ops - Perl pragma to restrict unsafe operations when compiling</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>ops - Perl pragma to restrict unsafe operations when compiling</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  perl -Mops=:default ...    # only allow reasonably safe operations</pre>
+<pre>
+  perl -M-ops=system ...     # disable the 'system' opcode</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Since the ops pragma currently has an irreversible global effect, it is
+only of significant practical use with the <code>-M</code> option on the command line.</p>
+<p>See the <a href="../../../lib/5.8.7/i686-linux-thread-multi/Opcode.html">the Opcode manpage</a> module for information about opcodes, optags, opmasks
+and important information about safety.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>Opcode(3), Safe(3), <code>perlrun(3)</code></p>
+
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./textbox2</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir">#!/bin/sh</span>
+<span class="line">    1 </span><span class="dir"># $Id: textbox2,v 1.2 2003/08/15 19:40:37 tom Exp $</span>
+<span class="line">    2 </span><span class="sym">:</span> $<span class="sym">{</span>DIALOG<span class="sym">=</span>dialog<span class="sym">}</span>
+<span class="line">    3 </span>
+<span class="line">    4 </span>tempfile<span class="sym">=</span>`tempfile <span class="num">2</span><span class="sym">&gt;/</span>dev<span class="sym">/</span>null` <span class="sym">||</span> tempfile<span class="sym">=/</span>tmp<span class="sym">/</span>test$$
+<span class="line">    5 </span>trap <span class="str">&quot;rm -f $tempfile&quot;</span> <span class="num">0 1 2 5 15</span>
+<span class="line">    6 </span>
+<span class="line">    7 </span>cat <span class="sym">&lt;&lt;</span> EOF <span class="sym">&gt;</span> $tempfile
+<span class="line">    8 </span>Hi<span class="sym">,</span> <span class="kwa">this</span> is a text dialog box<span class="sym">.</span> It can be used to display text from a file<span class="sym">.</span>
+<span class="line">    9 </span>The file should <span class="kwa">not</span> contain any <span class="str">'tab'</span> characters<span class="sym">,</span> so you should <span class="str">'expand'</span>
+<span class="line">   10 </span>the file first <span class="kwa">if</span> it contains <span class="str">'tab'</span> characters<span class="sym">.</span>
+<span class="line">   11 </span>
+<span class="line">   12 </span>It<span class="str">'s like a simple text file viewer, with these keys implemented:</span>
+<span class="line">   13 </span><span class="str"></span>
+<span class="line">   14 </span><span class="str">PGDN/SPACE     - Move down one page</span>
+<span class="line">   15 </span><span class="str">PGUP/'</span>b<span class="str">'       - Move up one page</span>
+<span class="line">   16 </span><span class="str">ENTER/DOWN/'</span>j<span class="str">' - Move down one line</span>
+<span class="line">   17 </span><span class="str">UP/'</span>k<span class="str">'         - Move up one line</span>
+<span class="line">   18 </span><span class="str">LEFT/'</span>h<span class="str">'       - Scroll left</span>
+<span class="line">   19 </span><span class="str">RIGHT/'</span>l<span class="str">'      - Scroll right</span>
+<span class="line">   20 </span><span class="str">'</span><span class="num">0</span><span class="str">'            - Move to beginning of line</span>
+<span class="line">   21 </span><span class="str">HOME/'</span>g<span class="str">'       - Move to beginning of file</span>
+<span class="line">   22 </span><span class="str">END/'</span>G<span class="str">'        - Move to end of file</span>
+<span class="line">   23 </span><span class="str">'</span><span class="sym">/</span><span class="str">'            - Forward search</span>
+<span class="line">   24 </span><span class="str">'</span>?<span class="str">'            - Backward search</span>
+<span class="line">   25 </span><span class="str">'</span>n<span class="str">'            - Repeat last search (forward)</span>
+<span class="line">   26 </span><span class="str">'</span>N<span class="str">'            - Repeat last search (backward)</span>
+<span class="line">   27 </span><span class="str"></span>
+<span class="line">   28 </span><span class="str"></span>
+<span class="line">   29 </span><span class="str">The following is a sample text file:</span>
+<span class="line">   30 </span><span class="str"></span>
+<span class="line">   31 </span><span class="str"></span>
+<span class="line">   32 </span><span class="str">EOF</span>
+<span class="line">   33 </span><span class="str"></span>
+<span class="line">   34 </span><span class="str">TEXT=/usr/share/common-licenses/GPL</span>
+<span class="line">   35 </span><span class="str">test -f $TEXT || TEXT=../COPYING</span>
+<span class="line">   36 </span><span class="str"></span>
+<span class="line">   37 </span><span class="str">cat $TEXT | expand &gt;&gt; $tempfile</span>
+<span class="line">   38 </span><span class="str"></span>
+<span class="line">   39 </span><span class="str">$DIALOG --clear --title &quot;TEXT BOX&quot; --textbox &quot;$tempfile&quot; 0 0</span>
+<span class="line">   40 </span><span class="str"></span>
+<span class="line">   41 </span><span class="str">case $? in</span>
+<span class="line">   42 </span><span class="str">  0)</span>
+<span class="line">   43 </span><span class="str">    echo &quot;OK&quot;;;</span>
+<span class="line">   44 </span><span class="str">  255)</span>
+<span class="line">   45 </span><span class="str">    echo &quot;ESC pressed.&quot;;;</span>
+<span class="line">   46 </span><span class="str">esac</span>
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

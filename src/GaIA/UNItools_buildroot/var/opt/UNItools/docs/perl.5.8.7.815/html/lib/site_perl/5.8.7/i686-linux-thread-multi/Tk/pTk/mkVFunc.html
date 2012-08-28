@@ -1,0 +1,82 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../../tocTab.js"></script>
+<title>mkVFunc - Support for &quot;nested&quot; dynamic loading</title>
+<link rel="stylesheet" href="../../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',6);</script>
+<h1><a>mkVFunc - Support for &quot;nested&quot; dynamic loading</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>mkVFunc - Support for ``nested'' dynamic loading</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ mkVFunc xxx.h</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><strong>perl/Tk</strong> is designed so that <strong>Tk</strong> can be dynamically loaded 'on top of'
+perl. That is the easy bit. What it also does is allow Tk::Xxxx to be
+dynamically loaded 'on top of' the <strong>perl/Tk</strong> composite. Thus when
+you 'require Tk::HList' the shared object <em>.../HList.so</em> needs to be
+able to call functions defined in perl <em>and</em> functions defined in loadable
+.../Tk.so . Now functions in 'base executable' are a well known problem,
+and are solved by DynaLoader. However most of dynamic loading schemes
+cannot handle one loadable calling another loadable.</p>
+<p>Thus what Tk does is build a table of functions that should be callable.
+This table is auto-generated from the .h file by looking for
+'extern' (and EXTERN which is #defined to 'extern').
+Thus any function marked as 'extern' is 'referenced' by the table.
+The address of the table is then stored in a perl variable when Tk is loaded.
+When HList is loaded it looks in the perl variable (via functions
+in perl - the 'base executable') to get the address of the table.</p>
+<p>The same utility that builds the table also builds a set of #define's.
+HList.c (and any other .c files which comprise HList) #include these
+#define's. So that</p>
+<pre>
+  Tk_SomeFunc(x,y,z)</pre>
+<p>Is actually compiled as</p>
+<pre>
+  (*TkVptr-&gt;V_Tk_SomeFunc)(x,y,z)</pre>
+<p>Where Tk_ptr is pointer to the table.</p>
+<p>See:</p>
+<pre>
+ Tk-b*/pTk/mkVFunc - perl script that produces tables
+          /tk.h        - basis from which table is generated
+          /tk.m        - #define's to include in sub-extension
+          /tk_f.h      - #included both sides.
+          /tk_f.c      - Actual table definition.
+          /tk.t        - 'shared' set of macros which produce table
+                         included in tk_f.c and tk_f.h
+          /tkVMacro.h  - Wrapper to include *.m files</pre>
+<p>In addition to /tk* there are /tkInt*, /Lang* and /tix*</p>
+
+</body>
+
+</html>

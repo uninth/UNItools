@@ -1,0 +1,261 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2012.07.03.10.49.18;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@<ID>
+CPsystem0001
+</ID>
+
+<GROUPS>
+system
+all
+</GROUPS>
+
+<INCLUDE_FILES>
+/etc/sysconfig/*
+/etc/hosts
+/etc/hosts.allow
+/etc/hosts.deny
+/etc/resolv.conf
+/etc/passwd
+/etc/shadow
+/etc/localtime
+/etc/localtime.tz
+/etc/snmp/*
+/var/net-snmp/*
+/home/*
+/etc/cpshell/*
+/etc/ethers
+/etc/raddb
+/etc/dhcpd.conf
+/opt/spwm/conf/cp_http_admin_server.conf
+/var/CPbackup/conf/backup_sched.conf
+/var/spool/cron
+</INCLUDE_FILES>
+
+<EXCLUDE_FILES>
+/etc/sysconfig/ethtab
+/etc/cpshell/sysconf_defs
+/etc/cpshell/sysconf_network_defs
+</EXCLUDE_FILES>
+
+<VERIFY_RESTORE_SCRIPT>
+</VERIFY_RESTORE_SCRIPT>
+
+<VERIFY_BACKUP_SCRIPT>
+</VERIFY_BACKUP_SCRIPT>
+
+<PRE_BACKUP_SCRIPT>
+#!/bin/sh
+
+touch /etc/ethers
+if [ ! -f /etc/hosts.allow -o ! -f /etc/hosts.deny ]; then
+	echo "ALL: 0.0.0.0/0.0.0.0" > /etc/hosts.allow
+	echo "ALL: ALL" > /etc/hosts.deny
+fi
+if [ ! -f /etc/dhcpd.conf ]; then
+ echo 'ddns-update-style ad-hoc;' > /etc/dhcpd.conf
+fi
+touch /var/CPbackup/conf/backup_sched.conf
+mkdir -p /etc/raddb
+mkdir -p /var/net-snmp
+touch /var/net-snmp/conf
+pro=`cpprod_util CPPROD_IsSecurePlatformPro | tr -d ' '`
+
+if [ $pro == "1" ]; then
+	touch /etc/sysconfig/pro
+else
+	rm -f /etc/sysconfig/pro
+fi
+
+exit 0
+</PRE_BACKUP_SCRIPT>
+
+<POST_BACKUP_SCRIPT>
+#!/bin/sh
+rm -f /etc/sysconfig/pro
+</POST_BACKUP_SCRIPT>
+
+<PRE_RESTORE_SCRIPT>
+#!/bin/sh
+
+if [ -f /var/CPbackup/conf/backup_sched.conf ]; then
+grep LAST_SUCCEEDED_BACKUP /var/CPbackup/conf/backup_sched.conf > /var/CPbackup/conf/last_backup.cfg
+fi
+
+service snmpd stop > /dev/null 2>&1
+service crond stop > /dev/null 2>&1
+
+if [ -d /tmp/etc/sysconfig ]; then
+	rm -rf /tmp/etc/sysconfig/* > /dev/null 2>&1
+else
+	mkdir -p /tmp/etc/sysconfig > /dev/null 2>&1
+fi
+
+cp -rf /etc/sysconfig/* /tmp/etc/sysconfig/ > /dev/null 2>&1
+
+exit 0
+</PRE_RESTORE_SCRIPT>
+
+<FAILED_RESTORE_SCRIPT>
+#!/bin/sh
+
+rm -rf /etc/sysconfig/* > /dev/null 2>&1
+mv -f /tmp/etc/sysconfig/* /etc/sysconfig > /dev/null 2>&1
+
+exit 0
+</FAILED_RESTORE_SCRIPT>
+
+<POST_RESTORE_SCRIPT>
+#!/bin/sh
+CONFIG=/bin/config
+
+# Taking down network
+ORIG=/etc/sysconfig/netconf.C
+BACKUP=${ORIG}.backup
+mv $ORIG $BACKUP
+
+${CONFIG} net ctrl action snapshot >/dev/null 2>&1
+${CONFIG} net ctrl action shutdown >/dev/null 2>&1
+
+# Return the backed-up script
+sleep 1
+mv $BACKUP $ORIG
+
+if [ -f /etc/sysconfig/cpnetstart ]; then
+	# Restoring from old-style configuration
+	${CONFIG} net ctrl action restore >/dev/null 2>&1
+fi
+
+${CONFIG} net ctrl action startup >/dev/null 2>&1
+
+# Convert Hardware Clock from local time to UTC (new convention)
+cat /etc/sysconfig/clock | sed s/UTC=false/UTC=true/ >/etc/sysconfig/clock.new
+mv /etc/sysconfig/clock.new /etc/sysconfig/clock
+
+if [ -d /opt/spwm/conf ]; then
+ service CPwebis stop > /dev/null 2>&1
+
+ if [ -f /etc/sysconfig/cphttps ]; then
+   mv  /etc/sysconfig/cphttps /opt/spwm/conf/cp_http_admin_server.conf 2>/dev/null
+   rm -f /etc/sysconfig/cphttps
+ fi
+
+# Recover missing Web Server parameters, if needed
+ grep -q SSL /opt/spwm/conf/cp_http_admin_server.conf
+ if [ $? == 1 ]; then
+  echo "SSL=1" >>/opt/spwm/conf/cp_http_admin_server.conf
+ fi
+
+ grep -q WEBROOT /opt/spwm/conf/cp_http_admin_server.conf
+ if [ $? == 1 ]; then
+  echo "WEBROOT=/opt/spwm/www" >>/opt/spwm/conf/cp_http_admin_server.conf
+ fi
+
+ grep -q SERVCERT /opt/spwm/conf/cp_http_admin_server.conf
+ if [ $? == 1 ]; then
+  echo "SERVCERT=/opt/spwm/servcert/servcert.p12" >>/opt/spwm/conf/cp_http_admin_server.conf
+ fi
+
+ grep -q CERTPWD /opt/spwm/conf/cp_http_admin_server.conf
+ if [ $? == 1 ]; then
+  echo "CERTPWD=" >>/opt/spwm/conf/cp_http_admin_server.conf
+ fi
+
+ grep -q LOGDIR /opt/spwm/conf/cp_http_admin_server.conf
+ if [ $? == 1 ]; then
+  echo "LOGDIR=/opt/spwm/log" >>/opt/spwm/conf/cp_http_admin_server.conf
+ fi
+
+ grep -q TEMPDIR /opt/spwm/conf/cp_http_admin_server.conf
+ if [ $? == 1 ]; then
+  echo "TEMPDIR=/opt/spwm/tmp" >>/opt/spwm/conf/cp_http_admin_server.conf
+ fi
+
+ grep -q ADDRESS /opt/spwm/conf/cp_http_admin_server.conf
+ if [ $? == 1 ]; then
+  echo "ADDRESS=0.0.0.0" >>/opt/spwm/conf/cp_http_admin_server.conf
+ fi
+
+ service CPwebis start > /dev/null 2>&1
+fi
+service dhcrelay stop > /dev/null 2>&1
+service dhcrelay start > /dev/null 2>&1
+
+service dhcpd stop > /dev/null 2>&1
+service dhcpd start > /dev/null 2>&1
+
+service snmpd start > /dev/null 2>&1
+
+service ntp stop > /dev/null 2>&1
+service ntp start > /dev/null 2>&1
+
+service sshd stop > /dev/null 2>&1
+service sshd start > /dev/null 2>&1
+
+service syslog stop > /dev/null 2>&1
+service syslog start > /dev/null 2>&1
+
+service crond start > /dev/null 2>&1
+
+if [ -f /etc/sysconfig/pro ]; then
+/bin/pro enable 2>/dev/null 1>/dev/null
+rm -f /etc/sysconfig/pro
+else
+/bin/pro disable 2>/dev/null 1>/dev/null
+fi
+
+. /etc/sysconfig/network
+/bin/domainname ''
+domainname $NISDOMAIN
+hostname $HOSTNAME
+if [ -f /var/CPbackup/conf/backup_sched.conf ]; then
+  if [ -f /var/CPbackup/conf/last_backup.cfg ]; then
+	grep -v LAST_SUCCEEDED_BACKUP /var/CPbackup/conf/backup_sched.conf > /var/CPbackup/conf/backup_sched.conf.new
+    mv /var/CPbackup/conf/backup_sched.conf.new /var/CPbackup/conf/backup_sched.conf
+	cat /var/CPbackup/conf/last_backup.cfg >> /var/CPbackup/conf/backup_sched.conf
+    rm -f /var/CPbackup/conf/last_backup.cfg	
+  fi
+fi
+
+fw1_is_configured=`cpprod_util CPPROD_IsConfigured FW1 | tr -d ' '`
+if [ "$fw1_is_configured-" != '0-' ] ; then
+	if [ -d /opt/spwm/conf ]; then
+		touch /opt/spwm/conf/wizard_accepted 2>/dev/null
+	else
+		rm -f /opt/spwm/conf/wizard_accepted 2>/dev/null	
+	fi
+fi
+	
+svr_is_configured=`cpprod_util CPPROD_IsConfigured "Reporting Module" | tr -d ' '`
+if [ "$svr_is_configured-" != '0-' ] ; then
+	if [ -d /opt/spwm/conf ]; then
+		touch /opt/spwm/conf/wizard_accepted 2>/dev/null
+	else
+		if [ "$fw1_is_configured-" == '0-' ] ; then
+			rm -f /opt/spwm/conf/wizard_accepted 2>/dev/null
+		fi
+	fi
+fi
+
+exit 0
+</POST_RESTORE_SCRIPT>
+@

@@ -1,0 +1,27 @@
+	AP=ActivePerl-5.8.7.815-i686-linux-2.2.17-gcc-211909
+	/bin/rm -fr $AP
+ 	/bin/gtar xvzf $AP.tar.gz
+
+	cp AP_install.exp $AP
+
+	cat << EOF > $AP/Makefile
+all:
+	@echo done
+
+install:	
+	./AP_install.exp
+	/bin/rm -fr /var/opt/UNItools/man /var/tmp/html
+	# flyt html -> /var/tmp, flyt tilbage efter kald af pkg_fake_install.sh
+	# for at undgå konvertering af html til pdf
+	/bin/mv /var/opt/UNItools/html /var/tmp/html
+
+EOF
+
+	pkg_fake_install.sh -n ./CFG
+
+	/bin/mv /var/tmp/html perl.5.8.7.815.install.tmp/var/opt/UNItools/docs/GT/perl.5.8.7.815/
+
+ 	pkg_mkrpm_dep.sh ./CFG depend
+ 	pkg_mkdoc.sh ./CFG
+ 	pkg_build.sh ./CFG
+ 	pkg_install.sh ./CFG

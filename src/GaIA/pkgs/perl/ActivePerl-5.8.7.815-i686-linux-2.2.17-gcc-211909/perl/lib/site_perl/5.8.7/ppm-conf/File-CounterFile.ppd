@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOFTPKG NAME="File-CounterFile" VERSION="1,4,0,0">
+  <TITLE>File-CounterFile</TITLE>
+  <ABSTRACT>Persistent counters</ABSTRACT>
+  <AUTHOR>Gisle Aas &lt;gisle@ActiveState.com></AUTHOR>
+  <IMPLEMENTATION>
+    <CODEBASE HREF="http://ppm.ActiveState.com/PPMPackages/5.8-linux/i686-linux-thread-multi-5.8/File-CounterFile.tar.gz"/>
+  </IMPLEMENTATION>
+</SOFTPKG>

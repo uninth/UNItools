@@ -1,0 +1,83 @@
+.TH CPFW1MAILQMON 1 
+.ad
+.fi
+.SH NAME
+cpfw1mailqmon
+\-
+TOP like monitor for Check Point FireWall-1 mail queue
+.SH PACKAGE
+.ad
+.fi
+UNItools
+.SH SYNOPSIS
+.ad
+.fi
+\fCcpfw1mailqmon [-s \fIseconds\fP][\fC-p\fP][-t \fIlines\fC]\fR
+.SH DESCRIPTION
+.ad
+.fi
+\fCcpfw1mailqmon\fR monitor the Check Point FireWall-1 mailqueue
+in a tty window.
+
+The queue is refreshed every \fIseconds\fR seconds and the
+queue display is truncated to \fIlines\fR for readability.
+.SH OPTIONS
+.ad
+.fi
+.TP
+\fC-s \fIseconds\fR
+number of seconds between rescan of queue.
+.TP
+\fC-p\fR
+Print the smtp logfile(s).
+.TP
+\fC-t \fInumber\fR
+truncate lines to \fInumber\fR.
+.SH FILES
+.ad
+.fi
+.TP
+\fC$FWDIR/log/mdq.elg\fR, \fC$FWDIR/log/asmtpd.elg\fR
+Check Point Firewall-1 smtp logfiles.
+.SH COMMANDS
+.ad
+.fi
+\fCperl(1)\fR (standard 5.x distribution).
+.SH DIAGNOSTICS
+.ad
+.fi
+Should be printed to \fCstdout\fR.
+.SH BUGS
+.ad
+.fi
+None known, but the spool dir is assumed to be in \fCFWDIR/spool\fR,
+but \fImay\fR have been set in \fC$FWDIR/conf/smtpd.conf\fR.
+.pp
+The script has been tested on Check Point FireWall-1 version 4.0, 4.1,
+NG and NGX.
+.SH VERSION
+.na
+.nf
+$Date: 2006/01/05 11:45:18 $
+.br
+$Revision: 1.3 $
+.br
+$Source: /lan/ssi/projects/UNItools/src/Linux/2.4.21-20cpsmp/pkgs/scripts/scripts-1.0/RCS/cpfw1mailqmon,v $
+.br
+$State: Exp $
+.SH HISTORY
+.ad
+.fi
+Long. See \fCrlog cpfw1mailqmon\fR.
+.SH AUTHOR(S)
+.ad
+.fi
+Niels Thomas Haugård
+.br
+E-mail: thomas@haugaard.net
+.br
+UNI\(buC
+.br
+DTU, Building 304
+.br
+DK-2800 Kgs. Lyngby

@@ -1,0 +1,170 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of IPCALC.PL</TITLE>
+</HEAD><BODY>
+<H1>IPCALC.PL</H1>
+Section: User Commands  (1)<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+ipcalc.pl
+-
+IP Calculator
+<A NAME="lbAC">&nbsp;</A>
+<H2>PACKAGE</H2>
+
+
+
+UNItools
+<A NAME="lbAD">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+
+
+ipcalc [-n|-h|-v|-help] <I>ADDRESS</I>[[/]<I>NETMASK</I>] [<I>NETMASK</I>]
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+
+
+ipcalc takes an IP address and netmask and calculates the resulting
+broadcast, network, Cisco wildcard mask, and host range. By giving a
+second netmask, you can design sub- and supernetworks. It is also intended
+to be a teaching tool and presents the results as easy-to-understand
+binary values.
+<P>
+Enter your netmask(s) in CIDR notation (/25) or dotted decimals
+(255.255.255.0).  Inverse netmask are recognized. If you mmit the netmask,
+ipcalc uses the default netmask for the class of your network.
+<P>
+Look at the space between the bits of the addresses: The bits before it are
+the network part of the address, the bits after it are the host part. You can
+see two simple facts: In a network address all host bits are zero, in a
+broadcast address they are all set.
+<P>
+The class of your network is determined by its first bits.
+<P>
+If your network is a private internet according to RFC 1918 this is remarked.
+When displaying subnets the new bits in the network part of the netmask are
+marked in a different color.
+<P>
+The wildcard is the inverse netmask as used for access control lists in Cisco
+routers. You can also enter netmasks in wildcard notation.
+<P>
+Do you want to split your network into subnets? Enter the address and netmask
+of your original network and play with the second netmask until the result
+matches your needs.
+<A NAME="lbAF">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+
+
+<DL COMPACT>
+<DT>-n<DD>
+Don't display ANSI color codes
+<DT>-b<DD>
+Suppress the bitwise output
+<DT>-c<DD>
+Just print bit-count-mask of given address
+<DT>-h<DD>
+Display results as HTML
+<DT>-help<DD>
+Longer help text
+<DT>-v<DD>
+Print Version
+</DL>
+<A NAME="lbAG">&nbsp;</A>
+<H2>EXAMPLES</H2>
+
+
+
+<PRE>
+
+        ipcalc 192.168.0.1/24
+        ipcalc 192.168.0.1/255.255.128.0
+        ipcalc 192.168.0.1 255.255.128.0 255.255.192.0
+        ipcalc 192.168.0.1 0.0.63.255
+</PRE>
+
+
+<A NAME="lbAH">&nbsp;</A>
+<H2>COMMANDS</H2>
+
+
+
+<A HREF="../man1/perl.1.html">perl</A>(1)
+<A NAME="lbAI">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+
+
+<P>
+<A NAME="lbAJ">&nbsp;</A>
+<H2>DIAGNOSTICS</H2>
+
+
+
+Errors printed to stdout/stderr.
+<A NAME="lbAK">&nbsp;</A>
+<H2>BUGS</H2>
+
+
+
+Probably. Please report them to the author.
+<A NAME="lbAL">&nbsp;</A>
+<H2>VERSION</H2>
+
+
+<PRE>
+$Date: 2005/11/21 11:35:04 $
+<BR>
+$Revision: 1.2 $
+<BR>
+$Source: /lan/ssi/projects/UNItools/src/Linux/2.4.21-20cpsmp/pkgs/scripts/scripts-1.0/RCS/ipcalc.pl,v $
+<BR>
+$State: Exp $
+</PRE><A NAME="lbAM">&nbsp;</A>
+<H2>HISTORY</H2>
+
+
+
+See top of script. This version is based on 0.35.2.
+<A NAME="lbAN">&nbsp;</A>
+<H2>AUTHOR(S)</H2>
+
+
+
+krischan at jodies.cx
+<BR>
+
+Manpage assembled by nth.
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">PACKAGE</A><DD>
+<DT><A HREF="#lbAD">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">OPTIONS</A><DD>
+<DT><A HREF="#lbAG">EXAMPLES</A><DD>
+<DT><A HREF="#lbAH">COMMANDS</A><DD>
+<DT><A HREF="#lbAI">SEE ALSO</A><DD>
+<DT><A HREF="#lbAJ">DIAGNOSTICS</A><DD>
+<DT><A HREF="#lbAK">BUGS</A><DD>
+<DT><A HREF="#lbAL">VERSION</A><DD>
+<DT><A HREF="#lbAM">HISTORY</A><DD>
+<DT><A HREF="#lbAN">AUTHOR(S)</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 21:01:49 GMT, May 20, 2014
+</BODY>
+</HTML>

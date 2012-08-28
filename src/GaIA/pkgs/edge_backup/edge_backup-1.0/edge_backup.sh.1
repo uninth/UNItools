@@ -1,0 +1,105 @@
+.TH EDGE_BACKUP.SH 1 
+.ad
+.fi
+.SH NAME
+edge_backup.sh
+\-
+create RCS based archives for edge configurations
+.SH "PACKAGE"
+.na
+.nf
+UNItools
+.SH "SYNOPSIS"
+.na
+.nf
+edge_backup.sh [-v]
+.SH DESCRIPTION
+.ad
+.fi
+\fCedge_backup.sh(1)\fR is a poor mans backup program for SofaWare edge
+Appliances managed through a service centre.
+
+\fCedge_backup.sh(1)\fR is intented to run periodically from \fCcron(1)\fR
+on the \fIservice centre\fR which also might host the \fImanagemet
+center\fR. The \fIinternal IP address\fR of the edge is reachable
+through the VPN tunnel.
+
+The script is intented to run from \fCcron(1)\fR as the user \fCadmin\fR
+on the \fIservice center\fR.
+
+The recommended \fCcrontab(5)\fR is shown below:
+.nf \fC
+minutes  hours  day-of-month  month  day-of-week command
+00 7-23 * * * /var/opt/UNItools/bin/edge_backup.sh >/dev/null 2>&
+.fi \fP
+
+.SH "OPTIONS"
+.na
+.nf
+.IP \fC-v\fR
+Print diagnostic output to STDOUT.
+.SH "FILES"
+.na
+.nf
+The config file should be located in \fC$HOME/etc/edge_backup.cfg\fR.
+The config file is a shell script containing one variable:
+.nf \fC
+
+ LIST_OF_INSIDE_IPADDRS="
+ #
+ # carefull here be dragons
+ #
+ # ipv4addr     login_user      login_passwd    edge_admin_port
+ #
+ 172.28.11.1    admin           1qazxsw2        981
+ "
+
+.fi \fP
+The format is shown above. Blank lines and linies beginning with
+\fC#\fR are ignored.
+.SH "COMMANDS"
+.na
+.nf
+\fCbash(1)\fR, \fCsed(1)\fR, \fCwget(1)\fR, etc.
+.SH "SEE ALSO"
+.na
+.nf
+The Wiki at http://info.ssi.uni-c.dk.
+.SH DIAGNOSTICS
+.ad
+.fi
+Diagnostic putput is written to syslog. No further information
+is provided in case of error(s).
+.SH "KNOWN BUGS AND LIMITATIONS"
+.na
+.nf
+IP addresses for edge appliances must be maintained both in the
+object database and the configuration file.
+.SH "VERSION"
+.na
+.nf
+$Date: 2011/09/07 11:27:54 $
+.br
+$Revision: 1.2 $
+.br
+$Source: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/edge_backup/edge_backup-1.0/edge_backup.sh,v $
+.br
+$State: Exp $
+.SH "HISTORY"
+.na
+.nf
+See rlog $Source: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/edge_backup/edge_backup-1.0/edge_backup.sh,v $
+.SH "AUTHOR(S)"
+.na
+.nf
+Niels Thomas Haugård
+.br
+E-mail: niels.thomas.haugaard@uni-c.dk
+.br
+UNI\(buC
+.br
+Professional Security and Service
+.br
+Danish Technical University, bldg 304
+.br
+DK-2800 Lyngby, Denmark

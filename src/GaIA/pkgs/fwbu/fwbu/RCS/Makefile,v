@@ -1,0 +1,96 @@
+head	1.2;
+access;
+symbols;
+locks
+	root:1.2; strict;
+comment	@# @;
+
+
+1.2
+date	2012.07.02.08.11.18;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.07.02.07.47.49;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.2
+log
+@.
+@
+text
+@#
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/fwbu/fwbu/RCS/Makefile,v 1.1 2012/07/02 07:47:49 root Exp $
+#
+
+SCRIPTS		= setup.sh UNIcpfwbu.sh
+CFGS		= extra_files_for_backup.txt UNIcpfwbu.cfg
+
+PREFIX		= /var/opt/UNItools/fwbu/
+MANDIR		= /var/opt/UNItools/share/man/man1
+BINDIR		= $(PREFIX)/bin
+ETCDIR		= $(PREFIX)/etc
+
+INSTALL		= /usr/local/bin/install-sh
+SRCTOMAN	= /usr/local/bin/srctoman
+
+install:
+	$(MAKE) bin
+	$(MAKE) etc
+	$(MAKE) man
+	$(MAKE) clean
+	
+bin:	$(SCRIPTS)
+	test -d $(BINDIR) || mkdir -p $(BINDIR);				\
+	for SCRIPT in $(SCRIPTS); do						\
+		$(INSTALL) -c -m 0555 -o root -g root $$SCRIPT $(BINDIR);	\
+	done
+
+etc:	$(CFGS)
+	test -d $(ETCDIR) || mkdir -p $(ETCDIR);				\
+	for CFG in $(CFGS); do						\
+		$(INSTALL) -c -m 0744 -o root -g root $$CFG $(ETCDIR);	\
+	done
+
+man:	$(SCRIPTS)
+	test -d $(MANDIR) || mkdir -p $(MANDIR);				\
+	for SCRIPT in UNIcpfwbu.sh; do						\
+		$(SRCTOMAN) - $$SCRIPT > $$SCRIPT.1;				\
+		$(INSTALL) -c -m 0444 -o root -g root $$SCRIPT.1 $(MANDIR);	\
+	done
+
+clean:
+	/bin/rm -fr *.bak
+
+.IGNORE:
+.SILENT:
+.DEFAULT:
+	co $<
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 1
+a2 1
+# $Header$
+d9 1
+d11 1
+a11 1
+MANDIR		= $(PREFIX)/share/man/man1
+d18 1
+d28 6
+d36 1
+a36 1
+	for SCRIPT in $(SCRIPTS); do						\
+@

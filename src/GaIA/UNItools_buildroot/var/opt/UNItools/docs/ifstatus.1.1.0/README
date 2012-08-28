@@ -1,0 +1,273 @@
+IFStatus v1.0.0 README file
+Gabriel Montenegro <gmontenegro@users.sourceforge.net>
+2004-2005
+
+Dedication
+----------
+
+        This program is dedicated to my wife, Dályda Yane Montenegro.
+
+Contents
+--------
+
+1. Introduction
+    1.1. A piece of history
+    1.2. Features overview
+    1.3. Requirements
+2. Configuration
+    2.1. Configuration Options
+       2.1.1. Interfaces
+       2.1.2. EmailCheck
+       2.1.3. Information
+       2.1.4. GraphScaleInfo
+       2.1.5. GraphDataSource
+       2.1.6. GraphPeriod
+       2.1.7. Help
+3. Help to the project I would appreciate
+    3.1. Feedback
+    3.2. Promoting the little program
+    3.3. Donations
+       3.3.1. Money
+       3.3.2. Hardware
+       3.3.3. Other stuff
+4. Thanks
+
+
+
+1. Introduction
+---------------
+
+        IFStatus was developed for Linux users that are usually in console
+mode. It is a simple, easy to use program for displaying commonly needed /
+wanted statistics in real time about ingoing and outgoing traffic of multiple
+network interfaces that is usually hard to find, with a simple and effecient
+view.
+        I have decided to write this application for a simple cause: I could
+not find any console based interface monitor with simple features like 
+graphical statistics.
+
+1.1. A piece of history
+-----------------------
+
+	IFStatus is a continued work of PPPStatus and EthStatus. PPPStatus
+was my first C software, then its quality is nothing good. 
+I decided to rewrite it with a new philosophy: mix the support of different 
+interfaces in one application, avoiding the creation of apps like LOStatus, 
+SITStatus, and so on. I used C++, STL and some design patterns techniques.
+
+
+1.2. Features overview
+----------------------
+
+	You will find on this software the display features described
+below:
+
+	* Multiple interface support
+	* Dynamic graphic statistics
+	* Conectivity check
+	* Current Transfer
+	* TX and RX indicators
+	* Mbox e-mail check
+	* IP Address
+	* Online time
+	* Top Bytes/s
+	* Top Packets/s
+	* Ingoing
+	  * Bytes
+	  * Packets
+	  * Errors
+	* Outgoing
+	 * Bytes
+	 * Packets
+	 * Errors
+
+1.3. Requirements
+-----------------
+
+	To build the software the following libraries are required:
+
+* curses (at least 4.2 version)
+    A CRT screen handling and optimization package.
+        http://dickey.his.com/ncurses/ncurses.html
+
+* libstdc++
+
+2. Configuration
+----------------
+
+	The configuration for IFStatus is located at:
+
+		~/.ifstatus/ifstatus.cfg
+
+2.1. Configuration Options
+--------------------------
+
+	All options described on this topic is represented in cfg file 
+using the following instruction:
+
+	Option = Value
+
+	Use the character '#' for comments.
+
+	Example:
+
+		# Line comment
+		Option = Value    # Comment after a instruction
+
+
+	PS: The options and values are *case sensitive*.
+
+2.1.1. Interfaces
+-----------------
+
+	Use this option to add interfaces to be monitored. The separator is
+comma. To add all interfaces detected on /proc/net/dev use the word ALL.
+
+	Example:
+
+		Interfaces = eth0, ppp0, lo, ALL
+
+2.1.2. EmailCheck
+------------------
+
+	This option is used to check or not the mail box (mbox).
+	The value should be ON to check, or OFF to turn this feature off.
+
+	This feature checks the current user mail box. If you're running
+	IFStatus as root, it will check root mbox.
+
+	Example:
+
+		EmailCheck = ON
+
+
+2.1.3. Information
+------------------
+
+	This option is used to show or hide the interface informations.
+	The value should be ON, to show or OFF to hide.
+
+	Example;
+
+		Information = ON
+
+2.1.4. GraphScaleInfo
+---------------------
+
+	This option is used to show or hide the scale information beside the 
+graphic.
+	The value should be ON, to show or OFF to hide.	
+
+	Example:
+
+		GraphScaleInfo = ON
+
+2.1.5. GraphDataSource
+----------------------
+
+	This option is used to inform the data source which should be shown.
+	Use TX value for Transmited Data, RX value for Received Data or BOTH 
+	value for Transmited and Received Data.
+
+	Example:
+
+		GraphDataSource = BOTH
+
+
+2.1.6. GraphPeriod
+-------------------
+
+	This option is used to inform the period (in seconds) of the graphic. 
+	The value range is 1 to 10.
+
+	Example:
+
+		GraphPeriod = 1
+
+
+2.1.7. Help
+-----------
+
+	This option is used to show or hide the help.
+	The value should be ON, to show or OFF to hide.
+
+	Example:
+
+		Help = OFF
+
+
+3. Help to the project I would appreciate
+------------------------------------------
+
+	What if you think that IFStatus is the best text console based
+interface monitor program around? What if IFStatus is the application
+you'd been waiting whole of your life, and want to express your
+appreciation somehow? Helping the author you help the project itself to
+keep rolling. It's not something vital I require to keep on writing and
+improving IFStatus, neither you have to do it. I quite enjoy making it
+in my spare time, and happy of the fact there are no deadlines and
+obligations from my side. It's just my hobby.
+
+	So how you can express appreciation to the way I waste my spare 
+time, so that to make me a bit more happy and satisfied by my activities?
+
+3.1. Feedback
+--------------
+
+	You can write some feedback saying what you liked and what is missing
+in the program. Also, don't be silent if you notice bugs. Just check
+everything attentively and send a detailed bug-report to my e-mail.
+
+
+3.2. Promoting the little program
+----------------------------------
+
+	I bet you read some computers related magazines and visit various
+Linux related sites. Please don't keep silence instead of screaming out
+your adoration for the little nice program. Submit it to a software site
+or catalogue or/and encourage the authors of your favourite magazine to
+take a look at it and possibly write about IFStatus, just contact me for
+more details.
+
+3.3. Donations
+---------------
+
+	If you're a materialist guy like me, you might want to present me
+something what I can touch, put on a sandwich or into my pocket. Here it
+goes.
+
+
+3.3.1. Money
+-------------
+
+	The most universal way. Depending on a sum I will be able to drink one
+more beer or tequila for the health of IFStatus users or buy a piece of
+hardware, electronic gagdet or even the newest model of "BMW" ;)
+
+	The on-line donations page is located at
+
+		http://ifstatus.sourceforge.net
+
+
+3.3.2. Hardware
+----------------
+
+	Since usually I write IFStatus at home, it's always nice to upgrade
+the computer it's being developed with. It can increase the speed and pleasure
+I get during the process.
+
+
+3.3.3. Other stuff
+-------------------
+
+	Other stuff like t-shirts, souvenirs, albums or postcards with nice
+views of the nature in places where you live, baseball tickets ;) are also 
+welcome.
+
+
+4. Thanks
+---------
+
+	Thanks to everyone which made this work possible with donations,
+suggestions, knowledgment, tests, and so on. 
+

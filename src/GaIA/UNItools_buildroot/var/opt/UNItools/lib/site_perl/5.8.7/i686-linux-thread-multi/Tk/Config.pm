@@ -1,0 +1,12 @@
+package Tk::Config;
+require Exporter;
+use base qw(Exporter);
+$VERSION = '804.027';
+$inc = '-I/usr/X11R6/include';
+$define = '';
+$xlib = '-L/usr/X11R6/lib';
+$xinc = '-I/usr/X11R6/include';
+$gccopt = ' -Wall -Wno-implicit-int -Wno-comment -Wno-unused -D__USE_FIXED_PROTOTYPES__';
+$win_arch = 'x';
+@EXPORT = qw($VERSION $inc $define $xlib $xinc $gccopt $win_arch);
+1;

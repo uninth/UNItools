@@ -1,0 +1,62 @@
+# Download URL, product name and version
+URL="http://mirror.netinch.com/pub/postfix/postfix-release/official/postfix-3.0.2.tar.gz"
+PKG="postfix"
+VER="3.0.2"
+
+# Description used internally
+NAME="postfix"
+
+# The creator/copyright holder
+VENDOR="http://mirror.netinch.com/pub/postfix/postfix-release/official/postfix-3.0.2.tar.gz"
+
+# Local source location
+SRC="postfix-3.0.2"
+
+# prefix for ''make install' Do not change
+ROOT=/var/opt/UNItools
+
+# Arguments to configure, build command and installation command
+CONFIGURE=""
+BUILD="make makefiles	install_root=/var/opt/UNItools/postfix meta_directory=/var/opt/UNItools/postfix/libexec/postfix \
+				command_directory=/var/opt/UNItools/postfix/usr/sbin		\
+				config_directory=/var/opt/UNItools/postfix/etc/postfix		\
+				daemon_directory=/var/opt/UNItools/postfix/usr/libexec/postfix		\
+				data_directory=/var/opt/UNItools/postfix/var/lib/postfix		\
+				mailq_path=/var/opt/UNItools/postfix/usr/bin/mailq		\
+				manpage_directory=/var/opt/UNItools/postfix/usr/local/man		\
+				newaliases_path=/var/opt/UNItools/postfix/usr/bin/newaliases		\
+				queue_directory=/var/opt/UNItools/postfix/var/spool/postfix		\
+				sendmail_path=/var/opt/UNItools/postfix/usr/sbin/sendmail
+
+
+mkdir -p /var/opt/UNItools/postfix/etc/postfix/ /var/opt/UNItools/postfix/var/spool/postfix /var/opt/UNItools/postfix/var/lib/postfix
+
+"
+INSTALL="make non-interactive-package install_root=/var/opt/UNItools/postfix; 
+cat << EOF > /var/opt/UNItools/postfix/etc/main.cf
+inet_interfaces = 127.0.0.1
+mynetworks = 127.0.0.0/8
+smtputf8_enable = no
+EOF
+"
+# clean-up commands
+MAKECLEAN="make distclean"
+DELEFILES="*.bak"
+
+# Script to add information not added by make install
+INSTALL_MORE="/bin/sh install_more.sh"
+
+# Prototype rc start/stop script (absolute path or relative to CFG)
+RCPROTO=""
+# RCSTART="S88unizlib"
+RCSTART=""
+# RCSTOP="S88unizlib"
+RCSTOP=""
+# Run level /etc/rcX.d. Network: 3, hernel S, user space (databases etc): 3
+# netværksdaemoner: normalt 2, kerneting normalt S, databaser mv normalt 3
+# RCSTARTDIRS="3"
+RCSTARTDIRS=""
+# Same for stop scripts: S, 0 and 1 - multible doesn't make any difference
+# RCSTOPDIRS="S 0 1"
+RCSTOPDIRS=""
+

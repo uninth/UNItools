@@ -1,0 +1,236 @@
+#!/bin/sh
+#
+# description: Backup system configuration
+
+BACKUPPARTITION="/opt/CPbackups"
+
+. $HOME/.bash_profile
+. $HOME/.bashrc
+. /etc/bashrc
+. $CPDIR/tmp/.CPprofile.sh
+
+SYSFILESTOBACKUP="/etc/sysconfig/*\
+		  /etc/modules.conf\
+                  /etc/host.*\
+                  /etc/hosts*\
+                  /etc/resolv.conf\
+		  /etc/xinetd.conf\
+                  /etc/localtime"
+
+UNISYSFLSTOBCKUP="/etc/gshadow\
+                  /etc/group\
+                  /etc/passwd\
+                  /etc/*shadow\
+                  /etc/hosts*\
+                  /etc/ntp.*\
+                  /etc/ssh/*\
+		  /etc/fw.boot/FP4.txt\
+		  /etc/fw.boot/boot.conf\
+		  /etc/fw.boot/fw1boot\
+		  /etc/fw.boot/modules/fw.mkdev\
+		  /etc/fw.boot/modules/vpn.mkdev\
+                  /etc/initlog.conf\
+		  /var/cron/tabs/*\
+		  /etc/rc.d\
+		  /etc/hosts*\
+	          /var/opt/UNI*/conf/*\
+	          /var/opt/UNIfw1lr/bandwidthd/*/etc/bandwidthd.conf\
+		  /home/admin
+		  /var/ace"
+
+SYSFILESTOBACKUP="${SYSFILESTOBACKUP} ${UNISYSFLSTOBCKUP}"
+
+CPFILESTOBACKUP="$CPDIR/registry/*\
+                 $CPDIR/conf/*\
+                 $CPDIR/database/*\
+                 $FWDIR/conf/*\
+                 $FWDIR/database/*\
+                 $FWDIR/state/*\
+                 $FWDIR/lib/cprid.pf\
+                 $FWDIR/lib/control.map\
+		 /etc/cd.ver\
+		 /etc/cp-release\
+		 /etc/cpshell/*\
+                 /etc/rc.d/init.d/fw1boot\
+                 /etc/rc.d/rc0.d/K91fw1boot\
+                 /etc/rc.d/rc1.d/K91fw1boot\
+                 /etc/rc.d/rc2.d/S09fw1boot\
+                 /etc/rc.d/rc3.d/S09fw1boot\
+                 /etc/rc.d/rc4.d/S09fw1boot\
+                 /etc/rc.d/rc5.d/S09fw1boot\
+                 /etc/rc.d/rc6.d/K91fw1boot\
+                 /etc/fw.boot/modules/fwkern.conf\
+                 /etc/fw.boot/ha_boot.conf\
+                 /etc/fw.boot/boot.conf\
+                 /etc/fw.boot/default.bin\
+                 /etc/ppk.boot/boot/modules/simkern.conf\
+                 /etc/ppk.boot/boot/modules/sim_aff.conf\
+                 /etc/fw.boot/sxl_boot.conf"
+
+if [ -n "${UAGDIR}" ] ; then
+    CPFILESTOBACKUP="$CPFILESTOBACKUP $UAGDIR/conf/* $UAGDIR/database/* $UAGDIR/log/*"
+fi
+
+TFTPADDRESS=""
+BACKUPSIGNATUREFILE="${BACKUPPARTITION}/signature"
+
+function usagemessage {
+  echo "Usage: backup system name [<tftp> <ip>]" 2>&1
+  echo "       backup cp     name [<tftp> <ip>]" 2>&1
+  echo "       backup all    name [<tftp> <ip>]" 2>&1
+  exit 0
+}
+
+function showmd5 {
+    echo "The MD5 checksum of the backup file is: ${1}."
+    echo "Save this value, so you can verify it when running the restore command."
+}
+
+function checkfirewall {
+    fwrunning=`ps -eo fname | egrep '^fw$'`
+    if [ -n "${fwrunning}" ] ; then
+	echo "FireWall-1/VPN-1 is currently running." 2>&1
+	echo "Stop it before running the backup command." 2>&1
+	echo "To stop FireWall-1/VPN-1 use:"
+	echo "# cpstop"	
+	echo "To start FireWall-1/VPN-1 after backup use:"
+	echo "# cpstart"
+	echo " "
+	echo "Configuration files are not backed up."
+	exit 1
+    fi
+}
+
+if [ -z "${2}" -o "${2}" = "tftp" ] ; then
+  usagemessage
+  exit 1
+fi
+
+if [ "${1}" = "system" ] ; then
+    FILELISTTOBACKUP="${SYSFILESTOBACKUP} ${BACKUPSIGNATUREFILE}"
+elif [ "${1}" = "cp" ] ; then
+    FILELISTTOBACKUP="${CPFILESTOBACKUP} ${BACKUPSIGNATUREFILE}"
+elif [ "${1}" = "all" ] ; then
+    FILELISTTOBACKUP="${SYSFILESTOBACKUP} ${CPFILESTOBACKUP} ${BACKUPSIGNATUREFILE}"
+else
+  usagemessage
+  exit 1
+fi
+
+BACKUPFILENAME="${2}.tgz"
+
+echo "Processing..." 2>&1
+echo "Backup file name is ${BACKUPFILENAME}." 2>&1
+
+
+if [ ! -d "${BACKUPPARTITION}" ] ; then
+   mkdir -p "${BACKUPPARTITION}"
+fi
+
+# Wait if backup/restore is in the progress
+
+if [ -f ${BACKUPSIGNATUREFILE} ] ; then
+  sleep 5
+fi
+
+if [ -f "${BACKUPSIGNATUREFILE}" ] ; then
+  sleep 10
+fi
+
+rm -f ${BACKUPSIGNATUREFILE}
+touch "${BACKUPSIGNATUREFILE}"
+
+# Create signature file
+
+# checkfirewall
+
+PRODUCTSINSTALLED=`ls /etc/cpshell/*.cfg | sed 's/\/etc\/cpshell\/\(.*\)\.cfg/\1/g' | awk '{printf("%s;",$1);}'`
+
+echo "SYSTEM_TYPE=${SYSTEM_TYPE}" >> "${BACKUPSIGNATUREFILE}"
+echo "CD_VER=${CD_VER}" >> "${BACKUPSIGNATUREFILE}"
+echo "BACKUP_TIME=`date +%m-%d-%Y-%H:%M`" >> "${BACKUPSIGNATUREFILE}"
+echo "BACKUP_COMMAND=${1}" >> "${BACKUPSIGNATUREFILE}"
+echo "PRODUCTSINSTALLED=${PRODUCTSINSTALLED}" >> "${BACKUPSIGNATUREFILE}"
+
+CWD=`pwd`
+cd "${BACKUPPARTITION}" 2> /dev/null
+
+tar zcf "${BACKUPFILENAME}" ${FILELISTTOBACKUP} > /dev/null  2>&1
+
+md5str=`md5sum "${BACKUPFILENAME}" | awk '{print $1}'`
+showmd5 "${md5str}"
+
+# Clean up signature file - it's already in the archive
+rm -f ${BACKUPSIGNATUREFILE}
+
+if [ "${3}" = "tftp" -a "${4}" != "" ] ; then
+    TFTPADDRESS="${4}"
+    # send the file
+    ( echo binary ; echo put "${BACKUPFILENAME}" ) | tftp "${TFTPADDRESS}" > /dev/null 2>&1 
+
+    # rename the file get the file sent 
+    mv "${BACKUPFILENAME}" "${BACKUPFILENAME}.save"
+    ( echo binary ; echo get "${BACKUPFILENAME}" ) | tftp "${TFTPADDRESS}" > /dev/null 2>&1
+    
+    # compare them, send succeeded iff they are equal
+    diff "${BACKUPFILENAME}" "${BACKUPFILENAME}.save" > /dev/null 2>&1 || {
+	echo "Cannot send backup files." 2>&1
+	rm -f "${BACKUPFILENAME}" "${BACKUPFILENAME}.save"
+	cd "${CWD}"
+	exit 1
+    } 
+
+    rm -f "${BACKUPFILENAME}" "${BACKUPFILENAME}.save"
+    echo "Backup file transmitted successfully to ${TFTPADDRESS} tftp server." 2>&1
+fi
+
+echo "Backup completed successfully." 2>&1
+# echo "Check Point products are not running." 2>&1
+# echo "You may wish to restart them by running 'cpstart'." 2>&1
+
+cd "${CWD}"
+
+
+#++
+# NAME
+#	backup_start_UNIC 1
+# SUMMARY
+#	Lav en firewall-1 og operativsystem sikkerhedskopi
+# PACKAGE
+#	UNItools
+# SYNOPSIS
+#	backup_start_UNIC name|cp|all [<tftp> <ip>] 
+# DESCRIPTION
+#	\fCbackup_start_UNIC\fR er identisk med \fC/bin/backup_start\fR,
+#	idet et check for, om firewall-1 kører et fjernet.
+# COMMANDS
+#	sh(1), tar(1), gzip(1)
+# SEE ALSO
+#	
+# BUGS
+#	Ingen kendte.
+# VERSION
+#	$Date: 2005/02/17 00:41:12 $
+# .br
+#	$Revision: 1.6 $
+# .br
+#	$Source: /lan/ssi/projects/UNItools/Linux/RedHat_7.3/src/scripts/RCS/backup_start_UNIC,v $
+# .br
+#	$State: Exp $
+# HISTORY
+#	$Log: backup_start_UNIC,v $
+#	Revision 1.6  2005/02/17 00:41:12  root
+#	tilføjet /var/ace
+#
+#	Revision 1.5  2004/02/25 15:39:11  root
+#	opdateret til R55
+#
+#	Revision 1.4  2003/04/01 07:39:13  root
+#	*** empty log message ***
+#
+#	Revision 1.1  2003/02/21 14:59:48  root
+#	Initial revision
+#
+# AUTHOR(S)
+#	Check Point Software.
+#--

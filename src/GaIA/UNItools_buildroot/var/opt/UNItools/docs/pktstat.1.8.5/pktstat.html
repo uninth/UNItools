@@ -1,0 +1,558 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of PKTSTAT</TITLE>
+</HEAD><BODY>
+<H1>PKTSTAT</H1>
+Section: User Commands  (1)<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+<BR>BSD mandoc<BR>
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+
+
+<B>pktstat</B>
+
+ - display packet activity on a crt
+
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>pktstat</B>
+
+[-<B>1BcFlnpPtT</B>
+
+]
+
+[-<B>a </B><I>abbrev</I>
+
+
+
+]
+
+[-<B>A </B><I>file</I>
+
+
+
+]
+
+[-<B>i </B><I>interface</I>
+
+
+
+]
+
+[-<B>k </B><I>keeptime</I>
+
+
+
+]
+
+[-<B>m </B><I>maxbps</I>
+
+
+
+]
+
+[-<B>w </B><I>waittime</I>
+
+
+
+]
+
+[<I>filter-expr</I>
+
+]
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+The
+<B>pktstat</B>
+
+
+program displays a real-time summary of packet activity on an interface.
+Each line displays the data rate associated with different classes of packets.
+<P>
+
+<B>pktstat</B>
+
+
+understands the following command line options:
+<DL COMPACT>
+<P>
+
+<DT><B>-1</B>
+
+
+<DD>
+Single-shot (batch) mode.
+<B>pktstat</B>
+
+
+collects data for
+<I>waittime</I>
+
+seconds (see
+-<B>w</B>
+
+option)
+then emits a line indicating the number of flows detected, and
+the period of data capture in seconds.
+Then, each flow line is printed in the form of the number of
+data link octets associated with the flow, the number of
+data link frames (packets), and then the flow description.
+<DT><B>-a </B><I>abbrev</I>
+
+
+
+
+<DD>
+Add
+<I>abbrev</I>
+
+to the list of abbreviation patterns.
+(See below for details.)
+<DT><B>-A </B><I>file</I>
+
+
+
+
+<DD>
+Read abbreviation patterns from the given
+<I>file</I>
+
+ 
+(See
+Sx Abbreviations ,
+
+below.)
+If the option
+-<B>A none</B>
+
+
+
+is given, then default abbreviation files are not loaded.
+<DT><B>-B</B>
+
+
+<DD>
+Display data rates in bytes per second (Bps) instead of
+in bits per second (bps).
+<DT><B>-c</B>
+
+
+<DD>
+Do not combine some packet classes into one class.
+For example, TCP connections are kept as two separate flows.
+
+
+
+
+<DT><B>-F</B>
+
+
+<DD>
+Show full hostnames.
+Normally, hostnames are truncated to the first component of their domain name
+before display.
+<DT><B>-i </B><I>interface</I>
+
+
+
+
+<DD>
+Listen on the given interface.
+If not specified, a suitable interface is chosen.
+<DT><B>-k </B><I>keeptime</I>
+
+
+
+
+<DD>
+When no packets have been seen for a particular class,
+retain an entry on the display for this many screen seconds.
+Defaults to 10.
+<DT><B>-l</B>
+
+
+<DD>
+Display and sort flows by when they were last seen.
+(Incompatible with
+-<B>t</B>
+
+ 
+<DT><B>-m </B><I>maxbps</I>
+
+
+
+
+<DD>
+Fix the maximum bit rate for the interface at
+<I>maxbps</I>
+
+instead of auto-detecting it.
+<DT><B>-n</B>
+
+
+<DD>
+Do not try and resolve hostnames or service port numbers.
+<DT><B>-p</B>
+
+
+<DD>
+Show packet counts instead of bit counts.
+<DT><B>-P</B>
+
+
+<DD>
+Do not try to put the interface into promiscuous mode.
+<DT><B>-t</B>
+
+
+<DD>
+&quot;Top&quot; mode.
+Sorts the display by bit count (or packet count if
+-<B>p</B>
+
+was given) instead of by
+the name.
+<DT><B>-T</B>
+
+
+<DD>
+Show totals.
+<DT><B>-w </B><I>waittime</I>
+
+
+
+
+<DD>
+Refresh the display every
+<I>waittime</I>
+
+seconds.
+The default is 5 seconds.
+<DT><B></B><I>filter-expr</I>
+
+
+<DD>
+Only consider packets matching the given
+<I>filter-expr</I>
+
+ 
+If no filter is provided, all packets are considered.
+See
+<A HREF="../man8/tcpdump.8.html">tcpdump</A>(8)
+
+
+for information on valid expressions.
+</DL>
+<P>
+
+<P>
+
+If the terminal supports it, the display briefly highlights in bold
+new connections or old connections carrying data after a period
+of inactivity.
+<P>
+
+Simple statistics about the interface are also displayed such as 
+the current and average bit rates (measured just above the data link layer).
+Load averages refer to bit rate decayed averages for the last 1, 5 and 15
+minutes.
+<P>
+
+During display, the following keystrokes are recognised:
+<DL COMPACT>
+<P>
+
+<DT><B>q</B>
+
+
+<DD>
+quit
+<DT><B>Ctrl-L</B>
+
+
+<DD>
+redraw screen
+<DT><B>t</B>
+
+
+<DD>
+toggle the
+-<B>t</B>
+
+flag (top mode)
+<DT><B>T</B>
+
+
+<DD>
+toggle the
+-<B>T</B>
+
+flag (totals mode)
+<DT><B>w</B>
+
+
+<DD>
+allows changing of the
+-<B>w</B>
+
+flag value (wait time)
+<DT><B>n</B>
+
+
+<DD>
+toggle the
+-<B>n</B>
+
+flag (numeric display)
+<DT><B>p</B>
+
+
+<DD>
+toggle the
+-<B>p</B>
+
+flag (packets instead of bits)
+<DT><B>b | B</B>
+
+
+<DD>
+toggle the
+-<B>B</B>
+
+flag (bps or Bps)
+<DT><B>f | F</B>
+
+
+<DD>
+toggle the
+-<B>F</B>
+
+flag (full hostnames)
+<DT><B>r</B>
+
+
+<DD>
+reset collected statistics (min, max, etc.),
+flush flow history and reset DNS/service and fragment caches
+<DT><B>l</B>
+
+
+<DD>
+show and sort flows by when they were last active
+<DT><B>?</B>
+
+
+<DD>
+toggle display of help/status text at the bottom of the display
+</DL>
+<P>
+
+<A NAME="lbAE">&nbsp;</A>
+<H3>Packet classes</H3>
+
+<P>
+
+All packet classes, or flows, are
+Qq tagged
+
+with a descriptive string, such as
+`tcp'
+
+ftpserver:20524 &lt;-&gt; cathexis:17771 .
+<P>
+
+In addition to being tagged, some protocol-state information can
+be associated with a flow. This is displayed immediately below a flow line.
+Descriptive information for FTP, HTTP, X11 and SUP connections is determined
+from simple decoding of some packets.
+If the connection is 'open', it is introduced with a right angle shape (+),
+otherwise it is introduced with a hyphen character.
+<P>
+
+
+<BLOCKQUOTE>
+<PRE>
+tcp www:80 &lt;-&gt; hamartia:19179
++ GET /index.html
+</PRE>
+</BLOCKQUOTE>
+
+
+<A NAME="lbAF">&nbsp;</A>
+<H3>Abbreviations</H3>
+
+<P>
+
+Abbreviation patterns are a way of further combining flows.
+As packets are decoded, their flow name is constructed at the various
+protocol layers. At address combining stage (where arrows such as
+`-&gt;'
+
+are inserted)
+and at the final display stage, flow names are checked against
+a list of abbreviation patterns,
+and the abbreviation's name substituted if a match is found.
+For example, the pattern
+`*'
+
+&lt;-&gt; *:domain
+will match DNS packets in both the UDP and TCP layers.
+<P>
+
+Abbreviations take the form
+[<I>abbrev </I><B>@ </B><I>pattern</I>
+
+
+
+ 
+
+
+
+
+
+]
+
+The
+<I>pattern</I>
+
+part can contain the wildcard character, asterisk
+`*'
+
+which matches zero or more non-space characters.
+The space character
+matches one or more whitespace characters.
+Leading and trailing spaces are ignored.
+<P>
+
+If the optional
+<I>abbrev</I>
+
+is not specified, the the pattern text itself is used as the abbreviation.
+<P>
+
+Patterns are checked in the order given on the command line or in the files,
+i.e. as soon as one of the patterns matches a tag, no further patterns
+are considered.
+Recall that patterns can be applied multiple times to a tag.
+<P>
+
+A patterns file can contain blank lines, which are ignored.
+Comment lines that commence with a
+`#'
+
+character are also ignored.
+<P>
+
+After processing all command line abbreviations and
+abbreviation files,
+<B>pktstat</B>
+
+looks for and loads the files
+.pktstatrc
+
+ 
+$HOME/.pktstatrc
+
+and
+/var/opt/UNItools/etc/pktstatrc
+
+ 
+This behaviour is suppressed by supplying an
+-<B>A none</B>
+
+
+
+option.
+<A NAME="lbAG">&nbsp;</A>
+<H2>EXAMPLES</H2>
+
+<P>
+
+Here are the contents of my
+.pktstatrc
+
+file:
+<P>
+
+
+<BLOCKQUOTE>
+<PRE>
+dns @ udp *:domain &lt;-&gt; *
+dns @ udp * &lt;-&gt; *:domain
+irc @ udp 192.168.0.81:6666 &lt;-&gt; *
+</PRE>
+</BLOCKQUOTE>
+
+<A NAME="lbAH">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<A HREF="../man4/bpf.4.html">bpf</A>(4),
+
+
+<A HREF="../man8/tcpdump.8.html">tcpdump</A>(8)
+
+
+
+
+<A NAME="lbAI">&nbsp;</A>
+<H2>AUTHORS</H2>
+
+David Leonard,
+<A HREF="mailto:leonard@users.sourceforge.net">leonard@users.sourceforge.net</A>
+
+
+<A NAME="lbAJ">&nbsp;</A>
+<H2>BUGS</H2>
+
+<P>
+
+DNS lookups can take too much time, possibly leading to missed packets.
+<P>
+
+The data rates do not take into account data link framing overhead or
+compression savings at the data link layer.
+<P>
+
+The direction of traffic is not taken into account: both ingress and
+egress data rates are combined. If you want to separate them, you will need
+to use a filter expression.
+<P>
+
+Descriptive information for X11, FTP, HTTP and SUP flows is derived from the
+very first packets sent on those protocols.
+If you start
+<B>pktstat</B>
+
+
+after any of these flows have commenced, there may be no description
+available for them.
+
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DL>
+<DT><A HREF="#lbAE">Packet classes</A><DD>
+<DT><A HREF="#lbAF">Abbreviations</A><DD>
+</DL>
+<DT><A HREF="#lbAG">EXAMPLES</A><DD>
+<DT><A HREF="#lbAH">SEE ALSO</A><DD>
+<DT><A HREF="#lbAI">AUTHORS</A><DD>
+<DT><A HREF="#lbAJ">BUGS</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 18:56:25 GMT, August 22, 2012
+</BODY>
+</HTML>

@@ -1,0 +1,348 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of dhcping</TITLE>
+</HEAD><BODY>
+<H1>dhcping</H1>
+Section: General Commands Manual (8)<BR>Updated: Januari 27, 2002<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+<B>dhcping</B> - send a DHCP request to DHCP server to see if it's up and running
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>dhcping</B>
+[<B>-v</B>] [<B>-q</B>] [<B>-i</B>] [<B>-r</B>]
+<B>-t</B> <I>maxwait</I>
+<B>-c</B> <I>client-IP-address</I>
+<B>-s</B> <I>server-IP-address</I>
+<B>-h</B> <I>client-hardware-address</I>
+[<B>-g</B> <I>gateway-IP-address</I>]
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+This command allows the system administrator to check if a remote
+DHCP server is still functioning.
+<P>
+
+Options are:
+
+<BR>
+
+
+
+
+<DL COMPACT>
+<DT><B>-v</B><DD>
+
+Verbose, print some information.
+
+<BR>
+
+
+
+
+<DT><B>-i</B><DD>
+
+Use <FONT SIZE="-1">DHCPINFORM</FONT> packets.
+
+<BR>
+
+
+
+
+<DT><B>-r</B><DD>
+
+Use <FONT SIZE="-1">DHCPREQUEST</FONT> packets (default behaviour).
+
+<BR>
+
+
+
+
+<DT><B>-q</B><DD>
+
+Quiet, print nothing on the screen.
+
+<BR>
+
+
+
+
+<DT><B>-t</B> <I>maxwait</I><DD>
+
+Maximum time to wait for an answer from the server in seconds.
+Default is 3 seconds.
+
+<BR>
+
+
+
+
+<DT><B>-c</B> <I>client-</I><FONT SIZE="-1"><I>IP</I></FONT><I>-address</I><DD>
+
+Request this <FONT SIZE="-1">IP</FONT> address. Note that this is also the <FONT SIZE="-1">IP</FONT> address the
+answer will be sent to.
+
+<BR>
+
+
+
+
+<DT><B>-s</B> <I>server-</I><FONT SIZE="-1"><I>IP</I></FONT><I>-address</I><DD>
+
+Send the <FONT SIZE="-1">DHCP</FONT> packet to this <FONT SIZE="-1">IP</FONT> address.
+
+<BR>
+
+
+
+
+<DT><B>-h</B> <I>client-hardware-address</I><DD>
+
+Use this hardware-address in the <FONT SIZE="-1">DHCP</FONT> request. It can be up to
+sixteen octets seperated by colons (i.e. 01:02:03:04)
+
+<BR>
+
+
+
+
+<DT><B>-g</B> <I>gateway-</I><FONT SIZE="-1"><I>IP</I></FONT><I>-address</I><DD>
+
+Use this <FONT SIZE="-1">IP</FONT> address for the gateway <FONT SIZE="-1">IP</FONT> address in the <FONT SIZE="-1">DHCP</FONT> packet.
+This option is currently broken.
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>RETURN VALUES</H2>
+
+If everything goes okay, it returns 0. If there went something
+wrong, it returns 1.
+<A NAME="lbAF">&nbsp;</A>
+<H2>SETUP</H2>
+
+This program should be installed setuid root or ran by root only.
+See SECURITY for more information.
+<P>
+
+On your DHCP server, add these lines to the dhcpd.conf:
+<P>
+
+
+
+<PRE>
+  host &lt;your monitoring host FQDN&gt; {
+     hardware ethernet &lt;your monitor host mac address&gt;;
+     fixed-address     &lt;your monitoring host IP address&gt;;
+  }
+
+
+</PRE>
+
+
+Then try it:
+<P>
+
+$ dhcping -c <I>your monitoring host IP address</I> \
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-s&nbsp;<I>your&nbsp;DHCP&nbsp;server&nbsp;IP&nbsp;address</I>&nbsp;\
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-h&nbsp;<I>your&nbsp;monitor&nbsp;host&nbsp;mac&nbsp;address</I>
+<P>
+
+It will either respond with ``no answer'' or ``Got answer from: <I>your
+DHCP server IP address</I>''
+<P>
+
+The DHCP server logfile will give:
+<BR>&nbsp;DHCPREQUEST&nbsp;for&nbsp;192.168.1.1&nbsp;from&nbsp;00:20:18:56:29:8f&nbsp;via&nbsp;ed0
+<BR>&nbsp;DHCPACK&nbsp;on&nbsp;192.168.1.1&nbsp;to&nbsp;00:20:18:56:29:8f&nbsp;via&nbsp;ed0
+<BR>&nbsp;DHCPRELEASE&nbsp;of&nbsp;192.168.1.1&nbsp;from&nbsp;00:20:18:56:29:8f&nbsp;via&nbsp;ed0&nbsp;(found)
+<P>
+
+Running in DHCPINFORM mode with <B>-i</B>:
+<P>
+
+If you see ``DHCPINFORM from 192.168.1.1 via xl0: not authoritative
+for subnet 192.168.1.0'', you should add the authoritative statement
+to the subnet, See dhcpd.<I><A HREF="../man5/conf.5.html">conf</A></I>(5) for details.
+<P>
+
+When running in very verbose mode, <B>dhcping</B> tries to dump all
+data of the send and received DHCP packets. It will first dump the
+packet in hex-format, then decodes the header and finally the
+options.
+<A NAME="lbAG">&nbsp;</A>
+<H2>HOW IT WORKS</H2>
+
+The client either sends a DHCPREQUEST or DHCPINFORM packet to the
+server and waits for an answer. Then, if a DHCPREQUEST was send,
+it will send a DHCPRELEASE back to the server.
+<A NAME="lbAH">&nbsp;</A>
+<H2>SECURITY</H2>
+
+This program is installed setuid root as it requires the privileges
+to bind itself to port 68 (bootpc). Root privileges are dropped as
+soon as the program has bound itself to that port.
+<A NAME="lbAI">&nbsp;</A>
+<H2>BUGS</H2>
+
+Currently (this may, or may not, change in the future) the ISC DHCP
+daemon does not write leases with a fixed IP address in the
+dhcpd.leases file.
+<P>
+
+DHCPINFORM packets can only be used on subnets the server is authori-
+tative for. If the monitoring script runs on a subnet the server
+isn't authoritative for, it should use the DHCPREQUEST packets. I
+also experienced some problems with ISC DHCPD v2 servers, but that
+is also in the README of it.
+<P>
+
+The <B>-V</B> option is still working, but shouldn't be used for
+debugging of the packets. Better use <I><A HREF="../man8/dhcpdump.8.html">dhcpdump</A></I>(8) for that, which
+is available on my website. I wanted to remove it, but decided only
+to do it from the documentation, not from the code. Maybe I'll need
+it one day for debugging.
+<A NAME="lbAJ">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Edwin Groothuis, <A HREF="mailto:edwin@mavetju.org">edwin@mavetju.org</A> (<A HREF="http://www.mavetju.org)">http://www.mavetju.org)</A>
+<A NAME="lbAK">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<I><A HREF="../man8/dhcpd.8.html">dhcpd</A></I>(8), <I><A HREF="../man8/dhclient.8.html">dhclient</A></I>(8), dhcpd.<I><A HREF="../man5/conf.5.html">conf</A></I>(5), <I><A HREF="../man8/dhcpdump.8.html">dhcpdump</A></I>(8)
+<P>
+
+<A NAME="ixAAB"></A>
+<A NAME="ixAAC"></A>
+<P>
+<A NAME="ixAAD"></A>
+<P>
+<A NAME="ixAAE"></A>
+<P>
+<A NAME="ixAAF"></A>
+<P>
+<A NAME="ixAAG"></A>
+<P>
+<A NAME="ixAAH"></A>
+<P>
+<A NAME="ixAAI"></A>
+<P>
+<A NAME="ixAAJ"></A>
+<P>
+<A NAME="ixAAK"></A>
+<P>
+<A NAME="ixAAL"></A>
+<P>
+<A NAME="ixAAM"></A>
+<P>
+<A NAME="ixAAN"></A>
+<P>
+<A NAME="ixAAO"></A>
+<P>
+<A NAME="ixAAP"></A>
+<P>
+<A NAME="ixAAQ"></A>
+<P>
+<A NAME="ixAAR"></A>
+<P>
+<A NAME="ixAAS"></A>
+<P>
+<A NAME="ixAAT"></A>
+<P>
+<A NAME="ixAAU"></A>
+<P>
+<A NAME="ixAAV"></A>
+<P>
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">RETURN VALUES</A><DD>
+<DT><A HREF="#lbAF">SETUP</A><DD>
+<DT><A HREF="#lbAG">HOW IT WORKS</A><DD>
+<DT><A HREF="#lbAH">SECURITY</A><DD>
+<DT><A HREF="#lbAI">BUGS</A><DD>
+<DT><A HREF="#lbAJ">AUTHOR</A><DD>
+<DT><A HREF="#lbAK">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 09:55:09 GMT, April 23, 2009
+</BODY>
+</HTML>

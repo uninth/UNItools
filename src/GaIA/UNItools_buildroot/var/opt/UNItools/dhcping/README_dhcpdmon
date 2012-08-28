@@ -1,0 +1,45 @@
+                                    Wed Aug 26 16:26:10 CEST 2009
+
+INstallation af dhcping og dhcpdmon
+-----------------------------------
+
+Hvad er dhcping og dhcpdmon
+dhcping er en dhcp klient, der kan polle en dhcpd server og få en
+IP adresse. IP adressen anvendes  ikke,  men  svaret  angiver  om
+serveren er i live.
+
+dhcpdmon  er  et init-script, der starter dhcpd-monitor.sh. Dette
+script kører konstant (men overvåges ikke) og holder via kald til
+dhcping  øje  med  den dhcpd server der angives i konfigurations-
+filen med et passende interval.
+
+Hvordan bruges dhcping og dhcpdmon
+----------------------------------
+Programmet  kører  i  baggrunden - når det er aktiveret. Der skal
+holdes øje syslog-logfilen hvis man vil se, at dhcpd-dæmonen gen-
+startes.
+
+Aktivering af dhcping og dhcpdmon
+-----------------------------------
+Programmellet  er  kun testet under R65 og er en del af UNItools.
+Det bliver kopieret ud, men ikke aktiveret.
+
+Lav en konfigurationsfil over følgende skabelon:
+
++----------------------+
+| PING_IP=130.226.56.2 |
+| INTERVAL=10          |
++----------------------+
+
+og gen den i /home/admin/.dhcping.conf
+
+PING_IP  er dhcpd serverens IP adresse, INTERVAL det interval man
+ønsker at polle den i sek.
+
+Udfør derefter følgende:
+
+cp dhcpdmon /etc/init.d
+chkconfig --add dhcpdmon
+/etc/init.d/dhcpdmon start
+
+Så er dhcpd dæmonen under overvågning.

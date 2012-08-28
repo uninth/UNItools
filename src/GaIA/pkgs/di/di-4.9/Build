@@ -1,0 +1,134 @@
+
+#
+# $Id: Build,v 1.21 2006-10-05 00:49:22-07 bll Exp $
+#
+
+case $SHELL in
+    *csh)
+        SHELL=/bin/sh
+        ;;
+esac
+SHELL=${SHELL:-/bin/sh}
+export SHELL
+
+prefix=${prefix:-/usr/local}
+export prefix
+
+LOCALEDIR=${LOCALEDIR:-${prefix}/share/locale}
+export LOCALEDIR
+
+MAKE=${MAKE:-make}
+export MAKE
+
+DI_BUILD_MKCONFIG_PL=${DI_BUILD_MKCONFIG_PL:-0}
+export DI_BUILD_MKCONFIG_PL
+DI_BUILD_NO_NLS=${DI_BUILD_NO_NLS:-0}
+export DI_BUILD_NO_NLS
+bit64=""
+while test $# -gt 0
+do
+    case $1 in
+        -*)
+            case $1 in
+                -64)
+                    bit64="-64"
+                    shift
+                    ;;
+                -mkc)
+                    DI_BUILD_MKCONFIG_PL=1
+                    export DI_BUILD_MKCONFIG_PL
+                    shift
+                    ;;
+                -mkiffe)
+                    DI_BUILD_MKCONFIG_PL=0
+                    export DI_BUILD_MKCONFIG_PL
+                    shift
+                    ;;
+                -nonls|--disable-nls)
+                    DI_BUILD_NO_NLS=1
+                    export DI_BUILD_NO_NLS
+                    shift
+                    ;;
+            esac
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+arg=$1
+
+eval `${SHELL} features/cflags.sh ${bit64}`
+eval `${SHELL} features/obj_ext.sh`
+
+# this prevents cflags.sh from mucking up
+# the various flags when reentering this script.
+DI_IN_BUILD=1
+export DI_IN_BUILD
+
+case $arg in
+    config.h)
+        if [ $DI_BUILD_MKCONFIG_PL -eq 1 ]
+        then
+            LIBS=""      # mkconfig.pl will figure out the libs
+            perl ./mkconfig.pl features/mkconfig.dat
+            rc=$?
+            if [ $DI_BUILD_NO_NLS -eq 1 ]
+            then
+                ./features/turnoffnls.sh
+            fi
+        else
+    	    ${SHELL} ./bin/iffe -c "${CC} ${CFLAGS} ${LDFLAGS}" \
+                -I "${CINCLUDES}" \
+                -u -v -o config.h \
+                run features/di.iffe
+            rc=$?
+            if [ $DI_BUILD_NO_NLS -eq 1 ]
+            then
+                ./features/turnoffnls.sh
+            fi
+        fi
+        ;;
+    dconfig.h)
+        ${SHELL} ./bin/iffe -d 2 -c "${CC} ${CFLAGS} ${LDFLAGS}" \
+                -I "${CINCLUDES}" \
+                -u -v -o config.h \
+                run features/di.iffe 2>&1 | tee w
+        rc=$?
+        if [ $DI_BUILD_NO_NLS -eq 1 ]
+        then
+            ./features/turnoffnls.sh
+        fi
+        ;;
+    "")
+        if [ -f 'reqlibs.txt' ]
+        then
+            LIBS=""
+        fi
+        #env | egrep "(CC|CFLAGS|CINCLUDES|LDFLAGS|LIBS|OBJ_EXT|EXE_EXT)" | sort
+        ${MAKE} CC="${CC}" CFLAGS="${CFLAGS} ${CINCLUDES}" \
+            LDFLAGS="${LDFLAGS}" LIBS="${LIBS}" \
+            OBJ_EXT="${OBJ_EXT}" EXE_EXT="${EXE_EXT}" \
+            prefix="${prefix}" SHELL="${SHELL}" \
+            LOCALEDIR="${LOCALEDIR}" \
+            MSGFMT="${XMSGFMT}" \
+            -f Makefile di-all
+        rc=$?
+        ;;
+    *)  # just pass it on to the makefile...
+        if [ -f 'reqlibs.txt' ]
+        then
+            LIBS=""
+        fi
+        ${MAKE} CC="${CC}" CFLAGS="${CFLAGS} ${CINCLUDES}" \
+            LDFLAGS="${LDFLAGS}" LIBS="${LIBS}" \
+            OBJ_EXT="${OBJ_EXT}" EXE_EXT="${EXE_EXT}" \
+            prefix="${prefix}" SHELL="${SHELL}" \
+            MSGFMT="${XMSGFMT}" \
+            -f Makefile $arg
+        rc=$?
+        ;;
+esac
+
+exit $rc

@@ -1,0 +1,24 @@
+#SERVICES,,,,,,,,,,
+tcp_81,tcp,81,,,,,,,,
+tcp_bigger_82,tcp,>82,,,,,,,,
+tcp_lower_83,tcp,<81,,,,,,,,
+tcp_range_84-85,tcp,84-85,,,,,,,,
+udp_81,udp,81,,,,,,,, 
+udp_bigger_82,udp,>82,,,,,,,, 
+udp_lower_83,udp,<81,,,,,,,,
+udp_range_84-85,udp,84-85,,,,,,,,
+
+#OBJECTS,,,,,,,,,,
+Host_X,host,192.168.40.50,255.255.255.255,black,,,,,,
+HostY,host,148.230.229.214,255.255.255.255,black,,,,,,
+Net_Internal_LAN,net,200.66.0.0,255.255.224.0,black,,,,,,
+Server1,host,192.168.1.2,255.255.255.255,black,,,,,,
+Server2,host,10.20.30.40,255.255.255.255,black,,,,,,
+
+# RULE TYPE ,SOURCE ,DESTINATION ,VPN ,SERVICE ,ACTION ,TRACK ,INSTALL ON ,TIME ," 	COMMENT  "
+security_rule,Server1,Server2,Any ,tcp_81,accept ,log ,Any ,Any ,
+security_rule,Host_X;HostY ,Any ,Any ,http ,accept ,log ,Any ,Any ,XYZ
+security_rule,Net_Internal_LAN,Server1;Server2 ,Any ,NBT ,accept ,log ,Any ,Any ,Comment
+security_rule,LocalMachine ,Any,Any ,icmp-proto ,accept ,Log ,Any ,Any ,
+security_rule,InternalNet ,Any ,Any ,ftp;telnet ,accept ,Log ,Any ,Any ,
+security_rule,Any ,Any ,Any ,Any ,drop ,log ,Any ,Any ,

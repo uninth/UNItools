@@ -1,0 +1,128 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of REALPATH</TITLE>
+</HEAD><BODY>
+<H1>REALPATH</H1>
+Section: User Commands  (1)<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+realpath
+-
+Return the real path of a link
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+
+<PRE>
+<B>realpath</B> <I>path</I> <I>path</I> <I>path</I> ...
+</PRE><A NAME="lbAD">&nbsp;</A>
+<H2>PACKAGE</H2>
+
+
+<PRE>
+UNItools
+</PRE><A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+
+
+<B>realpath</B> program returns the real path to something
+pointed to, by a symbolic link. E.g.:
+<PRE>
+ln -s /etc/passwd /tmp/passwd
+ln -s /tmp/passwd /tmp/passwd-link-level2
+realpath /tmp/passwd-link-level2
+<B>/etc/passwd
+</B></PRE>
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+
+<PRE>
+<DL COMPACT>
+<DT><I>path</I><DD>One or more pathname(s).
+</DL>
+</PRE><A NAME="lbAG">&nbsp;</A>
+<H2>DIAGNOSTICS</H2>
+
+
+
+Missing file, no permissions, etc. goes to STDOUT.
+<A NAME="lbAH">&nbsp;</A>
+<H2>ENVIRONMENT</H2>
+
+
+<PRE>
+</PRE><A NAME="lbAI">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+
+<PRE>
+<A HREF="../man3c/realpath.3c.html">realpath</A>(3c)
+</PRE><A NAME="lbAJ">&nbsp;</A>
+<H2>VERSION</H2>
+
+
+<PRE>
+$Date: 2003/10/24 12:59:21 $
+$Revision: 1.1 $
+$Source: /lan/ssi/projects/UNItools/Linux/src/realpath/RCS/realpath.c,v $
+$State: Exp $
+</PRE><A NAME="lbAK">&nbsp;</A>
+<H2>HISTORY</H2>
+
+
+<PRE>
+See rlog realpath.c.
+</PRE><A NAME="lbAL">&nbsp;</A>
+<H2>BUGS</H2>
+
+
+
+Probably. Please report them to the call-desk or the author.
+<A NAME="lbAM">&nbsp;</A>
+<H2>AUTHOR(S)</H2>
+
+
+<PRE>
+Niels Thomas Haugård
+<BR>
+E-mail: <A HREF="mailto:thomas@haugaard.net">thomas@haugaard.net</A>
+UNI*C
+<BR>
+DTU, Building 304
+<BR>
+DK-2800 Kgs. Lyngby
+<BR>
+Denmark
+
+</PRE>
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">PACKAGE</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">OPTIONS</A><DD>
+<DT><A HREF="#lbAG">DIAGNOSTICS</A><DD>
+<DT><A HREF="#lbAH">ENVIRONMENT</A><DD>
+<DT><A HREF="#lbAI">SEE ALSO</A><DD>
+<DT><A HREF="#lbAJ">VERSION</A><DD>
+<DT><A HREF="#lbAK">HISTORY</A><DD>
+<DT><A HREF="#lbAL">BUGS</A><DD>
+<DT><A HREF="#lbAM">AUTHOR(S)</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 18:55:45 GMT, August 22, 2012
+</BODY>
+</HTML>

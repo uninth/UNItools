@@ -1,0 +1,8 @@
+:
+
+cd /lan/ssi/shared/software/internal/UNItools/src/GaIA
+
+
+rm -f UNItools.pdf; scp fedora6:/tmp/xxx.pdf /tmp/; pdfunite UNItools-coverpage.pdf /tmp/xxx.pdf `find  opt -name '*.pdf'` UNItools.pdf; 
+
+

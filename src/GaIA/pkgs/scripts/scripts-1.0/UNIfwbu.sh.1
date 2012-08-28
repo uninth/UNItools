@@ -1,0 +1,95 @@
+.TH UNIFWBU.SH 1 
+.ad
+.fi
+.SH NAME
+UNIfwbu.sh
+\-
+Sikkerhedskopiering af en VPN / Appliance firewall-1
+.SH PACKAGE
+.ad
+.fi
+UNItools
+.SH SYNOPSIS
+.ad
+.fi
+\fBUNIfwbu.sh\fR
+.SH DESCRIPTION
+.ad
+.fi
+\fCUNIfwbu.sh\fR kalder en svagt modificeret version af
+Check Points backup script, \fC/bin/backup_start\fR, der
+laver en sikkerhedskopiering af system konfiguration og
+firewall, til senere re-etablering med \fC/bin/restore_start\fR.
+
+\fC/bin/backup_start\fR er rettet, så det kan udføres
+på trods af, at firewall-1 kører.
+
+Den rettede udgave af scriptet (\fCbackup_start_UNIC\fR)
+afvikles og skriver output til \fC/var/log/backup.log\fR.
+Logfilen overskrives hver gang scriptet udføres.
+
+Efter backup, pakkes sikkerhedskopien (et \fCtar(1) arkiv\fR)
+ud i et temporært katalog,
+og dokumenterne sammenlignes med de oprindelige. Hvis der
+er en forskel adviseres den ansvarlige senere via smtp.
+
+Gamle arkiver slettes, så der kun er 10 arkiver ad gangen.
+
+SMTP adressen på den ansvarlige fås fra
+\fC/var/opt/UNItools/conf/smtpclient.SH\fR.
+
+Scriptet startes fra \fCcron(1)\fR en gang i døgnet.
+
+.SH OPTIONS
+.ad
+.fi
+Ingen.
+.SH FILES
+.ad
+.fi
+Der anvendes et konfigurationsdokument for at finde
+den ansvarliges postadresse. Dokumentet er
+\fC/var/opt/UNItools/conf/smtpclient.SH\fR.
+.SH COMMANDS
+.ad
+.fi
+\fCshell(1)\fR, \fCtar(1)\fR, \fCcron(1)\fR, og
+\fC/bin/backup_start\fR.
+.SH DIAGNOSTICS
+.ad
+.fi
+I tilfælde af, at \fCdiff(1)\fR finder forskel mellem
+dokumenter i sikkerhedskopien og i filsystemet, adviseres
+den systemansvarlige via smtp.
+.SH BUGS
+.ad
+.fi
+Ingen kendte, men der undersøges ikke for, om firewall-1
+konfigurationsfilerne er åbne via GUI'en; kun at de ikke
+er rettede under backup.
+.SH VERSION
+.na
+.nf
+$Date: 2005/02/16 15:12:38 $
+.br
+$Revision: 1.6 $
+.br
+$Source: /lan/ssi/projects/UNItools/Linux/RedHat_7.3/src/scripts/RCS/UNIfwbu.sh,v $
+.br
+$State: Exp $
+.SH HISTORY
+.ad
+.fi
+Se \fCrlog UNIfwbu.sh\fR.
+.SH AUTHOR(S)
+.ad
+.fi
+Niels Thomas Haugård
+.br
+E-mail: thomas@haugaard.net
+.br
+UNI\(buC
+.br
+DTU, Building 304
+.br
+DK-2800 Kgs. Lyngby

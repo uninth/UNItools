@@ -1,0 +1,53 @@
+REALPATH(1)							   REALPATH(1)
+
+
+
+NAME
+       realpath - Return the real path of a link
+
+SYNOPSIS
+       realpath path path path ...
+
+PACKAGE
+       UNItools
+
+DESCRIPTION
+       realpath	 program  returns  the real path to something pointed to, by a
+       symbolic link. E.g.:
+       ln -s /etc/passwd /tmp/passwd
+       ln -s /tmp/passwd /tmp/passwd-link-level2
+       realpath /tmp/passwd-link-level2
+       /etc/passwd
+
+OPTIONS
+       path   One or more pathname(s).
+
+DIAGNOSTICS
+       Missing file, no permissions, etc. goes to STDOUT.
+
+ENVIRONMENT
+SEE ALSO
+       realpath(3c)
+
+VERSION
+       $Date: 2003/10/24 12:59:21 $
+       $Revision: 1.1 $
+       $Source: /lan/ssi/projects/UNItools/Linux/src/realpath/RCS/realpath.c,v $
+       $State: Exp $
+
+HISTORY
+       See rlog realpath.c.
+
+BUGS
+       Probably. Please report them to the call-desk or the author.
+
+AUTHOR(S)
+       Niels Thomas Haugård
+       E-mail: thomas@haugaard.net UNI·C
+       DTU, Building 304
+       DK-2800 Kgs. Lyngby
+       Denmark
+
+
+
+								   REALPATH(1)

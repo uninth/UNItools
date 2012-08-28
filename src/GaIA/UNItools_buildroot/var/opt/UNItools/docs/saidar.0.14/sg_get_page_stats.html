@@ -1,0 +1,96 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of sg_get_page_stats</TITLE>
+</HEAD><BODY>
+<H1>sg_get_page_stats</H1>
+Section: C Library Functions (3)<BR>Updated: $Date:&nbsp;2005/04/25&nbsp;11:25:45&nbsp;$<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+sg_get_page_stats, sg_get_page_stats_diff - get paging statistics
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<PRE>
+#include &lt;<A HREF="file:/usr/include/statgrab.h">statgrab.h</A>&gt;
+</PRE>
+
+<P>
+<P>
+
+sg_page_stats *<I>sg_get_page_stats</I>(void);
+<P>
+
+sg_page_stats *<I>sg_get_page_stats_diff</I>(void);
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+sg_get_page_stats and
+sg_get_page_stats_diff both return a pointer to
+a static buffer of type sg_page_stats.
+<P>
+
+sg_get_page_stats will return the number of
+pages the system has paged in and out since bootup.
+sg_get_page_stats_diff will return the
+difference since last time it was called. If it has not been
+called before, it will return
+sg_get_page_stats.
+<A NAME="lbAE">&nbsp;</A>
+<H2>RETURN&nbsp;VALUES</H2>
+
+<PRE>
+
+typedef struct{
+        long long pages_pagein;
+        long long pages_pageout;
+        time_t systime;
+}sg_page_stats;
+    
+</PRE>
+
+<DL COMPACT>
+<DT>pages_pagein  <DD>
+The number of pages swapped into memory.
+<DT>pages_pageout  <DD>
+The number of pages swapped out of memory (to swap).
+<DT>systime  <DD>
+The time period over which pages_pagein
+and pages_pageout were transferred.
+</DL>
+<A NAME="lbAF">&nbsp;</A>
+<H2>BUGS</H2>
+
+Solaris doesn't seem to report accurately. It reports the number
+of pages swapped into memory, not necessarily from swap. This
+feature isn't deemed entirely reliable.
+<A NAME="lbAG">&nbsp;</A>
+<H2>SEE&nbsp;ALSO</H2>
+
+<B><A HREF="../man3/statgrab.3.html">statgrab</A></B>(3)
+<A NAME="lbAH">&nbsp;</A>
+<H2>WEBSITE</H2>
+
+<A HREF="http://www.i-scream.org/libstatgrab/">http://www.i-scream.org/libstatgrab/</A>
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">RETURN&nbsp;VALUES</A><DD>
+<DT><A HREF="#lbAF">BUGS</A><DD>
+<DT><A HREF="#lbAG">SEE&nbsp;ALSO</A><DD>
+<DT><A HREF="#lbAH">WEBSITE</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 15:24:06 GMT, March 26, 2014
+</BODY>
+</HTML>

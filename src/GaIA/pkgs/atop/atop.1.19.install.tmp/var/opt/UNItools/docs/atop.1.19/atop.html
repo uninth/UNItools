@@ -1,0 +1,1878 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of ATOP</TITLE>
+</HEAD><BODY>
+<H1>ATOP</H1>
+Section: User Commands  (1)<BR>Updated: January 2007<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+<B>atop </B>
+
+--- AT Computing's System &amp; Process Monitor
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+Interactive usage:
+
+<B>atop</B>
+
+[-g|-m|-d|-n|-u|-p|-s|-c|-v] [-C|-M|-D|-N|-A] [-af1x]
+[
+<I>interval</I>
+
+[
+<I>samples</I>
+
+]]
+
+Writing and reading raw logfiles:
+
+<B>atop</B>
+
+-w
+<I>rawfile</I>
+
+[-a] [-S]
+[
+<I>interval</I>
+
+[
+<I>samples</I>
+
+]]
+<BR>
+
+<B>atop</B>
+
+-r [
+<I>rawfile</I>
+
+] [-b 
+<I>hh:mm</I>
+
+] [-e
+<I>hh:mm</I>
+
+] [-g|-m|-d|-n|-u|-p|-s|-c|-v] [-C|-M|-D|-N|-A] [-f1x]
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+The program
+<I>atop</I>
+
+is an interactive monitor to view the load on a Linux system.
+It shows the occupation of the most critical hardware resources 
+(from a performance point of view) on system level, i.e. cpu, memory, disk
+and network.
+<BR>
+
+It also shows which processes are responsible for the indicated
+load with respect to cpu- and memory load on process level;
+disk- and network load is only shown per process if a kernel patch
+has been installed.
+<P>
+
+Every
+<I>interval</I>
+
+(default: 10 seconds) information is shown about the resource occupation
+on system level (cpu, memory, disks and network layers), followed
+by a list of processes which have been active during the last interval
+(note that all processes that were unchanged during the last interval
+are not shown, unless the key 'a' has been pressed).
+If the list of active processes does not entirely fit on
+the screen, only the top of the list is shown (sorted in order of activity).
+<BR>
+
+The intervals are repeated till the number of
+<I>samples</I>
+
+(specified as command argument) is reached, or till the key 'q' is pressed
+in interactive mode.
+<P>
+
+When 
+<I>atop</I>
+
+is started, it checks whether the standard output channel is connected to a
+screen, or to a file/pipe. In the first case it produces screen control 
+codes (via the curses library) and behaves interactively; in the second case
+it produces flat ASCII-output.
+<P>
+
+In interactive mode, the output of 
+<I>atop</I>
+
+can be controlled by pressing particular keys.
+However it is also possible to specify such key as
+<B>flag</B>
+
+on the command line. In the latter case
+<I>atop</I>
+
+will switch to the indicated mode on beforehand; this mode can 
+be modified again interactively. Specifying such key as flag is especially
+useful when running
+<I>atop</I>
+
+with output to a pipe or file (non-interactively).
+The flags used are the same as the keys which can be pressed in interactive
+mode (see section INTERACTIVE COMMANDS).
+<BR>
+
+Additional flags are available to support storage of atop-data in raw 
+format (see section RAW DATA STORAGE).
+<A NAME="lbAE">&nbsp;</A>
+<H2>PROCESS ACCOUNTING</H2>
+
+When 
+<I>atop</I>
+
+is started, it switches on the process accounting mechanism in
+the kernel. This forces the kernel to write a record with
+accounting information to the accounting file whenever a process ends.
+Apart from the kernel administration related to the running processes, 
+<I>atop</I>
+
+also interprets the accounting records on disk with every interval;
+in this way 
+<I>atop</I>
+
+can also show the activity of a process during the interval in which it is
+finished.
+<BR>
+
+Whenever the last incarnation of
+<I>atop</I>
+
+stops (either by pressing `q' or by `kill -15'), it switches off the
+process accounting mechanism again. You should never terminate
+<I>atop</I>
+
+by `kill -9', because then it has no chance to stop
+process accounting; as a result the accounting file may consume a lot of 
+disk space after a while.
+<A NAME="lbAF">&nbsp;</A>
+<H2>COLORS</H2>
+
+For the resource consumption on system level,
+<I>atop</I>
+
+uses colors to indicate that a critical occupation percentage has
+been (almost) reached. 
+A critical occupation percentage means that is likely that this load
+causes a noticable negative performance influence for applications using
+this resource. The critical percentage depends on the type of resource:
+e.g. the performance influence of a disk with a busy percentage of 80%
+might be more noticable for applications/user than a CPU with a busy
+percentage of 90%.
+<BR>
+
+Currently
+<I>atop</I>
+
+uses the following default values to calculate a weighted percentage
+per resource:
+<P>
+
+<DL COMPACT>
+<DT><B>&nbsp;Processor</B>
+
+<DD>
+A busy percentage of 90% or higher is considered `critical'.
+<DT><B>&nbsp;Disk</B>
+
+<DD>
+A busy percentage of 70% or higher is considered `critical'.
+<DT><B>&nbsp;Network</B>
+
+<DD>
+A busy percentage of 90% or higher for the load of an interface is
+considered `critical'.
+<DT><B>&nbsp;Memory</B>
+
+<DD>
+An occupation percentage of 90% is considered `critical'.
+Notice that this occupation percentage is the accumulated memory
+consumption of the kernel (including slab) and all processes; the
+memory for the page cache (`cache' and `buff' in the MEM-line) is
+not implied!
+<BR>
+
+If the number of pages swapped out (`swout' in the PAG-line) is larger
+than 10 per second, the memory resource is considered `critical'.
+<BR>
+
+If the committed virtual memory exceeds the limit (`vmcom' and `vmlim'
+in the SWP-line), the SWP-line is colored due to overcommitting the system.
+<DT><B>&nbsp;Swap</B>
+
+<DD>
+An occupation percentage of 80% is considered `critical'
+because swap space might be completely exhausted in the near future;
+it is not critical from a performance point-of-view.
+</DL>
+<P>
+
+These default values can be modified in the configuration file
+(see section CONFIGURATION FILE).
+<P>
+
+When a resource exceeded its critical occupation percentage, the entire
+screen line is colored red.
+<BR>
+
+When a resource exceeded (default) 80% of its critical percentage
+(so it is almost critical), the entire screen line
+is colored cyan. This `almost critical percentage' (one value
+for all resources) can be modified in the configuration file
+(see section CONFIGURATION FILE).
+<P>
+
+With the key 'x' (or flag -x), line coloring can be suppressed.
+<A NAME="lbAG">&nbsp;</A>
+<H2>INTERACTIVE COMMANDS</H2>
+
+When running
+<I>atop</I>
+
+interactively (no output redirection), keys can be pressed to control the
+output. In general, lower case keys can be used to show other information for
+the active processes and upper case keys can be used to influence the
+sort order of the active process list.
+<P>
+
+<DL COMPACT>
+<DT><B>g</B>
+
+<DD>
+Show generic output (default).
+<P>
+Per process the following fields are shown: process-id, cpu consumption during
+the last interval in system- and user mode, the virtual and resident
+memory growth of the process.
+<BR>
+
+The subsequent columns contain the username, number of threads in the
+thread group, the status and exit code.
+However if the kernel patch `cnt' has been installed, the
+number of read- and write transfers, and the number of received and
+sent network packets are shown.
+<BR>
+
+The last columns contain the state, the occupation percentage for the
+choosen resource (default: cpu) and the process name.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>m</B>
+
+<DD>
+Show memory related output.
+<P>
+Per process the following fields are shown: process-id, minor and major
+memory faults, size of virtual shared text, total virtual 
+process size, total resident process size, virtual and resident growth during
+last interval, memory occupation percentage and process name.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>d</B>
+
+<DD>
+Show disk-related output.
+<P>
+Per process the following fields are shown: process-id, number of
+physical disk reads, average size per read (bytes), total size for
+read transfers,
+physical disk writes, average size per write (bytes), total size for
+write transfers, disk occupation percentage and process name.
+<BR>
+
+This information can only be shown when kernel patch `cnt' is installed.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>n</B>
+
+<DD>
+Show network related output.
+<P>
+Per process the following fields are shown: process-id,
+number of received TCP packets with the average size per packet (in bytes),
+number of sent TCP packets with the average size per packet (in bytes),
+number of received UDP packets with the average size per packet (in bytes),
+number of sent UDP packets with the average size per packet (in bytes),
+and received and send raw packets (e.g. ICMP) in one column,
+the network occupation percentage and process name.
+<BR>
+
+This information can only be shown when kernel patch `cnt' is installed.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>s</B>
+
+<DD>
+Show scheduling characteristics.
+<P>
+Per process/thread the following fields are shown:
+process-id, thread group id, number of threads in thread group,
+scheduling policy (normal timesharing, realtime round-robin, realtime fifo),
+nice value, priority, realtime priority, current processor,
+status, state, the occupation percentage for the choosen
+resource and the process name.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>v</B>
+
+<DD>
+Show various process characteristics.
+<P>
+Per process the following fields are shown: process-id, user name and group,
+start date and time, status (e.g. exit code if the process has finished),
+state, the occupation percentage for the choosen resource and the process name.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>c</B>
+
+<DD>
+Show the command line of the process.
+<P>
+Per process the following fields are shown: process-id,
+the occupation percentage for the choosen resource and the
+command line including arguments.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>u</B>
+
+<DD>
+Show the process activity accumulated per user.
+<P>
+Per user the following fields are shown: number of processes active
+or terminated during last interval (or in total if combined with command `a'),
+accumulated cpu consumption during last interval in system- and user mode,
+the current virtual and resident memory space consumed by active processes
+(or all processes of the user if combined with command `a'). 
+<BR>
+
+When the kernel patch `cnt' has been installed, the accumulated
+number of read- and write transfers on disk, and the number of received and
+sent network packets are shown. When the kernel patch is not installed,
+these counters are zero.
+<BR>
+
+The last columns contain the accumulated occupation percentage for the
+choosen resource (default: cpu) and the user name.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>p</B>
+
+<DD>
+Show the process activity accumulated per program (i.e. process name).
+<P>
+Per program the following fields are shown: number of processes active
+or terminated during last interval (or in total if combined with command `a'),
+accumulated cpu consumption during last interval in system- and user mode,
+the current virtual and resident memory space consumed by active processes
+(or all processes of the user if combined with command `a'). 
+<BR>
+
+When the kernel patch `cnt' has been installed, the accumulated
+number of read- and write transfers on disk, and the number of received and
+sent network packets are shown. When the kernel patch is not installed,
+these counters are zero.
+<BR>
+
+The last columns contain the accumulated occupation percentage for the
+choosen resource (default: cpu) and the program name.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>C </B>
+
+<DD>
+Sort the current list in the order of cpu consumption (default).
+The one-but-last column changes to ``CPU''.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>M </B>
+
+<DD>
+Sort the current list in the order of resident memory consumption.
+The one-but-last column changes to ``MEM''.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>D</B>
+
+<DD>
+Sort the current list in the order of disk accesses issued.
+The one-but-last column changes to ``DSK''.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>N</B>
+
+<DD>
+Sort the current list in the order of network packets received/transmitted.
+The one-but-last column changes to ``NET''.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>A</B>
+
+<DD>
+Sort the current list automatically in the order of the most busy
+system resource during this interval.
+The one-but-last column shows either ``ACPU'', ``AMEM'', ``ADSK'' or ``ANET''
+(the preceding 'A' indicates automatic sorting-order).
+The most busy resource is determined by comparing the weighted
+busy-percentages of the system resources, as described earlier in
+the section COLORS.
+<BR>
+
+This option remains valid until
+another sorting-order is explicitly selected again.
+<BR>
+
+A sorting-order for disk or network is only possible when kernel patch `cnt'
+is installed.
+</DL>
+<P>
+
+Miscellaneous interactive commands:
+<P>
+
+<DL COMPACT>
+<DT><B>?</B>
+
+<DD>
+Request for help information (also the key 'h' can be pressed).
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>V</B>
+
+<DD>
+Request for version information (version number and date).
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>x</B>
+
+<DD>
+Use colors to highlight critical resources (toggle).
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>z</B>
+
+<DD>
+The pause key can be used to freeze the current situation in order to
+investigate the output on the screen. While 
+<I>atop</I>
+
+is paused, the keys described above can be pressed to show other
+information about the current list of processes.
+Whenever the pause key is pressed again,
+atop will continue with a next sample.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>i</B>
+
+<DD>
+Modify the interval timer (default: 10 seconds). If an interval timer of 0 is
+entered, the interval timer is switched off. In that case a new sample can
+only be triggered manually by pressing the key 't'.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>t</B>
+
+<DD>
+Trigger a new sample manually. This key can be pressed if the current sample
+should be finished before the timer has exceeded, or if no timer is set at all
+(interval timer defined as 0). In the latter case
+<I>atop</I>
+
+can be used as a stopwatch to measure the load being caused by a
+particular application transaction, without knowing on beforehand how many
+seconds this transaction will last.
+<P>
+When viewing the contents of a raw file, this key can be used to show the
+next sample from the file.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>T</B>
+
+<DD>
+When viewing the contents of a raw file, this key can be used to show the
+previous sample from the file.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>r</B>
+
+<DD>
+Reset all counters to zero to see the system and process activity since
+boot again.
+<P>
+When viewing the contents of a raw file, this key can be used to rewind
+to the beginning of the file again.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>U</B>
+
+<DD>
+Specify a search string for specific user names as a regular expression.
+From now on, only (active) processes will be shown from a user which matches
+the regular expression.
+The system statistics are still system wide.
+If the Enter-key is pressed without specifying a name, active
+processes of all users will be shown again.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>P</B>
+
+<DD>
+Specify a search string for specific process names as a regular expression.
+From now on, only processes will be shown with a name which matches the
+regular expression.
+The system statistics are still system wide.
+If the Enter-key is pressed without specifying a name, all active
+processes will be shown again.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>a</B>
+
+<DD>
+The `all/active' key can be used to toggle between only showing/accumulating
+the processes that were active during the last interval (default) or
+showing/accumulating all processes.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>f</B>
+
+<DD>
+Fixate the number of lines for system resources (toggle).
+By default only the lines are shown about system resources (cpu, paging,
+disk, network) that really have been active during the last interval.
+With this key you can force
+<I>atop</I>
+
+to show lines of inactive resources as well.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>1</B>
+
+<DD>
+Show relevant counters as an average per second (in the format `..../s')
+instead of as a total during the interval (toggle).
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>l</B>
+
+<DD>
+Limit the number of system level lines for the counters per-cpu,
+the active disks and the network interfaces.
+By default lines are shown of all cpu's, disks and network interfaces
+which have been active during the last interval.
+Limiting these lines can be useful on systems with huge number cpu's,
+disks or interfaces in order to be able to run
+<I>atop</I>
+
+on a screen/window with e.g. only 24 lines.
+<BR>
+
+For all mentioned resources the maximum number of lines can be specified
+interactively. When using the flag
+<B>-l</B>
+
+the maximum number of per-cpu lines is set to 0,
+the maximum number of disk lines to 5 and
+the maximum number of interface lines to 3.
+These values can be modified again in interactive mode.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>k</B>
+
+<DD>
+Send a signal to an active process (aka kill a process).
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>q</B>
+
+<DD>
+Quit the monitor program.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>^F</B>
+
+<DD>
+Show the next page of the process list (forward).
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>^B</B>
+
+<DD>
+Show the previous page of the process list (backward).
+</DL>
+<A NAME="lbAH">&nbsp;</A>
+<H2>RAW DATA STORAGE</H2>
+
+In order to store system- and process level statistics for long-term
+analysis (e.g. to check the system load and the active processes running
+yesterday between 3:00 and 4:00 PM),
+<I>atop</I>
+
+can store the system- and process level statistics in
+compressed binary format in a raw file with the flag
+<B>-w</B>
+
+followed by the filename.
+If this file already exists and is recognized as a raw data file,
+<I>atop</I>
+
+will append new samples to the file (starting with a sample which reflects
+the activity since boot); if the file does not exist, it will be created.
+<BR>
+
+By default only processes which have been active during the interval
+are stored in the raw file. When the flag
+<B>-a</B>
+
+is specified, all processes will be stored.
+<BR>
+
+The interval (default: 10 seconds) and number of samples (default: infinite)
+can be passed as last arguments. Instead of the number of samples, the flag
+<B>-S</B>
+
+can be used to indicate that
+<I>atop</I>
+
+should finish just before midnight.
+<P>
+
+A raw file can be read and visualized again with the flag
+<B>-r</B>
+
+followed by the filename. If no filename is specified, the file
+<B>/var/opt/UNItools/log/atop/atop_ YYYYMMDD</B>
+
+is opened for input (where
+<I>YYYYMMDD</I>
+
+are digits representing the current date).
+If a filename is specified in the format YYYYMMDD (representing any valid
+date), the file
+<B>/var/opt/UNItools/log/atop/atop_ YYYYMMDD</B>
+
+is opened.
+<BR>
+
+The samples from the file can be viewed interactively by using the key 't'
+to show the next sample and the key 'T' to show the previous sample.
+When output is redirected to a file or pipe,
+<B>atop</B>
+
+prints all samples in plain ASCII.
+<BR>
+
+With the flag
+<B>-b</B>
+
+(begin time) and/or
+<B>-e</B>
+
+(end time) followed by a time argument of the form HH:MM,
+a certain time period within the raw file can be selected.
+<P>
+
+When
+<B>atop</B>
+
+is installed, two scripts
+are stored in the
+<I>/etc/atop</I>
+
+directory.
+Each of these scripts take care that
+<B>atop</B>
+
+is activated every day to write compressed binary data to the file
+<B>/var/opt/UNItools/log/atop/atop_ YYYYMMDD</B>
+
+with an interval of 10 minutes.
+<BR>
+
+Furthermore the script removes all raw files which are older than four weeks.
+<P>
+
+Only one of these scripts should be used for automatic storage of the system-
+and process level information:
+<DL COMPACT>
+<DT><B>atop.daily</B>
+
+<DD>
+This script should be used for systems on which process accounting is
+<I>not</I>
+
+activated via
+<B>logrotate</B>
+
+(i.e. the file
+<B>/etc/logrotate.d/psacct</B>
+
+is not present).
+In that case the script
+<B>atop.daily</B>
+
+can be activated every day (at midnight) via the
+<B>cron</B>
+
+daemon by creating the file
+<I>/etc/cron.d/atop</I>
+
+with the contents
+<BR>
+
+<B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1 0 * * * root /etc/atop/atop.daily</B>
+
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>atop.24hours</B>
+
+<DD>
+For systems on which process accounting is daily restarted via
+<B>logrotate</B>
+
+the script
+<B>atop.24hours</B>
+
+should be used:
+<BR>
+
+The section 'postrotate' in the file
+<B>/etc/logrotate.d/psacct</B>
+
+should be extended by calling the script
+<B>/etc/atop/atop.24hours</B>
+
+(without arguments)
+<I>after</I>
+
+reactivating process accounting with the
+<B>accton</B>
+
+command.
+</DL>
+<A NAME="lbAI">&nbsp;</A>
+<H2>OUTPUT DESCRIPTION</H2>
+
+The first sample shows the system level activity since boot
+(the elapsed time in the header shows the number of seconds since boot).
+Note that particular counters could have reached their maximum
+value (several times) and started by zero again,
+so do not rely on these figures.
+<P>
+
+For every sample
+<I>atop</I>
+
+first shows the lines related to system level activity. If a particular 
+system resource has not been used during the interval, the entire line
+related to this resource is suppressed. So the number of system level lines
+may vary for each sample.
+<BR>
+
+After that a list is shown of processes which have been active during the last
+interval. This list is by default sorted on cpu consumption, but this order
+can be changed by the keys which are previously described.
+<P>
+
+If values have to be shown by
+<I>atop</I>
+
+which do not fit in the column width,
+another notation is used. If e.g. a cpu-consumption of 233216 milliseconds
+should be shown in a column width of 4 positions, it is shown as `233s'
+(in seconds).
+For large memory figures, another unit is chosen if the value does not fit
+(Mb instead of Kb, Gb instead of Mb).
+For other values, a kind of exponent notation is used (value 123456789
+shown in a column of 5 positions gives 123e6).
+<P>
+
+The system level information consists of the following output lines:
+<P>
+
+<DL COMPACT>
+<DT><B>PRC</B>
+
+<DD>
+Process level totals.
+<BR>
+
+This line contains the total cpu time consumed 
+in system mode (`sys') and in user mode (`user'),
+the total number of processes present at this moment (`#proc'),
+the number of zombie processes (`#zombie') and
+the number of processes that ended during the interval
+(`#exit', which shows `?' if process accounting could not be switched on).
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>CPU</B>
+
+<DD>
+CPU utilization.
+<BR>
+
+One line is shown for the total occupation of all CPU's together.
+In case of a multi-processor system, an additional line is shown
+for every individual processor (with `cpu' in lower case),
+sorted on activity. Inactive cpu's will not be shown by default.
+The lines showing the per-cpu occupation contain the cpu number in
+the last field.
+<BR>
+
+Every line contains the percentage of cpu time spent in 
+kernel mode by all active processes (`sys'), 
+the percentage of cpu time consumed in user mode (`user') for all
+active processes (including processes running with a nice value larger than
+zero), the percentage of cpu time spent for interrupt handling (`irq')
+including softirq, the percentage of unused cpu time while no processes
+were waiting for disk-I/O (`idle'), and
+the percentage of unused cpu time while at least one process was waiting
+for disk-I/O (`wait').
+<BR>
+
+In case of per-cpu occupation, the last column shows the cpu number and
+the wait percentage (`w') for that cpu.
+<P>
+The number of lines showing the per-cpu occupation can be limited.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>CPL</B>
+
+<DD>
+CPU load information.
+<BR>
+
+This line contains the load average figures reflecting the number
+of threads that are available to run on a CPU (i.e. part of the runqueue)
+or that are waiting for disk I/O. These figures are averaged over
+1 (`avg1'), 5 (`avg5') and 15 (`avg15') minutes.
+<BR>
+
+Furthermore the number of context switches (`csw') and the number
+of serviced interrupts (`intr') are shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>MEM</B>
+
+<DD>
+Memory occupation.
+<BR>
+
+This line contains the total amount of physical memory
+(`tot'), the amount of memory which is currently free (`free'),
+the amount of memory in use as page cache (`cache'),
+the amount of memory used for filesystem meta data (`buff') and the amount of
+memory being used for kernel malloc's (`slab' - always 0 for kernel 2.4).
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>SWP</B>
+
+<DD>
+Swap occupation and overcommit info.
+<BR>
+
+This line contains the total amount of swap space on disk (`tot') and
+the amount of free swap space (`free').
+<BR>
+
+Furthermore the committed virtual memory space (`vmcom') and the maximum 
+limit of the committed space (`vmlim', which is by default swap size
+plus 50% of memory size) is shown.
+The committed space is the reserved virtual space for all allocations of
+private memory space for processes. The kernel only verifies whether the
+committed space exceeds the limit if strict overcommit handling is
+configured (vm.overcommit_memory is 2).
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>PAG</B>
+
+<DD>
+Paging frequency.
+<BR>
+
+This line contains the number of scanned pages (`scan') due to the fact
+that free memory drops below a particular threshold and the number
+times that the kernel tries to reclaim pages due to an urgent need (`stall').
+<BR>
+
+Also the number of memory pages the system read from swap space (`swin')
+and the number of memory pages the system wrote to swap space (`swout')
+are shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>DSK</B>
+
+<DD>
+Disk utilization.
+<BR>
+
+Per active disk one line is produced, sorted on disk activity.
+Such line shows the name of the disk (e.g. hda
+or sda), the busy percentage i.e. the portion of time that the
+disk was busy handling requests (`busy'), the number of read requests issued
+(`read'), the number of write requests issued (`write') and the average
+number of milliseconds needed by a request (`avio') for seek,
+latency and data transfer.
+<P>
+The number of lines showing the disk occupation can be limited.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>NET</B>
+
+<DD>
+Network utilization (TCP/IP). 
+<BR>
+
+One line is shown for activity of the transport layer (TCP and UDP), one line
+for the IP layer and one line per active interface.
+<BR>
+
+For the transport layer,
+counters are shown concerning the number of received TCP segments
+including those
+received in error (`tcpi'), the number of transmitted TCP segments excluding
+those containing only retransmitted octets (`tcpo'), the number of
+UDP datagrams received (`udpi') and the number of UDP datagrams
+transmitted (`udpo').
+These counters are related to IPv4 and IPv6.
+<BR>
+
+For the IP layer, counters are shown concerning the number of IP datagrams
+received from interfaces, including those received in error (`ipi'),
+the number of IP datagrams that local higher-layer protocols offered for
+transmission (`ipo'), the number of received IP datagrams which were
+forwarded to other interfaces (`ipfrw') and the number of IP datagrams which
+were delivered to local higher-layer protocols (`deliv').
+These counters are related to IPv4 and IPv6.
+<BR>
+
+For every active network interface one line is shown,
+sorted on the interface activity.
+Such line shows the name of the interface and its busy percentage
+in the first column.
+The busy percentage for half duplex is determined by comparing the
+interface speed with the number of bits transmitted and received
+per second; for full duplex the interface speed is compared with the
+highest of either the transmitted or the received bits.
+When the interface speed can not be determined (e.g. for the loopback
+interface), `---' is shown instead of the percentage.
+<BR>
+
+Furthermore the number of received packets (`pcki'), the number of transmitted
+packets (`pcko'), the effective amount of bits received per second
+(`si') and the effective amount of bits transmitted per second (`so').
+<P>
+The number of lines showing the network interfaces can be limited.
+</DL>
+<P>
+
+Following the system level information, the processes are shown from which the
+resource utilization has changed during the last interval. These processes
+might have used cpu time or issued disk- or network requests. However a process
+is also shown if part of it has been paged out due to lack of memory (while
+the process itself was in sleep state).
+<P>
+
+Per process the following fields may be shown (in alphabetical order),
+depending on the current output mode as described in the section
+INTERACTIVE COMMANDS:
+<P>
+
+<DL COMPACT>
+<DT><B>CMD</B>
+
+<DD>
+The name of the process.
+This name can be surrounded by &quot;less/greater than&quot; 
+signs (`&lt;name&gt;') which means that the process has finished during the last
+interval.
+<BR>
+
+Behind the abbreviation `CMD' in the header line, the current page number and
+the total number of pages of the process list are shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>COMMAND-LINE</B>
+
+<DD>
+The full command line of the process (including arguments), which is limited
+to the length of the screen line.
+Th command line can be surrounded by &quot;less/greater than&quot; 
+signs (`&lt;line&gt;') which means that the process has finished during the last
+interval.
+<BR>
+
+Behind the verb `COMMAND-LINE' in the header line, the current page number
+and the total number of pages of the process list are shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>CPU</B>
+
+<DD>
+The occupation percentage of this process related to the available capacity
+for this resource on system level.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>DSK</B>
+
+<DD>
+The occupation percentage of this process related to the total load that
+is produced by all processes (i.e. total disk accesses
+by all processes during the last interval).
+<BR>
+
+This information can only be shown when kernel patch `cnt' is installed.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>EXC</B>
+
+<DD>
+The exit code of a terminated process (second position of column `ST' is E)
+or the fatal signal number (second position of column `ST' is S or C).
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>GROUP</B>
+
+<DD>
+The real primary group identity under which the process runs. 
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>MAJFLT</B>
+
+<DD>
+The number of page faults issued by this process.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>MEM</B>
+
+<DD>
+The occupation percentage of this process related to the available capacity
+for this resource on system level.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>MINFLT</B>
+
+<DD>
+The number of page reclaims issued by this process.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>NET</B>
+
+<DD>
+The occupation percentage of this process related to the total load that
+is produced by all processes (i.e. network packets transferred
+by all processes during the last interval).
+<BR>
+
+This information can only be shown when kernel patch `cnt' is installed.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>NPROCS</B>
+
+<DD>
+The number of active and terminated processes accumulated for this user
+or program.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>PID</B>
+
+<DD>
+Process-id.
+If a process has been started and finished during the last
+interval, a `?' is shown because the process-id is not part of
+the standard process accounting record.
+However when the kernel patch `acct' is installed, this value will be
+shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>POLICY</B>
+
+<DD>
+Policy 'normal' (SCHED_OTHER) refers to a timesharing
+process, 'fifo' (SCHED_FIFO) and 'roundr' (SCHED_RR) to a realtime process.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>PRIO</B>
+
+<DD>
+The process' priority ranges from 0 (highest priority) to 139 (lowest
+priority). Priority 0 to 99 are used for realtime processes (fixed
+priority independent of their behavior) and priority 100 to 139 for
+timesharing processes (variable priority depending on their recent
+CPU consumption and the nice value).
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>RAWRS</B>
+
+<DD>
+The number of raw datagrams received and sent by this process.
+This information can only be shown when kernel patch `cnt' is installed.
+<BR>
+
+If a process has finished during the last interval, no value is shown
+since network counters are not registered in the standard
+process accounting record.
+However when the kernel patch `acct' is installed, this value will be
+shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>RDDSK </B>
+
+<DD>
+The number of read accesses issued physically on disk (so reading from the
+disk cache is not accounted for).
+This information can only be shown when kernel patch `cnt' is installed.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>RGROW </B>
+
+<DD>
+The amount of resident memory that the process has grown during the last
+interval. A resident growth can be caused by touching memory pages which
+were not physically created/loaded before (load-on-demand). 
+Note that a resident growth can also be negative e.g. when part of the process
+is paged out due to lack of memory or when the process frees dynamically 
+allocated memory.
+For a process which started during the last interval, the resident growth
+reflects the total resident size of the process at that moment.
+<BR>
+
+If a process has finished during the last interval, no value is shown
+since resident memory occupation is not part of the standard
+process accounting record.
+However when the kernel patch `acct' is installed, this value will be
+shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>RNET </B>
+
+<DD>
+The number of TCP- and UDP packets received by this process.
+This information can only be shown when kernel patch `cnt' is installed.
+<BR>
+
+If a process has finished during the last interval, no value is shown
+since network counters are not part of the standard process accounting record.
+However when the kernel patch `acct' is installed, this value will be
+shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>RSIZE</B>
+
+<DD>
+The total resident memory usage consumed by this process (or user).
+<BR>
+
+If a process has finished during the last interval, no value is shown
+since resident memory occupation is not part of the standard
+process accounting record.
+However when the kernel patch `acct' is installed, this value will be
+shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>S</B>
+
+<DD>
+The current state of the process: `R' for running (currently processing or in
+the run queue), `S' for sleeping interruptable (wait for an event to occur), 
+`D' for sleeping non-interruptable, `Z' for zombie (waiting to be synchronized
+with its parent process), `T' for stopped (suspended or traced), `W' for
+swapping, and `E' (exit) for processes which have finished during the last
+interval.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>SNET </B>
+
+<DD>
+The number of TCP- and UDP packets transmitted by this process.
+This information can only be shown when kernel patch `cnt' is installed.
+<BR>
+
+If a process has finished during the last interval, no value is shown
+since network-counters are not part of the standard process accounting record.
+However when the kernel patch `acct' is installed, this value will be
+shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>ST</B>
+
+<DD>
+The status of a process.
+<BR>
+
+The first position indicates if the process has been
+started during the last interval (the value 
+<I>N</I>
+
+means 'new process').
+<P>
+The second position indicates if the process has been
+finished during the last interval.
+<BR>
+
+The value
+<I>E</I>
+
+means 'exit' on the process' own initiative; the exit code is displayed
+in the column `EXC'.
+<BR>
+
+The value
+<I>S</I>
+
+means that the process has been terminated unvoluntarily 
+by a signal; the signal number is displayed in the in the column `EXC'.
+<BR>
+
+The value
+<I>C</I>
+
+means that the process has been terminated unvoluntarily 
+by a signal, producing a core dump in its current directory;
+the signal number is displayed in the in the column `EXC'.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>STDATE</B>
+
+<DD>
+The start date of the process.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>STTIME</B>
+
+<DD>
+The start time of the process.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>SYSCPU</B>
+
+<DD>
+CPU time consumption of this process in system mode (kernel mode), usually
+due to system call handling.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>TCPRCV</B>
+
+<DD>
+The number of receive requests issued by this process for TCP sockets,
+and the average size per transfer in bytes.
+This information can only be shown when kernel patch `cnt' is installed.
+<BR>
+
+If a process has finished during the last interval, no value is shown
+since network counters are not registered in the standard
+process accounting record.
+However when the kernel patch `acct' is installed, this value will be
+shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>TCPSND</B>
+
+<DD>
+The number of send requests issued by this process for TCP sockets,
+and the average size per transfer in bytes.
+This information can only be shown when kernel patch `cnt' is installed.
+<BR>
+
+If a process has finished during the last interval, no value is shown
+since network counters are not registered in the standard
+process accounting record.
+However when the kernel patch `acct' is installed, this value will be
+shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>THR</B>
+
+<DD>
+A multithreaded application consists of various threads.
+All related threads are contained in a thread group, represented by
+<I>atop</I>
+
+as one line.
+<P>
+On Linux 2.4 systems it is hardly possible to determine
+which threads (i.e. processes) are related to the same thread group.
+Every thread is represented by
+<I>atop</I>
+
+as a separate line.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>UDPRCV</B>
+
+<DD>
+The number of UDP datagrams received by this process,
+and the average size per transfer in bytes.
+This information can only be shown when kernel patch `cnt' is installed.
+<BR>
+
+If a process has finished during the last interval, no value is shown
+since network counters are not registered in the standard
+process accounting record.
+However when the kernel patch `acct' is installed, this value will be
+shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>UDPSND</B>
+
+<DD>
+The number of UDP datagrams transmitted by this process,
+and the average size per transfer in bytes.
+This information can only be shown when kernel patch `cnt' is installed.
+<BR>
+
+If a process has finished during the last interval, no value is shown
+since network counters are not registered in the standard
+process accounting record.
+However when the kernel patch `acct' is installed, this value will be
+shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>USERNAME</B>
+
+<DD>
+The real user identity under which the process runs. 
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>USRCPU</B>
+
+<DD>
+CPU time consumption of this process in user mode, due to processing the
+own program text.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>VGROW </B>
+
+<DD>
+The amount of virtual memory that the process has grown during the last
+interval. A virtual growth can be caused by e.g. issueing a malloc()
+or attaching a shared memory segment. Note that a virtual growth can also
+be negative by e.g. issueing a free() or detaching a shared memory segment.
+For a process which started during the last interval, the virtual growth
+reflects the total virtual size of the process at that moment.
+<BR>
+
+If a process has finished during the last interval, no value is shown
+since virtual memory occupation is not part of the standard
+process accounting record.
+However when the kernel patch `acct' is installed, this value will be
+shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>VSIZE</B>
+
+<DD>
+The total virtual memory usage consumed by this process (or user).
+<BR>
+
+If a process has finished during the last interval, no value is shown
+since virtual memory occupation is not part of the standard
+process accounting record.
+However when the kernel patch `acct' is installed, this value will be
+shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>VSTEXT</B>
+
+<DD>
+The virtual memory size used by the shared text of this process.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>WRDSK </B>
+
+<DD>
+The number of write accesses issued physically on disk (so writing to the
+disk cache is not accounted for). Usually application processes just transfer
+their data to the cache, while the physical write accesses are done later on
+by kernel daemons.
+This information can only be shown when kernel patch `cnt' is installed.
+<BR>
+
+Note that the number read- and write accesses are not separately maintained
+in the standard process accounting record.
+This means that only one value is given for read's and write's in case a
+process has finished during the last interval. 
+However when the kernel patch `acct' is installed, these values will be
+shown separately.
+</DL>
+<A NAME="lbAJ">&nbsp;</A>
+<H2>EXAMPLES</H2>
+
+To monitor the current system load interactively with an interval of 5 seconds:
+<P>
+
+<DL COMPACT>
+<DT><B>&nbsp; atop 5</B>
+
+<DD>
+</DL>
+<P>
+
+To monitor the system load and write it to a file (in plain ASCII)
+with an interval of one minute during half an hour with active
+processes sorted on memory consumption:
+<P>
+
+<DL COMPACT>
+<DT><B>&nbsp; atop -M 60 30 &gt; /log/atop.mem</B>
+
+<DD>
+</DL>
+<P>
+
+Store information about the system- and process activity in binary compressed
+form to a file with an interval of ten minutes during an hour:
+<P>
+
+<DL COMPACT>
+<DT><B>&nbsp; atop -w /tmp/atop.raw 600 6</B>
+
+<DD>
+</DL>
+<P>
+
+View the contents of this file:
+<P>
+
+<B>&nbsp; atop -r /tmp/atop.raw</B>
+
+<P>
+
+<A NAME="lbAK">&nbsp;</A>
+<H2>CONFIGURATION FILE</H2>
+
+<P>
+
+The default values used by 
+<B>atop</B>
+
+can be overruled by a personal configuration file.
+This file, called
+<B>~/.atoprc</B>
+
+contains a keyword-value pair one every line (blank lines
+and lines starting with a #-sign are skipped).
+The following keywords can be specified:
+<P>
+
+<DL COMPACT>
+<DT><B>flags</B>
+
+<DD>
+A list of default flags can be defined here. The flags which 
+are allowed are 'g', 'm', 'd', 'n', 'u', 'p', 's', 'c', 'v', 'C', 'M', 'D', 'N', 'A', 'a', 'f', '1' and 'x'.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>interval</B>
+
+<DD>
+The default interval value in seconds.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>username</B>
+
+<DD>
+The default regular expression for the users for which active
+processes will be shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>procname</B>
+
+<DD>
+The default regular expression for the process names to be shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>maxlinecpu</B>
+
+<DD>
+The maximum number of active CPU's which will be shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>maxlinedisk</B>
+
+<DD>
+The maximum number of active disks which will be shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>maxlineintf</B>
+
+<DD>
+The maximum number of active network interfaces which will be shown.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>cpucritperc</B>
+
+<DD>
+The busy percentage considered critical for a processor
+(see section COLORS).
+This percentage is used to determine 
+a weighted percentage for line coloring and sorting of active processes.
+When this value is zero, no line coloring or automatic sorting is performed
+for this resource.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>dskcritperc</B>
+
+<DD>
+The busy percentage considered critical for a disk
+(see section COLORS). 
+This percentage is used to determine 
+a weighted percentage for line coloring and sorting of active processes.
+When this value is zero, no line coloring or automatic sorting is performed
+for this resource.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>netcritperc</B>
+
+<DD>
+The busy percentage considered critical for a network interface
+(see section COLORS). 
+This percentage is used to determine 
+a weighted percentage for line coloring and sorting of active processes.
+When this value is zero, no line coloring or automatic sorting is performed
+for this resource.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>memcritperc</B>
+
+<DD>
+The percentage considered critical for memory utilization
+(see section COLORS). 
+This percentage is used to determine 
+a weighted percentage for line coloring and sorting of active processes.
+When this value is zero, no line coloring or automatic sorting is performed
+for this resource.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>swpcritperc</B>
+
+<DD>
+The occupation percentage considered critical for swap space
+(see section COLORS). 
+This percentage is used to determine 
+a weighted percentage for line coloring and sorting of active processes.
+When this value is zero, no line coloring or automatic sorting is performed
+for this resource.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>almostcrit</B>
+
+<DD>
+A percentage of the critical percentage to determine if the resource
+is almost critical (see section COLORS). 
+When this value is zero, no line coloring for `almost critical' is
+performed.
+</DL>
+<P>
+
+An example of the
+<B>~/.atoprc</B>
+
+file:
+<DL COMPACT>
+<DT>&nbsp;<DD>
+<BR>
+
+flags&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;af
+<BR>
+
+interval&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5
+<BR>
+
+username
+<BR>
+
+procname
+<BR>
+
+maxlinecpu&nbsp;&nbsp;&nbsp;&nbsp;4
+<BR>
+
+maxlinedisk&nbsp;&nbsp;&nbsp;10
+<BR>
+
+maxlineintf&nbsp;&nbsp;&nbsp;5
+<BR>
+
+cpucritperc&nbsp;&nbsp;&nbsp;80
+<BR>
+
+almostcrit&nbsp;&nbsp;&nbsp;&nbsp;90
+</DL>
+<P>
+
+<A NAME="lbAL">&nbsp;</A>
+<H2>FILES</H2>
+
+<P>
+
+<DL COMPACT>
+<DT><B>/tmp/atop.d/atop.acct</B>
+
+<DD>
+File in which the kernel writes the accounting records if the standard
+accounting to the file
+<B>/var/log/pacct</B>
+
+or
+<B>/var/account/pacct</B>
+
+is not used.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>~/.atoprc</B>
+
+<DD>
+Configuration file containing personal default values.
+</DL>
+<P>
+
+<DL COMPACT>
+<DT><B>/var/opt/UNItools/log/atop/atop_ YYYYMMDD</B>
+
+<DD>
+Raw file, where
+<I>YYYYMMDD</I>
+
+are digits representing the current date.
+This name is used by the scripts
+<B>atop.daily</B>
+
+and
+<B>atop.24hours</B>
+
+as default name for the output file, and by
+<B>atop</B>
+
+as default name for the input file when using the
+<B>-r</B>
+
+flag.
+<BR>
+
+All binary system- and process-level data in this file has been stored
+in compressed format. 
+</DL>
+<A NAME="lbAM">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B>atsar,</B>
+
+<B>logrotate</B>
+
+<BR>
+
+<B><A HREF="http://www.ATComputing.nl/atop,">http://www.ATComputing.nl/atop,</A></B>
+
+<B><A HREF="http://www.ATConsultancy.nl/atop">http://www.ATConsultancy.nl/atop</A></B>
+
+<A NAME="lbAN">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Gerlof Langeveld, AT Computing (<A HREF="mailto:gerlof@ATComputing.nl">gerlof@ATComputing.nl</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">PROCESS ACCOUNTING</A><DD>
+<DT><A HREF="#lbAF">COLORS</A><DD>
+<DT><A HREF="#lbAG">INTERACTIVE COMMANDS</A><DD>
+<DT><A HREF="#lbAH">RAW DATA STORAGE</A><DD>
+<DT><A HREF="#lbAI">OUTPUT DESCRIPTION</A><DD>
+<DT><A HREF="#lbAJ">EXAMPLES</A><DD>
+<DT><A HREF="#lbAK">CONFIGURATION FILE</A><DD>
+<DT><A HREF="#lbAL">FILES</A><DD>
+<DT><A HREF="#lbAM">SEE ALSO</A><DD>
+<DT><A HREF="#lbAN">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 18:54:33 GMT, August 22, 2012
+</BODY>
+</HTML>

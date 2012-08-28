@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./checklist-utf8</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir">#! /bin/sh</span>
+<span class="line">    1 </span><span class="dir"># $Id: checklist-utf8,v 1.3 2004/12/20 00:14:24 tom Exp $</span>
+<span class="line">    2 </span><span class="sym">:</span> $<span class="sym">{</span>DIALOG<span class="sym">=</span>dialog<span class="sym">}</span>
+<span class="line">    3 </span>
+<span class="line">    4 </span><span class="sym">:</span> $<span class="sym">{</span>DIALOG_OK<span class="sym">=</span><span class="num">0</span><span class="sym">}</span>
+<span class="line">    5 </span><span class="sym">:</span> $<span class="sym">{</span>DIALOG_CANCEL<span class="sym">=</span><span class="num">1</span><span class="sym">}</span>
+<span class="line">    6 </span><span class="sym">:</span> $<span class="sym">{</span>DIALOG_ESC<span class="sym">=</span><span class="num">255</span><span class="sym">}</span>
+<span class="line">    7 </span>
+<span class="line">    8 </span>tempfile<span class="sym">=</span>`tempfile <span class="num">2</span><span class="sym">&gt;/</span>dev<span class="sym">/</span>null` <span class="sym">||</span> tempfile<span class="sym">=/</span>tmp<span class="sym">/</span>test$$
+<span class="line">    9 </span>trap <span class="str">&quot;rm -f $tempfile&quot;</span> <span class="num">0 1 2 5 15</span>
+<span class="line">   10 </span>
+<span class="line">   11 </span><span class="kwa">case</span> none<span class="str">&quot;$LANG$LC_ALL$LC_CTYPE&quot;</span> in
+<span class="line">   12 </span><span class="sym">*</span>UTF<span class="sym">-</span><span class="num">8</span><span class="sym">*)</span>
+<span class="line">   13 </span>	<span class="sym">;;</span>
+<span class="line">   14 </span><span class="sym">*)</span>
+<span class="line">   15 </span>	echo <span class="str">&quot;This script must be run in a UTF-8 locale&quot;</span>
+<span class="line">   16 </span>	exit <span class="num">1</span>
+<span class="line">   17 </span>	<span class="sym">;;</span>
+<span class="line">   18 </span>esac
+<span class="line">   19 </span>
+<span class="line">   20 </span>$DIALOG <span class="sym">--</span>backtitle <span class="str">&quot;No Such Organization&quot;</span> \
+<span class="line">   21 </span>	<span class="sym">--</span>title <span class="str">&quot;CHECKLIST BOX&quot;</span> \
+<span class="line">   22 </span>        <span class="sym">--</span>checklist <span class="str">&quot;Hi, this is a checklist box. You can use this to</span> <span class="esc">\n\</span>
+<span class="line">   23 </span><span class="str">present a list of choices which can be turned on or</span> <span class="esc">\n\</span>
+<span class="line">   24 </span><span class="str">off. If there are more items than can fit on the</span> <span class="esc">\n\</span>
+<span class="line">   25 </span><span class="str">screen, the list will be scrolled. You can use the</span> <span class="esc">\n\</span>
+<span class="line">   26 </span><span class="str">UP/DOWN arrow keys, the first letter of the choice as a</span> <span class="esc">\n\</span>
+<span class="line">   27 </span><span class="str">hot key, or the number keys 1-9 to choose an option.</span> <span class="esc">\n\</span>
+<span class="line">   28 </span><span class="str">Press SPACE to toggle an option on/off.</span> <span class="esc">\n\n\</span>
+<span class="line">   29 </span><span class="str">  Which of the following are fruits?&quot;</span> <span class="num">20 61 5</span> \
+<span class="line">   30 </span>        <span class="str">&quot;ＡＰＰＬＥ&quot;</span>  <span class="str">&quot;It's an ＡＰＰＬＥ.&quot;</span> off \
+<span class="line">   31 </span>        <span class="str">&quot;ＤＯＧ&quot;</span>    <span class="str">&quot;No, that's not my ＤＯＧ.&quot;</span> ON \
+<span class="line">   32 </span>        <span class="str">&quot;ＯＲＡＮＧＥ&quot;</span> <span class="str">&quot;Yeah, that's ＪＵＩＣＹ.&quot;</span> off \
+<span class="line">   33 </span>        <span class="str">&quot;ＣＨＩＣＫＥＮ&quot;</span>    <span class="str">&quot;Normally not a ＰＥＴ.&quot;</span> off \
+<span class="line">   34 </span>        <span class="str">&quot;ＣＡＴ&quot;</span>    <span class="str">&quot;No, never put a ＤＯＧ and a ＣＡＴ together!&quot;</span> oN \
+<span class="line">   35 </span>        <span class="str">&quot;ＦＩＳＨ&quot;</span>   <span class="str">&quot;Cats like ＦＩＳＨ.&quot;</span> On \
+<span class="line">   36 </span>        <span class="str">&quot;ＬＥＭＯＮ&quot;</span>  <span class="str">&quot;You ＫＮＯＷ how it ＴＡＳＴＥＳ.&quot;</span> on <span class="num">2</span><span class="sym">&gt;</span> $tempfile
+<span class="line">   37 </span>
+<span class="line">   38 </span>retval<span class="sym">=</span>$?
+<span class="line">   39 </span>
+<span class="line">   40 </span>choice<span class="sym">=</span>`cat $tempfile`
+<span class="line">   41 </span><span class="kwa">case</span> $retval in
+<span class="line">   42 </span>  $DIALOG_OK<span class="sym">)</span>
+<span class="line">   43 </span>    echo <span class="str">&quot;'$choice' chosen.&quot;</span><span class="sym">;;</span>
+<span class="line">   44 </span>  $DIALOG_CANCEL<span class="sym">)</span>
+<span class="line">   45 </span>    echo <span class="str">&quot;Cancel pressed.&quot;</span><span class="sym">;;</span>
+<span class="line">   46 </span>  $DIALOG_ESC<span class="sym">)</span>
+<span class="line">   47 </span>    echo <span class="str">&quot;ESC pressed.&quot;</span><span class="sym">;;</span>
+<span class="line">   48 </span>  <span class="sym">*)</span>
+<span class="line">   49 </span>    echo <span class="str">&quot;Unexpected return code: $retval (ok would be $DIALOG_OK)&quot;</span><span class="sym">;;</span>
+<span class="line">   50 </span>esac
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

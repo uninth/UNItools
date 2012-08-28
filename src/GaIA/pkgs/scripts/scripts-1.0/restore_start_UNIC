@@ -1,0 +1,388 @@
+#!/bin/sh
+#
+# description: Restore system configuration
+#
+# Fejl ved 'if [ -z argument ...
+# argumentet ikke beskyttet af ""; hvilket
+# giver en fejl i CPs version.
+#
+
+BACKUPPARTITION="/opt/CPbackups"
+
+. $CPDIR/tmp/.CPprofile.sh
+
+IFCFG_LO_FILE="/etc/sysconfig/network-scripts/ifcfg-lo"
+
+SYSFILESTOBACKUP="/etc/sysconfig/network\
+                  /etc/sysconfig/network-scripts/ifcfg-*\
+                  /etc/hosts\
+                  /etc/resolv.conf\
+                  /etc/sysconfig/static-routes\
+                  /etc/sysconfig/cpnetstart\
+                  /etc/localtime"
+
+CPFILESTOBACKUP="$CPDIR/registry/*\
+                 $CPDIR/conf/*\
+                 $CPDIR/database/*\
+                 $FWDIR/conf/*\
+                 $FWDIR/database/*\
+                 $FWDIR/state/*\
+                 $FWDIR/lib/cprid.pf\
+                 /etc/rc.d/init.d/fw1boot\
+                 /etc/rc.d/rc0.d/K91fw1boot\
+                 /etc/rc.d/rc1.d/K91fw1boot\
+                 /etc/rc.d/rc2.d/S09fw1boot\
+                 /etc/rc.d/rc3.d/S09fw1boot\
+                 /etc/rc.d/rc4.d/S09fw1boot\
+                 /etc/rc.d/rc5.d/S09fw1boot\
+                 /etc/rc.d/rc6.d/K91fw1boot\
+                 /etc/fw.boot/modules/fwkern.conf\
+                 /etc/fw.boot/ha_boot.conf\
+                 /etc/fw.boot/boot.conf\
+                 /etc/fw.boot/default.bin\
+                 /etc/ppk.boot/boot/modules/simkern.conf\
+                 /etc/ppk.boot/boot/modules/sim_aff.conf\
+                 /etc/fw.boot/sxl_boot.conf"
+
+if [ -n "${UAGDIR}" ] ; then
+    CPFILESTOBACKUP="$CPFILESTOBACKUP $UAGDIR/conf/* $UAGDIR/database/* $UAGDIR/log/*"
+fi
+
+TFTPADDRESS=""
+BACKUPSIGNATUREFILE="opt/CPbackups/signature"
+verbose=""
+
+
+function create_ifcfg_lo_file {
+   
+	echo DEVICE=lo >> ${IFCFG_LO_FILE} 	
+	echo IPADDR=127.0.0.1 >> ${IFCFG_LO_FILE}
+	echo NETMASK=255.0.0.0 >> ${IFCFG_LO_FILE}
+	echo NETWORK=127.0.0.0 >> ${IFCFG_LO_FILE}
+	echo # If you're having problems with gated making 127.0.0.0/8 a martian, >> ${IFCFG_LO_FILE}
+	echo # you can change this to something else (255.255.255.255, for example) >> ${IFCFG_LO_FILE}
+	echo BROADCAST=127.255.255.255 >> ${IFCFG_LO_FILE}
+	echo ONBOOT=yes >> ${IFCFG_LO_FILE}
+	echo NAME=loopback >> ${IFCFG_LO_FILE}
+
+}
+
+
+function convert_to_ncs {
+
+	ncs_conf_file="/tmp/ncs_conf.txt"
+
+	echo begin > ${ncs_conf_file}
+	cd /etc/sysconfig/network-scripts/
+
+	# NIC + VLANs configuration 
+	net_interfaces=`ls ifcfg*`
+	for interface in ${net_interfaces} ; do
+		IPADDR=""
+		. ${interface}
+		is_vlan=`echo ${DEVICE} | grep "\."`
+		if [ -n "${IPADDR}" ] ; then
+			if [ -n "${is_vlan}" ] ; then 
+				TAG=`echo ${DEVICE} | awk -F. '{print $2}'`
+				BASE_DEV=`echo ${DEVICE} | awk -F. '{print $1}'`
+				echo vlan create tag ${TAG} dev ${BASE_DEV} >> ${ncs_conf_file} 	
+			fi 
+			echo interface set dev ${DEVICE} vr 0 address ${IPADDR} netmask ${NETMASK} >> ${ncs_conf_file}
+		fi 
+	done
+
+	# static Routes Configuration
+	cd /etc/sysconfig/
+	if [ -r static-routes ] ; then 
+		cat static-routes | grep host | awk '{print "route set dest " $3 " netmask 255.255.255.255 metric 0 dev " $1 " vr 0"}' >> ${ncs_conf_file}
+		cat static-routes | grep net | awk '{print "route set dest " $3 " netmask " $5 " dev " $1 " metric 0 vr 0"}' >> ${ncs_conf_file}
+	fi
+
+	# Default GWs configuration
+	netstat -r | grep default | awk '{print "route set default gw " $2 " metric 0 vr 0"}' >> ${ncs_conf_file}
+
+	echo end >> ${ncs_conf_file}
+	cp -rf ${ncs_conf_file} /etc/sysconfig/cpnetstart
+
+}
+
+
+function usagemessage {
+  echo "Usage: restore [-v] <name> [tftp <ip-address>]" 2>&1
+  echo "       restore -list" 2>&1
+  echo " " 2>&1
+  exit 0
+}
+
+function checkmd5 {
+    local thesum=`md5sum "${1}" 2> /dev/null | awk '{print $1}' 2> /dev/null`
+    echo "The MD5 checksum of the backup file is: ${thesum}."
+    echo "Do you wish to restore this file (Y/N)?" 2>&1
+    read CHECKANSWER
+    if [ "${CHECKANSWER}" = "y" -o "${CHECKANSWER}" = "Y" ] ; then
+	return 0
+    else
+	return 1
+    fi
+}
+
+function checkversion {
+    local typeok=""
+    local cdverok=""
+    local prodsok=""
+    local PRODUCTSINSTALLED=`ls /etc/cpshell/*.cfg | sed 's/\/etc\/cpshell\/\(.*\)\.cfg/\1/g' | awk '{printf("%s;",$1);}'`
+
+    POST_NCS_BACKUP=`tar ztvf $1 | grep cpnetstart` 
+    
+    pkval=`tar zxfO "$1" "${BACKUPSIGNATUREFILE}" 2> /dev/null | grep SYSTEM_TYPE | sed 's/[a-zA-Z_]\+=\(.*\)/\1/g'`
+    if [ "${pkval}" = "${SYSTEM_TYPE}" ] ; then
+	typeok='y'
+    else
+	echo "System type does not match."
+    fi
+
+    pkval=`tar zxfO "$1" "${BACKUPSIGNATUREFILE}" 2> /dev/null | grep CD_VER | sed 's/[a-zA-Z_]\+=\(.*\)/\1/g'`
+    if [ "${pkval}" = "${CD_VER}" ] ; then
+        cdverok='y'
+    else
+	echo "CD version does not match."
+    fi
+
+    pkval=`tar zxfO "$1" "${BACKUPSIGNATUREFILE}" 2> /dev/null | grep PRODUCTSINSTALLED | sed 's/[a-zA-Z_]\+=\(.*\)/\1/g'`
+    if [ "${pkval}" = "${PRODUCTSINSTALLED}" ] ; then
+        prodsok='y'
+    else
+	echo "Products installed in the system (${PRODUCTSINSTALLED})"
+        echo "do not match the products in the backup (${pkval})."
+    fi
+
+    pkval="`tar zxfO $1 ${BACKUPSIGNATUREFILE} 2> /dev/null | grep BACKUP_TIME | sed 's/[a-zA-Z_]\+=\(.*\)/\1/g'`"
+    if [ -z "${pkval}" ] ; then
+        echo "Backup time is unknown."
+    else
+        echo "Backup file was created ${pkval}."
+    fi
+
+    pkval="`tar zxfO $1 ${BACKUPSIGNATUREFILE} 2> /dev/null | grep BACKUP_COMMAND | sed 's/[a-zA-Z_]\+=\(.*\)/\1/g'`"
+    if [ "${pkval}" = "system" ] ; then
+	FILELISTTOBACKUP="${SYSFILESTOBACKUP}"
+    elif [ "${pkval}" = "cp" ] ; then
+	FILELISTTOBACKUP="${CPFILESTOBACKUP}"
+    elif [ "${pkval}" = "all" ] ; then
+	FILELISTTOBACKUP="${SYSFILESTOBACKUP} ${CPFILESTOBACKUP}"
+    fi
+ 
+    if [ "${typeok}" = "y" -a "${cdverok}" = "y" -a "${prodsok}" = "y" ] ; then
+        return 0
+    else
+	return 1
+    fi
+}
+
+function warnuser {
+    echo " "
+    echo "The restore operation will replace current configuration."
+    echo "After restore you have to reboot your system."
+    echo "Do you wish to proceed (Y/N)?"
+    read CHECKANSWER
+    if [ "${CHECKANSWER}" = "y" -o "${CHECKANSWER}" = "Y" ] ; then
+	return 0
+    else
+	return 1
+    fi
+}
+
+function checkfirewall {
+    fwrunning=`ps -eo fname | egrep '^fw$'`
+    if [ -n "${fwrunning}" ] ; then
+	echo "FireWall-1/VPN-1 is currently running." 2>&1
+	echo "Stop it before running the restore command." 2>&1
+	echo "To stop FireWall-1/VPN-1 use:"
+	echo "# cpstop"	
+	echo "To start FireWall-1/VPN-1 after restore use:"
+	echo "# cpstart"
+	echo " "
+	echo "Configuration files are not restored."
+	exit 1
+    fi
+}
+
+if [ "${1}" = "-list" ] ; then
+    ls -1 "${BACKUPPARTITION}" 2> /dev/null | sed 's/\.tgz//g' 
+    exit 0
+elif [ "${1}" = "--help" ] ; then
+    usagemessage
+    exit 1
+elif [ "${1}" = "-v" ] ; then
+    if [ -n "${2}" ] ; then
+	verbose="y"
+	shift
+    else
+	usagemessage
+	exit 1
+    fi
+elif [ -z "${1}" ] ; then
+    usagemessage
+    exit 1
+fi
+
+echo "Restoring..." 2>&1
+
+BACKUPFILENAME="${1}.tgz" 
+CWD=`pwd`
+
+
+
+
+checkfirewall
+
+
+if [ "${2}" = "tftp" -a "${3}" != "" ] ; then
+    TFTPADDRESS="${3}"
+
+    CWD=`pwd`
+    cd /tmp/ 2> /dev/null
+
+    ( echo binary ; echo get "${BACKUPFILENAME}" ) | tftp "${TFTPADDRESS}" > /dev/null 2>&1
+    
+    [ -s "${BACKUPFILENAME}" ] || {
+      echo "Cannot fetch the backup file from TFTP server." 2>&1
+      exit 1
+    }
+
+    checkversion "/tmp/${BACKUPFILENAME}" || {
+        echo "System parameters mismatch."
+        echo "Configuration files are not restored."
+	rm -f "/tmp/${BACKUPFILENAME}"
+	exit 1
+    }
+
+    if [ -n "${verbose}" ] ; then
+        tar ztf "/tmp/${BACKUPFILENAME}" 2> /dev/null | grep -v 'opt/CPbackups/signature'
+        exit 0
+    fi
+
+    checkmd5 "/tmp/${BACKUPFILENAME}" || {
+	echo "Aborted, exiting..." 2>&1
+	rm -f "/tmp/${BACKUPFILENAME}"
+	exit 1
+    }
+
+    warnuser || {
+	echo "Aborted, exiting..." 2>&1
+	rm -f "/tmp/${BACKUPFILENAME}"
+	exit 1
+    }
+
+    rm -rf $FILELISTTOBACKUP
+
+    cd /
+
+    tar -zxps --same-owner -f "/tmp/${BACKUPFILENAME}" > /dev/null 2>&1 || {
+	echo "Cannot restore configuration files." 2>&1
+	exit 1
+    }
+
+    rm -f "${BACKUPSIGNATUREFILE}"
+    rm -f "/tmp/${BACKUPFILENAME}"
+	if [ ! -r ${IFCFG_LO_FILE} ] ; then
+		rm -rf ${IFCFG_LO_FILE}
+		create_ifcfg_lo_file
+	fi
+	if [ -z "${POST_NCS_BACKUP}" ] ; then 
+		convert_to_ncs
+    fi
+else
+    [ -s "${BACKUPPARTITION}/${BACKUPFILENAME}" ] || {
+      echo "Cannot find backup ${1}." 2>&1
+      exit 1
+    }
+    checkversion "${BACKUPPARTITION}/${BACKUPFILENAME}" || {
+        echo "System parameters mismatch."
+        echo "Configuration files are not restored."
+	exit 1
+    }
+
+
+    if [ -n "${verbose}" ] ; then
+        tar ztf "${BACKUPPARTITION}/${BACKUPFILENAME}" 2> /dev/null | grep -v 'opt/CPbackups/signature'
+        exit 0
+    fi
+
+    checkmd5 "${BACKUPPARTITION}/${BACKUPFILENAME}" || {
+	echo "Aborted, exiting..." 2>&1
+	exit 1
+    }
+
+    warnuser || {
+	echo "Aborted, exiting..." 2>&1
+	exit 1
+    }
+
+    rm -rf $FILELISTTOBACKUP
+
+    cd /
+
+    tar -zxps --same-owner -f "${BACKUPPARTITION}/${BACKUPFILENAME}" > /dev/null 2>&1 || {
+	echo "Cannot restore configuration files." 2>&1
+	exit 1
+    }
+
+    rm -f "${BACKUPSIGNATUREFILE}"
+	if [ ! -r ${IFCFG_LO_FILE} ] ; then
+		rm -rf ${IFCFG_LO_FILE}
+		create_ifcfg_lo_file
+	fi
+	if [ -z "${POST_NCS_BACKUP}" ] ; then 
+		convert_to_ncs
+    fi
+fi
+
+echo "Restore completed successfully." 2>&1
+echo "You have to reboot your system now. Reboot now (Y/N)?"
+read CHECKANSWER
+if [ "${CHECKANSWER}" = "y" -o "${CHECKANSWER}" = "Y" ] ; then
+    /sbin/reboot
+fi
+
+cd "${CWD}"
+
+#++
+# NAME
+#	restore_start_UNIC 1
+# SUMMARY
+#	Restore en firewall-1 og operativsystem sikkerhedskopi
+# PACKAGE
+#	UNItools
+# SYNOPSIS
+#	restore_start_UNIC name [<tftp> <ip>] 
+# DESCRIPTION
+#	\fCrestore_start_UNIC\fR er identisk med \fC/bin/restore_start\fR,
+#	idet et check for, om firewall-1 kører et fjernet og tre fejl
+#	i Check Points script er rettet.
+#
+#	Det drejer sig om fejl ved \fCif [ -z \fIargument\fR idet
+#	\fIargument\fR skal beskyttes af \fC""\fR for at opfattes som
+#	et argument.
+# COMMANDS
+#	sh(1), tar(1), gzip(1)
+# SEE ALSO
+#	
+# BUGS
+#	Ingen kendte.
+# VERSION
+#	$Date: 2003/03/02 19:53:58 $
+# .br
+#	$Revision: 1.1 $
+# .br
+#	$Source: /var/opt/UNItools/src/scripts/RCS/restore_start_UNIC,v $
+# .br
+#	$State: Exp $
+# HISTORY
+#	$Log: restore_start_UNIC,v $
+#	Revision 1.1  2003/03/02 19:53:58  root
+#	Initial revision
+#
+# AUTHOR(S)
+#	Check Point Software.
+#--

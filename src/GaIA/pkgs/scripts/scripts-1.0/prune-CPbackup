@@ -1,0 +1,78 @@
+#!/var/opt/UNItools/bin/bash
+#
+# fake prune - fix for missing trailling / in /bin/backup_util | /bin/backup on R65, 2.4
+#
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/scripts/scripts-1.0/RCS/prune-CPbackup,v 1.1 2008/07/10 13:10:35 admin Exp admin $
+#
+
+my_die() {
+	echo $*
+	exit 1
+}
+
+TMPFILE=/tmp/$$
+
+my_trap() {
+	$echo trapped
+	/bin/rm -f ${TMPFILE}
+	exit 1
+}
+
+trap my_trap 1 2 3 13 15 
+
+##################################################################
+# Main
+##################################################################
+
+echo=echo
+case ${N}$C in
+	"") if $echo "\c" | grep c >/dev/null 2>&1; then
+		N='-n'
+	else    
+		C='\c'
+	fi ;;
+esac
+
+BUDIR=/var/CPbackup/backups
+test -d ${BDIR} ||
+	my_die "${BUDIR} not a dir"
+
+if [ "$1" != "-p" ]; then
+	my_die usage: $0 -p number
+fi
+
+TEST="`$echo "$2" | sed 's/[0-9]*//g'`"
+if [ -z "${TEST}" ]; then
+	DAYS_BACK=$2
+else
+	my_die usage: $0 -p number - $1 not a number
+fi
+
+cd ${BUDIR} || my_die "cd  ${BUDIR} failed"
+find . -ctime +${DAYS_BACK} > $TMPFILE				# no over run from ``
+
+if [ -s "$TMPFILE" ]; then
+	cat $TMPFILE
+	$echo $N "Are you sure you want to proceed (y/n) [y]?$C"
+	read ans
+	case $ans in
+		y*|Y)
+			cat $TMPFILE | while read FILE
+			do
+				if [ -f "$FILE" ]; then
+					/bin/rm -f $FILE
+				else
+					funny - not a file $FILE
+				fi
+			done
+		;;
+		*)
+		;;
+	esac
+else
+	:
+fi
+
+/bin/rm -f $TMPFILE
+
+exit 0

@@ -1,0 +1,326 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./copismall</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir">#!/bin/bash</span>
+<span class="line">    1 </span><span class="dir"># $Id: copismall,v 1.5 2003/08/15 19:34:18 tom Exp $</span>
+<span class="line">    2 </span><span class="dir">#</span>
+<span class="line">    3 </span><span class="dir">#  ComeOn Point Installer! v0.9a.small (small version for cdialog v0.9a)</span>
+<span class="line">    4 </span><span class="dir">#  - installa il point in modo visuale e auto-detecting. Versione light.</span>
+<span class="line">    5 </span><span class="dir">#</span>
+<span class="line">    6 </span><span class="dir">#  AUTHOR: Beppe (beppe.dem&#64;nsm.it)</span>
+<span class="line">    7 </span><span class="dir">#</span>
+<span class="line">    8 </span><span class="dir">#  This program is free software; you can redistribute it and/or</span>
+<span class="line">    9 </span><span class="dir">#  modify it under the terms of the GNU General Public License</span>
+<span class="line">   10 </span><span class="dir">#  as published by the Free Software Foundation; either version 2</span>
+<span class="line">   11 </span><span class="dir">#  of the License, or (at your option) any later version.</span>
+<span class="line">   12 </span><span class="dir">#</span>
+<span class="line">   13 </span><span class="dir">#  This program is distributed in the hope that it will be useful,</span>
+<span class="line">   14 </span><span class="dir">#  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="line">   15 </span><span class="dir">#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="line">   16 </span><span class="dir">#  GNU General Public License for more details.</span>
+<span class="line">   17 </span><span class="dir">#</span>
+<span class="line">   18 </span><span class="dir">#  You should have received a copy of the GNU General Public License</span>
+<span class="line">   19 </span><span class="dir">#  along with this program; if not, write to the Free Software</span>
+<span class="line">   20 </span><span class="dir">#  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.</span>
+<span class="line">   21 </span><span class="dir">#</span>
+<span class="line">   22 </span>
+<span class="line">   23 </span><span class="dir"># THIS IS NOT THE ORIGINAL VERSION!!!! This files was adequate to be</span>
+<span class="line">   24 </span><span class="dir"># a demo for cdialog v0.9a+. However it doesn</span><span class="dstr">'t include all its features.</span>
+<span class="line">   25 </span><span class="dstr"># Look for one of the free ComeOn Linux! tools to have a complete</span>
+<span class="line">   26 </span><span class="dstr"># demo of cdialog. ComeOn Linux! follows the GNU philosophy.</span>
+<span class="line">   27 </span><span class="dstr"># Send peacefully a mail to demarco_p&#64;abramo.it for more info.</span>
+<span class="line">   28 </span><span class="dstr"></span>
+<span class="line">   29 </span><span class="dstr">: ${DIALOG=dialog}</span>
+<span class="line">   30 </span><span class="dstr"></span>
+<span class="line">   31 </span><span class="dstr">#COMEONDIR=/usr/lib/ComeOn</span>
+<span class="line">   32 </span><span class="dstr">#POINTDIR=$COMEONDIR/point</span>
+<span class="line">   33 </span><span class="dstr">POINTDIR=`pwd`</span>
+<span class="line">   34 </span><span class="dstr"></span>
+<span class="line">   35 </span><span class="dstr">AKASETUP=$POINTDIR/.akasetup</span>
+<span class="line">   36 </span><span class="dstr">PNTSETUP=$POINTDIR/.pntsetup</span>
+<span class="line">   37 </span><span class="dstr">EMSIFILE=$POINTDIR/.emsi</span>
+<span class="line">   38 </span><span class="dstr">COPIUSER=$POINTDIR/.copi.user</span>
+<span class="line">   39 </span><span class="dstr">COPIVER=v0.9a.small</span>
+<span class="line">   40 </span><span class="dstr">TITLE=&quot;ComeOn Point Installer! $COPIVER  -+-  (c) 1996 ComeOn Linux!&quot;</span>
+<span class="line">   41 </span><span class="dstr"></span>
+<span class="line">   42 </span><span class="dstr">#FUNCSVER=v0.9.2</span>
+<span class="line">   43 </span><span class="dstr">#FUNCSDIR=$POINTDIR/funcs-$FUNCSVER</span>
+<span class="line">   44 </span><span class="dstr">FUNCSDIR=$POINTDIR/copifuncs</span>
+<span class="line">   45 </span><span class="dstr"></span>
+<span class="line">   46 </span><span class="dstr">#COPIDIR=$POINTDIR/copi-$COPIVER</span>
+<span class="line">   47 </span><span class="dstr">#. $COPIDIR/copishellvars</span>
+<span class="line">   48 </span><span class="dstr"></span>
+<span class="line">   49 </span><span class="dstr">#POINTVER=&quot;v1.1&quot;		# ComeOn Point version</span>
+<span class="line">   50 </span><span class="dstr"></span>
+<span class="line">   51 </span><span class="dstr">if [ $LOGNAME != root ]</span>
+<span class="line">   52 </span><span class="dstr">then</span>
+<span class="line">   53 </span><span class="dstr">  $DIALOG --backtitle &quot;$TITLE&quot; --title &quot;Error!&quot; --beep --msgbox &quot;Questo programma per funzionare correttamente deve essere avviato dall'</span><span class="dir">amministratore di sistema (root).</span><span class="dstr">&quot; 0 0</span>
+<span class="line">   54 </span><span class="dstr">  exit</span>
+<span class="line">   55 </span><span class="dstr">fi</span>
+<span class="line">   56 </span><span class="dstr"></span>
+<span class="line">   57 </span><span class="dstr"></span>
+<span class="line">   58 </span><span class="dstr">$DIALOG --backtitle &quot;</span><span class="dir">$TITLE</span><span class="dstr">&quot; --title &quot;</span><span class="dir">Are you sure?</span><span class="dstr">&quot; --cr-wrap --msgbox &quot;</span><span class="dir">Questo installer procedera</span><span class="dstr">' in modalita'</span><span class="dir"></span>
+<span class="line">   59 </span><span class="kwc">auto</span><span class="sym">-</span>detect all<span class="str">'installazione del point.</span>
+<span class="line">   60 </span><span class="str">Premi &lt;Enter&gt; per iniziare o &lt;Esc&gt; per uscire. &quot; 0 0</span>
+<span class="line">   61 </span><span class="str"></span>
+<span class="line">   62 </span><span class="str">if [ $? = 1 -o $? = 255 ]; then</span>
+<span class="line">   63 </span><span class="str"> exit</span>
+<span class="line">   64 </span><span class="str">fi</span>
+<span class="line">   65 </span><span class="str"></span>
+<span class="line">   66 </span><span class="str"></span>
+<span class="line">   67 </span><span class="str">pushd $FUNCSDIR &gt;/dev/null</span>
+<span class="line">   68 </span><span class="str">. ./copi.funcs</span>
+<span class="line">   69 </span><span class="str">. ./common.funcs</span>
+<span class="line">   70 </span><span class="str">. ./admin.funcs</span>
+<span class="line">   71 </span><span class="str"></span>
+<span class="line">   72 </span><span class="str">###############################################################################</span>
+<span class="line">   73 </span><span class="str">find_incompatible_packages</span>
+<span class="line">   74 </span><span class="str"></span>
+<span class="line">   75 </span><span class="str">if [ &quot;$PKG_TO_REMOVE&quot; ]</span>
+<span class="line">   76 </span><span class="str">then</span>
+<span class="line">   77 </span><span class="str">  $DIALOG --backtitle &quot;$TITLE&quot; --beep --title &quot;Problem detected&quot; --msgbox &quot;Attenzione, prima di poter continuare bisogna avviare pkgtool e rimuovere i seguenti packages: $PKG_TO_REMOVE.&quot; 0 0</span>
+<span class="line">   78 </span><span class="str">  exit</span>
+<span class="line">   79 </span><span class="str">fi</span>
+<span class="line">   80 </span><span class="str"></span>
+<span class="line">   81 </span><span class="str">###############################################################################</span>
+<span class="line">   82 </span><span class="str">mkstemp dialog</span>
+<span class="line">   83 </span><span class="str"></span>
+<span class="line">   84 </span><span class="str">find_necessary_packages</span>
+<span class="line">   85 </span><span class="str"></span>
+<span class="line">   86 </span><span class="str">if [ &quot;$PKG_TO_INSTALL&quot; ]</span>
+<span class="line">   87 </span><span class="str">then</span>
+<span class="line">   88 </span><span class="str">  echo -n &quot;Attenzione, prima di poter continuare bisogna avviare setup ed installare i seguenti packages dai disk sets N (quelli del Networking): $PKG_TO_INSTALL.&quot; &gt;$tmp_dialog</span>
+<span class="line">   89 </span><span class="str"></span>
+<span class="line">   90 </span><span class="str">  if [ &quot;`echo $PKG_TO_INSTALL | grep tcpip`&quot; ]</span>
+<span class="line">   91 </span><span class="str">  then</span>
+<span class="line">   92 </span><span class="str">    echo -n &quot; Ricordarsi poi di effettuare lo shutdown per rendere effettive le modifiche.&quot; &gt;&gt;$tmp_dialog</span>
+<span class="line">   93 </span><span class="str">  fi</span>
+<span class="line">   94 </span><span class="str"></span>
+<span class="line">   95 </span><span class="str">  $DIALOG --backtitle &quot;$TITLE&quot; --beep --title &quot;Problem detected&quot; --msgbox &quot;`cat $tmp_dialog`&quot; 0 0</span>
+<span class="line">   96 </span><span class="str"></span>
+<span class="line">   97 </span><span class="str">  rm $tmp_dialog</span>
+<span class="line">   98 </span><span class="str">  exit</span>
+<span class="line">   99 </span><span class="str">fi</span>
+<span class="line">  100 </span><span class="str"></span>
+<span class="line">  101 </span><span class="str">###############################################################################</span>
+<span class="line">  102 </span><span class="str">mkstemp smailp</span>
+<span class="line">  103 </span><span class="str"></span>
+<span class="line">  104 </span><span class="str">SMAILTGZ=&quot;&quot;</span>
+<span class="line">  105 </span><span class="str">if [ ! -d /usr/lib/smail ]</span>
+<span class="line">  106 </span><span class="str">then</span>
+<span class="line">  107 </span><span class="str">  $DIALOG --backtitle &quot;$TITLE&quot; --title &quot;Smail not found&quot; --inputbox &quot;Bisogna installare Smail, per cui inserire il percorso completo di dove trovarne i binari compressi&quot; 0 0 &quot;/cdrom/sunsite/system/Mail/delivery/smail-linuxbin-3.1.29.1.tar.gz&quot; 2&gt;$tmp_smailp</span>
+<span class="line">  108 </span><span class="str">  SMAILTGZ=&quot;`cat $tmp_smailp`&quot;</span>
+<span class="line">  109 </span><span class="str">  rm $tmp_smailp</span>
+<span class="line">  110 </span><span class="str">  while [ ! -f &quot;$SMAILTGZ&quot; ]</span>
+<span class="line">  111 </span><span class="str">  do</span>
+<span class="line">  112 </span><span class="str">    $DIALOG --backtitle &quot;$TITLE&quot; --beep --title &quot;Archive not found&quot; --inputbox &quot;Percorso di file</span> <span class="esc">\&quot;</span><span class="str">$SMAILTGZ</span><span class="esc">\&quot;</span> <span class="str">non valido, controllarne la correttezza.&quot; 0 0 &quot;/cdrom/sunsite/system/Mail/delivery/smail-linuxbin-3.1.29.1.tar.gz&quot; 2&gt;$tmp_smailp</span>
+<span class="line">  113 </span><span class="str">    SMAILTGZ=&quot;`cat $tmp_smailp`&quot;</span>
+<span class="line">  114 </span><span class="str">    rm $tmp_smailp</span>
+<span class="line">  115 </span><span class="str">  done</span>
+<span class="line">  116 </span><span class="str">fi</span>
+<span class="line">  117 </span><span class="str"></span>
+<span class="line">  118 </span><span class="str">###############################################################################</span>
+<span class="line">  119 </span><span class="str">mkstemp target</span>
+<span class="line">  120 </span><span class="str">mkstemp asetup</span>
+<span class="line">  121 </span><span class="str">mkstemp psetup</span>
+<span class="line">  122 </span><span class="str"></span>
+<span class="line">  123 </span><span class="str">AKA=&quot;&quot;</span>
+<span class="line">  124 </span><span class="str">while [ ! &quot;$AKA&quot; ]</span>
+<span class="line">  125 </span><span class="str">do</span>
+<span class="line">  126 </span><span class="str">  $DIALOG --backtitle &quot;$TITLE&quot; --title &quot;Primary address&quot; --inputbox &quot;Inserire il proprio address principale, completo di point e di domain. Il poll sara'</span> effettuato per <span class="kwa">default</span> dal boss corrispondente<span class="sym">.</span><span class="str">&quot; 0 0 &quot;</span><span class="num">2</span><span class="sym">:</span><span class="num">335</span><span class="sym">/</span><span class="num">722.7</span>&#64;fidonet<span class="str">&quot; 2&gt;$tmp_target</span>
+<span class="line">  127 </span><span class="str">  AKAFTN=&quot;</span>`cat $tmp_target`<span class="str">&quot;</span>
+<span class="line">  128 </span><span class="str">  rm $tmp_target</span>
+<span class="line">  129 </span><span class="str">  fidonetpoint2int $AKAFTN</span>
+<span class="line">  130 </span><span class="str">  AKA=&quot;</span>$_RETVAL<span class="str">&quot;</span>
+<span class="line">  131 </span><span class="str">done</span>
+<span class="line">  132 </span><span class="str">echo -n &quot;</span>`echo $AKA <span class="sym">|</span> cut <span class="sym">-</span>f2<span class="sym">- -</span>d<span class="sym">.</span>`<span class="sym">:</span><span class="str">&quot; &gt;$tmp_asetup</span>
+<span class="line">  133 </span><span class="str">echo -n &quot;</span>`echo $AKA <span class="sym">|</span> cut <span class="sym">-</span>f1 <span class="sym">-</span>d<span class="sym">. |</span> cut <span class="sym">-</span>c2<span class="sym">-</span>`<span class="sym">:</span><span class="str">&quot; &gt;$tmp_psetup</span>
+<span class="line">  134 </span><span class="str">AKASFTN=&quot;</span>$AKAFTN<span class="str">&quot;</span>
+<span class="line">  135 </span><span class="str">AKAS=&quot;</span>$AKA<span class="str">&quot;</span>
+<span class="line">  136 </span><span class="str">while [ &quot;</span>$AKAFTN<span class="str">&quot; ]</span>
+<span class="line">  137 </span><span class="str">do</span>
+<span class="line">  138 </span><span class="str">  $DIALOG --backtitle &quot;</span>$TITLE<span class="str">&quot; --title &quot;</span>AKAs<span class="str">&quot; --inputbox &quot;</span>Inserire un eventuale address secondario<span class="sym">,</span> oppure lasciare la riga vuota per proseguire<span class="sym">.</span> Attenzione<span class="sym">:</span> nel caso si abbiano piu<span class="str">' indirizzi sulla stessa rete, bisognera'</span> configurare solo uno di questi<span class="sym">.</span>  Gli indirizzi correntemente definiti sono<span class="sym">:</span> $AKASFTN<span class="str">&quot; 0 0 2&gt;$tmp_target</span>
+<span class="line">  139 </span><span class="str">  AKAFTN=&quot;</span>`cat $tmp_target`<span class="str">&quot;</span>
+<span class="line">  140 </span><span class="str">  rm $tmp_target</span>
+<span class="line">  141 </span><span class="str">  if [ &quot;</span>$AKAFTN<span class="str">&quot; ]</span>
+<span class="line">  142 </span><span class="str">  then</span>
+<span class="line">  143 </span><span class="str">    fidonetpoint2int $AKAFTN</span>
+<span class="line">  144 </span><span class="str">    AKA=&quot;</span>$_RETVAL<span class="str">&quot;</span>
+<span class="line">  145 </span><span class="str">    if [ &quot;</span>`echo $AKAS <span class="sym">|</span> grep \&quot;<span class="sym">.</span>\`echo $AKA <span class="sym">|</span> cut <span class="sym">-</span>f5 <span class="sym">-</span>d<span class="sym">.</span>\`<span class="sym">.</span>\&quot;`<span class="str">&quot; ]</span>
+<span class="line">  146 </span><span class="str">    then</span>
+<span class="line">  147 </span><span class="str">      $DIALOG --backtitle &quot;</span>$TITLE<span class="str">&quot; --beep --title &quot;</span>Invalid address<span class="str">&quot; --msgbox &quot;</span>Non si possono avere piu<span class="str">' indirizzi sullo stesso dominio (net).&quot; 0 0</span>
+<span class="line">  148 </span><span class="str">    else</span>
+<span class="line">  149 </span><span class="str">      AKASFTN=&quot;$AKASFTN $AKAFTN&quot;</span>
+<span class="line">  150 </span><span class="str">      AKAS=&quot;$AKAS $AKA&quot;</span>
+<span class="line">  151 </span><span class="str">      echo -n &quot;`echo $AKA | cut -f2- -d.`:&quot; &gt;&gt;$tmp_asetup</span>
+<span class="line">  152 </span><span class="str">      echo -n &quot;`echo $AKA | cut -f1 -d. | cut -c2-`:&quot; &gt;&gt;$tmp_psetup</span>
+<span class="line">  153 </span><span class="str">    fi</span>
+<span class="line">  154 </span><span class="str">  fi</span>
+<span class="line">  155 </span><span class="str">done</span>
+<span class="line">  156 </span><span class="str">echo &quot;:&quot; &gt;&gt;$tmp_asetup</span>
+<span class="line">  157 </span><span class="str">echo &quot;:&quot; &gt;&gt;$tmp_psetup</span>
+<span class="line">  158 </span><span class="str">save $AKASETUP</span>
+<span class="line">  159 </span><span class="str">save $PNTSETUP</span>
+<span class="line">  160 </span><span class="str">mv $tmp_asetup $AKASETUP</span>
+<span class="line">  161 </span><span class="str">mv $tmp_psetup $PNTSETUP</span>
+<span class="line">  162 </span><span class="str"></span>
+<span class="line">  163 </span><span class="str">###############################################################################</span>
+<span class="line">  164 </span><span class="str">mkstemp hostnm</span>
+<span class="line">  165 </span><span class="str"></span>
+<span class="line">  166 </span><span class="str">$DIALOG --backtitle &quot;$TITLE&quot; --title &quot;Hostname&quot; --inputbox &quot;Inserire l'</span>hostname di questo computer qualora si abbia una rete gia<span class="str">' configurata, altrimenti inventarne uno fittizio da assegnare e questa macchina verra'</span> configurata per il loopback<span class="sym">.</span><span class="str">&quot; 0 0 &quot;</span>quark<span class="sym">.</span>comeon<span class="sym">.</span>org<span class="str">&quot; 2&gt;$tmp_hostnm</span>
+<span class="line">  167 </span><span class="str">NEW_HOSTNAME=&quot;</span>`cat $tmp_hostnm`<span class="str">&quot;</span>
+<span class="line">  168 </span><span class="str">rm $tmp_hostnm</span>
+<span class="line">  169 </span><span class="str"></span>
+<span class="line">  170 </span><span class="str">###############################################################################</span>
+<span class="line">  171 </span><span class="str">mkstemp master</span>
+<span class="line">  172 </span><span class="str"></span>
+<span class="line">  173 </span><span class="str">$DIALOG --backtitle &quot;</span>$TITLE<span class="str">&quot; --title &quot;</span>Point admin<span class="str">&quot; --inputbox &quot;</span>Scegliere l<span class="str">'user principale per la gestione e l'</span>uso del point<span class="sym">.</span> Se l<span class="str">'user non esiste, verra'</span> creato<span class="sym">.</span> Se esiste<span class="sym">,</span> ne verranno adattate le informazioni quali nome<span class="sym">,</span> gruppi<span class="sym">,</span> etc<span class="sym">.</span><span class="str">&quot; 0 0 &quot;</span>beppe<span class="str">&quot; --and-widget --title &quot;</span>Insert SysOp<span class="str">'s name&quot; --inputbox &quot;Inserire nome e cognome del gestore ed utilizzatore principale del point (il proprio nome).&quot; 0 0 &quot;Giuseppe De Marco&quot; --and-widget --title &quot;Choose editor&quot; --inputbox &quot;Scegliere l'</span>editor da usare per scrivere i messaggi<span class="str">&quot; 0 0 &quot;</span>vim<span class="str">&quot; 2&gt;$tmp_master</span>
+<span class="line">  174 </span><span class="str">POST_USER=&quot;</span>`cut $tmp_master <span class="sym">-</span>f1`<span class="str">&quot;</span>
+<span class="line">  175 </span><span class="str">POST_NAME=&quot;</span>`cut $tmp_master <span class="sym">-</span>f2`<span class="str">&quot;</span>
+<span class="line">  176 </span><span class="str">POST_EDIT=&quot;</span>`cut $tmp_master <span class="sym">-</span>f3`<span class="str">&quot;</span>
+<span class="line">  177 </span><span class="str">rm $tmp_master</span>
+<span class="line">  178 </span><span class="str">save $COPIUSER</span>
+<span class="line">  179 </span><span class="str">echo $POST_USER &gt;$COPIUSER</span>
+<span class="line">  180 </span><span class="str"></span>
+<span class="line">  181 </span><span class="str">###############################################################################</span>
+<span class="line">  182 </span><span class="str">mkstemp expire</span>
+<span class="line">  183 </span><span class="str">mkstemp origin</span>
+<span class="line">  184 </span><span class="str"></span>
+<span class="line">  185 </span><span class="str">$DIALOG --backtitle &quot;</span>$TITLE<span class="str">&quot; --title &quot;</span>Origin<span class="str">&quot; --inputbox &quot;</span>Scegliere l<span class="str">'Origin del sistema&quot; 9 60 &quot;$POST_USER'</span>s linux box<span class="str">&quot; 2&gt;$tmp_origin</span>
+<span class="line">  186 </span><span class="str">NEW_ORIGIN=&quot;</span>`cat $tmp_origin`<span class="str">&quot;</span>
+<span class="line">  187 </span><span class="str">rm $tmp_origin</span>
+<span class="line">  188 </span><span class="str"></span>
+<span class="line">  189 </span><span class="str">$DIALOG --backtitle &quot;</span>$TITLE<span class="str">&quot; --title &quot;</span>News expiring<span class="str">&quot; --inputbox &quot;</span>Decidere per quanti giorni i messaggi <span class="kwd">echomail</span> <span class="sym">(</span>le news<span class="sym">)</span> dovranno transitare sul sistema prima di venire cancellati automaticamente da news<span class="sym">.</span>daily<span class="sym">.</span> Inserire never se si vuole che non vengano mai cancellati<span class="sym">.</span> Sono ammesse cifre <span class="kwd">decimali</span> <span class="sym">(</span>i<span class="sym">.</span>e<span class="sym">.</span> <span class="num">25.5</span><span class="sym">).</span>  Notare comunque che il valore qui inserito e<span class="str">' quello di default, ma per ogni singola area (newsgroup) sara'</span> possibile specificare poi un valore appropriato<span class="sym">.</span><span class="str">&quot; 0 0 &quot;</span><span class="num">30</span><span class="str">&quot; 2&gt;$tmp_expire</span>
+<span class="line">  190 </span><span class="str">KEEPDAYS=&quot;</span>`cat $tmp_expire`<span class="str">&quot;</span>
+<span class="line">  191 </span><span class="str">rm $tmp_expire</span>
+<span class="line">  192 </span><span class="str"></span>
+<span class="line">  193 </span><span class="str">###############################################################################</span>
+<span class="line">  194 </span><span class="str">mkstemp dialer</span>
+<span class="line">  195 </span><span class="str">mkstemp ifmail</span>
+<span class="line">  196 </span><span class="str">mkstemp mailvr</span>
+<span class="line">  197 </span><span class="str">mkstemp passwd</span>
+<span class="line">  198 </span><span class="str"></span>
+<span class="line">  199 </span><span class="str">IFMAILTGZ=&quot;</span><span class="str">&quot;</span>
+<span class="line">  200 </span><span class="str">IFMAILVERS=&quot;</span><span class="str">&quot;</span>
+<span class="line">  201 </span><span class="str">if [ ! -d /usr/lib/ifmail -o ! -d /etc/ifmail -o ! -d /var/log/ifmail -o ! -f /usr/lib/ifmail/ifcico ]</span>
+<span class="line">  202 </span><span class="str">then</span>
+<span class="line">  203 </span><span class="str">  $DIALOG --backtitle &quot;</span>$TITLE<span class="str">&quot; --title &quot;</span>ifmail <span class="kwa">not</span> found<span class="str">&quot; --inputbox &quot;</span>Inserire il percorso COMPLETO dei sorgenti compressi di ifmail che verranno decompressi in <span class="sym">/</span>usr<span class="sym">/</span>src e compilati<span class="sym">.</span><span class="str">&quot; 0 0 &quot;</span><span class="sym">/</span>cdrom<span class="sym">/</span>sunsite<span class="sym">/</span>system<span class="sym">/</span>Mail<span class="sym">/</span>transport<span class="sym">/</span>ifmail<span class="sym">-</span><span class="num">2.8</span>b<span class="sym">.</span>tar<span class="sym">.</span>gz<span class="str">&quot; 2&gt;$tmp_ifmail</span>
+<span class="line">  204 </span><span class="str">  IFMAILTGZ=&quot;</span>`cat $tmp_ifmail`<span class="str">&quot;</span>
+<span class="line">  205 </span><span class="str">  rm $tmp_ifmail</span>
+<span class="line">  206 </span><span class="str">  while [ ! -f &quot;</span>$IFMAILTGZ<span class="str">&quot; ]</span>
+<span class="line">  207 </span><span class="str">  do</span>
+<span class="line">  208 </span><span class="str">    $DIALOG --backtitle &quot;</span>$TITLE<span class="str">&quot; --beep --title &quot;</span>invalid filename<span class="str">&quot; --inputbox &quot;</span>Percorso di file \&quot;$IFMAILTGZ\&quot; non valido<span class="sym">,</span> controllarne la correttezza<span class="sym">.</span><span class="str">&quot; 0 0 &quot;</span><span class="sym">/</span>cdrom<span class="sym">/</span>sunsite<span class="sym">/</span>system<span class="sym">/</span>Mail<span class="sym">/</span>transport<span class="sym">/</span>ifmail<span class="sym">-</span><span class="num">2.8</span>b<span class="sym">.</span>tar<span class="sym">.</span>gz<span class="str">&quot; 2&gt;$tmp_ifmail</span>
+<span class="line">  209 </span><span class="str">    IFMAILTGZ=&quot;</span>`cat $tmp_ifmail`<span class="str">&quot;</span>
+<span class="line">  210 </span><span class="str">    rm $tmp_ifmail</span>
+<span class="line">  211 </span><span class="str">  done</span>
+<span class="line">  212 </span><span class="str"></span>
+<span class="line">  213 </span><span class="str">  $DIALOG --backtitle &quot;</span>$TITLE<span class="str">&quot; --title &quot;</span>ifmail version<span class="str">&quot; --inputbox &quot;</span>Specificare la versione di ifmail<span class="str">&quot; 0 0 &quot;</span><span class="num">2.8</span>b<span class="str">&quot; 2&gt;$tmp_mailvr</span>
+<span class="line">  214 </span><span class="str">  IFMAILVERS=&quot;</span>`cat $tmp_mailvr` <span class="sym">+</span> ComeOn Point $POINTVER<span class="str">&quot;</span>
+<span class="line">  215 </span><span class="str">  rm $tmp_mailvr</span>
+<span class="line">  216 </span><span class="str">fi</span>
+<span class="line">  217 </span><span class="str"></span>
+<span class="line">  218 </span><span class="str">IAKA=1</span>
+<span class="line">  219 </span><span class="str">PASSW=&quot;</span><span class="str">&quot;</span>
+<span class="line">  220 </span><span class="str">AKA=&quot;</span>`cut $AKASETUP <span class="sym">-</span>f$IAKA <span class="sym">-</span>d<span class="sym">:</span>`<span class="str">&quot;</span>
+<span class="line">  221 </span><span class="str">while [ &quot;</span>$AKA<span class="str">&quot; ]</span>
+<span class="line">  222 </span><span class="str">do</span>
+<span class="line">  223 </span><span class="str">  int2fido $AKA</span>
+<span class="line">  224 </span><span class="str">  AKAFTN=&quot;</span>$_RETVAL<span class="str">&quot;</span>
+<span class="line">  225 </span><span class="str">  $DIALOG --backtitle &quot;</span>$TITLE<span class="str">&quot; --title &quot;</span>Password<span class="str">&quot; --inputbox &quot;</span>Specificare la password di sessione e per i pacchetti per il nodo $AKAFTN <span class="sym">--</span> attenzione che alcuni mailers accettano solo passwords da <span class="num">8</span> caratteri in maiuscolo<span class="sym">!!</span><span class="str">&quot; 0 0 &quot;</span>MYPASSWD<span class="str">&quot; 2&gt;$tmp_passwd</span>
+<span class="line">  226 </span><span class="str">  PASSW=&quot;</span>$PASSW`cat $tmp_passwd`<span class="sym">:</span><span class="str">&quot;</span>
+<span class="line">  227 </span><span class="str">  rm $tmp_passwd</span>
+<span class="line">  228 </span><span class="str">  IAKA=$[$IAKA+1]</span>
+<span class="line">  229 </span><span class="str">  AKA=&quot;</span>`cut $AKASETUP <span class="sym">-</span>f$IAKA <span class="sym">-</span>d<span class="sym">:</span>`<span class="str">&quot;</span>
+<span class="line">  230 </span><span class="str">done</span>
+<span class="line">  231 </span><span class="str">PASSW=&quot;</span>$PASSW<span class="sym">:</span><span class="str">&quot;</span>
+<span class="line">  232 </span><span class="str"></span>
+<span class="line">  233 </span><span class="str">$DIALOG --backtitle &quot;</span>$TITLE<span class="str">&quot;</span> <span class="esc">\</span>
+<span class="line">  234 </span><span class="str">--title &quot;</span>Modem speed<span class="str">&quot; --inputbox &quot;</span>Specificare la velocita<span class="str">' del proprio modem (che sta su /dev/modem)&quot; 0 0 &quot;16800&quot; --and-widget</span> <span class="esc">\</span>
+<span class="line">  235 </span><span class="str">--title &quot;System name&quot; --inputbox &quot;Specificare il nome del sistema per il pacchetto EMSI&quot; 0 0 &quot;`cat $COPIUSER`'</span>s linux point<span class="str">&quot; --and-widget</span> <span class="esc">\</span>
+<span class="line">  236 </span><span class="str">--title &quot;</span>Location<span class="str">&quot; --inputbox &quot;</span>Inserire la localita<span class="str">' fisica in cui risiede il sistema&quot; 0 0 &quot;Catanzaro, Italy - Europe&quot; --and-widget</span> <span class="esc">\</span>
+<span class="line">  237 </span><span class="str">--title &quot;Phone number&quot; --inputbox &quot;Inserire il proprio numero di telefono in formato internazionale, cioe'</span> completo di doppio <span class="kwd">prefisso</span> <span class="sym">(</span>xx<span class="sym">-</span>yyy<span class="sym">-</span>zzzzzz<span class="sym">)</span><span class="str">&quot; 0 0 &quot;</span><span class="num">39</span><span class="sym">-</span><span class="num">961</span><span class="sym">-</span><span class="num">31997</span><span class="str">&quot; --and-widget</span> <span class="esc">\</span>
+<span class="line">  238 </span><span class="str">--title &quot;</span>International call prefix<span class="str">&quot; --inputbox &quot;</span>Specificare il prefisso da comporre per poter effettuare una chiamata <span class="kwd">internazionale</span> <span class="sym">(</span>se ci si trova in Italia ad es<span class="sym">.</span> bisogna inserire <span class="num">00</span><span class="sym">)</span><span class="str">&quot; 0 0 &quot;</span><span class="num">00</span><span class="str">&quot; --and-widget</span> <span class="esc">\</span>
+<span class="line">  239 </span><span class="str">--title &quot;</span>Long<span class="sym">-</span>distance call prefix<span class="str">&quot; --inputbox &quot;</span>Specificare il prefisso da comporre per poter effettuare una chiamata interurbana in ambito nazionale<span class="sym">,</span> che verra<span class="str">' sostituito al prefisso della propria nazione quando incontrato in nodelist (per l'</span>Italia ad es<span class="sym">.</span> bisogna inserire <span class="num">0</span><span class="sym">,</span> che sostituira<span class="str">' il 39)&quot; 0 0 &quot;0&quot; --and-widget</span> <span class="esc">\</span>
+<span class="line">  240 </span><span class="str">--title &quot;Pointlist flags&quot; --inputbox &quot;Inserire eventuali flags stile pointlist per il pacchetto EMSI&quot; 0 0 &quot;MO,V32B,V42B,ZYX&quot; --and-widget</span> <span class="esc">\</span>
+<span class="line">  241 </span><span class="str">--title &quot;Modem dialing&quot; --inputbox &quot;Inserire la stringa da inviare al modem per comporre un numero telefonico&quot; 0 0 &quot;ATDT&quot; 2&gt;$tmp_dialer</span>
+<span class="line">  242 </span><span class="str"></span>
+<span class="line">  243 </span><span class="str">echo -en &quot;</span><span class="esc">\t</span><span class="str">$POST_NAME</span><span class="esc">\t\t</span><span class="str">&quot; &gt;&gt;$tmp_dialer</span>
+<span class="line">  244 </span><span class="str">save $EMSIFILE</span>
+<span class="line">  245 </span><span class="str">mv $tmp_dialer $EMSIFILE</span>
+<span class="line">  246 </span><span class="str"></span>
+<span class="line">  247 </span><span class="str">###############################################################################</span>
+<span class="line">  248 </span><span class="str"></span>
+<span class="line">  249 </span><span class="str">if [ -d /etc/smail ]</span>
+<span class="line">  250 </span><span class="str">then</span>
+<span class="line">  251 </span><span class="str">  SMAILCFGDIR=/etc/smail</span>
+<span class="line">  252 </span><span class="str">else</span>
+<span class="line">  253 </span><span class="str">  SMAILCFGDIR=/usr/lib/smail</span>
+<span class="line">  254 </span><span class="str">fi</span>
+<span class="line">  255 </span><span class="str"></span>
+<span class="line">  256 </span><span class="str">###############################################################################</span>
+<span class="line">  257 </span><span class="str"></span>
+<span class="line">  258 </span><span class="str">$DIALOG --backtitle &quot;$TITLE&quot; --title &quot;First step completed!&quot; --msgbox &quot;OK, ora ho tutte le informazioni necessarie per poter installare il point. Da qui in poi faro'</span> tutto da solo<span class="sym">,</span> quindi ci si puo<span class="str">' tranquillamente andare a prendere un caffe'</span><span class="sym">. :-)</span><span class="str">&quot; 0 0</span>
+<span class="line">  259 </span><span class="str"></span>
+<span class="line">  260 </span><span class="str">###############################################################################</span>
+<span class="line">  261 </span><span class="str"></span>
+<span class="line">  262 </span><span class="str">killall sendmail 2&gt;/dev/null</span>
+<span class="line">  263 </span><span class="str">if [ $SMAILTGZ ]; then tar zxvf $SMAILTGZ -C / &gt;/dev/null; fi</span>
+<span class="line">  264 </span><span class="str">/usr/sbin/sendmail -bd -q15m</span>
+<span class="line">  265 </span><span class="str"></span>
+<span class="line">  266 </span><span class="str">if [ ! &quot;</span>`ping <span class="sym">-</span>c1 $NEW_HOSTNAME <span class="sym">|</span> grep \&quot;<span class="num">1</span> packets received\&quot;`<span class="str">&quot; ]; then</span>
+<span class="line">  267 </span><span class="str">  configure_loopback $NEW_HOSTNAME</span>
+<span class="line">  268 </span><span class="str">fi</span>
+<span class="line">  269 </span><span class="str"></span>
+<span class="line">  270 </span><span class="str">add_postmaster &quot;</span>$POST_USER<span class="str">&quot; &quot;</span>$POST_NAME<span class="str">&quot;</span>
+<span class="line">  271 </span><span class="str">add_alias &quot;</span>$POST_NAME<span class="str">&quot; &quot;</span>$POST_USER<span class="str">&quot;</span>
+<span class="line">  272 </span><span class="str">configure_trn &quot;</span>$POST_USER<span class="str">&quot; &quot;</span>$POST_EDIT<span class="str">&quot;</span>
+<span class="line">  273 </span><span class="str">configure_elm &quot;</span>$POST_USER<span class="str">&quot; &quot;</span>$POST_EDIT<span class="str">&quot;</span>
+<span class="line">  274 </span><span class="str"></span>
+<span class="line">  275 </span><span class="str">comment_nntp_in_inetdconf</span>
+<span class="line">  276 </span><span class="str">set_organization &quot;</span>$NEW_ORIGIN<span class="str">&quot;</span>
+<span class="line">  277 </span><span class="str">create_innconf_newsfeeds_distrib</span>
+<span class="line">  278 </span><span class="str">create_expirectl $KEEPDAYS</span>
+<span class="line">  279 </span><span class="str">create_nnrpaccess</span>
+<span class="line">  280 </span><span class="str">create_hostsnntp</span>
+<span class="line">  281 </span><span class="str">create_dirs_and_files</span>
+<span class="line">  282 </span><span class="str">install_rcnews</span>
+<span class="line">  283 </span><span class="str">install_crontab_news</span>
+<span class="line">  284 </span><span class="str">if [ $IFMAILTGZ ]; then</span>
+<span class="line">  285 </span><span class="str">  install_ifmail &quot;</span>$IFMAILTGZ<span class="str">&quot; /usr/lib/ifmail /etc/ifmail /var/log/ifmail &quot;</span>$IFMAILVERS<span class="str">&quot; /usr/src</span>
+<span class="line">  286 </span><span class="str">fi</span>
+<span class="line">  287 </span><span class="str">configure_ifmail /usr/lib/ifmail /etc/ifmail /var/log/ifmail &quot;</span>$PASSW<span class="str">&quot;</span>
+<span class="line">  288 </span><span class="str">configure_smail $SMAILCFGDIR</span>
+<span class="line">  289 </span><span class="str"></span>
+<span class="line">  290 </span><span class="str">###############################################################################</span>
+<span class="line">  291 </span><span class="str">$DIALOG --backtitle &quot;</span>$TITLE<span class="str">&quot;</span> <span class="esc">\</span>
+<span class="line">  292 </span><span class="str">--title &quot;</span><span class="sym">-=[</span> Enjoy<span class="sym">! ]=-</span><span class="str">&quot; --msgbox &quot;</span>Il point e<span class="str">' stato installato con successo!&quot; 0 0 --and-widget</span> <span class="esc">\</span>
+<span class="line">  293 </span><span class="str">--msgbox &quot;trn (il newsreader, per leggere/scrivere gli echomail) ed elm (il mailreader, per leggere/scrivere i netmail) sono gia'</span> stati configurati per l<span class="str">'user $POST_USER.&quot; 0 0</span>
+<span class="line">  294 </span><span class="str"></span>
+<span class="line">  295 </span><span class="str">popd &gt;/dev/null</span>
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

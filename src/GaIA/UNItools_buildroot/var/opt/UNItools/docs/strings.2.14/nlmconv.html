@@ -1,0 +1,142 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of NLMCONV</TITLE>
+</HEAD><BODY>
+<H1>NLMCONV</H1>
+Section: GNU Development Tools (1)<BR>Updated: 2003-04-27<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+nlmconv - converts object code into an NLM.
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<A NAME="ixAAC"></A>
+nlmconv [<B>-I</B> <I>bfdname</I>|<B>--input-target=</B><I>bfdname</I>]
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<B>-O</B>&nbsp;<I>bfdname</I>|<B>--output-target=</B><I>bfdname</I>]
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<B>-T</B>&nbsp;<I>headerfile</I>|<B>--header-file=</B><I>headerfile</I>]
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<B>-d</B>|<B>--debug</B>]&nbsp;[<B>-l</B>&nbsp;<I>linker</I>|<B>--linker=</B><I>linker</I>]
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<B>-h</B>|<B>--help</B>]&nbsp;[<B>-V</B>|<B>--version</B>]
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<I>infile</I>&nbsp;<I>outfile</I>
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<A NAME="ixAAD"></A>
+<B>nlmconv</B> converts the relocatable <B>i386</B> object file
+<I>infile</I> into the NetWare Loadable Module <I>outfile</I>, optionally
+reading <I>headerfile</I> for <FONT SIZE="-1">NLM</FONT> header information.  For instructions
+on writing the <FONT SIZE="-1">NLM</FONT> command file language used in header files, see the
+<B>linkers</B> section, <B></B><FONT SIZE="-1"><B>NLMLINK</B></FONT><B></B> in particular, of the <I></I><FONT SIZE="-1"><I>NLM</I></FONT><I>
+Development and Tools Overview</I>, which is part of the <FONT SIZE="-1">NLM</FONT> Software
+Developer's Kit (``<FONT SIZE="-1">NLM</FONT> <FONT SIZE="-1">SDK</FONT>''), available from Novell, Inc.
+<B>nlmconv</B> uses the <FONT SIZE="-1">GNU</FONT> Binary File Descriptor library to read
+<I>infile</I>;
+<P>
+
+<B>nlmconv</B> can perform a link step.  In other words, you can list
+more than one object file for input if you list them in the definitions
+file (rather than simply specifying one input file on the command line).
+In this case, <B>nlmconv</B> calls the linker for you.
+<A NAME="lbAE">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+<A NAME="ixAAE"></A>
+<DL COMPACT>
+<DT><B>-I</B> <I>bfdname</I><DD>
+<A NAME="ixAAF"></A>
+
+<DT><B>--input-target=</B><I>bfdname</I><DD>
+<A NAME="ixAAG"></A>
+
+Object format of the input file.  <B>nlmconv</B> can usually determine
+the format of a given file (so no default is necessary).
+<DT><B>-O</B> <I>bfdname</I><DD>
+<A NAME="ixAAH"></A>
+
+<DT><B>--output-target=</B><I>bfdname</I><DD>
+<A NAME="ixAAI"></A>
+
+Object format of the output file.  <B>nlmconv</B> infers the output
+format based on the input format, e.g. for a <B>i386</B> input file the
+output format is <B>nlm32-i386</B>.
+<DT><B>-T</B> <I>headerfile</I><DD>
+<A NAME="ixAAJ"></A>
+
+<DT><B>--header-file=</B><I>headerfile</I><DD>
+<A NAME="ixAAK"></A>
+
+Reads <I>headerfile</I> for <FONT SIZE="-1">NLM</FONT> header information.  For instructions on
+writing the <FONT SIZE="-1">NLM</FONT> command file language used in header files, see see the
+<B>linkers</B> section, of the <I></I><FONT SIZE="-1"><I>NLM</I></FONT><I> Development and Tools
+Overview</I>, which is part of the <FONT SIZE="-1">NLM</FONT> Software Developer's Kit, available
+from Novell, Inc.
+<DT><B>-d</B><DD>
+<A NAME="ixAAL"></A>
+
+<DT><B>--debug</B><DD>
+<A NAME="ixAAM"></A>
+
+Displays (on standard error) the linker command line used by <B>nlmconv</B>.
+<DT><B>-l</B> <I>linker</I><DD>
+<A NAME="ixAAN"></A>
+
+<DT><B>--linker=</B><I>linker</I><DD>
+<A NAME="ixAAO"></A>
+
+Use <I>linker</I> for any linking.  <I>linker</I> can be an absolute or a
+relative pathname.
+<DT><B>-h</B><DD>
+<A NAME="ixAAP"></A>
+
+<DT><B>--help</B><DD>
+<A NAME="ixAAQ"></A>
+
+Prints a usage summary.
+<DT><B>-V</B><DD>
+<A NAME="ixAAR"></A>
+
+<DT><B>--version</B><DD>
+<A NAME="ixAAS"></A>
+
+Prints the version number for <B>nlmconv</B>.
+</DL>
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<A NAME="ixAAT"></A>
+the Info entries for <I>binutils</I>.
+<A NAME="lbAG">&nbsp;</A>
+<H2>COPYRIGHT</H2>
+
+<A NAME="ixAAU"></A>
+Copyright (c) 1991, 92, 93, 94, 95, 96, 97, 98, 99, 2000,
+2001, 2002, 2003 Free Software Foundation, Inc.
+<P>
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the <FONT SIZE="-1">GNU</FONT> Free Documentation License, Version 1.1
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, with no Front-Cover Texts, and with no
+Back-Cover Texts.  A copy of the license is included in the
+section entitled ``<FONT SIZE="-1">GNU</FONT> Free Documentation License''.
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">OPTIONS</A><DD>
+<DT><A HREF="#lbAF">SEE ALSO</A><DD>
+<DT><A HREF="#lbAG">COPYRIGHT</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 12:13:13 GMT, August 25, 2016
+</BODY>
+</HTML>

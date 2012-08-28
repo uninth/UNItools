@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../../../tocTab.js"></script>
+<title>XML::Parser::Style::Stream - Stream style for XML::Parser</title>
+<link rel="stylesheet" href="../../../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',7);</script>
+<h1><a>XML::Parser::Style::Stream - Stream style for XML::Parser</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>XML::Parser::Style::Stream - Stream style for XML::Parser</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  use XML::Parser;
+  my $p = XML::Parser-&gt;new(Style =&gt; 'Stream', Pkg =&gt; 'MySubs');
+  $p-&gt;parsefile('foo.xml');
+  
+  {
+    package MySubs;
+    
+    sub StartTag {
+      my ($e, $name) = @_;
+      # do something with start tags
+    }
+    
+    sub EndTag {
+      my ($e, $name) = @_;
+      # do something with end tags
+    }
+    
+    sub Characters {
+      my ($e, $data) = @_;
+      # do something with text nodes
+    }
+  }</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This style uses the Pkg option to find subs in a given package to call for each event.
+If none of the subs that this
+style looks for is there, then the effect of parsing with this style is
+to print a canonical copy of the document without comments or declarations.
+All the subs receive as their 1st parameter the Expat instance for the
+document they're parsing.</p>
+<p>It looks for the following routines:</p>
+<ul>
+<li><strong><a name="item_startdocument">StartDocument</a></strong>
+
+<p>Called at the start of the parse .</p>
+</li>
+<li><strong><a name="item_starttag">StartTag</a></strong>
+
+<p>Called for every start tag with a second parameter of the element type. The $_
+variable will contain a copy of the tag and the %_ variable will contain
+attribute values supplied for that element.</p>
+</li>
+<li><strong><a name="item_endtag">EndTag</a></strong>
+
+<p>Called for every end tag with a second parameter of the element type. The $_
+variable will contain a copy of the end tag.
+
+</p>
+</li>
+<li><strong><a name="item_text">Text</a></strong>
+
+<p>Called just before start or end tags with accumulated non-markup text in
+the $_ variable.
+
+</p>
+</li>
+<li><strong><a name="item_pi">PI</a></strong>
+
+<p>Called for processing instructions. The $_ variable will contain a copy of
+the PI and the target and data are sent as 2nd and 3rd parameters
+respectively.
+
+</p>
+</li>
+<li><strong><a name="item_enddocument">EndDocument</a></strong>
+
+<p>Called at conclusion of the parse.
+
+</p>
+</li>
+</ul>
+
+</body>
+
+</html>

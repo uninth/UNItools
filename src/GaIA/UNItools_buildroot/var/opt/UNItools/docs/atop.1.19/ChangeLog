@@ -1,0 +1,63 @@
+2007-01-18  Gerlof Langeveld  <gerlof@ATComputing.nl>
+
+        * deviate.c:
+		Support for network-interface busy-percentage.
+
+2007-01-18  Gerlof Langeveld  <gerlof@ATComputing.nl>
+
+        * showgeneric.c:
+		Add support for colors and automatic determination of most
+		critical resource.
+
+2007-01-18  Gerlof Langeveld  <gerlof@ATComputing.nl>
+
+        * showlinux.c:
+		Add support for colors, automatic determination of most
+		critical resource and parsing of new arguments in ~/.atoprc
+
+2007-01-18  Gerlof Langeveld  <gerlof@ATComputing.nl>
+
+        * ifprop.c:
+		New functions to fetch the properties of a network
+		interface (mainly speed and half/full duplex).
+
+2007-01-18  Gerlof Langeveld  <gerlof@ATComputing.nl>
+
+        * atop.c:
+		Improved syntax-checking for ~/.atoprc file.
+		Support for network-interface busy-percentage.
+
+2007-01-15  Gerlof Langeveld  <gerlof@ATComputing.nl>
+
+        * photoproc.c:
+		Add new function to count actual number of processes.
+
+2006-11-13  Gerlof Langeveld  <gerlof@ATComputing.nl>
+
+        * showlinux.c:
+		Modify network-speed counters (divide by 1000 i.s.o. 1024
+ 		and postpone switch from Mbps to Gbps as suggested
+		by T. Lindgren).
+
+2006-07-24  Gerlof Langeveld  <gerlof@ATComputing.nl>
+
+        * photosyst.h, photosyst.c, deviate.c, showlinux.c:
+		Add a new system-level line ('CPL') showing CPU load
+		information like load average (last 1, 5, 15 minutes)
+		number of context switches and number of interrupts.
+
+2006-05-15  Gerlof Langeveld  <gerlof@ATComputing.nl>
+
+        * showgeneric.c:
+		Allow a numerical UID to be specified with the
+		function 'U'.
+
+2006-05-15  Gerlof Langeveld  <gerlof@ATComputing.nl>
+
+        * showlinux.c:
+		When there is no user/group name which corresponds to a
+		numerical UID/GID, show the numerical value i.s.o. "unknown".
+
+2006-04-19  Gerlof Langeveld  <gerlof@ATComputing.nl>
+
+        * setup of ChangeLog

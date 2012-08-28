@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>Tk::WinPhoto - Load a Photo image from a window</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>Tk::WinPhoto - Load a Photo image from a window</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Tk::WinPhoto - Load a Photo image from a window</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  use Tk;
+  use Tk::WinPhoto;</pre>
+<pre>
+  my $image = $mw-&gt;Photo(-format =&gt; 'Window', -data =&gt; oct($mw-&gt;id));
+  $image-&gt;write($path_name, -format =&gt; 'BMP|PPM|XPM');</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This is an extension for Tk800.* which will load a Photo image
+from a snapshot of an X window specified by the -data option.</p>
+<p>The window must exist and be visible. Because the code allows
+you to capture windows not owned by Tk it does not attempt to
+enforce this. If you are capturing one of Tk's windows then
+use <code>$w-&gt;update</code>.</p>
+<p>If window is mapped, but obscured by other windows then what is captured is the
+rectangle the window would occupy. This can be considered a feature.
+For Tk-owned windows <code>$w-&gt;raise</code> can used to bring window forward.</p>
+<p>Once the Photo is loaded it can be saved using
+<a href="../../../../../lib/5.8.7/pod/perlfunc.html#item_write"><code>$image-&gt;write(-format =&gt; ...)</code></a> using any of formats which support
+writing.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Nick Ing-Simmons &lt;<a href="mailto:nick@ni-s.u-net.com">nick@ni-s.u-net.com</a>&gt;</p>
+
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+#! /usr/bin/perl -w
+#
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/scripts/scripts-1.0/RCS/printiproute2gaiaclish,v 1.1 2014/05/20 20:55:50 root Exp $
+#
+# version 1.0 2014
+#
+# 1 run
+#	printiproute > tmpfile
+# 2 run
+#	$0 tmpfile > gaia.cmd
+#
+
+my $input = "";
+
+$input = $ARGV[0];
+
+my $usage = "usage:
+
+	printiproute > /tmp/interface_cidr_and_static_routes.txt
+
+	$0 /tmp/interface_cidr_and_static_routes.txt > /tmp/gaia_ip_config.clish
+
+	Run on GaIA:
+
+	clish -f /tmp/gaia_ip_config.clish
+	If no errors run
+	clish 'save config'
+	On errors: reboot and start over
+
+";
+
+die "$usage\n" if (! $input);
+
+open (IF, "$input") || die "$input: $!";
+
+my ($interface, $cidr, $gw, $int, $vlanid, $on_set, $len,  @ifarray);
+
+$interface = $cidr = $gw = $int = $vlanid = $on_set = $len = "" ;
+
+while (<IF>)
+{
+	chomp;
+	next if (/^$/);
+	next if (/^date|^fqdn|^uname/);
+	next if (/IP and/);
+
+	if (/Link/)
+	{
+		@ifarray = split(' ', $_);
+		($int, $vlanid) = split(/\./, $ifarray[0]);
+		($ipv4, $len) = split(/\//, $ifarray[1]);
+
+        if ($on_set ne $int)
+        {
+                $on_set = $int;
+				$int =~ s/://;
+                print "set interface $int state on\n";
+        }
+		if ($vlanid)
+		{
+			$vlanid =~ s/://;
+			print "add interface $int vlan $vlanid\n";
+			print "set interface ${int}\.${vlanid} ipv4-address $ipv4 mask-length $len\n";
+		}
+		else
+		{
+			print "set interface ${int} ipv4-address $ipv4 mask-length $len\n";
+		}
+
+		next;
+	}
+
+	if (/->/)
+	{
+		($cidr, $gw) = split('->', $_);
+
+		$cidr =~ s/^\s+//;
+		$cidr =~ s/\s+$//;
+		$gw =~ s/^\s+//;
+		$gw =~ s/\s+$//;
+
+		if ($cidr =~ "0.0.0.0/0")
+		{
+			$cidr = "default";
+		}
+
+		print "set static-route $cidr nexthop gateway address $gw on\n";
+		next;
+	}
+
+	$interface = $cidr = $gw = $int = $vlanid = $on_set = $len = "" ;
+	print "junk $_\n";
+}

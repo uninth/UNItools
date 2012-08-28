@@ -1,0 +1,11 @@
+chmod -R 555 `find /var/opt/UNItools -type d`
+mkdir -p /var/opt/UNItools/postfix/var/spool/postfix
+mkdir -p /var/opt/UNItools/postfix/var/lib/postfix
+chown -R postfix /var/opt/UNItools/postfix/var/lib/postfix
+chown -R postfix /var/opt/UNItools/postfix/var/*
+chown root /var/opt/UNItools/postfix/var/spool/postfix
+chmod g+s /var/opt/UNItools/postfix/usr/sbin/postdrop /var/opt/UNItools/postfix/usr/sbin/postdrop /var/opt/UNItools/postfix/usr/sbin/postqueue
+chown root /var/opt/UNItools/postfix/var/spool/postfix/pid
+chmod R 755 /var/opt/UNItools/postfix/var/lib/postfix/
+chmod -R 755 /var/opt/UNItools/postfix/var/lib/postfix/
+chmod -R 1733 /var/opt/UNItools/postfix/var/spool/postfix

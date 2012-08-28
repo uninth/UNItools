@@ -1,0 +1,63 @@
+CBM(1)									CBM(1)
+
+
+
+NAME
+       cbm - display the current traffic on all network devices
+
+SYNOPSIS
+       cbm [--help] [--version]
+
+
+DESCRIPTION
+       cbm  the Color Bandwidth Meter displays the current traffic on all net-
+       work devices.
+
+
+       This program is so simple that it should be self-explanatory.
+
+
+OPTIONS
+       --help Display some help and exit.
+
+
+       --version
+	      Display version information and exit.
+
+
+INTERACTIVE CONTROL
+       cbm can be controlled with the following keys:
+
+
+       Up/Down
+	      Select an interface to show details about.
+
+
+       q      Exit from the program.
+
+
+       b      Switch between bits per second and bytes per second.
+
+
+       +      Increase the update delay by 100ms.
+
+
+       -      Decrease the update delay by 100ms.
+
+
+AUTHOR
+       cbm is copyright (C) 2006 Aaron Isotton	<aaron@isotton.com>.  You  may
+       use it under the terms of the GNU General Public License, version 2.
+
+
+       Source  code  and  newer	 versions  are available from http://www.isot-
+       ton.com/utils/cbm/.
+
+
+       Report bugs to <aaron@isotton.com> with ‘‘[cbm]’’ as the first word  of
+       the subject.
+
+
+
+
+									CBM(1)

@@ -1,0 +1,280 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of DNSTOP</TITLE>
+</HEAD><BODY>
+<H1>DNSTOP</H1>
+Section: Maintenance Commands (8)<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+<BR>BSD mandoc<BR>
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+
+
+<B>dnstop</B>
+
+ - displays various tables of DNS traffic on your network
+
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B></B>
+
+
+[-<B>aps</B>
+
+]
+
+[-<B>b </B><I>expression</I>
+
+
+
+]
+
+[-<B>i </B><I>address</I>
+
+
+
+]
+
+[-<B>f </B><I>filter</I>
+
+
+
+]
+
+[<I>device</I>
+
+]
+
+[<I>savefile</I>
+
+]
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<B></B>
+
+
+is a small tool to listen on
+<I>device</I>
+
+or to parse the file
+<I>savefile</I>
+
+and collect and print statistics on the local network's DNS traffic. You
+must have read access to 
+/dev/bpf*
+
+ 
+<A NAME="lbAE">&nbsp;</A>
+<H2>COMMAND LINE OPTIONS</H2>
+
+<P>
+
+The options are as follows:
+<DL COMPACT>
+<P>
+
+<DT><B>-a</B>
+
+
+<DD>
+anonymize addresses
+<DT><B>-b </B><I>expression</I>
+
+
+
+
+<DD>
+BPF filter expression
+<BR>
+
+(default: udp dst port 53 and udp[10:2] &amp; 0x8000 = 0)
+<DT><B>-i </B><I>address</I>
+
+
+
+
+<DD>
+ignore select addresses
+<DT><B>-p</B>
+
+
+<DD>
+Do not put the interface into promiscuous mode.
+<DT><B>-s</B>
+
+
+<DD>
+collect second-level domain statistics
+<DT><B>-t</B>
+
+
+<DD>
+collect third-level domain statistics
+
+<DT><B>-f</B>
+
+
+<DD>
+input filter name
+<P>
+
+The &quot;unknown-tlds&quot; filter 
+includes only queries for TLDs that are
+bogus.  Useful for identifying hosts/servers
+that leak queries for things like &quot;localhost&quot;
+or &quot;workgroup.&quot;
+<P>
+
+The &quot;A-for-A&quot; filter
+includes only A queries for names that are
+already IP addresses.  Certain Microsoft
+Windows DNS servers have a known bug that
+forward these queries.
+<P>
+
+The &quot;rfc1918-ptr&quot; filter
+includes only PTR queries for addresses in RFC1918 space.
+These should never leak from inside an
+organization.
+
+<DT><B></B><I>savefile</I>
+
+
+<DD>
+a captured network trace in 
+<B>pcap</B>
+
+format
+<DT><B></B><I>device</I>
+
+
+<DD>
+ethernet device (ie fxp0)
+</DL>
+<P>
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>RUN TIME OPTIONS</H2>
+
+<P>
+
+While running, the following options are available to alter the display:
+<DL COMPACT>
+<P>
+
+<DT><B>s</B>
+<DD>
+display the source address table
+<DT><B>d </B>
+<DD>
+display the destination address table
+<DT><B>t</B>
+<DD>
+display the breakdown of query types seen
+<DT><B>o</B>
+<DD>
+display the breakdown of opcodes seen
+<DT><B>1</B>
+<DD>
+show the TLD table
+<DT><B>2</B>
+<DD>
+show the SLD table
+<DT><B>3</B>
+<DD>
+show the 3LD table
+<DT><B>@</B>
+<DD>
+show the SLD+source table
+<DT><B>#</B>
+<DD>
+show the 3LD+source table
+<DT><B>^R</B>
+<DD>
+reset the counters
+<DT><B>^X</B>
+<DD>
+exit the program
+<DT><B>?</B>
+<DD>
+help
+</DL>
+<P>
+
+<P>
+
+<A NAME="lbAG">&nbsp;</A>
+<H2>NON-INTERACTIVE MODE</H2>
+
+If stdout is not a tty,
+<B></B>
+
+
+runs in non-interactive mode.  In this case, you must
+supply a savefile for reading, instead of capturing
+live packets.  After reading the entire savefile,
+<B></B>
+
+
+prints the top 50 entries for each table.
+<A NAME="lbAH">&nbsp;</A>
+<H2>AUTHORS</H2>
+
+<DL COMPACT>
+<P>
+
+<DT><B>Duane Wessels (<A HREF="mailto:wessels@measurement-factory.com">wessels@measurement-factory.com</A>)
+
+</B>
+<DD>
+<DT><B>Mark Foster (<A HREF="mailto:mark@foster.cc">mark@foster.cc</A>)
+
+</B>
+<DD>
+<DT><B>Jose Nazario (<A HREF="mailto:jose@monkey.org">jose@monkey.org</A>)
+
+</B>
+<DD>
+<DT><B>Sam Norris &lt;@ChangeIP.com&gt;
+
+</B>
+<DD>
+<DT><B><A HREF="http://dnstop.measurement-factory.com/">http://dnstop.measurement-factory.com/</A>
+
+</B>
+<DD>
+</DL>
+<P>
+
+<A NAME="lbAI">&nbsp;</A>
+<H2>BUGS</H2>
+
+Unless compiled with
+<B>-DUSE_PPP</B>
+
+the program will not correctly decode PPP frames.
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">COMMAND LINE OPTIONS</A><DD>
+<DT><A HREF="#lbAF">RUN TIME OPTIONS</A><DD>
+<DT><A HREF="#lbAG">NON-INTERACTIVE MODE</A><DD>
+<DT><A HREF="#lbAH">AUTHORS</A><DD>
+<DT><A HREF="#lbAI">BUGS</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 16:58:29 GMT, August 18, 2009
+</BODY>
+</HTML>

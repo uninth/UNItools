@@ -1,0 +1,110 @@
+#!/bin/sh
+#
+# Ad-hoc til dokumentation
+#
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/scripts/scripts-1.0/RCS/printnetcomment,v 1.1 2007/07/05 10:06:26 root Exp $
+#
+
+OBJC="$FWDIR/conf/objects_5_0.C"
+
+NETWORK=$1
+
+case $NETWORK in
+	"")	echo usage $0 network
+		exit 1
+		;;
+esac
+
+awk '	BEGIN { DOPRINT = 0 };
+
+	$0 ~ /:type/		{ TYPE= $0 ; next }
+	$0 ~ /:netmask/		{ NETMASK = $0 ; next }
+	$0 ~ /:comments/	{ COMMENTS = $0 ; next }
+	$0 ~ /:ipaddr .'$NETWORK'/ {
+
+		IPADDR = $0;
+
+		gsub(/:.* \(/, "", TYPE);
+		gsub(/\)$/, "", TYPE);
+
+		gsub(/:.* \(/, "", NETMASK);
+		gsub(/\)$/, "", NETMASK);
+
+		gsub(/:.* \(/, "", IPADDR);
+		gsub(/\)$/, "", IPADDR);
+
+
+		gsub(/:comments \("/, "", COMMENTS);
+		gsub(/"\)$/, "", COMMENTS);
+
+		print "type = " TYPE
+		print "ipad = " IPADDR
+		print "nmas = " NETMASK
+		print "cmnt = " COMMENTS
+
+		print "";
+
+	}
+
+' $OBJC
+
+exit 0
+
+
+#
+# Documentation and  standard disclaimar
+#
+# Copyright (C) 2001 Niels Thomas Haugård
+# UNI-C
+# http://www.uni-c.dk/
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the 
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License 
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+#
+#++
+# NAME
+#	printnetcomment 1
+# SUMMARY
+#	udskriv kommentar mv. for et netværk (netværksobjekt) i Check Point firewall-1
+# PACKAGE
+#	Ingen
+# SYNOPSIS
+#	printnetcomment netværk
+# BESKRIVELSE
+#	Ad-hoc script til dokumentation.
+# BUGS
+#	Små programmer indeholder få fejl, store programmer indeholder mange fejl,
+#	det er menneskeligt at fejle og dette program indeholder også fejl.
+#	Du er velkommen til at finde og rette dem.
+# VERSION
+#	$Date: 2007/07/05 10:06:26 $
+# .br
+#	$Revision: 1.1 $
+# .br
+#	$Source: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/scripts/scripts-1.0/RCS/printnetcomment,v $
+# .br
+#	$State: Exp $
+# HISTORY
+#	Se \fCrlog\fR $Id: printnetcomment,v 1.1 2007/07/05 10:06:26 root Exp $
+# AUTHOR(S)
+#	Niels Thomas Haugård
+# .br
+#	E-mail: thomas@haugaard.net
+# .br
+#	UNI\(buC
+# .br
+#	DTU, Building 304
+# .br
+#	DK-2800 Kgs. Lyngby
+#--

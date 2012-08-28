@@ -1,0 +1,88 @@
+===============================================================================
+RELEASE NOTES FOR IPTRAF 2.7.0
+-------------------------------------------------------------------------------
+This file contains important release information for IPTraf 2.7.0.  Please
+read it in full before running this new version for the first time.
+-------------------------------------------------------------------------------
+
+CONTENTS OF THIS DOCUMENT
+-------------------------
+
+	BUG FIXES
+	ADDITIONAL NETWORK INTERFACE SUPPORT
+	DOCUMENTATION FORMAT CHANGES
+	FILE FORMATS
+	CODE CHANGES
+
+
+BUG FIXES
+---------
+
+IPTraf 2.6.1 fixes a minor bug where stale lock files were not removed
+properly if IPTraf did not start due to an improper terminal size.
+See the CHANGES file for more details.
+
+A fairly significant bug in the 2.6 series occurs on multiple-interface
+machines where the detailed interface statistics did not filter the
+packets to allow only packets on the selected interface.  This has quite
+an impact on multiple-interface systems, but even single-interface systems
+can result in inaccuracy if the loopback interface had traffic.  This has
+been fixed in 2.7.0, together with the other facilities with the proper 
+interface name comparisons.  
+
+IPTraf 2.7.0 also corrects a minor bug where lock files were not properly
+removed if IPTraf failed with an insufficient terminal size error.
+
+
+ADDITIONAL NETWORK INTERFACE SUPPORT
+------------------------------------
+
+IPTraf 2.7 supports additional DVB interface types (sm2*, sm3*, penta*).  
+wlan and wvlan (wireless Ethernet) interface support has also been added.
+
+
+DOCUMENTATION FORMAT CHANGES
+----------------------------
+
+The included HTML manual has now been generated from DocBook SGML sources, 
+and is now organized more like the familiar documents from the Linux 
+Documentation project (http://www.tldp.org), with each chapter and section
+in its own easy-to-read small HTML page.  The SGML template is included
+also has to be processed with the Makefile for the proper version numbers
+to be inserted.
+
+The captured screenshots have now been saved to PNG format.  This saves
+disk space without sacrificing the quality of the shots, and I avoid the
+possibility of patent infringement.  However the DocBook icons (e.g.  
+Note, Tip, etc.) came with DocBook and are still in GIF format.  They are
+just distributed as they come.
+
+Please view the README file in the Documentation/ directory for more 
+information.
+
+FILE FORMATS
+------------
+
+There are no file format changes from 2.5 to 2.7 and the existing
+2.5-format files can be used. See the INSTALL file for instructions on
+upgrading from earlier versions.
+
+
+******
+
+(The following information was originally written for the IPTraf 2.6
+release notes but in included here for completeness.)
+
+For programmers: CODE CHANGES in IPTraf 2.6
+-------------------------------------------
+
+Some redundant code for the user interface has been reduced.  Reusable
+user interface components (forms, menus, and listboxes) have been moved to
+a separate directory outside of the main source directory and compiled as
+a library.  This will allow for better code reuse in future applications
+as well as other applications interested programmers may develop.
+
+As of now this library has not been formally named, but as it stands, is
+still part of the IPTraf distribution and still under the GNU General
+Public License.  See the README file in the support/ directory for more
+information.

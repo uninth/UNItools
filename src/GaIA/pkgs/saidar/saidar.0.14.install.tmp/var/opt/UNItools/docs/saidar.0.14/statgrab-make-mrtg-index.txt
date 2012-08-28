@@ -1,0 +1,35 @@
+statgrab-make-mrtg-index(1)			   statgrab-make-mrtg-index(1)
+
+
+
+NAME
+       statgrab-make-mrtg-index - generates MRTG configuration
+
+SYNOPSIS
+       statgrab-make-mrtg-index [OPTION]... [CONFIGFILE]...
+
+DESCRIPTION
+       statgrab-make-mrtg-index	 generates  an XHTML index page from MRTG con-
+       figuration files specified on the command line or read from stdin.
+
+OPTIONS
+       The following options are supported.
+
+       --title TITLE
+	      Use TITLE as the title of the generated page
+
+       --help Display help and exit
+
+SEE ALSO
+       statgrab(1) statgrab-make-mrtg-config(1)
+
+AUTHORS
+       This man page was derived from the man page written by  Bartosz	Fenski
+       for the Debian GNU/Linux distribution.
+
+WEBSITE
+       http://www.i-scream.org/libstatgrab/
+
+
+
+i-scream		 $Date: 2005/04/25 12:37:22statgrab-make-mrtg-index(1)

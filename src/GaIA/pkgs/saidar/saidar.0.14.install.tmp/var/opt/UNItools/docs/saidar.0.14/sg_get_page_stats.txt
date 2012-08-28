@@ -1,0 +1,56 @@
+sg_get_page_stats(3)					  sg_get_page_stats(3)
+
+
+
+NAME
+       sg_get_page_stats, sg_get_page_stats_diff - get paging statistics
+
+SYNOPSIS
+       #include <statgrab.h>
+
+
+       sg_page_stats *sg_get_page_stats(void);
+
+       sg_page_stats *sg_get_page_stats_diff(void);
+
+DESCRIPTION
+       sg_get_page_stats and sg_get_page_stats_diff both return a pointer to a
+       static buffer of type sg_page_stats.
+
+       sg_get_page_stats will return the number of pages the system has	 paged
+       in  and	out since bootup.  sg_get_page_stats_diff will return the dif-
+       ference since last time it was  called.	If  it	has  not  been	called
+       before, it will return sg_get_page_stats.
+
+RETURN VALUES
+       typedef struct{
+	       long long pages_pagein;
+	       long long pages_pageout;
+	       time_t systime;
+       }sg_page_stats;
+
+
+       pages_pagein
+	      The number of pages swapped into memory.
+
+       pages_pageout
+	      The number of pages swapped out of memory (to swap).
+
+       systime
+	      The  time	 period over which pages_pagein and pages_pageout were
+	      transferred.
+
+BUGS
+       Solaris doesn’t seem to report accurately. It  reports  the  number  of
+       pages  swapped  into  memory,  not  necessarily from swap. This feature
+       isn’t deemed entirely reliable.
+
+SEE ALSO
+       statgrab(3)
+
+WEBSITE
+       http://www.i-scream.org/libstatgrab/
+
+
+
+i-scream		 $Date: 2005/04/25 11:25:45 $	  sg_get_page_stats(3)

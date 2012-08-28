@@ -1,0 +1,288 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>Tk::BrowseEntry - entry widget with popup choices.</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>Tk::BrowseEntry - entry widget with popup choices.</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#superclass">SUPER-CLASS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#advertised_widgets">ADVERTISED WIDGETS</a></li>
+	<li><a href="#subclassing">SUBCLASSING</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Tk::BrowseEntry - entry widget with popup choices.</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    use Tk::BrowseEntry;</pre>
+<pre>
+    $b = $frame-&gt;BrowseEntry(-label =&gt; &quot;Label&quot;, -variable =&gt; \$var);
+    $b-&gt;insert(&quot;end&quot;, &quot;opt1&quot;);
+    $b-&gt;insert(&quot;end&quot;, &quot;opt2&quot;);
+    $b-&gt;insert(&quot;end&quot;, &quot;opt3&quot;);
+    ...
+    $b-&gt;pack;</pre>
+<p>
+</p>
+<hr />
+<h1><a name="superclass">SUPER-CLASS</a></h1>
+<p>The <code>BrowseEntry</code> class is derived from the <code>Frame</code> class and
+inherits all the methods, options and subwidgets of its super-class.
+By default, options and methods are delegated to the entry subwidget.</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>BrowseEntry is a poor man's ComboBox. It may be considered an
+enhanced version of LabEntry which provides a button to popup the
+choices of the possible values that the Entry may
+take. BrowseEntry supports all the options LabEntry supports
+except <strong>-textvariable</strong>. This is replaced by <strong>-variable</strong>. Other
+options that BrowseEntry supports:</p>
+<dl>
+<dt><strong><a name="item__2darrowimage"><strong>-arrowimage</strong></a></strong>
+
+<dd>
+<p>Specifies the image to be used in the arrow button beside the entry
+widget. The default is an downward arrow image in the file cbxarrow.xbm</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dautolimitheight"><strong>-autolimitheight</strong></a></strong>
+
+<dd>
+<p>If set to a true value, then the height of the listbox will be at most
+the number of entries in the list. The overall maximum of
+<a href="#item__2dlistheight"><code>-listheight</code></a> still applies.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dautolistwidth"><strong>-autolistwidth</strong></a></strong>
+
+<dd>
+<p>If set to a true value, then the width of the listbox will match the
+width of the largest entry.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dbrowsecmd"><strong>-browsecmd</strong></a></strong>
+
+<dd>
+<p>Specifies a function to call when a selection is made in the
+popped up listbox. It is passed the widget and the text of the
+entry selected. This function is called after the entry variable
+has been assigned the value.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dbrowse2cmd"><strong>-browse2cmd</strong></a></strong>
+
+<dd>
+<p>Like <a href="#item__2dbrowsecmd"><code>-browsecmd</code></a>, but the callback is called with the listbox index
+instead of the selected value.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dbuttontakefocus"><strong>-buttontakefocus</strong></a></strong>
+
+<dd>
+<p>Set the <code>-takefocus</code> option of the button subwidget.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dchoices"><strong>-choices</strong></a></strong>
+
+<dd>
+<p>Specifies the list of choices to pop up.  This is a reference to an
+array of strings specifying the choices.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dcolorstate"><strong>-colorstate</strong></a></strong>
+
+<dd>
+<p>The state of the widget is reflected by color. A non-editable entry
+widget will get a light gray background, while an editable entry will
+be almost white. [This may change]</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dlistcmd"><strong>-listcmd</strong></a></strong>
+
+<dd>
+<p>Specifies the function to call when the button next to the entry
+is pressed to popup the choices in the listbox. This is called before
+popping up the listbox, so can be used to populate the entries in
+the listbox.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dlistheight"><strong>-listheight</strong></a></strong>
+
+<dd>
+<p>Set the height of the listbox. See also <a href="#item__2dautolimitheight"><code>-autolimitheight</code></a>.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dlistwidth"><strong>-listwidth</strong></a></strong>
+
+<dd>
+<p>Specifies the width of the popup listbox.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dstate"><strong>-state</strong></a></strong>
+
+<dd>
+<p>Specifies one of three states for the widget: normal, readonly, or
+disabled.  If the widget is disabled then the value may not be changed
+and the arrow button won't activate.  If the widget is readonly, the
+entry may not be edited, but it may be changed by choosing a value
+from the popup listbox.  normal is the default.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dstyle"><strong>-style</strong></a></strong>
+
+<dd>
+<p>Set the ``style'' of the widget. Permitted values are <code>MSWin32</code> and
+<code>unix</code>. By default <a href="#item__2dstyle"><code>-style</code></a> is set to the current platform. Widgets
+with the <code>unix</code> style will look like a normal <code>BrowseEntry</code> widget,
+whereas with the <code>MSWin32</code> style the arrow will look close to the
+Windows' standard combobox widget, while moving the mouse the entries
+will be highlighted, and probably includes other changes.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dvariable"><strong>-variable</strong></a></strong>
+
+<dd>
+<p>Specifies the variable in which the entered value is to be stored.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<dl>
+<dt><strong><a name="item_insert"><strong>insert(</strong><em>index</em>, <em>string</em><strong>)</strong></a></strong>
+
+<dd>
+<p>Inserts the text of <em>string</em> at the specified <em>index</em>. This string
+then becomes available as one of the choices.</p>
+</dd>
+</li>
+<dt><strong><a name="item_delete"><strong>delete(</strong><em>index1</em>, <em>index2</em><strong>)</strong></a></strong>
+
+<dd>
+<p>Deletes items from <em>index1</em> to <em>index2</em>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_get"><strong>get</strong></a></strong>
+
+<dd>
+<p>The get method is delegated to the choices listbox.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="advertised_widgets">ADVERTISED WIDGETS</a></h1>
+<p>The following widgets are advertised:</p>
+<dl>
+<dt><strong><a name="item_entry">entry</a></strong>
+
+<dd>
+<p>The entry widget.</p>
+</dd>
+</li>
+<dt><strong><a name="item_arrow">arrow</a></strong>
+
+<dd>
+<p>The button with the arrow image.</p>
+</dd>
+</li>
+<dt><strong><a name="item_choices">choices</a></strong>
+
+<dd>
+<p>The toplevel widget containing the choice listbox.</p>
+</dd>
+</li>
+<dt><strong><a name="item_slistbox">slistbox</a></strong>
+
+<dd>
+<p>The scrolled listbox with the choices.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="subclassing">SUBCLASSING</a></h1>
+<p>To make subclassing easier, the following methods may be overridden to
+use other standard widgets in composing the mega widget:</p>
+<dl>
+<dt><strong><a name="item_labentrywidget">LabEntryWidget</a></strong>
+
+<dd>
+<p>A widget class compatible with Tk::LabEntry used for the entry.</p>
+</dd>
+</li>
+<dt><strong><a name="item_buttonwidget">ButtonWidget</a></strong>
+
+<dd>
+<p>A widget class compatible with Tk::Button used for the arrow button.</p>
+</dd>
+</li>
+<dt><strong><a name="item_listboxwidget">ListboxWidget</a></strong>
+
+<dd>
+<p>A widget class compatible with Tk::Listbox used for the choices
+listbox.</p>
+</dd>
+</li>
+</dl>
+<p>For example to use a <code>NumEntry</code> widget (from the Tk-GBARR CPAN
+distribution) instead of the normal <code>Entry</code> widget:</p>
+<pre>
+    package Tk::NumBrowseEntry;
+    use base qw(Tk::BrowseEntry);
+    use Tk::NumEntry;
+    Construct Tk::Widget 'NumBrowseEntry';
+    sub LabEntryWidget { &quot;NumEntry&quot; }</pre>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>BrowseEntry should really provide more of the ComboBox options.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p><strong>Rajappa Iyer</strong> <a href="mailto:rsi@earthling.net">rsi@earthling.net</a></p>
+<p><strong>Chris Dean</strong> <a href="mailto:ctdean@cogit.com">ctdean@cogit.com</a> made additions.</p>
+<p>More additions by <strong>Slaven Rezic</strong> <a href="mailto:slaven@rezic.de">slaven@rezic.de</a></p>
+<p>This code was inspired by ComboBox.tcl in Tix4.0 by Ioi Lam and
+bears more than a passing resemblance to ComboBox code. This may
+be distributed under the same conditions as Perl.</p>
+
+</body>
+
+</html>

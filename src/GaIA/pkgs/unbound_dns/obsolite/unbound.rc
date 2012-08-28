@@ -1,0 +1,79 @@
+#!/bin/sh
+#
+# unbound        This shell script takes care of starting and stopping
+#                unbound (DNS server).
+
+ROOTDIR="/var/opt/UNIdns"
+exec="/var/opt/UNIdns/bin/unbound"
+
+prog="unbound"
+config="/var/unbound/unbound.conf"
+pidfile="/var/run/unbound.pid"
+
+case "$1" in
+    start)
+        [ -x $exec ] || exit 5
+        [ -f $config ] || exit 6
+        echo -n $"Starting $prog: "
+
+        # setup root jail
+        if [ -s /etc/localtime ]; then
+            [ -d ${ROOTDIR}/etc ] || mkdir -p ${ROOTDIR}/etc ;
+            if [ ! -e ${ROOTDIR}/etc/localtime ] || /usr/bin/cmp -s /etc/localtime ${ROOTDIR}/etc/localtime; then
+                cp -fp /etc/localtime ${ROOTDIR}/etc/localtime
+            fi;
+        fi;
+        if [ -s /etc/resolv.conf ]; then
+            [ -d ${ROOTDIR}/etc ] || mkdir -p ${ROOTDIR}/etc ;
+            if [ ! -e ${ROOTDIR}/etc/resolv.conf ] || /usr/bin/cmp -s /etc/resolv.conf ${ROOTDIR}/etc/resolv.conf; then
+                cp -fp /etc/resolv.conf ${ROOTDIR}/etc/resolv.conf
+            fi;
+        fi;
+        if ! egrep -q '^/[^[:space:]]+[[:space:]]+'${ROOTDIR}'/dev/log' /proc/mounts; then
+            [ -d ${ROOTDIR}/dev ] || mkdir -p ${ROOTDIR}/dev ;
+            [ -e ${ROOTDIR}/dev/log ] || touch ${ROOTDIR}/dev/log
+            mount --bind -n /dev/log ${ROOTDIR}/dev/log >/dev/null 2>&1;
+        fi;
+        if ! egrep -q '^/[^[:space:]]+[[:space:]]+'${ROOTDIR}'/dev/random' /proc/mounts; then
+            [ -d ${ROOTDIR}/dev ] || mkdir -p ${ROOTDIR}/dev ;
+            [ -e ${ROOTDIR}/dev/random ] || touch ${ROOTDIR}/dev/random
+            mount --bind -n /dev/random ${ROOTDIR}/dev/random >/dev/null 2>&1;
+        fi;
+
+        # if not running, start it up here
+        start-stop-daemon --start --quiet --pidfile $pidfile --exec $exec -- -c $config
+        echo
+        ;;
+
+    stop)
+        echo -n $"Stopping $prog: "
+        start-stop-daemon --stop --quiet --oknodo --pidfile $pidfile
+        echo
+        if egrep -q '^/[^[:space:]]+[[:space:]]+'${ROOTDIR}'/dev/log' /proc/mounts; then
+            umount ${ROOTDIR}/dev/log >/dev/null 2>&1
+        fi;
+        if egrep -q '^/[^[:space:]]+[[:space:]]+'${ROOTDIR}'/dev/random' /proc/mounts; then
+            umount ${ROOTDIR}/dev/random >/dev/null 2>&1
+        fi;
+        ;;
+
+    restart)
+        start-stop-daemon --stop --quiet --oknodo --pidfile $pidfile
+        start-stop-daemon --start --quiet --pidfile $pidfile --exec $exec -- -c $config
+        ;;
+
+    reload)
+        start-stop-daemon --stop --signal 1 --quiet --oknodo --pidfile $pidfile --exec $exec
+        ;;
+
+    force_reload)
+        start-stop-daemon --stop --signal 1 --quiet --oknodo --pidfile $pidfile --exec $exec
+        ;;
+
+    *)
+        echo $"Usage: $0 {start|stop|restart|reload|force-reload}"
+        exit 2
+        ;;
+esac
+
+exit 0

@@ -1,0 +1,7 @@
+## Simple recursive caching DNS
+#
+server:
+        verbosity: 1
+        pidfile: "/var/run/unbound.pid"
+	interface: 127.0.0.1
+        access-control: 127.0.0.0/8 allow

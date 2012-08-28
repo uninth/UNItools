@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOFTPKG NAME="Text-Autoformat" VERSION="1,13,0,0">
+  <TITLE>Text-Autoformat</TITLE>
+  <ABSTRACT>Automatic text wrapping and reformatting</ABSTRACT>
+  <AUTHOR>Damian Conway &lt;damian@conway.org></AUTHOR>
+  <IMPLEMENTATION>
+    <DEPENDENCY NAME="Text-Reform" VERSION="1,11,0,0"/>
+    <CODEBASE HREF="http://ppm.ActiveState.com/PPMPackages/5.8-linux/i686-linux-thread-multi-5.8/Text-Autoformat.tar.gz"/>
+  </IMPLEMENTATION>
+</SOFTPKG>

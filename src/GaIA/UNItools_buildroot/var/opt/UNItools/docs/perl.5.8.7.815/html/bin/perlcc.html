@@ -1,0 +1,155 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../displayToc.js"></script>
+<script language="JavaScript" src="../tocParas.js"></script>
+<script language="JavaScript" src="../tocTab.js"></script>
+<title>perlcc - generate executables from Perl programs</title>
+<link rel="stylesheet" href="../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',1);</script>
+<h1><a>perlcc - generate executables from Perl programs</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>perlcc - generate executables from Perl programs</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    $ <a href="../bin/perlcc.html">perlcc</a> hello              # Compiles into executable 'a.out'
+    $ <a href="../bin/perlcc.html">perlcc</a> -o hello hello.pl  # Compiles into executable 'hello'</pre>
+<pre>
+    $ <a href="../bin/perlcc.html">perlcc</a> -O file            # Compiles using the optimised C backend
+    $ <a href="../bin/perlcc.html">perlcc</a> -B file            # Compiles using the bytecode backend</pre>
+<pre>
+    $ <a href="../bin/perlcc.html">perlcc</a> -c file            # Creates a C file, 'file.c'
+    $ <a href="../bin/perlcc.html">perlcc</a> -S -o hello file   # Creates a C file, 'file.c',
+                                # then compiles it to executable 'hello'
+    $ <a href="../bin/perlcc.html">perlcc</a> -c out.c file      # Creates a C file, 'out.c' from 'file'</pre>
+<pre>
+    $ <a href="../bin/perlcc.html">perlcc</a> -e 'print q//'     # Compiles a one-liner into 'a.out'
+    $ <a href="../bin/perlcc.html">perlcc</a> -c -e 'print q//'  # Creates a C file 'a.out.c'</pre>
+<pre>
+    $ <a href="../bin/perlcc.html">perlcc</a> -I /foo hello      # extra headers (notice the space after -I)
+    $ <a href="../bin/perlcc.html">perlcc</a> -L /foo hello      # extra libraries (notice the space after -L)</pre>
+<pre>
+    $ <a href="../bin/perlcc.html">perlcc</a> -r hello           # compiles 'hello' into 'a.out', runs 'a.out'.
+    $ <a href="../bin/perlcc.html">perlcc</a> -r hello a b c     # compiles 'hello' into 'a.out', runs 'a.out'.
+                                # with arguments 'a b c'</pre>
+<pre>
+    $ <a href="../bin/perlcc.html">perlcc</a> hello -log c       # compiles 'hello' into 'a.out' logs compile
+                                # log into 'c'.</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><em>perlcc</em> creates standalone executables from Perl programs, using the
+code generators provided by the <a href="../lib/5.8.7/i686-linux-thread-multi/B.html">the B manpage</a> module. At present, you may
+either create executable Perl bytecode, using the <a href="#item__2db"><code>-B</code></a> option, or 
+generate and compile C files using the standard and 'optimised' C
+backends.</p>
+<p>The code generated in this way is not guaranteed to work. The whole
+codegen suite (<code>perlcc</code> included) should be considered <strong>very</strong>
+experimental. Use for production purposes is strongly discouraged.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<dl>
+<dt><strong><a name="item__2dllibrary_directories">-L<em>library directories</em></a></strong>
+
+<dd>
+<p>Adds the given directories to the library search path when C code is
+passed to your C compiler.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2diinclude_directories">-I<em>include directories</em></a></strong>
+
+<dd>
+<p>Adds the given directories to the include file search path when C code is
+passed to your C compiler; when using the Perl bytecode option, adds the
+given directories to Perl's include path.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2do_output_file_name">-o <em>output file name</em></a></strong>
+
+<dd>
+<p>Specifies the file name for the final compiled executable.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dc_c_file_name">-c <em>C file name</em></a></strong>
+
+<dd>
+<p>Create C code only; do not compile to a standalone binary.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2de_perl_code">-e <em>perl code</em></a></strong>
+
+<dd>
+<p>Compile a one-liner, much the same as <code>perl -e '...'</code></p>
+</dd>
+</li>
+<dt><strong><a name="item__2ds">-S</a></strong>
+
+<dd>
+<p>Do not delete generated C code after compilation.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2db">-B</a></strong>
+
+<dd>
+<p>Use the Perl bytecode code generator.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2do">-O</a></strong>
+
+<dd>
+<p>Use the 'optimised' C code generator. This is more experimental than
+everything else put together, and the code created is not guaranteed to
+compile in finite time and memory, or indeed, at all.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dv">-v</a></strong>
+
+<dd>
+<p>Increase verbosity of output; can be repeated for more verbose output.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dr">-r</a></strong>
+
+<dd>
+<p>Run the resulting compiled script after compiling it.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dlog">-log</a></strong>
+
+<dd>
+<p>Log the output of compiling to a file rather than to stdout.</p>
+</dd>
+</li>
+</dl>
+
+</body>
+
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./copifuncs/copi.rcnews</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir">#! /bin/sh</span>
+<span class="line">    1 </span><span class="dir">##  $Revision: 1.1 $</span>
+<span class="line">    2 </span><span class="dir">##  News boot script.</span>
+<span class="line">    3 </span>
+<span class="line">    4 </span><span class="dir">##  =()&lt;. &#64;&lt;_PATH_SHELLVARS&gt;&#64;&gt;()=</span>
+<span class="line">    5 </span><span class="sym">. /</span>usr<span class="sym">/</span>lib<span class="sym">/</span>news<span class="sym">/</span>innshellvars
+<span class="line">    6 </span>
+<span class="line">    7 </span><span class="dir">##  Pick ${INND} or ${INNDSTART}</span>
+<span class="line">    8 </span>WHAT<span class="sym">=</span>$<span class="sym">{</span>INNDSTART<span class="sym">}</span>
+<span class="line">    9 </span><span class="dir">##  Set to true or false</span>
+<span class="line">   10 </span>DOINNWATCH<span class="sym">=</span><span class="kwa">false</span>
+<span class="line">   11 </span>MAIL<span class="sym">=</span><span class="str">&quot;${MAILCMD} -s 'Boot-time Usenet warning on `hostname`' ${NEWSMASTER}&quot;</span>
+<span class="line">   12 </span>
+<span class="line">   13 </span><span class="dir">##  RFLAG is set below; set FLAGS as appropriate.</span>
+<span class="line">   14 </span>RFLAG<span class="sym">=</span><span class="str">&quot;&quot;</span>
+<span class="line">   15 </span>FLAGS<span class="sym">=</span><span class="str">&quot;-i0 -c0&quot;</span>
+<span class="line">   16 </span>
+<span class="line">   17 </span><span class="dir">##  Clean shutdown?</span>
+<span class="line">   18 </span><span class="kwa">if</span> <span class="sym">[ -</span>f $<span class="sym">{</span>SERVERPID<span class="sym">} ] ;</span> then
+<span class="line">   19 </span>    <span class="sym">(</span> echo <span class="str">'INND:  PID file exists -- unclean shutdown!'</span> <span class="sym">&gt;/</span>dev<span class="sym">/</span>console <span class="sym">)</span>
+<span class="line">   20 </span>    RFLAG<span class="sym">=</span><span class="str">&quot;-r&quot;</span>
+<span class="line">   21 </span>fi
+<span class="line">   22 </span>
+<span class="line">   23 </span><span class="kwa">if</span> <span class="sym">[ ! -</span>f $<span class="sym">{</span>NEWSLIB<span class="sym">}/.</span>news<span class="sym">.</span>daily <span class="sym">] ;</span> then
+<span class="line">   24 </span>    echo <span class="str">'No .news.daily file; need to run news.daily?'</span> <span class="sym">|</span> eval $<span class="sym">{</span>MAIL<span class="sym">}</span>
+<span class="line">   25 </span><span class="kwa">else</span>
+<span class="line">   26 </span>    <span class="kwa">case</span> `find $<span class="sym">{</span>NEWSLIB<span class="sym">} -</span>name <span class="sym">.</span>news<span class="sym">.</span>daily <span class="sym">-</span>mtime <span class="sym">+</span><span class="num">1</span> <span class="sym">-</span>print <span class="num">2</span><span class="sym">&gt;/</span>dev<span class="sym">/</span>null` in
+<span class="line">   27 </span>    <span class="str">&quot;&quot;</span><span class="sym">)</span>
+<span class="line">   28 </span>	<span class="sym">;;</span>
+<span class="line">   29 </span>    <span class="sym">*)</span>
+<span class="line">   30 </span>	echo <span class="str">'Old .news.daily file; need to run news.daily?'</span> <span class="sym">|</span> eval $<span class="sym">{</span>MAIL<span class="sym">}</span>
+<span class="line">   31 </span>	<span class="sym">;;</span>
+<span class="line">   32 </span>    esac
+<span class="line">   33 </span>fi
+<span class="line">   34 </span>
+<span class="line">   35 </span><span class="dir">##  Active file recovery.</span>
+<span class="line">   36 </span><span class="kwa">if</span> <span class="sym">[ ! -</span>s $<span class="sym">{</span>ACTIVE<span class="sym">} ] ;</span> then
+<span class="line">   37 </span>    <span class="kwa">if</span> <span class="sym">[ -</span>s $<span class="sym">{</span>NEWACTIVE<span class="sym">} ] ;</span> then
+<span class="line">   38 </span>	mv $<span class="sym">{</span>NEWACTIVE<span class="sym">}</span> $<span class="sym">{</span>ACTIVE<span class="sym">}</span>
+<span class="line">   39 </span>    <span class="kwa">else</span>
+<span class="line">   40 </span>	<span class="kwa">if</span> <span class="sym">[ -</span>s $<span class="sym">{</span>OLDACTIVE<span class="sym">} ] ;</span> then
+<span class="line">   41 </span>	    cp $<span class="sym">{</span>OLDACTIVE<span class="sym">}</span> $<span class="sym">{</span>ACTIVE<span class="sym">}</span>
+<span class="line">   42 </span>	<span class="kwa">else</span>
+<span class="line">   43 </span>	    <span class="sym">(</span> echo <span class="str">'INND:   No active file!'</span> <span class="sym">&gt;/</span>dev<span class="sym">/</span>console <span class="sym">)</span>
+<span class="line">   44 </span>	    exit <span class="num">1</span>
+<span class="line">   45 </span>	fi
+<span class="line">   46 </span>    fi
+<span class="line">   47 </span>    RFLAG<span class="sym">=</span><span class="str">&quot;-r&quot;</span>
+<span class="line">   48 </span>    <span class="dir"># You might want to rebuild the DBZ database, too:</span>
+<span class="line">   49 </span>    <span class="dir">#echo</span> <span class="dstr">&quot;cd ${NEWSLIB}</span> <span class="esc">\</span>
+<span class="line">   50 </span><span class="dstr">    #		&amp;&amp; makehistory -r</span> <span class="esc">\</span>
+<span class="line">   51 </span><span class="dstr">    #		&amp;&amp; mv history.n.dir history.dir</span> <span class="esc">\</span>
+<span class="line">   52 </span><span class="dstr">    #		&amp;&amp; mv history.n.pag history.pag&quot;</span><span class="dir"> | su ${NEWSUSER}</span>
+<span class="line">   53 </span>fi
+<span class="line">   54 </span>
+<span class="line">   55 </span><span class="dir">##  Remove temporary batchfiles and lock files.</span>
+<span class="line">   56 </span><span class="sym">(</span> cd $<span class="sym">{</span>BATCH<span class="sym">} &amp;&amp;</span> rm <span class="sym">-</span>f bch<span class="sym">* )</span>
+<span class="line">   57 </span><span class="sym">(</span> cd $<span class="sym">{</span>LOCKS<span class="sym">} &amp;&amp;</span> rm <span class="sym">-</span>f LOCK<span class="sym">* )</span>
+<span class="line">   58 </span><span class="sym">(</span> cd $<span class="sym">{</span>TEMPSOCKDIR<span class="sym">} &amp;&amp;</span> rm <span class="sym">-</span>f $<span class="sym">{</span>TEMPSOCK<span class="sym">} )</span>
+<span class="line">   59 </span>rm <span class="sym">-</span>f $<span class="sym">{</span>NEWSCONTROL<span class="sym">}</span> $<span class="sym">{</span>NNTPCONNECT<span class="sym">}</span> $<span class="sym">{</span>SERVERPID<span class="sym">}</span>
+<span class="line">   60 </span>
+<span class="line">   61 </span><span class="dir">##  Start the show.</span>
+<span class="line">   62 </span><span class="sym">(</span> echo <span class="str">'Starting innd.'</span> <span class="sym">&gt;/</span>dev<span class="sym">/</span>console <span class="sym">)</span>
+<span class="line">   63 </span>eval $<span class="sym">{</span>WHAT<span class="sym">}</span> $<span class="sym">{</span>RFLAG<span class="sym">}</span> $<span class="sym">{</span>FLAGS<span class="sym">}</span>
+<span class="line">   64 </span>
+<span class="line">   65 </span><span class="dir"># Gee, looks like lisp, doesn</span><span class="dstr">'t it?</span>
+<span class="line">   66 </span><span class="dstr">${DOINNWATCH} &amp;&amp; {</span>
+<span class="line">   67 </span><span class="dstr">    echo &quot;( ( sleep 60 ; ${INNWATCH} ) &amp; )&quot; | su ${NEWSUSER}</span>
+<span class="line">   68 </span><span class="dstr">}</span>
+<span class="line">   69 </span><span class="dstr"></span>
+<span class="line">   70 </span><span class="dstr">RMFILE=${MOST_LOGS}/expire.rm</span>
+<span class="line">   71 </span><span class="dstr">if [ -s ${MOST_LOGS}/expire.rm ] ; then</span>
+<span class="line">   72 </span><span class="dstr">    ( echo &quot;Removing articles from pre-downtime expire run.&quot; &gt;/dev/console )</span>
+<span class="line">   73 </span><span class="dstr">    (</span>
+<span class="line">   74 </span><span class="dstr">	echo '</span><span class="dir">System shut down during expire.  Unlinking articles listed in</span><span class="dstr">'</span>
+<span class="line">   75 </span><span class="dstr">	echo ${RMFILE}</span>
+<span class="line">   76 </span><span class="dstr">    ) | eval ${MAIL}</span>
+<span class="line">   77 </span><span class="dstr">    echo &quot;${NEWSBIN}/expirerm ${RMFILE}&quot; | su ${NEWSUSER} &amp;</span>
+<span class="line">   78 </span><span class="dstr">fi</span><span class="dir"></span>
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

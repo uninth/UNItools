@@ -1,0 +1,82 @@
+EDGE_BACKUP.SH(1)					     EDGE_BACKUP.SH(1)
+
+
+
+NAME
+       edge_backup.sh - create RCS based archives for edge configurations
+
+PACKAGE
+       UNItools
+
+SYNOPSIS
+       edge_backup.sh [-v]
+
+DESCRIPTION
+       edge_backup.sh(1)  is  a	 poor  mans  backup  program for SofaWare edge
+       Appliances managed through a service centre.
+
+       edge_backup.sh(1) is intented to run periodically from cron(1)  on  the
+       service centre which also might host the managemet center. The internal
+       IP address of the edge is reachable through the VPN tunnel.
+
+       The script is intented to run from cron(1) as the  user	admin  on  the
+       service center.
+
+       The recommended crontab(5) is shown below:
+       minutes	hours  day-of-month  month  day-of-week command
+       00 7-23 * * * /var/opt/UNItools/bin/edge_backup.sh >/dev/null 2>&
+
+
+OPTIONS
+       -v     Print diagnostic output to STDOUT.
+
+FILES
+       The config file should be located in $HOME/etc/edge_backup.cfg.
+       The config file is a shell script containing one variable:
+
+	LIST_OF_INSIDE_IPADDRS="
+	#
+	# carefull here be dragons
+	#
+	# ipv4addr     login_user      login_passwd    edge_admin_port
+	#
+	172.28.11.1    admin	       1qazxsw2	       981
+	"
+
+       The format is shown above. Blank lines and linies beginning with # are
+       ignored.
+
+COMMANDS
+       bash(1), sed(1), wget(1), etc.
+
+SEE ALSO
+       The Wiki at http://info.ssi.uni-c.dk.
+
+DIAGNOSTICS
+       Diagnostic putput is written to syslog. No further information is  pro-
+       vided in case of error(s).
+
+KNOWN BUGS AND LIMITATIONS
+       IP addresses for edge appliances must be maintained both in the
+       object database and the configuration file.
+
+VERSION
+       $Date: 2011/09/07 11:27:54 $
+       $Revision: 1.2 $
+       $Source: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/edge_backup/edge_backup-1.0/edge_backup.sh,v $
+       $State: Exp $
+
+HISTORY
+       See rlog $Source: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/edge_backup/edge_backup-1.0/edge_backup.sh,v $
+
+AUTHOR(S)
+       Niels Thomas Haugård
+       E-mail: niels.thomas.haugaard@uni-c.dk
+       UNI·C
+       Professional Security and Service
+       Danish Technical University, bldg 304
+       DK-2800 Lyngby, Denmark
+
+
+
+							     EDGE_BACKUP.SH(1)

@@ -1,0 +1,91 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<title>Net::Time - time and daytime network client interface</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',3);</script>
+<h1><a>Net::Time - time and daytime network client interface</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Net::Time - time and daytime network client interface</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    use Net::Time qw(inet_time inet_daytime);</pre>
+<pre>
+    print inet_time();          # use default host from Net::Config
+    print inet_time('localhost');
+    print inet_time('localhost', 'tcp');</pre>
+<pre>
+    print inet_daytime();       # use default host from Net::Config
+    print inet_daytime('localhost');
+    print inet_daytime('localhost', 'tcp');</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><code>Net::Time</code> provides subroutines that obtain the time on a remote machine.</p>
+<dl>
+<dt><strong><a name="item_inet_time">inet_time ( [HOST [, PROTOCOL [, TIMEOUT]]])</a></strong>
+
+<dd>
+<p>Obtain the time on <code>HOST</code>, or some default host if <code>HOST</code> is not given
+or not defined, using the protocol as defined in RFC868. The optional
+argument <code>PROTOCOL</code> should define the protocol to use, either <code>tcp</code> or
+<code>udp</code>. The result will be a time value in the same units as returned
+by <a href="../../../lib/5.8.7/pod/perlfunc.html#item_time"><code>time()</code></a> or <em>undef</em> upon failure.</p>
+</dd>
+</li>
+<dt><strong><a name="item_inet_daytime">inet_daytime ( [HOST [, PROTOCOL [, TIMEOUT]]])</a></strong>
+
+<dd>
+<p>Obtain the time on <code>HOST</code>, or some default host if <code>HOST</code> is not given
+or not defined, using the protocol as defined in RFC867. The optional
+argument <code>PROTOCOL</code> should define the protocol to use, either <code>tcp</code> or
+<code>udp</code>. The result will be an ASCII string or <em>undef</em> upon failure.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Graham Barr &lt;<a href="mailto:gbarr@pobox.com">gbarr@pobox.com</a>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (c) 1995-2004 Graham Barr. All rights reserved.
+This program is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.</p>
+
+</body>
+
+</html>

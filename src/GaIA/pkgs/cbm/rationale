@@ -1,0 +1,7 @@
+<p>To me it makes good sence to have strong tools for debugging
+network related problems on a firewall.</p>
+<p>I am perfectly aware of the consequences regarding security
+by placing such tools here, but the trade-off between security
+and the ability of debugging networking problems make me beleive
+this tool belongs here.
+</p>

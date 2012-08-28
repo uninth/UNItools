@@ -1,0 +1,183 @@
+#
+# $Id: mkconfig.dat,v 1.7 2006-10-05 11:58:12-07 bll Exp $
+#
+#   The four headers: stdio.h, stdlib.h, sys/types.h, and sys/param.h
+#   are always checked.  FreeBSD has header inclusion bugs and requires
+#   sys/param.h.
+#
+#   Commands:
+#   hdr     name-of-header
+#           check for a header.
+#           e.g.: hdr ctype.h
+#   sys     name-of-sys-header
+#           check for a header in sys/.
+#           e.g.: sys types.h
+#   command name-of-command
+#           check if command exists.
+#           e.g.: command msgfmt
+#   npt     function
+#           check if function needs a prototype.
+#           e.g.: npt getopt
+#   typ     type-name
+#           check if type-name exists.
+#           e.g.: typ size_t
+#   lib     function [libs]
+#           check if function exists.
+#           if libs are specified, tests for function
+#           w/o the libraries, then with.
+#           e.g.: lib gettext -lintl
+#                 lib gettext -lintl -liconv
+#   dcl     {int|ptr} variable
+#           check if the variable is declared.
+#           e.g.: dcl int errno
+#   member  struct member
+#           check if member is a member of struct.
+#           e.g.: member statfs f_bsize
+#   include     include all of the code between these two tags
+#   endinclude  in the configuration file.
+#
+hdr     ctype.h
+hdr     errno.h
+hdr     fshelp.h
+hdr     getopt.h
+hdr     kernel/fs_info.h
+hdr     limits.h
+hdr     libintl.h
+hdr     locale.h
+hdr     malloc.h
+hdr     math.h
+hdr     memory.h
+hdr     mntent.h
+hdr     mnttab.h
+hdr     storage/Directory.h
+hdr     storage/Entry.h
+hdr     storage/Path.h
+hdr     string.h
+hdr     strings.h
+hdr     time.h
+hdr     unistd.h
+hdr     windows.h
+hdr     zone.h
+sys     fs_types.h
+sys     fstyp.h
+sys     fstypes.h
+sys     mntctl.h
+sys     mntent.h
+sys     mnttab.h
+sys     mount.h
+sys     stat.h
+sys     statfs.h
+sys     statvfs.h
+sys     time.h
+sys     vfs.h
+sys     vfstab.h
+sys     vmount.h
+command msgfmt
+command gmsgfmt
+typ     statvfs_t
+typ     size_t
+typ     uint_t
+typ     uid_t
+lib     bcopy
+lib     bindtextdomain -lintl
+lib     bindtextdomain -lintl -liconv
+lib     bzero
+lib     endmntent
+lib     fs_stat_dev
+lib     fshelp
+lib     GetDiskFreeSpace
+lib     GetDiskFreeSpaceEx
+lib     GetDriveType
+lib     GetLogicalDriveStrings
+lib     GetVolumeInformation
+lib     getfsstat
+lib     getmnt
+lib     getmntent
+lib     getmntinfo
+lib     getopt
+lib     gettext -lintl
+lib     gettext -lintl -liconv
+lib     getvfsstat
+lib     getzoneid
+lib     hasmntopt
+lib     memcpy
+lib     memset
+lib     mntctl
+lib     setlocale  -lintl
+lib     setlocale  -lintl -liconv
+lib     setmntent
+lib     snprintf
+lib     statfs
+lib     statvfs
+lib     sysfs
+lib     textdomain  -lintl
+lib     textdomain  -lintl -liconv
+lib     zone_getattr
+lib     zone_list
+lib     fmod -lm
+npt     getenv
+npt     statfs _lib_statfs
+dcl     int  errno
+dcl     int  optind
+dcl     ptr  optarg
+member  statfs f_bsize
+member  statfs f_fsize
+member  statfs f_iosize
+member  statfs f_frsize
+member  statfs f_fstypename
+member  statfs mount_info
+member  statfs f_type
+member  mnttab mnt_time
+member  vmount vmt_time
+size    long long
+
+include
+
+#if _lib_bindtextdomain && \
+_lib_gettext && \
+_lib_setlocale && \
+_lib_textdomain && \
+_hdr_libintl && \
+_hdr_locale && \
+(_command_msgfmt || _command_gmsgfmt)
+# define _enable_nls 1
+#else
+# define _enable_nls 0
+#endif
+
+#if _typ_statvfs_t
+# define Statvfs_t statvfs_t
+#else
+# define Statvfs_t struct statvfs
+#endif
+
+#if _typ_size_t
+# define Size_t size_t
+#else
+# define Size_t unsigned int
+#endif
+
+#if _typ_uint_t
+# define Uint_t uint_t
+#else
+# define Uint_t unsigned int
+#endif
+
+#if _typ_uid_t
+# define Uid_t uid_t
+#else
+# define Uid_t int
+#endif
+
+#if _lib_snprintf
+# define Snprintf snprintf
+# define SPF(a1,a2,a3)      a1,a2,a3
+#else
+# define Snprintf sprintf
+# define SPF(a1,a2,a3)      a1,a3
+#endif
+
+#define _config_by_iffe_ 0
+#define _config_by_mkconfig_pl_ 1
+
+endinclude

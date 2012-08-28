@@ -1,0 +1,69 @@
+:
+
+#på '112' ligger unitools-setup-R76.sh i /var/opt/UNItools/setup
+
+#### €€€ test €€€€
+# Dette simple værktøj laver en rpm konfigurationsfil - fint nok, men den skal rettes
+# så %post install og %preun(stall) scrip sektionen udfyldes
+# det kan være det kan laves bedre, men pt. ved jeg ikke hvordan.
+
+# please no files in /usr/src/redhat
+
+echo "no files here:"
+find /usr/src/redhat/ ! -type d
+echo "no files, please"
+
+# working catalog. Notice that RPM WD is below /usr/src/redhat/RPMS/i386/
+cd /lan/ssi/shared/software/internal/UNItools/src/GaIA
+
+VERSION=1.0
+
+# Create a rpm config (template)
+rpmerizor	--rootdir `pwd`/UNItools_rootdir --group=root								\
+			--name UNItools --version=R77.10.GaIA --release=${VERSION}						\
+			--summary="i2 tool collection"												\
+			--packager="Niels Thomas Haugaard, nth@i2.dk"								\
+			--spec_only																	\
+			--description="i2 tool collection for version for GaIA, R76 and R77*"
+
+
+PATCHFILE=UNItools-R77.10.GaIA.${VERSION}.spec-patch
+
+test -f ${PATCHFILE} || {
+	echo "patchfile '${PATCHFILE}' not found, bye"
+	exit 0
+}
+
+awk '
+
+	$0 == "%files" {
+		while ((getline line < "'"$PATCHFILE"'") > 0)
+		{
+			print line
+		}
+		close("'"$PATCHFILE"'");
+		print $0
+		next
+	}
+
+	{
+		print $0
+	}
+
+'   /usr/src/redhat/SPECS/UNItools-R77.10.GaIA.spec > ./UNItools-R77.10.GaIA.spec
+
+/bin/rm -f /usr/src/redhat/SPECS/UNItools*
+
+rpmbuild -bb --buildroot=/tmp/rpmerizor_buildroot UNItools-R77.10.GaIA.spec
+
+# ret
+# <PRODUCT>-<CP VER>-<CP OS>-<PROD VER>-<ARCH> -> <PRODUCT>-<PROD VER>-<CP VER>-<CP OS>-<ARCH>
+
+/bin/mv /usr/src/redhat/RPMS/i386/UNItools-R77.10.GaIA-${VERSION}.i386.rpm  .
+
+find /usr/src/redhat/ -name '*UNItools*'
+
+ls -l UNItools-R77.10.GaIA-${VERSION}.i386.rpm
+
+echo "install with"
+echo "rpm  --nodeps -Uvh UNItools-R77.10.GaIA-${VERSION}.i386.rpm"

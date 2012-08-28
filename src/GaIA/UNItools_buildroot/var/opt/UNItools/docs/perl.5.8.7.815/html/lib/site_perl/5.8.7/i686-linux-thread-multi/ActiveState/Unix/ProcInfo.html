@@ -1,0 +1,142 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../../tocTab.js"></script>
+<title>ActiveState::Unix::ProcInfo - Portable extraction of process info</title>
+<link rel="stylesheet" href="../../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',6);</script>
+<h1><a>ActiveState::Unix::ProcInfo - Portable extraction of process info</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>ActiveState::Unix::ProcInfo - Portable extraction of process info</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ use ActiveState::Unix::ProcInfo qw(proc_info);
+ my $info = proc_info(root_pid =&gt; $$);
+ # examine $info</pre>
+<pre>
+ for my $p (proc_info()) {
+     print &quot;$p-&gt;{pid} $p-&gt;{vsz} $p-&gt;{args}\n&quot;;
+ }</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module provides a single function called <code>proc_info()</code> that is a
+portable wrapper around the system's <code>ps</code> command.  The function
+takes the following key/value arguments:</p>
+<dl>
+<dt><strong><a name="item_root_pid__3d_3e__24pid">root_pid =&gt; $pid</a></strong>
+
+<dt><strong><a name="item_root_pid__3d_3e__5b_24pid1_2c__24pid2_2c_2e_2e_2e_">root_pid =&gt; [$pid1, $pid2,...]</a></strong>
+
+<dd>
+<p>Only processes with the given PID (or PIDs) and their descendants are
+selected.</p>
+</dd>
+</li>
+<dt><strong><a name="item_root_args_match__3d_3e_qr_2f_2e_2e_2e_2f">root_args_match =&gt; qr/.../</a></strong>
+
+<dd>
+<p>Only processes and their descendants who's command line matches the 
+regular expression are selected.</p>
+</dd>
+<dd>
+<p>Note that this might not match as expected on platforms where <a href="#item_args"><code>args</code></a>
+is truncated, see the description of <a href="#item_args"><code>args</code></a> below.</p>
+</dd>
+</li>
+</dl>
+<p>If no arguments are given, information about all
+processes on the system is returned.</p>
+<p>In scalar context a hash reference is returned.  The keys of this hash
+are the PIDs of the processes selected and the value is a hash with the
+following elements:</p>
+<dl>
+<dt><strong><a name="item_ppid"><code>ppid</code></a></strong>
+
+<dd>
+<p>The PID of the parent of this process.</p>
+</dd>
+</li>
+<dt><strong><a name="item_vsz"><code>vsz</code></a></strong>
+
+<dd>
+<p>The size of the process in virtual memory in 1024 byte units.</p>
+</dd>
+</li>
+<dt><strong><a name="item_rss"><code>rss</code></a></strong>
+
+<dd>
+<p>The size of the process in physical memory in 1024 byte units.</p>
+</dd>
+</li>
+<dt><strong><a name="item_args"><code>args</code></a></strong>
+
+<dd>
+<p>The command with its arguments as a single string.  The command and
+arguments are separated by space.  The string might be truncated.</p>
+</dd>
+<dd>
+<p>On Solaris it is truncated to the first 80 chars.  On HP-UX it is
+truncated to the first 60 chars.  On Linux the limit appears to be 4096.</p>
+</dd>
+</li>
+<dt><strong><a name="item_threads"><code>threads</code></a></strong>
+
+<dd>
+<p>The number of threads running in this process.  This field might be
+missing for systems where the thread count can't be determined.</p>
+</dd>
+</li>
+<dt><strong><a name="item_children"><code>children</code></a></strong>
+
+<dd>
+<p>The number of direct children of this process.</p>
+</dd>
+</li>
+<dt><strong><a name="item_descendants"><code>descendants</code></a></strong>
+
+<dd>
+<p>The number of children + grand-children + grand-grand-children + ...</p>
+</dd>
+</li>
+</dl>
+<p>In list context a list of hash references are returned, each one
+representing a single process.  The hash has the same fields as
+described above, plus a <code>pid</code> field.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><em>ps</em></p>
+
+</body>
+
+</html>

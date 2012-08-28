@@ -1,0 +1,78 @@
+.TH SETUP.SH 1 
+.ad
+.fi
+.SH NAME
+setup.sh
+\-
+installation script for UNIfwbu.sh
+.SH PACKAGE
+.ad
+.fi
+UNItools
+.SH SYNOPSIS
+.ad
+.fi
+setup.sh install | uninstall
+.SH DESCRIPTION
+.ad
+.fi
+Simple installation routine for \fCUNIfwbu.sh(1)\fR removing
+prev. cron entries related to check point backups adding
+backup with \fCUNIfwbu.sh(1)\fR.
+
+The uninstall procedure reverces the process - but does not
+alter the check point backup procedure configuration file.
+
+The script \fCUNIfwbu.sh(1)\fR preserves the backup procedure
+configuration file as \fCsystem_configuration.cpbak.org\fR
+in the same directory as the current configuration file.
+
+\fCUNIfwbu.sh(1)\fR is installed as part of the package
+\fBUNItools\fR.
+
+.SH OPTIONS
+.ad
+.fi
+None.
+.SH COMMANDS
+.ad
+.fi
+\fCbash(1)\fR, \fCcrontab(1)\fR
+.SH SEE ALSO
+.ad
+.fi
+Documentation for UNItools and Check Point backup
+.SH DIAGNOSTICS
+.ad
+.fi
+None.
+.SH BUGS
+.ad
+.fi
+None known.
+.SH VERSION
+.na
+.nf
+$Date: 2012/07/02 08:05:46 $
+.br
+$Revision: 1.2 $
+.br
+$Source: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/fwbu/fwbu/RCS/setup.sh,v $
+.br
+$State: Exp $
+.SH HISTORY
+.ad
+.fi
+See \fCrlog\fR $Id: setup.sh,v 1.2 2012/07/02 08:05:46 root Exp $
+.SH AUTHOR(S)
+.ad
+.fi
+Niels Thomas Haugård
+.br
+E-mail: thomas@haugaard.net
+.br
+UNI\(buC
+.br
+DTU, Building 304
+.br
+DK-2800 Kgs. Lyngby

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOFTPKG NAME="Font-AFM" VERSION="1,19,0,0">
+  <TITLE>Font-AFM</TITLE>
+  <ABSTRACT>Interface to Adobe Font Metrics files</ABSTRACT>
+  <AUTHOR>Gisle Aas &lt;gisle@ActiveState.com></AUTHOR>
+  <IMPLEMENTATION>
+    <CODEBASE HREF="http://ppm.ActiveState.com/PPMPackages/5.8-linux/i686-linux-thread-multi-5.8/Font-AFM.tar.gz"/>
+  </IMPLEMENTATION>
+</SOFTPKG>

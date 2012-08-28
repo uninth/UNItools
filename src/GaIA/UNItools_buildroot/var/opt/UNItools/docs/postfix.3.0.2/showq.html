@@ -1,0 +1,171 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of SHOWQ</TITLE>
+</HEAD><BODY>
+<H1>SHOWQ</H1>
+Section: Maintenance Commands (8)<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+showq
+-
+list the Postfix mail queue
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+
+<PRE>
+<B>showq</B> [generic Postfix daemon options]
+</PRE><A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+
+
+The <B><A HREF="../man8/showq.8.html">showq</A></B>(8) daemon reports the Postfix mail queue status.
+It is the program that emulates the sendmail `mailq' command.
+<P>
+The <B><A HREF="../man8/showq.8.html">showq</A></B>(8) daemon can also be run in stand-alone mode
+by the superuser. This mode of operation is used to emulate
+the `mailq' command while the Postfix mail system is down.
+<A NAME="lbAE">&nbsp;</A>
+<H2>SECURITY</H2>
+
+
+<PRE>
+</PRE>
+
+The <B><A HREF="../man8/showq.8.html">showq</A></B>(8) daemon can run in a chroot jail at fixed low
+privilege, and takes no input from the client. Its service port
+is accessible to local untrusted users, so the service can be
+susceptible to denial of service attacks.
+<A NAME="lbAF">&nbsp;</A>
+<H2>STANDARDS</H2>
+
+
+<PRE>
+</PRE>
+
+None. The <B><A HREF="../man8/showq.8.html">showq</A></B>(8) daemon does not interact with the
+outside world.
+<A NAME="lbAG">&nbsp;</A>
+<H2>DIAGNOSTICS</H2>
+
+
+
+Problems and transactions are logged to <B><A HREF="../man8/syslogd.8.html">syslogd</A></B>(8).
+<A NAME="lbAH">&nbsp;</A>
+<H2>CONFIGURATION PARAMETERS</H2>
+
+
+<PRE>
+</PRE>
+
+Changes to <B>main.cf</B> are picked up automatically as <B><A HREF="../man8/showq.8.html">showq</A></B>(8)
+processes run for only a limited amount of time. Use the command
+&quot;<B>postfix reload</B>&quot; to speed up a change.
+<P>
+The text below provides only a parameter summary. See
+<B><A HREF="../man5/postconf.5.html">postconf</A></B>(5) for more details including examples.
+<DL COMPACT>
+<DT><B>config_directory (see 'postconf -d' output)</B><DD>
+The default location of the Postfix main.cf and master.cf
+configuration files.
+<DT><B>daemon_timeout (18000s)</B><DD>
+How much time a Postfix daemon process may take to handle a
+request before it is terminated by a built-in watchdog timer.
+<DT><B>duplicate_filter_limit (1000)</B><DD>
+The maximal number of addresses remembered by the address
+duplicate filter for <B><A HREF="../man5/aliases.5.html">aliases</A></B>(5) or <B><A HREF="../man5/virtual.5.html">virtual</A></B>(5) alias expansion, or
+for <B><A HREF="../man8/showq.8.html">showq</A></B>(8) queue displays.
+<DT><B>empty_address_recipient (MAILER-DAEMON)</B><DD>
+The recipient of mail addressed to the null address.
+<DT><B>ipc_timeout (3600s)</B><DD>
+The time limit for sending or receiving information over an internal
+communication channel.
+<DT><B>max_idle (100s)</B><DD>
+The maximum amount of time that an idle Postfix daemon process waits
+for an incoming connection before terminating voluntarily.
+<DT><B>max_use (100)</B><DD>
+The maximal number of incoming connections that a Postfix daemon
+process will service before terminating voluntarily.
+<DT><B>process_id (read-only)</B><DD>
+The process ID of a Postfix command or daemon process.
+<DT><B>process_name (read-only)</B><DD>
+The process name of a Postfix command or daemon process.
+<DT><B>queue_directory (see 'postconf -d' output)</B><DD>
+The location of the Postfix top-level queue directory.
+<DT><B>syslog_facility (mail)</B><DD>
+The syslog facility of Postfix logging.
+<DT><B>syslog_name (see 'postconf -d' output)</B><DD>
+The mail system name that is prepended to the process name in syslog
+records, so that &quot;smtpd&quot; becomes, for example, &quot;postfix/smtpd&quot;.
+</DL>
+<P>
+
+Available in Postfix version 2.9 and later:
+<DL COMPACT>
+<DT><B>enable_long_queue_ids (no)</B><DD>
+Enable long, non-repeating, queue IDs (queue file names).
+</DL>
+<A NAME="lbAI">&nbsp;</A>
+<H2>FILES</H2>
+
+
+<PRE>
+/var/spool/postfix, queue directories
+</PRE><A NAME="lbAJ">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+
+<PRE>
+<A HREF="../man8/pickup.8.html">pickup</A>(8), local mail pickup service
+<A HREF="../man8/cleanup.8.html">cleanup</A>(8), canonicalize and enqueue mail
+<A HREF="../man8/qmgr.8.html">qmgr</A>(8), queue manager
+<A HREF="../man5/postconf.5.html">postconf</A>(5), configuration parameters
+<A HREF="../man8/master.8.html">master</A>(8), process manager
+<A HREF="../man8/syslogd.8.html">syslogd</A>(8), system logging
+</PRE><A NAME="lbAK">&nbsp;</A>
+<H2>LICENSE</H2>
+
+
+<PRE>
+</PRE>
+
+The Secure Mailer license must be distributed with this software.
+<A NAME="lbAL">&nbsp;</A>
+<H2>AUTHOR(S)</H2>
+
+
+<PRE>
+Wietse Venema
+IBM T.J. Watson Research
+P.O. Box 704
+Yorktown Heights, NY 10598, USA
+
+</PRE>
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">SECURITY</A><DD>
+<DT><A HREF="#lbAF">STANDARDS</A><DD>
+<DT><A HREF="#lbAG">DIAGNOSTICS</A><DD>
+<DT><A HREF="#lbAH">CONFIGURATION PARAMETERS</A><DD>
+<DT><A HREF="#lbAI">FILES</A><DD>
+<DT><A HREF="#lbAJ">SEE ALSO</A><DD>
+<DT><A HREF="#lbAK">LICENSE</A><DD>
+<DT><A HREF="#lbAL">AUTHOR(S)</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 12:21:45 GMT, August 25, 2016
+</BODY>
+</HTML>

@@ -1,0 +1,368 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./copifuncs/common.funcs</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir">#</span>
+<span class="line">    1 </span><span class="dir">#  ComeOn Point Functions! v0.9.2</span>
+<span class="line">    2 </span><span class="dir">#  - usate da vari altri moduli ComeOn Point...</span>
+<span class="line">    3 </span><span class="dir">#</span>
+<span class="line">    4 </span><span class="dir">#  AUTHOR: Beppe (beppe.dem&#64;nsm.it)</span>
+<span class="line">    5 </span><span class="dir">#</span>
+<span class="line">    6 </span><span class="dir">#  This program is free software; you can redistribute it and/or</span>
+<span class="line">    7 </span><span class="dir">#  modify it under the terms of the GNU General Public License</span>
+<span class="line">    8 </span><span class="dir">#  as published by the Free Software Foundation; either version 2</span>
+<span class="line">    9 </span><span class="dir">#  of the License, or (at your option) any later version.</span>
+<span class="line">   10 </span><span class="dir">#</span>
+<span class="line">   11 </span><span class="dir">#  This program is distributed in the hope that it will be useful,</span>
+<span class="line">   12 </span><span class="dir">#  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="line">   13 </span><span class="dir">#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="line">   14 </span><span class="dir">#  GNU General Public License for more details.</span>
+<span class="line">   15 </span><span class="dir">#</span>
+<span class="line">   16 </span><span class="dir">#  You should have received a copy of the GNU General Public License</span>
+<span class="line">   17 </span><span class="dir">#  along with this program; if not, write to the Free Software</span>
+<span class="line">   18 </span><span class="dir">#  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.</span>
+<span class="line">   19 </span><span class="dir">#</span>
+<span class="line">   20 </span>
+<span class="line">   21 </span><span class="kwd">save</span><span class="sym">() {</span>
+<span class="line">   22 </span>  <span class="kwa">if</span> <span class="sym">[ -</span>f $<span class="num">1</span> <span class="sym">]</span>
+<span class="line">   23 </span>  then
+<span class="line">   24 </span>    mv $<span class="num">1</span> $<span class="num">1</span><span class="sym">~</span>
+<span class="line">   25 </span>  fi
+<span class="line">   26 </span><span class="sym">}</span>
+<span class="line">   27 </span>
+<span class="line">   28 </span><span class="dir"># Returns $PKG_TO_REMOVE</span>
+<span class="line">   29 </span><span class="kwd">find_incompatible_packages</span><span class="sym">() {</span>
+<span class="line">   30 </span>  dialog <span class="sym">--</span>backtitle <span class="str">&quot;$TITLE&quot;</span> <span class="sym">--</span>infobox <span class="str">&quot;Vediamo innanzitutto se c'e' qualche pacchetto di troppo ... ;-)&quot;</span> <span class="num">0 0</span>
+<span class="line">   31 </span>
+<span class="line">   32 </span>  PKG_TO_REMOVE<span class="sym">=</span><span class="str">&quot;&quot;</span>
+<span class="line">   33 </span>  <span class="kwa">for</span> i in sendmail smailcfg cnews
+<span class="line">   34 </span>  <span class="kwa">do</span>
+<span class="line">   35 </span>    <span class="kwa">if</span> <span class="sym">[ -</span>f <span class="sym">/</span>var<span class="sym">/</span>adm<span class="sym">/</span>packages<span class="sym">/</span>$i <span class="sym">]</span>
+<span class="line">   36 </span>    then
+<span class="line">   37 </span>      PKG_TO_REMOVE<span class="sym">=</span><span class="str">&quot;$PKG_TO_REMOVE $i&quot;</span>
+<span class="line">   38 </span>    fi
+<span class="line">   39 </span>  done
+<span class="line">   40 </span><span class="sym">}</span>
+<span class="line">   41 </span>
+<span class="line">   42 </span><span class="dir"># Returns $PKG_TO_INSTALL</span>
+<span class="line">   43 </span><span class="kwd">find_necessary_packages</span><span class="sym">() {</span>
+<span class="line">   44 </span>  dialog <span class="sym">--</span>backtitle <span class="str">&quot;$TITLE&quot;</span> <span class="sym">--</span>infobox <span class="str">&quot;Controlliamo se manca qualche pacchetto...&quot;</span> <span class="num">0 0</span>
+<span class="line">   45 </span>
+<span class="line">   46 </span>  PKG_TO_INSTALL<span class="sym">=</span><span class="str">&quot;&quot;</span>
+<span class="line">   47 </span>  <span class="kwa">for</span> i in tcpip mailx inn
+<span class="line">   48 </span>  <span class="kwa">do</span>
+<span class="line">   49 </span>    <span class="kwa">if</span> <span class="sym">[ ! -</span>f <span class="sym">/</span>var<span class="sym">/</span>adm<span class="sym">/</span>packages<span class="sym">/</span>$i <span class="sym">]</span>
+<span class="line">   50 </span>    then
+<span class="line">   51 </span>      PKG_TO_INSTALL<span class="sym">=</span><span class="str">&quot;$PKG_TO_INSTALL $i&quot;</span>
+<span class="line">   52 </span>    fi
+<span class="line">   53 </span>  done
+<span class="line">   54 </span><span class="sym">}</span>
+<span class="line">   55 </span>
+<span class="line">   56 </span><span class="dir"># Args: user, editor</span>
+<span class="line">   57 </span><span class="kwd">configure_trn</span><span class="sym">() {</span>
+<span class="line">   58 </span>  dialog <span class="sym">--</span>backtitle <span class="str">&quot;$TITLE&quot;</span> <span class="sym">--</span>infobox <span class="str">&quot;Configuro trn all'user $1...&quot;</span> <span class="num">0 0</span>
+<span class="line">   59 </span>
+<span class="line">   60 </span>  SHELL_USED<span class="sym">=</span><span class="str">&quot;`basename</span> <span class="esc">\`</span><span class="str">cut /etc/passwd -f1,7 -d: | grep $1: | cut -f2 -d:</span><span class="esc">\`</span><span class="str">`&quot;</span>
+<span class="line">   61 </span>  USER_HOME<span class="sym">=</span><span class="str">&quot;`cut /etc/passwd -f1,6 -d: | grep $1: | cut -f2 -d:`&quot;</span>
+<span class="line">   62 </span>  TRNRC<span class="sym">=</span><span class="str">&quot;$USER_HOME/.trnrc&quot;</span>
+<span class="line">   63 </span>
+<span class="line">   64 </span>  <span class="kwa">case</span> $SHELL_USED in
+<span class="line">   65 </span>  bash<span class="sym">)</span>
+<span class="line">   66 </span>    <span class="kwa">if</span> <span class="sym">[ -</span>f $USER_HOME<span class="sym">/.</span>bash_profile <span class="sym">]</span>
+<span class="line">   67 </span>    then
+<span class="line">   68 </span>      PROF<span class="sym">=</span>$USER_HOME<span class="sym">/.</span>bash_profile
+<span class="line">   69 </span>    <span class="kwa">else</span>
+<span class="line">   70 </span>      PROF<span class="sym">=</span>$USER_HOME<span class="sym">/.</span>profile
+<span class="line">   71 </span>    fi<span class="sym">;;</span>
+<span class="line">   72 </span>  zsh<span class="sym">)</span>
+<span class="line">   73 </span>    PROF<span class="sym">=</span>$USER_HOME<span class="sym">/.</span>zprofile<span class="sym">;;</span>
+<span class="line">   74 </span>  <span class="sym">*)</span>
+<span class="line">   75 </span>    PROF<span class="sym">=</span>$USER_HOME<span class="sym">/.</span>profile<span class="sym">;;</span>
+<span class="line">   76 </span>  esac
+<span class="line">   77 </span>
+<span class="line">   78 </span>  <span class="kwa">if</span> <span class="sym">[ ! -</span>f $PROF <span class="sym">]</span>
+<span class="line">   79 </span>  then
+<span class="line">   80 </span>    <span class="sym">:&gt;</span>$PROF
+<span class="line">   81 </span>    chown $<span class="num">1</span><span class="sym">.</span>mail $PROF
+<span class="line">   82 </span>  elif <span class="sym">[ !</span> <span class="str">&quot;`grep -x</span> <span class="esc">\&quot;</span><span class="str">. ~/.trnrc</span><span class="esc">\&quot;</span> <span class="str">$PROF`&quot;</span> <span class="sym">]</span>
+<span class="line">   83 </span>  then
+<span class="line">   84 </span>    echo <span class="sym">-</span>e <span class="str">&quot;</span><span class="esc">\n</span><span class="str">. ~/.trnrc&quot;</span> <span class="sym">&gt;&gt;</span>$PROF
+<span class="line">   85 </span>  fi
+<span class="line">   86 </span>
+<span class="line">   87 </span>  save $TRNRC
+<span class="line">   88 </span>
+<span class="line">   89 </span>  echo <span class="str">&quot;EDITOR=</span><span class="esc">\&quot;</span><span class="str">$2</span><span class="esc">\&quot;</span><span class="str">&quot;</span> <span class="sym">&gt;</span> $TRNRC
+<span class="line">   90 </span>  cat copi<span class="sym">.</span>trnrc  <span class="sym">&gt;&gt;</span> $TRNRC
+<span class="line">   91 </span>  chown $<span class="num">1</span><span class="sym">.</span>mail $TRNRC
+<span class="line">   92 </span><span class="sym">}</span>
+<span class="line">   93 </span>
+<span class="line">   94 </span><span class="dir"># Args: user, editor</span>
+<span class="line">   95 </span><span class="kwd">configure_elm</span><span class="sym">() {</span>
+<span class="line">   96 </span>  USER<span class="sym">=</span>$<span class="num">1</span>
+<span class="line">   97 </span>  EDIT<span class="sym">=</span>$<span class="num">2</span>
+<span class="line">   98 </span>
+<span class="line">   99 </span>  dialog <span class="sym">--</span>backtitle <span class="str">&quot;$TITLE&quot;</span> <span class="sym">--</span>infobox <span class="str">&quot;Configuro elm all'user $USER...&quot;</span> <span class="num">0 0</span>
+<span class="line">  100 </span>
+<span class="line">  101 </span>  USER_HOME<span class="sym">=</span><span class="str">&quot;`cut /etc/passwd -f1,6 -d: | grep $USER: | cut -f2 -d:`&quot;</span>
+<span class="line">  102 </span>  DIRRC<span class="sym">=</span><span class="str">&quot;$USER_HOME/.elm&quot;</span>
+<span class="line">  103 </span>  ELMRC<span class="sym">=</span><span class="str">&quot;$DIRRC/elmrc&quot;</span>
+<span class="line">  104 </span>
+<span class="line">  105 </span>  mkdir <span class="sym">-</span>p $DIRRC <span class="sym">-</span>m <span class="num">700</span>
+<span class="line">  106 </span>  chown $USER<span class="sym">.</span>mail $USERHOME $DIRRC
+<span class="line">  107 </span>
+<span class="line">  108 </span>  save $ELMRC
+<span class="line">  109 </span>
+<span class="line">  110 </span>  cat <span class="sym">&lt;&lt;</span>EOF <span class="sym">&gt;</span>$ELMRC
+<span class="line">  111 </span><span class="dir">#</span>
+<span class="line">  112 </span><span class="dir"># .elm/elmrc - options file for the ELM mail system</span>
+<span class="line">  113 </span><span class="dir">#</span>
+<span class="line">  114 </span><span class="dir"># Generated by $PKTNAME for $USER</span>
+<span class="line">  115 </span><span class="dir">#</span>
+<span class="line">  116 </span>
+<span class="line">  117 </span><span class="dir"># For yes/no settings with ?, ON means yes, OFF means no</span>
+<span class="line">  118 </span>
+<span class="line">  119 </span><span class="dir"># how to sort the alias list,</span> <span class="dstr">&quot;Name&quot;</span><span class="dir"> by default</span>
+<span class="line">  120 </span><span class="dir">### aliassortby = Name</span>
+<span class="line">  121 </span>
+<span class="line">  122 </span><span class="dir"># name of editor to use for replies that have text</span>
+<span class="line">  123 </span>alteditor <span class="sym">=</span> $EDIT
+<span class="line">  124 </span>
+<span class="line">  125 </span><span class="dir"># alternative addresses that I could receive mail from (usually a</span>
+<span class="line">  126 </span><span class="dir"># forwarding mailbox) and don</span><span class="dstr">'t want to have listed...</span>
+<span class="line">  127 </span><span class="dstr">### alternatives =</span>
+<span class="line">  128 </span><span class="dstr"></span>
+<span class="line">  129 </span><span class="dstr"># should the default be to delete messages we'</span><span class="dir">ve marked for deletion?</span>
+<span class="line">  130 </span>alwaysdelete <span class="sym">=</span> ON
+<span class="line">  131 </span>
+<span class="line">  132 </span><span class="dir"># should the default be to keep unread messages in the incoming mailbox?</span>
+<span class="line">  133 </span>alwayskeep <span class="sym">=</span> ON
+<span class="line">  134 </span>
+<span class="line">  135 </span><span class="dir"># should the default be to store read messages to the</span> <span class="dstr">&quot;received&quot;</span><span class="dir"> folder?</span>
+<span class="line">  136 </span>alwaysstore <span class="sym">=</span> OFF
+<span class="line">  137 </span>
+<span class="line">  138 </span><span class="dir"># should we use the</span> <span class="dstr">&quot;-&gt;&quot;</span><span class="dir"> rather than the inverse video bar?</span>
+<span class="line">  139 </span>arrow <span class="sym">=</span> OFF
+<span class="line">  140 </span>
+<span class="line">  141 </span><span class="dir"># should the message disposition questions be displayed(ON) or</span>
+<span class="line">  142 </span><span class="dir"># auto-answered(OFF) with the default answers when we resync or</span>
+<span class="line">  143 </span><span class="dir"># change folders?</span>
+<span class="line">  144 </span>ask <span class="sym">=</span> OFF
+<span class="line">  145 </span>
+<span class="line">  146 </span><span class="dir"># would you like to be asked for Carbon-Copies information each msg?</span>
+<span class="line">  147 </span>askcc <span class="sym">=</span> OFF
+<span class="line">  148 </span>
+<span class="line">  149 </span><span class="dir"># attribution string for replies (</span><span class="dstr">'%s'</span><span class="dir"> is the author of original message)</span>
+<span class="line">  150 </span>attribution <span class="sym">= %</span>s wrote<span class="sym">:</span>
+<span class="line">  151 </span>
+<span class="line">  152 </span><span class="dir"># automatically copy message being replied to into buffer?</span>
+<span class="line">  153 </span>autocopy <span class="sym">=</span> ON
+<span class="line">  154 </span>
+<span class="line">  155 </span><span class="dir"># threshold for bouncing copies of remote uucp messages...</span>
+<span class="line">  156 </span><span class="dir"># zero = disable function.</span>
+<span class="line">  157 </span><span class="dir">### bounceback = 0</span>
+<span class="line">  158 </span>
+<span class="line">  159 </span><span class="dir"># This is used to determine if the builtin pager should be used on some</span>
+<span class="line">  160 </span><span class="dir"># messages even if you would usually use an external pager program.</span>
+<span class="line">  161 </span><span class="dir"># There are two ways of determining whether the builtin pager should be</span>
+<span class="line">  162 </span><span class="dir"># used. If you want any message that is shorter than</span> <span class="dstr">&quot;n&quot;</span><span class="dir"> lines to use the</span>
+<span class="line">  163 </span><span class="dir"># internal pager, set the parameter to</span> <span class="dstr">&quot;n&quot;</span><span class="dir">.  If you want the builtin</span>
+<span class="line">  164 </span><span class="dir"># pager to be used if the message is</span> <span class="dstr">&quot;m&quot;</span><span class="dir"> lines shorter than the number of</span>
+<span class="line">  165 </span><span class="dir"># lines on your screen set the parameter to be</span> <span class="dstr">&quot;-m&quot;</span><span class="dir">.  Setting the</span>
+<span class="line">  166 </span><span class="dir"># parameter to zero will result in the message always being sent through</span>
+<span class="line">  167 </span><span class="dir"># your external pager.</span>
+<span class="line">  168 </span><span class="dir">### builtinlines = -3</span>
+<span class="line">  169 </span>
+<span class="line">  170 </span><span class="dir"># where to save calendar entries</span>
+<span class="line">  171 </span><span class="dir">#calendar = /root/calendar</span>
+<span class="line">  172 </span>
+<span class="line">  173 </span><span class="dir"># list of options that can be configured at the</span> <span class="dstr">&quot;o)ptions&quot;</span><span class="dir"> screen</span>
+<span class="line">  174 </span>configoptions <span class="sym">=</span> ^_cdefsopyv_am_un
+<span class="line">  175 </span>
+<span class="line">  176 </span><span class="dir"># Should elm always ask the user to confirm before it appends</span>
+<span class="line">  177 </span><span class="dir"># messages to any existing file?</span>
+<span class="line">  178 </span><span class="dir"># This is used for both folders in the user</span><span class="dstr">'s mail directory</span>
+<span class="line">  179 </span><span class="dstr"># and ordinary files.</span>
+<span class="line">  180 </span><span class="dstr">confirmappend = OFF</span>
+<span class="line">  181 </span><span class="dstr"></span>
+<span class="line">  182 </span><span class="dstr"># Should elm always ask the user to confirm before it creates</span>
+<span class="line">  183 </span><span class="dstr"># any new files?</span>
+<span class="line">  184 </span><span class="dstr"># This is used for both folders in the user'</span><span class="dir">s mail directory</span>
+<span class="line">  185 </span><span class="dir"># and ordinary files.</span>
+<span class="line">  186 </span>confirmcreate <span class="sym">=</span> OFF
+<span class="line">  187 </span>
+<span class="line">  188 </span><span class="dir"># Should elm ask for confirmation before it appends a message</span>
+<span class="line">  189 </span><span class="dir"># to an existing file that is not a folder in the user</span><span class="dstr">'s Mail</span>
+<span class="line">  190 </span><span class="dstr"># directory?</span>
+<span class="line">  191 </span><span class="dstr"># This is used for ordinary files only and does not affect</span>
+<span class="line">  192 </span><span class="dstr"># folders in the user'</span><span class="dir">s mail directory.</span>
+<span class="line">  193 </span>confirmfiles <span class="sym">=</span> OFF
+<span class="line">  194 </span>
+<span class="line">  195 </span><span class="dir"># Should elm ask for confirmation before it creates a new folder</span>
+<span class="line">  196 </span><span class="dir"># in the user</span><span class="dstr">'s Mail directory?</span>
+<span class="line">  197 </span><span class="dstr"># This is used only for folders in the user'</span><span class="dir">s mail directory and</span>
+<span class="line">  198 </span><span class="dir"># does not affect ordinary files.</span>
+<span class="line">  199 </span>confirmfolders <span class="sym">=</span> OFF
+<span class="line">  200 </span>
+<span class="line">  201 </span><span class="dir"># save a copy of all outbound messages?</span>
+<span class="line">  202 </span>copy <span class="sym">=</span> ON
+<span class="line">  203 </span>
+<span class="line">  204 </span><span class="dir"># name of editor for ~e command (when editor=</span><span class="dstr">&quot;builtin&quot;</span><span class="dir">)</span>
+<span class="line">  205 </span>easyeditor <span class="sym">=</span> $EDIT
+<span class="line">  206 </span>
+<span class="line">  207 </span><span class="dir"># what editor to use (</span><span class="dstr">&quot;none&quot;</span><span class="dir"> means simulate Berkeley Mail)</span>
+<span class="line">  208 </span>editor <span class="sym">=</span> $EDIT
+<span class="line">  209 </span>
+<span class="line">  210 </span><span class="dir"># the character to use in the builtin editor for entering commands</span>
+<span class="line">  211 </span><span class="dir">### escape = ~</span>
+<span class="line">  212 </span>
+<span class="line">  213 </span><span class="dir"># save outbound messages by login name of sender/recipient even if the</span>
+<span class="line">  214 </span><span class="dir"># associated folder doesn</span><span class="dstr">'t already exist?</span>
+<span class="line">  215 </span><span class="dstr">### forcename = OFF</span>
+<span class="line">  216 </span><span class="dstr"></span>
+<span class="line">  217 </span><span class="dstr"># do we want to be able to mail out AT&amp;T Mail Forms?</span>
+<span class="line">  218 </span><span class="dstr">### forms = OFF</span>
+<span class="line">  219 </span><span class="dstr"></span>
+<span class="line">  220 </span><span class="dstr"># The full user name for outbound mail</span>
+<span class="line">  221 </span><span class="dstr">### fullname = $PKTNAME User</span>
+<span class="line">  222 </span><span class="dstr"></span>
+<span class="line">  223 </span><span class="dstr"># should we keep folders from which all messages are deleted?</span>
+<span class="line">  224 </span><span class="dstr">### keepempty = OFF</span>
+<span class="line">  225 </span><span class="dstr"></span>
+<span class="line">  226 </span><span class="dstr"># are we running on an HP terminal and want HOME, PREV, NEXT, etc...?</span>
+<span class="line">  227 </span><span class="dstr">### keypad = OFF</span>
+<span class="line">  228 </span><span class="dstr"></span>
+<span class="line">  229 </span><span class="dstr"># local &quot;.signature&quot; file to append to appropriate messages...</span>
+<span class="line">  230 </span><span class="dstr">localsignature = ~/.signature</span>
+<span class="line">  231 </span><span class="dstr"></span>
+<span class="line">  232 </span><span class="dstr"># where to save my mail to, default directory is &quot;Mail&quot;</span>
+<span class="line">  233 </span><span class="dstr">maildir = ~/Mail</span>
+<span class="line">  234 </span><span class="dstr"></span>
+<span class="line">  235 </span><span class="dstr"># should we display the three-line '</span><span class="dir">mini</span><span class="dstr">' menu?</span>
+<span class="line">  236 </span><span class="dstr">menu = ON</span>
+<span class="line">  237 </span><span class="dstr"></span>
+<span class="line">  238 </span><span class="dstr"># would you like a copy of a message you send to an alias you are on?</span>
+<span class="line">  239 </span><span class="dstr">### metoo = OFF</span>
+<span class="line">  240 </span><span class="dstr"></span>
+<span class="line">  241 </span><span class="dstr"># when using the page commands (+ - &lt;NEXT&gt; &lt;PREV&gt;) change the current</span>
+<span class="line">  242 </span><span class="dstr"># message pointer...?</span>
+<span class="line">  243 </span><span class="dstr">### movepage = OFF</span>
+<span class="line">  244 </span><span class="dstr"></span>
+<span class="line">  245 </span><span class="dstr"># just show the names when expanding aliases?</span>
+<span class="line">  246 </span><span class="dstr">names = OFF</span>
+<span class="line">  247 </span><span class="dstr"></span>
+<span class="line">  248 </span><span class="dstr"># when messages are copied into the outbound buffer, don'</span><span class="dir">t include headers?</span>
+<span class="line">  249 </span>noheader <span class="sym">=</span> ON
+<span class="line">  250 </span>
+<span class="line">  251 </span><span class="dir"># program to use for displaying messages (</span><span class="dstr">'builtin'</span><span class="dir"> is recommended)</span>
+<span class="line">  252 </span><span class="dir">### pager = builtin+</span>
+<span class="line">  253 </span>
+<span class="line">  254 </span><span class="dir"># start up by pointing to the first new message received, if possible?</span>
+<span class="line">  255 </span><span class="dir">### pointnew = ON</span>
+<span class="line">  256 </span>
+<span class="line">  257 </span><span class="dir"># list of delivery precedences allowed, or empty to allow anything</span>
+<span class="line">  258 </span><span class="dir"># precedence may be followed by optional</span> <span class="dstr">&quot;:priority&quot;</span><span class="dir"> specification</span>
+<span class="line">  259 </span><span class="dir">### precedences =</span>
+<span class="line">  260 </span>
+<span class="line">  261 </span><span class="dir"># prefix sequence for indenting included message text in outgoing messages...</span>
+<span class="line">  262 </span>prefix <span class="sym">=</span> _<span class="sym">:&gt;</span>_
+<span class="line">  263 </span>
+<span class="line">  264 </span><span class="dir"># how to print a message (</span><span class="dstr">'%s'</span><span class="dir"> is the filename)</span>
+<span class="line">  265 </span><span class="dir">### print = /bin/cat %s | /usr/bin/lpr</span>
+<span class="line">  266 </span>
+<span class="line">  267 </span><span class="dir"># prompt for a command after the external pager exits?</span>
+<span class="line">  268 </span><span class="dir">### promptafter = ON</span>
+<span class="line">  269 </span>
+<span class="line">  270 </span><span class="dir"># Value by which message count is incremented while reading a new mailbox.</span>
+<span class="line">  271 </span><span class="dir"># Setting this value to a number larger than one will speed up the time it</span>
+<span class="line">  272 </span><span class="dir"># takes to read a large mailbox when using a slow terminal.</span>
+<span class="line">  273 </span><span class="dir">### readmsginc = 1</span>
+<span class="line">  274 </span>
+<span class="line">  275 </span><span class="dir"># where to save received messages to, default file is</span> <span class="dstr">&quot;=received&quot;</span><span class="dir"></span>
+<span class="line">  276 </span>receivedmail <span class="sym">= =</span>received
+<span class="line">  277 </span>
+<span class="line">  278 </span><span class="dir"># remote</span> <span class="dstr">&quot;.signature&quot;</span><span class="dir"> file to append to appropriate messages...</span>
+<span class="line">  279 </span>remotesignature <span class="sym">= ~/.</span>signature
+<span class="line">  280 </span>
+<span class="line">  281 </span><span class="dir"># emulate the mailx message increment mode (only increment after</span>
+<span class="line">  282 </span><span class="dir"># something has been</span> <span class="dstr">'done'</span><span class="dir"> to a message, either saved or deleted,</span>
+<span class="line">  283 </span><span class="dir"># as opposed to simply each time something is touched)?</span>
+<span class="line">  284 </span><span class="dir">### resolve = ON</span>
+<span class="line">  285 </span>
+<span class="line">  286 </span><span class="dir"># save messages, incoming and outbound, by login name of sender/recipient?</span>
+<span class="line">  287 </span>savename <span class="sym">=</span> ON
+<span class="line">  288 </span>
+<span class="line">  289 </span><span class="dir"># where to save copies of outgoing mail to, default file is</span> <span class="dstr">&quot;=sent&quot;</span><span class="dir"></span>
+<span class="line">  290 </span>sentmail <span class="sym">= =</span>sent
+<span class="line">  291 </span>
+<span class="line">  292 </span><span class="dir"># The shell to use for shell escapes</span>
+<span class="line">  293 </span>shell <span class="sym">= /</span>bin<span class="sym">/</span>sh
+<span class="line">  294 </span>
+<span class="line">  295 </span><span class="dir"># do we want dashes above signatures? (News 2.11 compatibility and convention)</span>
+<span class="line">  296 </span><span class="dir">### sigdashes = ON</span>
+<span class="line">  297 </span>
+<span class="line">  298 </span><span class="dir"># time in seconds which Elm will wait after displaying a transient message</span>
+<span class="line">  299 </span><span class="dir"># and before erasing it.  Can be 0 or positive integer.</span>
+<span class="line">  300 </span><span class="dir">### sleepmsg = 2</span>
+<span class="line">  301 </span>
+<span class="line">  302 </span><span class="dir"># are we running on an HP terminal and want softkeys available too?</span>
+<span class="line">  303 </span><span class="dir"># (this implies</span> <span class="dstr">&quot;keypad=ON&quot;</span><span class="dir"> too)</span>
+<span class="line">  304 </span><span class="dir">### softkeys = OFF</span>
+<span class="line">  305 </span>
+<span class="line">  306 </span><span class="dir"># how to sort folders,</span> <span class="dstr">&quot;Reverse Sent&quot;</span><span class="dir"> by default</span>
+<span class="line">  307 </span><span class="dir">### sortby = Reverse-Sent</span>
+<span class="line">  308 </span>
+<span class="line">  309 </span><span class="dir"># Set the main prompt timeout for resynching...</span>
+<span class="line">  310 </span><span class="dir">### timeout = 600</span>
+<span class="line">  311 </span>
+<span class="line">  312 </span><span class="dir"># display message title when displaying pages of message?</span>
+<span class="line">  313 </span>titles <span class="sym">=</span> ON
+<span class="line">  314 </span>
+<span class="line">  315 </span><span class="dir"># where to place temporary files, default directory is</span> <span class="dstr">&quot;/tmp&quot;</span><span class="dir"></span>
+<span class="line">  316 </span><span class="dir">### tmpdir = /tmp/</span>
+<span class="line">  317 </span>
+<span class="line">  318 </span><span class="dir"># are we good at it?  0=beginner, 1=intermediate, 2+ = expert!</span>
+<span class="line">  319 </span>userlevel <span class="sym">=</span> <span class="num">0</span>
+<span class="line">  320 </span>
+<span class="line">  321 </span><span class="dir"># would you like to use termcap/terminfo ti/te entries?</span>
+<span class="line">  322 </span>usetite <span class="sym">=</span> ON
+<span class="line">  323 </span>
+<span class="line">  324 </span><span class="dir"># name of editor for ~v command (when editor=</span><span class="dstr">&quot;builtin&quot;</span><span class="dir">)</span>
+<span class="line">  325 </span>visualeditor <span class="sym">=</span> $EDIT
+<span class="line">  326 </span>
+<span class="line">  327 </span><span class="dir"># enable the weedout list to be read?</span>
+<span class="line">  328 </span><span class="dir">### weed = ON</span>
+<span class="line">  329 </span>
+<span class="line">  330 </span><span class="dir"># what headers I DON</span><span class="dstr">'T want to see, ever.</span>
+<span class="line">  331 </span><span class="dstr">weedout = &quot;*end-of-user-headers*&quot;</span>
+<span class="line">  332 </span><span class="dstr"></span>
+<span class="line">  333 </span><span class="dstr">EOF</span>
+<span class="line">  334 </span><span class="dstr"></span>
+<span class="line">  335 </span><span class="dstr">  chmod 600 $ELMRC</span>
+<span class="line">  336 </span><span class="dstr">  chown $USER.mail $ELMRC</span>
+<span class="line">  337 </span><span class="dstr">}</span><span class="dir"></span>
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

@@ -1,0 +1,1 @@
+setup.strace.4.5.12.sh

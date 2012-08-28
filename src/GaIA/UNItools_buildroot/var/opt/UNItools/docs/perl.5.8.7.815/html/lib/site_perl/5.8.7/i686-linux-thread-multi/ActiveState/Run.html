@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>ActiveState::Run - Collection of small utility functions</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>ActiveState::Run - Collection of small utility functions</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#environment">ENVIRONMENT</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>ActiveState::Run - Collection of small utility functions</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ use ActiveState::Handy qw(run);
+ run(&quot;ls -l&quot;);</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module provides a collection of small utility functions for
+running external programs.</p>
+<p>The following functions are provided:</p>
+<dl>
+<dt><strong><a name="item_decode_status">decode_status( )</a></strong>
+
+<dt><strong>decode_status( $rc )</strong>
+
+<dd>
+<p>Will decode the given return code (defaults to $?) and return the 
+exit value, the signal it was killed with, and if it dumped core.</p>
+</dd>
+<dd>
+<p>In scalar context, it will return a string explaining what happened, or 
+an empty string if no error occured.</p>
+</dd>
+<dd>
+<pre>
+  my $foo = `ls`;
+  my $err = decode_status;
+  die &quot;ls failed: $err&quot; if $err;</pre>
+</dd>
+<dd>
+<p>In array context, it will return a list of key/value pairs containing:</p>
+</dd>
+<dl>
+<dt><strong><a name="item_wifexited">WIFEXITED</a></strong>
+
+<dd>
+<p>True when the status code indicates normal termination.</p>
+</dd>
+</li>
+<dt><strong><a name="item_wexitstatus">WEXITSTATUS</a></strong>
+
+<dd>
+<p>If WIFEXITED, this will contain the low-order 8 bits of the status
+value the child passed to exit or returned from main.</p>
+</dd>
+</li>
+<dt><strong><a name="item_wifsignaled">WIFSIGNALED</a></strong>
+
+<dd>
+<p>Non-zero if process was terminated by a signal.</p>
+</dd>
+</li>
+<dt><strong><a name="item_wtermsig">WTERMSIG</a></strong>
+
+<dd>
+<p>If WIFSIGNALED, the terminating signal.</p>
+</dd>
+</li>
+<dt><strong><a name="item_wifstopped">WIFSTOPPED</a></strong>
+
+<dd>
+<p>Non-zero if the process was stopped.</p>
+</dd>
+</li>
+<dt><strong><a name="item_wstopsig">WSTOPSIG</a></strong>
+
+<dd>
+<p>If WIFSTOPPED, the signal that stopped the process.</p>
+</dd>
+</li>
+<dt><strong><a name="item_wcoredump">WCOREDUMP</a></strong>
+
+<dd>
+<p>Nonzero if the process dumped core.</p>
+</dd>
+</li>
+</dl>
+<p>Example:</p>
+<pre>
+  my $foo = `ls`;
+  my %err = decode_status;
+  die &quot;ls dumped core&quot; if $err{WCOREDUMP};</pre>
+<dt><strong><a name="item_run">run( $cmd, @args )</a></strong>
+
+<dd>
+<p>Works like the builtin <a href="../../../../../lib/5.8.7/pod/perlfunc.html#item_system"><code>system()</code></a> but will by default print commands to
+stdout before it execute them and raise an exception (die) if the
+command fails (returns non-zero status).  Like for the command
+specifications for make(1), you can prefix the command with ``@'' to
+suppress the echo and with ``-'' to suppress the status check.</p>
+</dd>
+<dd>
+<p>The environment variables AS_RUN_SILENT and AS_RUN_PREFIX influence
+printing as well, see <a href="#environment">ENVIRONMENT</a>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_shell_quote">shell_quote( @args )</a></strong>
+
+<dd>
+<p>Will quote the arguments provided so that they can be passed to the
+command shell without interpretation by the shell.  This is useful
+with <a href="#item_run"><code>run()</code></a> when you can't provide separate @args, e.g.:</p>
+</dd>
+<dd>
+<pre>
+   run(shell_quote(&quot;rm&quot;, &quot;-f&quot;, @files) . &quot; &gt;dev/null&quot;);</pre>
+</dd>
+<dd>
+<p>In list context it returns the same number of values as arguments
+passed in.  Only those arg values that need quoting will be quoted.</p>
+</dd>
+<dd>
+<p>In scalar context it will return a single string with all the quoted
+@args separated by space.</p>
+</dd>
+<dd>
+<p>In void context it will attempt inline modification of the @args
+passed.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="environment">ENVIRONMENT</a></h1>
+<p>If the AS_RUN_SILENT environment variable is TRUE, then printing of
+the command about to run for <a href="#item_run"><code>run()</code></a> is suppressed.</p>
+<p>If the AS_RUN_PREFIX environment variable is set, then the printed
+command is prefixed with the given string.  If AS_RUN_SILENT is TRUE,
+then this value is ignored.</p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>none.</p>
+
+</body>
+
+</html>

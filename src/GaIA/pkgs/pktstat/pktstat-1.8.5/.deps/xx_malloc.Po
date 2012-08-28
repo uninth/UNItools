@@ -1,0 +1,3 @@
+xx_malloc.o xx_malloc.o: xx_malloc.c config.h
+
+config.h:

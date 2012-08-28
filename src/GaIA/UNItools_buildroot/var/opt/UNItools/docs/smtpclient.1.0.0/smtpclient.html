@@ -1,0 +1,322 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of SMTPCLIENT</TITLE>
+</HEAD><BODY>
+<H1>SMTPCLIENT</H1>
+Section: Ralf S. Engelschall (1)<BR>Updated: EN<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+smtpclient -- simple SMTP client
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>smtpclient</B> 
+[<B>-s</B> <I>STR</I>]
+[<B>-f</B> <I>ADDR</I>]
+[<B>-r</B> <I>ADDR</I>]
+[<B>-e</B> <I>ADDR</I>]
+[<B>-c</B> <I>ADDR</I>]
+[<B>-S</B> <I>HOST</I>]
+[<B>-P</B> <I>NUM</I>]
+[<B>-M</B>]
+[<B>-L</B>]
+[<B>-v</B>]
+<I>recipient</I> ...
+<P>
+
+<B>smtpclient</B> 
+[<B>-V</B>]
+[<B>-h</B>]
+<A NAME="lbAD">&nbsp;</A>
+<H2>VERSION</H2>
+
+1.0.0 (21-10-1997)
+<A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<B>SMTPclient</B> is a minimal SMTP client that takes an email message body and
+passes it on to a SMTP server (default is the MTA on the local host). Since it
+is completely self-supporting, it is especially suitable for use in restricted
+environments.
+<P>
+
+A typical usage is as a MTA emulating program on a dedicated webserver.  There
+it is usually called from within a CGI program to receive a mail (constructed
+by the CGI program out of a HTML form) and to forward it to the actual
+mailserver.
+<A NAME="lbAF">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+
+<BR>
+
+
+
+
+<DL COMPACT>
+<DT><B>-s</B>, <B>--subject=</B><I></I><FONT SIZE="-1"><I>STR</I></FONT><I></I><DD>
+
+Specifies the <TT>Subject:</TT> header. This gives the message a title. Default is
+no subject.
+
+<BR>
+
+
+
+
+<DT><B>-f</B>, <B>--from=</B><I></I><FONT SIZE="-1"><I>ADDR</I></FONT><I></I><DD>
+
+Specifies the <TT>From:</TT> address header. This is the logical senders address.
+Default is ``<TT>daemon</TT>'', which is probably wrong.
+
+<BR>
+
+
+
+
+<DT><B>-r</B>, <B>--reply-to=</B><I></I><FONT SIZE="-1"><I>ADDR</I></FONT><I></I><DD>
+
+Specifies the <TT>Reply-To:</TT> address header. This is where replies should be
+send to. Default is no such header.
+
+<BR>
+
+
+
+
+<DT><B>-e</B>, <B>--errors-to=</B><I></I><FONT SIZE="-1"><I>ADDR</I></FONT><I></I><DD>
+
+Specifies the <TT>Errors-To:</TT> address header. This is where delivery
+problems should be reported. Default is no such header.
+
+<BR>
+
+
+
+
+<DT><B>-c</B>, <B>--carbon-copy=</B><I></I><FONT SIZE="-1"><I>ADDR</I></FONT><I></I><DD>
+
+Specifies the <TT>Cc:</TT> address header. This can contain one or more addresses
+(seperated by comma) to which one copy of the message is send to. Default is
+no such header.
+
+<BR>
+
+
+
+
+<DT><B>-S</B>, <B>--smtp-host=</B><I></I><FONT SIZE="-1"><I>HOST</I></FONT><I></I><DD>
+
+Specifies the name or <FONT SIZE="-1">IP</FONT>-address of the <FONT SIZE="-1">SMTP</FONT> host to connect to. This is the
+host where the <FONT SIZE="-1">MTA</FONT> is running to which the message is forwarded. By default,
+the mail is send to the <FONT SIZE="-1">SMTP</FONT> daemon on <TT>localhost</TT> or to the host specified
+in the environment-variable <TT>SMTPSERVER</TT> if exists.
+
+<BR>
+
+
+
+
+<DT><B>-P</B>, <B>--smtp-port=</B><I></I><FONT SIZE="-1"><I>NUM</I></FONT><I></I><DD>
+
+Specifies the port of the <FONT SIZE="-1">SMTP</FONT> host to connect to. Default is port 25 (smtp).
+
+<BR>
+
+
+
+
+<DT><B>-M</B>, <B>--mime-encode</B><DD>
+
+Use <FONT SIZE="-1">MIME</FONT>-style translation to quoted-printable (base 16).
+
+<BR>
+
+
+
+
+<DT><B>-L</B>, <B>--use-syslog</B><DD>
+
+Log errors to system's <I>syslog</I> facility instead of <I>stderr</I>.
+
+<BR>
+
+
+
+
+<DT><B>-v</B>, <B>--verbose</B><DD>
+
+Turn on verbose logging to <I>stdout</I>.
+
+<BR>
+
+
+
+
+<DT><B>-V</B>, <B>--version</B><DD>
+
+Display the program version.
+
+<BR>
+
+
+
+
+<DT><B>-h</B>, <B>--help</B><DD>
+
+Display the usage page.
+</DL>
+<A NAME="lbAG">&nbsp;</A>
+<H2>RESULTS</H2>
+
+The program terminates with a non-zero exit status in case of errors. 
+<A NAME="lbAH">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+<P>
+
+
+
+<PRE>
+ Ralf S. Engelschall
+ <A HREF="mailto:rse@engelschall.com">rse@engelschall.com</A>
+ <A HREF="http://www.engelschall.com">www.engelschall.com</A>
+
+
+</PRE>
+
+
+<P>
+
+<A NAME="ixAAB"></A>
+<A NAME="ixAAC"></A>
+<P>
+<A NAME="ixAAD"></A>
+<P>
+<A NAME="ixAAE"></A>
+<P>
+<A NAME="ixAAF"></A>
+<P>
+<A NAME="ixAAG"></A>
+<P>
+<A NAME="ixAAH"></A>
+<P>
+<A NAME="ixAAI"></A>
+<P>
+<A NAME="ixAAJ"></A>
+<P>
+<A NAME="ixAAK"></A>
+<P>
+<A NAME="ixAAL"></A>
+<P>
+<A NAME="ixAAM"></A>
+<P>
+<A NAME="ixAAN"></A>
+<P>
+<A NAME="ixAAO"></A>
+<P>
+<A NAME="ixAAP"></A>
+<P>
+<A NAME="ixAAQ"></A>
+<P>
+<A NAME="ixAAR"></A>
+<P>
+<A NAME="ixAAS"></A>
+<P>
+<A NAME="ixAAT"></A>
+<P>
+<A NAME="ixAAU"></A>
+<P>
+<A NAME="ixAAV"></A>
+<P>
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">VERSION</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">OPTIONS</A><DD>
+<DT><A HREF="#lbAG">RESULTS</A><DD>
+<DT><A HREF="#lbAH">AUTHOR</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 23:47:28 GMT, March 26, 2014
+</BODY>
+</HTML>

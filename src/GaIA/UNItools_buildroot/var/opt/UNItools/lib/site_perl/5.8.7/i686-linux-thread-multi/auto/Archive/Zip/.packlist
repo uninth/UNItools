@@ -1,0 +1,12 @@
+/var/opt/UNItools/bin/crc32
+/var/opt/UNItools/lib/site_perl/5.8.7/Archive/Zip.pm
+/var/opt/UNItools/lib/site_perl/5.8.7/Archive/Zip.pod
+/var/opt/UNItools/lib/site_perl/5.8.7/Archive/Zip/BufferedFileHandle.pm
+/var/opt/UNItools/lib/site_perl/5.8.7/Archive/Zip/FAQ.pod
+/var/opt/UNItools/lib/site_perl/5.8.7/Archive/Zip/MemberRead.pm
+/var/opt/UNItools/lib/site_perl/5.8.7/Archive/Zip/MockFileHandle.pm
+/var/opt/UNItools/lib/site_perl/5.8.7/Archive/Zip/Tree.pm
+/var/opt/UNItools/man/man3/Archive::Zip.3
+/var/opt/UNItools/man/man3/Archive::Zip::FAQ.3
+/var/opt/UNItools/man/man3/Archive::Zip::MemberRead.3
+/var/opt/UNItools/man/man3/Archive::Zip::Tree.3

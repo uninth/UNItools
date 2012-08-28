@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<title>B::Bblock - Walk basic blocks</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',4);</script>
+<h1><a>B::Bblock - Walk basic blocks</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#functions">Functions</a></li>
+	</ul>
+
+	<li><a href="#author">AUTHOR</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>B::Bblock - Walk basic blocks</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  # External interface
+  perl -MO=Bblock[,OPTIONS] foo.pl</pre>
+<pre>
+  # Programmatic API
+  use B::Bblock qw(find_leaders);
+  my $leaders = find_leaders($root_op, $start_op);</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module is used by the B::CC back end.  It walks ``basic blocks''.
+A basic block is a series of operations which is known to execute from
+start to finish, with no possiblity of branching or halting.</p>
+<p>It can be used either stand alone or from inside another program.</p>
+<p>
+</p>
+<h2><a name="functions">Functions</a></h2>
+<dl>
+<dt><strong><a name="item_find_leaders"><strong>find_leaders</strong></a></strong>
+
+<dd>
+<pre>
+  my $leaders = find_leaders($root_op, $start_op);</pre>
+</dd>
+<dd>
+<p>Given the root of the op tree and an op from which to start
+processing, it will return a hash ref representing all the ops which
+start a block.</p>
+</dd>
+<p>The values of %$leaders are the op objects themselves.  Keys are $$op
+addresses.</p>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Malcolm Beattie, <code>mbeattie@sable.ox.ac.uk</code></p>
+
+</body>
+
+</html>

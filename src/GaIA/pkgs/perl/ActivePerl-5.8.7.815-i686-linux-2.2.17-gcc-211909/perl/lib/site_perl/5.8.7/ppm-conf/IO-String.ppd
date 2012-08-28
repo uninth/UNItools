@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOFTPKG NAME="IO-String" VERSION="1,7,0,0">
+  <TITLE>IO-String</TITLE>
+  <ABSTRACT>Emulate file interface for in-core strings</ABSTRACT>
+  <AUTHOR>Gisle Aas &lt;gisle@ActiveState.com></AUTHOR>
+  <IMPLEMENTATION>
+    <CODEBASE HREF="http://ppm.ActiveState.com/PPMPackages/5.8-linux/i686-linux-thread-multi-5.8/IO-String.tar.gz"/>
+  </IMPLEMENTATION>
+</SOFTPKG>

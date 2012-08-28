@@ -1,0 +1,13 @@
+/tmp/ccS0dRyS.o: In function `drop_privs':
+/lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/p0f/p0f-3.06b/p0f.c:637: warning: Using 'initgroups' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+/lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/p0f/p0f-3.06b/p0f.c:627: warning: Using 'getpwnam' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+/usr/lib/gcc/i386-redhat-linux/4.1.2/../../../libpcap.a(nametoaddr.o): In function `pcap_nametoaddrinfo':
+(.text+0x4f1): warning: Using 'getaddrinfo' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+/usr/lib/gcc/i386-redhat-linux/4.1.2/../../../libpcap.a(nametoaddr.o): In function `pcap_nametoaddr':
+(.text+0x52a): warning: Using 'gethostbyname' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+/usr/lib/gcc/i386-redhat-linux/4.1.2/../../../libpcap.a(nametoaddr.o): In function `pcap_nametonetaddr':
+(.text+0x489): warning: Using 'getnetbyname' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+/usr/lib/gcc/i386-redhat-linux/4.1.2/../../../libpcap.a(nametoaddr.o): In function `pcap_nametoproto':
+(.text+0x289): warning: Using 'getprotobyname' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking
+/usr/lib/gcc/i386-redhat-linux/4.1.2/../../../libpcap.a(nametoaddr.o): In function `pcap_nametoport':
+(.text+0x2e0): warning: Using 'getservbyname' in statically linked applications requires at runtime the shared libraries from the glibc version used for linking

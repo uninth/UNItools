@@ -1,0 +1,47 @@
+Det her skal ud på alle firewalls men virker naturligvis kun på HP hardware.
+
+Det skal integreres med overvågning snmpd/zabbix
+
+hpacucli controller all show status
+
+Smart Array P410i in Slot 0
+   Controller Status: OK
+   Cache Status: OK
+   Battery Status: OK
+
+
+hhv
+
+Error: No controllers detected.
+
+Sødt.
+
+
+
+pwr:
+
+	dmidecode --type 39
+
+
+
+http://serverfault.com/questions/335052/hp-acu-cli-examples
+
+hpacucli ctrl all show config detail
+
+http://www.datadisk.co.uk/html_docs/redhat/hpacucli.htm
+
+http://gaganonthenet.com/2014/01/02/hpacucli-cheat-sheet/
+
+http://www.sysadminshare.com/2012/06/ems-hardware-monitoring-in-hpux.html
+
+ftp://ftp.hp.com/pub/softlib2/software1/pubsw-linux/p414707558/v68034/hpacucli-9.0-24.0.noarch.txt
+
+http://www8.hp.com/us/en/products/servers/operating-systems/community-linux/index.html
+
+andet:
+
+HP Virtualization Performance Viewer 2.00 English SW E-Media Evaluation:
+
+https://ssl.www8.hp.com/us/en/ssl/dlc/secure_software.html?prodNumber=TF319DAE&siebelid=8-2LVTFCB&lang=en&cc=us&resouce_type=Trial%20Software&sectionid=software&simpletitle=try%20now/system%20management%20software%2C%20system%20management&subbu=tsg.software&parentPageName=3.0&analytics_page_name=3.0&parentUrl=http%3A//www8.hp.com/us/en/software-solutions/systems-management-server-monitoring-tools/try-now.html&compURI=tcm%3A245-1622570&fv=FLEX2%20SW3&metrics_asset_value=eb&bu=tsg&st=/us/en/software-solutions/systems-management-server-monitoring-tools&as=software&wsi=r11374&cu=false
+
+

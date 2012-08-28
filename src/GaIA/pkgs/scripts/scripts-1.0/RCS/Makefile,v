@@ -1,0 +1,360 @@
+head	1.12;
+access;
+symbols;
+locks
+	root:1.12; strict;
+comment	@# @;
+
+
+1.12
+date	2016.02.02.09.33.20;	author root;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2014.05.27.12.21.45;	author root;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2014.05.20.20.58.20;	author root;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2005.11.15.11.36.30;	author root;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2005.09.20.14.23.49;	author root;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2003.11.12.13.11.20;	author root;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2003.11.12.00.26.08;	author root;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2003.03.02.19.50.28;	author root;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2003.02.21.15.00.45;	author root;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2003.02.04.11.58.29;	author uninth;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2003.02.04.11.54.13;	author uninth;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2002.12.13.17.50.48;	author uninth;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.12
+log
+@*** empty log message ***
+@
+text
+@#
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/scripts/scripts-1.0/RCS/Makefile,v 1.11 2014/05/27 12:21:45 root Exp $
+#
+
+# SCRIPTS		= tgz cpfw1mailqmon fw1-tool.pl ipcalc.pl ng2ngx-route.sh printiproute printnetcomment
+SCRIPTS		= tgz ipcalc.pl printiproute ipcalc.pl cpfw1mailqmon fw1-tool.pl ng2ngx-route.sh tgz fw1-dump.sh printiproute2gaiaclish ipsort
+
+PREFIX		= /var/opt/UNItools
+BINDIR		= $(PREFIX)/bin
+MANDIR		= $(PREFIX)/share/man/man1
+
+INSTALL		= /usr/local/bin/install-sh
+SRCTOMAN	= /usr/local/bin/srctoman
+
+install:
+	$(MAKE) bin
+	$(MAKE) man
+	$(MAKE) clean
+	
+bin:	$(SCRIPTS)
+	test -d $(BINDIR) || mkdir -p $(BINDIR);				\
+	for SCRIPT in $(SCRIPTS); do						\
+		$(INSTALL) -c -m 0555 -o root -g root $$SCRIPT $(BINDIR);	\
+	done
+
+man:	$(SCRIPTS)
+	test -d $(MANDIR) || mkdir -p $(MANDIR);				\
+	for SCRIPT in $(SCRIPTS); do						\
+		$(SRCTOMAN) - $$SCRIPT > $$SCRIPT.1;				\
+		$(INSTALL) -c -m 0444 -o root -g root $$SCRIPT.1 $(MANDIR);	\
+	done
+
+clean:
+	/bin/rm -fr *.bak
+
+.IGNORE:
+.SILENT:
+.DEFAULT:
+	co $<
+@
+
+
+1.11
+log
+@*** empty log message ***
+@
+text
+@d2 1
+a2 1
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/scripts/scripts-1.0/RCS/Makefile,v 1.10 2014/05/20 20:58:20 root Exp root $
+d6 1
+a6 1
+SCRIPTS		= tgz ipcalc.pl printiproute ipcalc.pl cpfw1mailqmon fw1-tool.pl ng2ngx-route.sh tgz fw1-dump.sh printiproute2gaiaclish
+@
+
+
+1.10
+log
+@.
+@
+text
+@d2 1
+a2 1
+# $Header: /lan/ssi/projects/UNItools/src/Linux/2.4.21-20cpsmp/pkgs/scripts/scripts-1.0/RCS/Makefile,v 1.9 2005/11/15 11:36:30 root Exp root $
+d6 1
+a6 1
+SCRIPTS		= tgz ipcalc.pl printiproute ipcalc.pl cpfw1mailqmon fw1-tool.pl ng2ngx-route.sh tgz fw1-dump.sh
+@
+
+
+1.9
+log
+@*** empty log message ***
+@
+text
+@d2 1
+a2 1
+# $Header: /lan/ssi/projects/UNItools/src/Linux/2.4.21-20cpsmp/src/scripts/RCS/Makefile,v 1.8 2005/09/20 14:23:49 root Exp root $
+d5 2
+a6 1
+SCRIPTS		= tgz cpfw1mailqmon fw1-tool.pl ipcalc.pl
+d10 1
+a10 1
+MANDIR		= $(PREFIX)/share/man/man/man1
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@d2 1
+a2 1
+# $Header: /lan/ssi/projects/UNItools/Linux/RedHat_7.3/src/scripts/RCS/Makefile,v 1.7 2003/11/12 13:11:20 root Exp admin $
+d5 1
+a5 1
+SCRIPTS		= tgz cpfw1mailqmon fw1-tool.pl
+d9 1
+a9 2
+MANDIR		= $(PREFIX)/man/man1
+DOCDIR		= $(PREFIX)/doc
+a16 1
+	$(MAKE) docs
+d20 2
+a21 1
+	for SCRIPT in $(SCRIPTS); do					\
+d26 4
+a29 13
+	for SCRIPT in $(SCRIPTS); do					\
+		$(SRCTOMAN) - $$SCRIPT > $$SCRIPT.1;			\
+		$(INSTALL) -c -m 0444 -o root -g root $$SCRIPT.1 $(MANDIR);\
+	done
+
+docs: $(SCRIPTS)
+	for SCRIPT in $(SCRIPTS); do					\
+		$(SRCTOMAN) - $$SCRIPT |				\
+			groff -man -Tlatin1 |				\
+				col -bx >	$(DOCDIR)/$$SCRIPT.txt;	\
+			$(SRCTOMAN) - $$SCRIPT | groff -man | 		\
+			ps2pdf - > $(DOCDIR)/$$SCRIPT.pdf;		\
+			/bin/echo -n "$$SCRIPT ";			\
+@
+
+
+1.7
+log
+@added col -bx
+@
+text
+@d2 1
+a2 1
+# $Header: /lan/ssi/projects/UNItools/Linux/src/scripts/RCS/Makefile,v 1.6 2003/11/12 00:26:08 root Exp $
+d5 1
+a5 1
+SCRIPTS		= UNIfwbu.sh backup_start_UNIC fmog.pl tgz restore_start_UNIC
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@d2 1
+a2 1
+# $Header: /var/opt/UNItools/src/scripts/RCS/Makefile,v 1.5 2003/03/02 19:50:28 root Exp $
+d35 2
+a36 1
+			groff -man -Tlatin1 >$(DOCDIR)/$$SCRIPT.txt;	\
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d2 1
+a2 1
+# $Header: /var/opt/UNItools/src/scripts/RCS/Makefile,v 1.4 2003/02/21 15:00:45 root Exp root $
+d11 2
+a12 1
+INSTALL		= $(PREFIX)/src/install-sh
+d23 1
+a23 1
+		$(INSTALL) -m 0555 -o root -g root $$SCRIPT $(BINDIR);	\
+d29 1
+a29 1
+		$(INSTALL) -m 0444 -o root -g root $$SCRIPT.1 $(MANDIR);\
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d2 1
+a2 1
+# $Header$
+d5 2
+a6 1
+SCRIPTS		= UNIfwbu.sh backup_start_UNIC fmog.pl tgz
+d14 5
+a18 1
+install: bin man docs clean
+d21 3
+a23 1
+	$(INSTALL) -m 0555 -o root -g root $(SCRIPTS) $(BINDIR)
+d25 5
+d31 8
+a38 5
+man:	$(SCRIPTS)
+	for SCRIPT in $(SCRIPTS); do						\
+		$(SRCTOMAN) - $$SCRIPT > $$SCRIPT.1;				\
+			$(INSTALL) -m 0444 -o root -g root $$SCRIPT.1 $(MANDIR);\
+		done
+a41 8
+
+docs: $(SCRIPTS)
+	for SCRIPT in $(SCRIPTS); do						\
+			$(SRCTOMAN) - $$SCRIPT |				\
+				groff -man -Tlatin1 >$(DOCDIR)/$$SCRIPT.txt;	\
+			$(SRCTOMAN) - $$SCRIPT | groff -man | 			\
+				ps2pdf - > $(DOCDIR)/$$SCRIPT.pdf;		\
+		done
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d2 1
+a2 3
+# $Header: /var/opt/UNItools/src/scripts/Makefile,v 1.2 2003/02/04 11:54:13 uninth Exp $
+#
+# Makefile for fmog.pl and tgz
+d5 13
+a17 12
+PROG	= fmog.pl
+PROGMAN	= fmog.1
+PREFIX	= /var/opt/UNItools
+BINDIR	= $(PREFIX)/bin
+MANDIR	= $(PREFIX)/man/man1
+INSTALL	= $(PREFIX)/src/install-sh
+
+install: $(PROG) $(PROGMAN) tgz
+	$(INSTALL) -c -m 0555 -g wheel -o root tgz		$(BINDIR)
+	$(INSTALL) -c -m 0555 -g wheel -o root $(PROG)		$(BINDIR)
+	$(INSTALL) -c -m 0555 -g wheel -o root $(PROGMAN)	$(MANDIR)
+	$(MAKE) clean
+d19 5
+a23 2
+$(PROGMAN): $(PROG)
+	srctoman - $(PROG) > $(PROGMAN)
+d26 1
+a26 1
+	/bin/rm -fr *.bak $(PROG) $(PROGMAN) tgz
+d28 7
+a34 5
+pdf: $(PROG)
+	#
+	# nither groff nor ps2pdf is installed on nupo
+	#
+	srctoman - $(PROG) | groff -man | ps2pdf - > fog.pdf
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d2 1
+a2 1
+# $Header: /var/opt/UNIC/src/scripts/Makefile,v 1.1 2002/12/13 17:50:48 uninth Exp $
+d14 1
+a14 2
+install: $(PROG) $(PROGMAN)
+	$(MAKE) clean
+d18 1
+d24 1
+a24 1
+	/bin/rm -fr *.bak
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d2 1
+a2 1
+# $Header: /var/opt/UNIC/src/scripts/Makefile,v 1.1 2002/12/13 17:45:28 uninth Exp $
+d9 1
+a9 1
+PREFIX	= /var/opt/UNIC
+@

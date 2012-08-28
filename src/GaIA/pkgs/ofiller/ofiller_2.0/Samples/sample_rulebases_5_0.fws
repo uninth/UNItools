@@ -1,0 +1,766 @@
+(
+	:version (5.41)
+	:rule-base ("##Standard"
+		:AdminInfo (
+			:chkpf_uid ("{C2C277A0-AC52-48E1-B252-9BFAB68EFF57}")
+			:ClassName (firewall_policy)
+			:table (fw_policies)
+			:LastModified (
+				:Time ("Sat Mar 13 22:37:04 2004")
+				:By (admin)
+				:From (CHKPMEX02)
+			)
+		)
+		:default (0)
+		:queries ()
+		:queries_adtr ()
+		:collection (ReferenceObject
+			:Name (Standard)
+			:Table (policies_collections)
+			:Uid ("{0D11ECF3-B63B-4088-9CAE-1CC626673975}")
+		)
+		:rule (
+			:AdminInfo (
+				:chkpf_uid ("{0167E68D-4A12-4F76-B59E-77842608E094}")
+				:ClassName (security_rule)
+			)
+			:action (
+				: (accept
+					:AdminInfo (
+						:chkpf_uid ("{6CFEF30B-D413-4E0A-B207-27C30B15A35E}")
+						:ClassName (accept_action)
+						:table (setup)
+					)
+					:action ()
+					:macro (RECORD_CONN)
+					:type (accept)
+				)
+			)
+			:comments ()
+			:disabled (false)
+			:global_location (middle)
+			:through (
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:time (
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:track (
+				: (ReferenceObject
+					:Name (Log)
+					:Table (tracks)
+					:Uid ("{97AEB480-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:dst (
+				:AdminInfo (
+					:chkpf_uid ("{4A29A400-8159-4258-B978-ECC9A76AE7AB}")
+					:ClassName (rule_destination)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:install (
+				:AdminInfo (
+					:chkpf_uid ("{53FEFEF7-F2DB-4C23-917B-C040054FB562}")
+					:ClassName (rule_install)
+				)
+				:compound ()
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:services (
+				:AdminInfo (
+					:chkpf_uid ("{781D1E79-B32C-4E2E-AFEC-BFE50FB32155}")
+					:ClassName (rule_services)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:src (
+				:AdminInfo (
+					:chkpf_uid ("{A85E152E-F32E-4053-AC9B-CA0DDABC8EF9}")
+					:ClassName (rule_source)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+		)
+		:use_VPN_communities (true)
+	)
+	:rule-base ("##Pruebas"
+		:AdminInfo (
+			:chkpf_uid ("{845AA240-0FA2-4C9C-A02C-98A1E2B4112C}")
+			:ClassName (firewall_policy)
+			:table (fw_policies)
+			:LastModified (
+				:Time ("Tue Mar 16 16:50:33 2004")
+				:By (admin)
+				:From (CHKPMEX02)
+			)
+		)
+		:default (0)
+		:queries ()
+		:queries_adtr ()
+		:collection (ReferenceObject
+			:Name (Pruebas)
+			:Table (policies_collections)
+			:Uid ("{6A82E5DB-F5FA-48FD-B893-C47C8E4B2DE0}")
+		)
+		:rule (
+			:AdminInfo (
+				:chkpf_uid ("{0167E68D-4A12-4F76-B59E-77842608E094}")
+				:ClassName (security_rule)
+			)
+			:action (
+				: (accept
+					:AdminInfo (
+						:chkpf_uid ("{6CFEF30B-D413-4E0A-B207-27C30B15A35E}")
+						:ClassName (accept_action)
+						:table (setup)
+					)
+					:action ()
+					:macro (RECORD_CONN)
+					:type (accept)
+				)
+			)
+			:comments ()
+			:disabled (false)
+			:global_location (middle)
+			:through (
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:time (
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:track (
+				: (ReferenceObject
+					:Name (Log)
+					:Table (tracks)
+					:Uid ("{97AEB480-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:dst (
+				:AdminInfo (
+					:chkpf_uid ("{4A29A400-8159-4258-B978-ECC9A76AE7AB}")
+					:ClassName (rule_destination)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (group2)
+					:Table (network_objects)
+					:Uid ("{399FB334-754F-11D8-BD25-C0A863965454}")
+				)
+			)
+			:install (
+				:AdminInfo (
+					:chkpf_uid ("{53FEFEF7-F2DB-4C23-917B-C040054FB562}")
+					:ClassName (rule_install)
+				)
+				:compound ()
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:services (
+				:AdminInfo (
+					:chkpf_uid ("{781D1E79-B32C-4E2E-AFEC-BFE50FB32155}")
+					:ClassName (rule_services)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (http)
+					:Table (services)
+					:Uid ("{97AEB3D4-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:src (
+				:AdminInfo (
+					:chkpf_uid ("{A85E152E-F32E-4053-AC9B-CA0DDABC8EF9}")
+					:ClassName (rule_source)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (group1)
+					:Table (network_objects)
+					:Uid ("{38CB4B94-754F-11D8-BD25-C0A863965454}")
+				)
+			)
+		)
+		:rule (
+			:AdminInfo (
+				:chkpf_uid ("{01182E7C-61B1-4650-845D-23F1848402C9}")
+				:ClassName (security_rule)
+			)
+			:action (
+				: (accept
+					:AdminInfo (
+						:chkpf_uid ("{E82AC38F-FE2E-4DF2-8570-D56ADCE1F8CA}")
+						:ClassName (accept_action)
+						:table (setup)
+					)
+					:action ()
+					:macro (RECORD_CONN)
+					:type (accept)
+				)
+			)
+			:comments ()
+			:disabled (false)
+			:global_location (middle)
+			:through (
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:time (
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:track (
+				: (ReferenceObject
+					:Name (Log)
+					:Table (tracks)
+					:Uid ("{97AEB480-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:dst (
+				:AdminInfo (
+					:chkpf_uid ("{EDC023C9-F0CC-4112-85A7-8CF18ABAD7F0}")
+					:ClassName (rule_destination)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (duckstar)
+					:Table (network_objects)
+					:Uid ("{34C22D92-754F-11D8-BD25-C0A863965454}")
+				)
+			)
+			:install (
+				:AdminInfo (
+					:chkpf_uid ("{AAD3A17E-9C7E-4896-A9F1-BFF09B5AA237}")
+					:ClassName (rule_install)
+				)
+				:compound ()
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:services (
+				:AdminInfo (
+					:chkpf_uid ("{F1945FC2-8A51-427C-B8F0-0957D465005E}")
+					:ClassName (rule_services)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (ftp)
+					:Table (services)
+					:Uid ("{97AEB3D0-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:src (
+				:AdminInfo (
+					:chkpf_uid ("{9DC7BB88-647A-46F9-BF86-D8219541030F}")
+					:ClassName (rule_source)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (duck_02)
+					:Table (network_objects)
+					:Uid ("{369B51AC-754F-11D8-BD25-C0A863965454}")
+				)
+			)
+		)
+		:rule (
+			:AdminInfo (
+				:chkpf_uid ("{0A85D4C9-3FA1-445D-891A-C855CD4AF510}")
+				:ClassName (security_rule)
+			)
+			:action (
+				: (drop
+					:AdminInfo (
+						:chkpf_uid ("{95394D31-2890-4A8C-B4E4-A254A21A9871}")
+						:ClassName (drop_action)
+						:table (setup)
+					)
+					:action ()
+					:macro ()
+					:type (drop)
+				)
+			)
+			:comments ()
+			:disabled (false)
+			:global_location (middle)
+			:through (
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:time (
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:track (
+				: (ReferenceObject
+					:Name (Log)
+					:Table (tracks)
+					:Uid ("{97AEB480-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:dst (
+				:AdminInfo (
+					:chkpf_uid ("{A7EFEEF8-D3A0-4B6E-B0E7-CB7ACD43A70A}")
+					:ClassName (rule_destination)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (duck)
+					:Table (network_objects)
+					:Uid ("{32B08AEE-754F-11D8-BD25-C0A863965454}")
+				)
+			)
+			:install (
+				:AdminInfo (
+					:chkpf_uid ("{148C116C-91FF-4BDE-AD16-E870C63BFF3D}")
+					:ClassName (rule_install)
+				)
+				:compound ()
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:services (
+				:AdminInfo (
+					:chkpf_uid ("{61C9E6AA-BC71-4EDB-A433-76988BD65DE6}")
+					:ClassName (rule_services)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:src (
+				:AdminInfo (
+					:chkpf_uid ("{99D67E0C-8F09-40AD-89F2-B032A99C6458}")
+					:ClassName (rule_source)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (duckser)
+					:Table (network_objects)
+					:Uid ("{33543860-754F-11D8-BD25-C0A863965454}")
+				)
+			)
+		)
+		:rule (
+			:AdminInfo (
+				:chkpf_uid ("{10214FAE-4A85-4D61-AECA-31031407D99B}")
+				:ClassName (security_rule)
+			)
+			:action (
+				: (accept
+					:AdminInfo (
+						:chkpf_uid ("{A4B7FD61-6A31-43B7-A63E-0EAE21D890C5}")
+						:ClassName (accept_action)
+						:table (setup)
+					)
+					:action ()
+					:macro (RECORD_CONN)
+					:type (accept)
+				)
+			)
+			:comments ()
+			:disabled (false)
+			:global_location (middle)
+			:through (
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:time (
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:track (
+				: (ReferenceObject
+					:Name (Log)
+					:Table (tracks)
+					:Uid ("{97AEB480-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:dst (
+				:AdminInfo (
+					:chkpf_uid ("{B5096FE2-4733-46DE-AD48-28B2E83ADA80}")
+					:ClassName (rule_destination)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (.mydomain.com.mx)
+					:Table (network_objects)
+					:Uid ("{368B0338-754F-11D8-BD25-C0A863965454}")
+				)
+				: (ReferenceObject
+					:Name (duckula)
+					:Table (network_objects)
+					:Uid ("{32C74AFE-754F-11D8-BD25-C0A863965454}")
+				)
+			)
+			:install (
+				:AdminInfo (
+					:chkpf_uid ("{799B4556-28F2-4B90-A4E6-F01C51A02562}")
+					:ClassName (rule_install)
+				)
+				:compound ()
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:services (
+				:AdminInfo (
+					:chkpf_uid ("{9687B229-BEE5-4347-8E85-F052CC6292FC}")
+					:ClassName (rule_services)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (telnet)
+					:Table (services)
+					:Uid ("{97AEB3CF-9AEA-11D5-BD16-0090272CCB30}")
+				)
+				: (ReferenceObject
+					:Name (ssh_version_2)
+					:Table (services)
+					:Uid ("{CD082D9A-44A6-4CEF-A17D-5541029ADFB3}")
+				)
+			)
+			:src (
+				:AdminInfo (
+					:chkpf_uid ("{D41469C3-8F84-4F91-9D29-DCAC02477957}")
+					:ClassName (rule_source)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (testng3)
+					:Table (network_objects)
+					:Uid ("{35D43C02-754F-11D8-BD25-C0A863965454}")
+				)
+				: (ReferenceObject
+					:Name (duckzeneeger)
+					:Table (network_objects)
+					:Uid ("{3533A148-754F-11D8-BD25-C0A863965454}")
+				)
+			)
+		)
+		:rule (
+			:AdminInfo (
+				:chkpf_uid ("{8ADABCF0-1EF8-4D57-8461-932CF0977CBB}")
+				:ClassName (security_rule)
+			)
+			:action (
+				: (accept
+					:AdminInfo (
+						:chkpf_uid ("{C97C41B9-79EF-4302-AE95-4A8BE435C981}")
+						:ClassName (accept_action)
+						:table (setup)
+					)
+					:action ()
+					:macro (RECORD_CONN)
+					:type (accept)
+				)
+			)
+			:comments ()
+			:disabled (false)
+			:global_location (middle)
+			:through (
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:time (
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:track (
+				: (ReferenceObject
+					:Name (Log)
+					:Table (tracks)
+					:Uid ("{97AEB480-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:dst (
+				:AdminInfo (
+					:chkpf_uid ("{3268D552-A72F-4F87-BF2A-81059C66BBF5}")
+					:ClassName (rule_destination)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:install (
+				:AdminInfo (
+					:chkpf_uid ("{D9A5B1AA-9CC2-4BF4-B8ED-30223E060B27}")
+					:ClassName (rule_install)
+				)
+				:compound ()
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:services (
+				:AdminInfo (
+					:chkpf_uid ("{600302A5-7C71-4214-91CB-9CEFDFEB4FEE}")
+					:ClassName (rule_services)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:src (
+				:AdminInfo (
+					:chkpf_uid ("{197AE121-D597-4820-AA84-29E9D5657278}")
+					:ClassName (rule_source)
+				)
+				:compound ()
+				:op ()
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+		)
+		:rule_adtr (
+			:AdminInfo (
+				:chkpf_uid ("{355DCFC3-A749-408D-92DE-3B7A6F8C32D4}")
+				:ClassName (address_translation_rule)
+			)
+			:comments ()
+			:disabled (false)
+			:dst_adtr (
+				: (ReferenceObject
+					:Name (duckstar)
+					:Table (network_objects)
+					:Uid ("{34C22D92-754F-11D8-BD25-C0A863965454}")
+				)
+			)
+			:global_location (middle)
+			:install (
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:services_adtr (
+				: (ReferenceObject
+					:Name (http)
+					:Table (services)
+					:Uid ("{97AEB3D4-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:src_adtr (
+				: (ReferenceObject
+					:Name (batduck)
+					:Table (network_objects)
+					:Uid ("{333E82CC-754F-11D8-BD25-C0A863965454}")
+				)
+			)
+			:dst_adtr_translated (
+				:AdminInfo (
+					:chkpf_uid ("{D03D2B87-5B45-44FE-B283-E88C2A5665EA}")
+					:ClassName (translate_static)
+				)
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+				:adtr_method (adtr_method_static)
+			)
+			:rule_block_number (0)
+			:services_adtr_translated (
+				:AdminInfo (
+					:chkpf_uid ("{0D457FF1-A562-4456-A0A7-598E5BD29A8E}")
+					:ClassName (service_translate)
+				)
+				: (ReferenceObject
+					:Name (https)
+					:Table (services)
+					:Uid ("{97AEB443-9AEA-11D5-BD16-0090272CCB30}")
+				)
+				:adtr_method (adtr_method_static)
+			)
+			:src_adtr_translated (
+				:AdminInfo (
+					:chkpf_uid ("{03707965-AE01-490B-8E99-1E701141DBD8}")
+					:ClassName (translate_static)
+				)
+				: (ReferenceObject
+					:Name (duck_02)
+					:Table (network_objects)
+					:Uid ("{369B51AC-754F-11D8-BD25-C0A863965454}")
+				)
+				:adtr_method (adtr_method_static)
+			)
+		)
+		:rule_adtr (
+			:AdminInfo (
+				:chkpf_uid ("{C319AAE6-1971-4C20-B13F-AF3F3ECCAF20}")
+				:ClassName (address_translation_rule)
+			)
+			:comments ()
+			:disabled (false)
+			:dst_adtr (
+				: (ReferenceObject
+					:Name (duckstar)
+					:Table (network_objects)
+					:Uid ("{34C22D92-754F-11D8-BD25-C0A863965454}")
+				)
+			)
+			:global_location (middle)
+			:install (
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:services_adtr (
+				: (ReferenceObject
+					:Name (http)
+					:Table (services)
+					:Uid ("{97AEB3D4-9AEA-11D5-BD16-0090272CCB30}")
+				)
+			)
+			:src_adtr (
+				: (ReferenceObject
+					:Name (batduck)
+					:Table (network_objects)
+					:Uid ("{333E82CC-754F-11D8-BD25-C0A863965454}")
+				)
+			)
+			:dst_adtr_translated (
+				:AdminInfo (
+					:chkpf_uid ("{6BD4FEB0-909A-4C92-AA93-ADE5356ADC2B}")
+					:ClassName (translate_static)
+				)
+				: (ReferenceObject
+					:Name (Any)
+					:Table (globals)
+					:Uid ("{97AEB369-9AEA-11D5-BD16-0090272CCB30}")
+				)
+				:adtr_method (adtr_method_static)
+			)
+			:rule_block_number (0)
+			:services_adtr_translated (
+				:AdminInfo (
+					:chkpf_uid ("{2045B878-F1F2-484A-80D2-FCC88CC443CB}")
+					:ClassName (service_translate)
+				)
+				: (ReferenceObject
+					:Name (https)
+					:Table (services)
+					:Uid ("{97AEB443-9AEA-11D5-BD16-0090272CCB30}")
+				)
+				:adtr_method (adtr_method_static)
+			)
+			:src_adtr_translated (
+				:AdminInfo (
+					:chkpf_uid ("{7C6BD341-684F-4D51-9A94-10E8452A6D6D}")
+					:ClassName (translate_hide)
+				)
+				: (ReferenceObject
+					:Name (bigduck)
+					:Table (network_objects)
+					:Uid ("{339D1E54-754F-11D8-BD25-C0A863965454}")
+				)
+				:adtr_method (adtr_method_hide)
+			)
+		)
+		:use_VPN_communities (true)
+	)
+)

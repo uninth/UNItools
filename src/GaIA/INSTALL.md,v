@@ -1,0 +1,60 @@
+head	1.1;
+access;
+symbols;
+locks
+	root:1.1; strict;
+comment	@# @;
+
+
+1.1
+date	2015.06.11.20.18.57;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@
+$Header: /lan/ssi/shared/software/internal/UNIfw1doc/src/GaIA/INSTALL.md,v 1.3 2014/05/21 13:17:10 root Exp $
+
+#Installation procedure for __TARGET__
+    Package name: __TARGET__
+    Version     : __VERSION__
+    Release     : __RELEASE__
+
+## Prerequisite
+None. ``__TARGET__`` is a prequisite for most of the other ``UNI``_what-ever-packages_.
+
+## Installation
+Copy ``__TARGET__`` to target host and install the package:
+
+        td -x __TARGET__ external-interface
+        td external-interface
+        /var/tmp/rpm -Uvh __TARGET__
+
+The package needs to configured (``cron`` entry for ``/etc/cron.d/UNItools_backup``,
+_ssh keys_ and _ssh authorized_keys_ among other). This is done with the command
+
+
+        /var/opt/UNIfw1doc/bin/setup.sh install
+
+##Uninstallation
+Remove the package with:
+
+        rpm -e --nodeps __TARGET__
+
+##Note
+This document is in RCS and build with make
+
+##RPM info
+
+View rpm content with
+        rpm -lpq __TARGET__
+@

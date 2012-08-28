@@ -1,0 +1,167 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./copifuncs/copi.ifman2</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="kwa">if</span> <span class="sym">(</span> <span class="kwd">getpwuid</span><span class="sym">(</span>$<span class="sym">&lt;)</span> ne $ifowner <span class="sym">) {</span> print <span class="str">&quot;You must be owner of ifmail</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">;</span> exit <span class="num">1</span><span class="sym">; }</span>
+<span class="line">    1 </span>
+<span class="line">    2 </span><span class="kwa">if</span> <span class="sym">( (</span>&#64;ARGV <span class="sym">&lt;</span> <span class="num">3</span><span class="sym">) ||</span> $ARGV<span class="sym">[</span><span class="num">0</span><span class="sym">]</span> eq <span class="str">&quot;-?&quot;</span> <span class="sym">||</span> $ARGV<span class="sym">[</span><span class="num">0</span><span class="sym">]</span> eq <span class="str">&quot;-h&quot;</span> <span class="sym">) {</span>
+<span class="line">    3 </span>	<span class="sym">&amp;</span>usage<span class="sym">;</span>
+<span class="line">    4 </span><span class="sym">}</span>
+<span class="line">    5 </span>
+<span class="line">    6 </span>$ARGV<span class="sym">[</span><span class="num">0</span><span class="sym">] =~</span> tr<span class="sym">/</span>A<span class="sym">-</span>Z<span class="sym">/</span>a<span class="sym">-</span>z<span class="sym">/;</span>
+<span class="line">    7 </span>$ARGV<span class="sym">[</span><span class="num">3</span><span class="sym">] =~</span> tr<span class="sym">/</span>A<span class="sym">-</span>Z<span class="sym">/</span>a<span class="sym">-</span>z<span class="sym">/;</span>
+<span class="line">    8 </span>
+<span class="line">    9 </span><span class="sym">&amp;</span>parsecfg<span class="sym">;</span>
+<span class="line">   10 </span>
+<span class="line">   11 </span><span class="kwa">if</span> <span class="sym">(</span> $logfile ne <span class="str">&quot;&quot;</span> <span class="sym">) {</span>
+<span class="line">   12 </span>	<span class="kwd">open</span><span class="sym">(</span>LOG<span class="sym">,</span> <span class="str">&quot;&gt;&gt;&quot;</span><span class="sym">.</span>$logfile<span class="sym">) ||</span> die <span class="str">&quot;Can't open logfile&quot;</span><span class="sym">;</span>
+<span class="line">   13 </span><span class="sym">}</span>
+<span class="line">   14 </span>
+<span class="line">   15 </span><span class="kwa">if</span> <span class="sym">(</span><span class="kwd">substr</span><span class="sym">(</span>$ARGV<span class="sym">[</span><span class="num">1</span><span class="sym">],</span> <span class="num">0</span><span class="sym">,</span> <span class="num">1</span><span class="sym">)</span> ne <span class="str">&quot;/&quot;</span><span class="sym">) {</span>
+<span class="line">   16 </span>	$cwd<span class="sym">=</span>`pwd`<span class="sym">;</span>
+<span class="line">   17 </span>	chop $cwd<span class="sym">;</span>
+<span class="line">   18 </span>	$ARGV<span class="sym">[</span><span class="num">1</span><span class="sym">] =</span> $cwd<span class="sym">.</span><span class="str">&quot;/&quot;</span><span class="sym">.</span>$ARGV<span class="sym">[</span><span class="num">1</span><span class="sym">];</span>
+<span class="line">   19 </span><span class="sym">}</span>
+<span class="line">   20 </span>
+<span class="line">   21 </span><span class="kwa">if</span> <span class="sym">(</span>$ARGV<span class="sym">[</span><span class="num">3</span><span class="sym">]</span> eq <span class="str">&quot;&quot;</span> <span class="sym">||</span> $ARGV<span class="sym">[</span><span class="num">3</span><span class="sym">]</span> eq <span class="str">&quot;normal&quot;</span><span class="sym">) {</span>
+<span class="line">   22 </span>	$flavour <span class="sym">=</span> <span class="str">'f'</span><span class="sym">;</span>
+<span class="line">   23 </span><span class="sym">}</span> <span class="kwd">elsif</span> <span class="sym">(</span>$ARGV<span class="sym">[</span><span class="num">3</span><span class="sym">]</span> eq <span class="str">&quot;crash&quot;</span><span class="sym">) {</span>
+<span class="line">   24 </span>	$flavour <span class="sym">=</span> <span class="str">'c'</span><span class="sym">;</span>
+<span class="line">   25 </span><span class="sym">}</span> <span class="kwd">elsif</span> <span class="sym">(</span>$ARGV<span class="sym">[</span><span class="num">3</span><span class="sym">]</span> eq <span class="str">&quot;hold&quot;</span><span class="sym">) {</span>
+<span class="line">   26 </span>	$flavour <span class="sym">=</span> <span class="str">'h'</span><span class="sym">;</span>
+<span class="line">   27 </span><span class="sym">}</span> <span class="kwa">else</span> <span class="sym">{</span>
+<span class="line">   28 </span>	print <span class="str">&quot;Unknown flavour, assuming normal</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">;</span>
+<span class="line">   29 </span>	$flavour <span class="sym">=</span> <span class="str">'f'</span><span class="sym">;</span>
+<span class="line">   30 </span><span class="sym">}</span>
+<span class="line">   31 </span>
+<span class="line">   32 </span><span class="kwa">if</span> <span class="sym">(</span>$ARGV<span class="sym">[</span><span class="num">0</span><span class="sym">]</span> eq <span class="str">&quot;send&quot;</span><span class="sym">) {</span>
+<span class="line">   33 </span>	<span class="sym">&amp;</span><span class="kwd">attach</span><span class="sym">(</span>$ARGV<span class="sym">[</span><span class="num">1</span><span class="sym">],</span> $ARGV<span class="sym">[</span><span class="num">2</span><span class="sym">]);</span>
+<span class="line">   34 </span><span class="sym">}</span> <span class="kwd">elsif</span> <span class="sym">(</span>$ARGV<span class="sym">[</span><span class="num">0</span><span class="sym">]</span> eq <span class="str">&quot;get&quot;</span><span class="sym">) {</span>
+<span class="line">   35 </span>	<span class="sym">&amp;</span><span class="kwd">request</span><span class="sym">(</span>$ARGV<span class="sym">[</span><span class="num">1</span><span class="sym">],</span> $ARGV<span class="sym">[</span><span class="num">2</span><span class="sym">]);</span>
+<span class="line">   36 </span><span class="sym">}</span> <span class="kwa">else</span> <span class="sym">{</span>
+<span class="line">   37 </span>	print <span class="str">&quot;Unknown command, try ifman -h</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">;</span>
+<span class="line">   38 </span>	exit <span class="num">1</span><span class="sym">;</span>
+<span class="line">   39 </span><span class="sym">}</span>
+<span class="line">   40 </span>
+<span class="line">   41 </span><span class="kwd">close</span><span class="sym">(</span>LOG<span class="sym">);</span>
+<span class="line">   42 </span>
+<span class="line">   43 </span>exit <span class="num">0</span><span class="sym">;</span>
+<span class="line">   44 </span>
+<span class="line">   45 </span><span class="dir">#######################################################################</span>
+<span class="line">   46 </span>
+<span class="line">   47 </span>sub attach <span class="sym">{</span>
+<span class="line">   48 </span>	<span class="kwd">local</span><span class="sym">(</span>$fspec<span class="sym">,</span> $address<span class="sym">) =</span> &#64;_<span class="sym">;</span>
+<span class="line">   49 </span>
+<span class="line">   50 </span>	$floname <span class="sym">= &amp;</span><span class="kwd">resolve</span><span class="sym">(</span>$address<span class="sym">);</span>
+<span class="line">   51 </span>
+<span class="line">   52 </span>	<span class="kwd">open</span><span class="sym">(</span>FLO<span class="sym">,</span> <span class="str">&quot;&gt;&gt;&quot;</span><span class="sym">.</span>$outbound<span class="sym">.</span><span class="str">&quot;/&quot;</span><span class="sym">.</span>$floname<span class="sym">) ||</span> die <span class="str">&quot;Can't open flo-file $outbound/$floname&quot;</span><span class="sym">;</span>
+<span class="line">   53 </span>	<span class="kwd">open</span><span class="sym">(</span>FIND<span class="sym">,</span> <span class="str">&quot;find $fspec -print |&quot;</span><span class="sym">) ||</span> die <span class="str">&quot;Can't generate list of files&quot;</span><span class="sym">;</span>
+<span class="line">   54 </span>
+<span class="line">   55 </span>	<span class="kwa">if</span> <span class="sym">(</span> <span class="kwd">eof</span><span class="sym">(</span>FIND<span class="sym">) ) {</span>
+<span class="line">   56 </span>		print <span class="str">&quot;No matching files, nothing to send</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">;</span>
+<span class="line">   57 </span>		exit <span class="num">1</span><span class="sym">;</span>
+<span class="line">   58 </span>	<span class="sym">}</span>
+<span class="line">   59 </span>
+<span class="line">   60 </span>	<span class="kwa">while</span> <span class="sym">(&lt;</span>FIND<span class="sym">&gt;) {</span>
+<span class="line">   61 </span>
+<span class="line">   62 </span>		chop<span class="sym">;</span>
+<span class="line">   63 </span>		$datestamp <span class="sym">=</span> `date \&quot;<span class="sym">+%</span>D <span class="sym">%</span>T\&quot;`<span class="sym">;</span>
+<span class="line">   64 </span>		chop $datestamp<span class="sym">;</span>
+<span class="line">   65 </span>		printf LOG <span class="str">&quot;%s %s %s</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">,</span> $datestamp<span class="sym">,</span> $$<span class="sym">,</span> <span class="str">&quot;ifman: sending $_ to $address&quot;</span><span class="sym">;</span>
+<span class="line">   66 </span>		printf FLO <span class="str">&quot;%s</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">,</span> $_<span class="sym">;</span>
+<span class="line">   67 </span>	<span class="sym">}</span>
+<span class="line">   68 </span>
+<span class="line">   69 </span>	<span class="kwd">close</span><span class="sym">(</span>FLO<span class="sym">);</span>
+<span class="line">   70 </span>	<span class="kwd">close</span><span class="sym">(</span>FIND<span class="sym">);</span>
+<span class="line">   71 </span><span class="sym">}</span>
+<span class="line">   72 </span>
+<span class="line">   73 </span>sub request <span class="sym">{</span>
+<span class="line">   74 </span>	<span class="kwd">local</span><span class="sym">(</span>$fspec<span class="sym">,</span> $address<span class="sym">) =</span> &#64;_<span class="sym">;</span>
+<span class="line">   75 </span>
+<span class="line">   76 </span>	$reqname <span class="sym">= &amp;</span><span class="kwd">resolve</span><span class="sym">(</span>$address<span class="sym">);</span>
+<span class="line">   77 </span>
+<span class="line">   78 </span>	$reqname <span class="sym">=~</span> s<span class="sym">/</span>\.<span class="sym">[</span>fch<span class="sym">]</span>lo<span class="sym">/</span>\.req<span class="sym">/;</span>
+<span class="line">   79 </span>
+<span class="line">   80 </span>	<span class="kwd">open</span><span class="sym">(</span>REQ<span class="sym">,</span> <span class="str">&quot;&gt;&gt;&quot;</span><span class="sym">.</span>$outbound<span class="sym">.</span><span class="str">&quot;/&quot;</span><span class="sym">.</span>$reqname<span class="sym">) ||</span> die <span class="str">&quot;Can't open req-file&quot;</span><span class="sym">;</span>
+<span class="line">   81 </span>
+<span class="line">   82 </span>	$datestamp <span class="sym">=</span> `date \&quot;<span class="sym">+%</span>D <span class="sym">%</span>T\&quot;`<span class="sym">;</span>
+<span class="line">   83 </span>	chop $datestamp<span class="sym">;</span>
+<span class="line">   84 </span>	printf LOG <span class="str">&quot;%s %s %s</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">,</span> $datestamp<span class="sym">,</span> $$<span class="sym">,</span> <span class="str">&quot;ifman: requesting $fspec from $address&quot;</span><span class="sym">;</span>
+<span class="line">   85 </span>	printf REQ <span class="str">&quot;%s</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">,</span> $fspec<span class="sym">;</span>
+<span class="line">   86 </span>
+<span class="line">   87 </span>	<span class="kwd">close</span><span class="sym">(</span>REQ<span class="sym">);</span>
+<span class="line">   88 </span><span class="sym">}</span>
+<span class="line">   89 </span>
+<span class="line">   90 </span>sub resolve <span class="sym">{</span>
+<span class="line">   91 </span>	<span class="kwd">local</span><span class="sym">(</span>$addr<span class="sym">) =</span> &#64;_<span class="sym">;</span>
+<span class="line">   92 </span>
+<span class="line">   93 </span>	<span class="kwa">if</span> <span class="sym">(</span> <span class="kwd">index</span><span class="sym">(</span>$addr<span class="sym">,</span> <span class="str">&quot;:&quot;</span><span class="sym">) &gt;=</span><span class="num">0</span> <span class="sym">) {</span>
+<span class="line">   94 </span>		print <span class="str">&quot;I cannot resolve addresses with zones!</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">;</span>
+<span class="line">   95 </span>		exit <span class="num">1</span><span class="sym">;</span>
+<span class="line">   96 </span>	<span class="sym">}</span> <span class="kwd">elsif</span> <span class="sym">(</span> <span class="kwd">index</span><span class="sym">(</span>$addr<span class="sym">,</span> <span class="str">&quot;/&quot;</span><span class="sym">) == -</span><span class="num">1</span> <span class="sym">) {</span>
+<span class="line">   97 </span>		print <span class="str">&quot;Not a valid address!</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">;</span>
+<span class="line">   98 </span>		exit <span class="num">1</span><span class="sym">;</span>
+<span class="line">   99 </span>	<span class="sym">}</span>
+<span class="line">  100 </span>
+<span class="line">  101 </span>	<span class="sym">(</span>$net<span class="sym">,</span> $node<span class="sym">,</span> $point<span class="sym">) =</span> <span class="kwd">split</span><span class="sym">(/</span>\/<span class="sym">|</span>\.<span class="sym">/,</span> $addr<span class="sym">);</span>
+<span class="line">  102 </span>
+<span class="line">  103 </span>	<span class="kwa">if</span> <span class="sym">(</span> defined $point <span class="sym">) {</span>
+<span class="line">  104 </span>		$pointdir <span class="sym">=</span> <span class="kwd">sprintf</span><span class="sym">(</span><span class="str">&quot;%04x%04x.pnt&quot;</span><span class="sym">,</span> $net<span class="sym">,</span> $node<span class="sym">);</span>
+<span class="line">  105 </span>		<span class="kwa">if</span> <span class="sym">( ! -</span>e $outbound<span class="sym">.</span><span class="str">&quot;/&quot;</span><span class="sym">.</span>$pointdir <span class="sym">) {</span>
+<span class="line">  106 </span>			<span class="kwd">mkdir</span> <span class="sym">(</span>$outbound<span class="sym">.</span><span class="str">&quot;/&quot;</span><span class="sym">.</span>$pointdir<span class="sym">,</span> <span class="num">0755</span><span class="sym">) ||</span> die <span class="str">&quot;Can't create point directory&quot;</span><span class="sym">;</span>
+<span class="line">  107 </span>		<span class="sym">}</span>
+<span class="line">  108 </span>		$flo <span class="sym">=</span> <span class="kwd">sprintf</span><span class="sym">(</span><span class="str">&quot;0000%04x.%01slo&quot;</span><span class="sym">,</span> $point<span class="sym">,</span> $flavour<span class="sym">);</span>
+<span class="line">  109 </span>		<span class="kwa">return</span> $pointdir<span class="sym">.</span><span class="str">&quot;/&quot;</span><span class="sym">.</span>$flo<span class="sym">;</span>
+<span class="line">  110 </span>	<span class="sym">}</span> <span class="kwa">else</span> <span class="sym">{</span>
+<span class="line">  111 </span>		$flo <span class="sym">=</span> <span class="kwd">sprintf</span><span class="sym">(</span><span class="str">&quot;%04x%04x.%01slo&quot;</span><span class="sym">,</span> $net<span class="sym">,</span> $node<span class="sym">,</span> $flavour<span class="sym">);</span>
+<span class="line">  112 </span>		<span class="kwa">return</span> $flo<span class="sym">;</span>
+<span class="line">  113 </span>	<span class="sym">}</span>
+<span class="line">  114 </span><span class="sym">}</span>
+<span class="line">  115 </span>
+<span class="line">  116 </span>sub usage <span class="sym">{</span>
+<span class="line">  117 </span>	print <span class="str">&quot;ifmail manager script</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">;</span>
+<span class="line">  118 </span>	print <span class="str">&quot;usage: ifman &lt;cmd&gt; &lt;filespec&gt; &lt;address&gt; [flavour]</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">;</span>
+<span class="line">  119 </span>	print <span class="str">&quot;  commands: send, get</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">;</span>
+<span class="line">  120 </span>	print <span class="str">&quot;  flavours: normal, crash, hold. Default is normal.</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">;</span>
+<span class="line">  121 </span>	print <span class="str">&quot;Only 2d addresses with points are supported - no zones!</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">;</span>
+<span class="line">  122 </span>	exit <span class="num">1</span><span class="sym">;</span>
+<span class="line">  123 </span><span class="sym">}</span>
+<span class="line">  124 </span>
+<span class="line">  125 </span>sub parsecfg <span class="sym">{</span>
+<span class="line">  126 </span>	<span class="kwd">open</span><span class="sym">(</span>CFG<span class="sym">,</span> $cfgfile<span class="sym">) ||</span> die <span class="str">&quot;Can't open ifmail config file&quot;</span><span class="sym">;</span>
+<span class="line">  127 </span>
+<span class="line">  128 </span>	<span class="kwa">while</span> <span class="sym">(&lt;</span>CFG<span class="sym">&gt;) {</span>
+<span class="line">  129 </span>		chop<span class="sym">;</span>
+<span class="line">  130 </span>		<span class="kwa">if</span> <span class="sym">(/</span>^<span class="dir">#/) { next; }</span>
+<span class="line">  131 </span>		<span class="kwa">if</span> <span class="sym">(/</span>^outbound\s<span class="sym">+(</span>\S<span class="sym">+)/) {</span> $outbound <span class="sym">=</span> $<span class="num">1</span><span class="sym">; }</span>
+<span class="line">  132 </span>		<span class="kwa">if</span> <span class="sym">(/</span>^logfile\s<span class="sym">+(</span>\S<span class="sym">+)/) {</span> $logfile <span class="sym">=</span> $<span class="num">1</span><span class="sym">; }</span>
+<span class="line">  133 </span>	<span class="sym">}</span>
+<span class="line">  134 </span>
+<span class="line">  135 </span>	<span class="kwd">close</span><span class="sym">(</span>CFG<span class="sym">);</span>
+<span class="line">  136 </span><span class="sym">}</span>
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>Tk::Optionmenu - Let the user select one of some predefined options values</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>Tk::Optionmenu - Let the user select one of some predefined options values</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#options">OPTIONS</a></li>
+	<li><a href="#methods">METHODS</a></li>
+	<li><a href="#example">EXAMPLE</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Tk::Optionmenu - Let the user select one of some predefined options values</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    use Optionmenu;</pre>
+<pre>
+    $opt = $w-&gt;Optionmenu(
+                        -options =&gt; REFERENCE_to_OPTIONLIST,
+                        -command =&gt; CALLBACK,
+                        -variable =&gt; SCALAR_REF,
+                        );</pre>
+<pre>
+    $opt-&gt;addOptions( OPTIONLIST );</pre>
+<pre>
+    # OPTION LIST is
+    #   a)  $val1, $val2, $val3,...
+    #   b)  [ $lab1=&gt;$val1], [$lab2=&gt;val2], ... ]
+    #   c)  combination of a) and b), e.g.,
+    #       val1, [$lab2=&gt;val2], val3, val4, [...], ...</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The <strong>Optionmenu</strong> widget allows the user chose between a given set
+of options.</p>
+<p>If the user should be able to change the available option have a look
+at <a href="../../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/BrowseEntry.html">the Tk::BrowseEntry manpage</a>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="options">OPTIONS</a></h1>
+<dl>
+<dt><strong><a name="item__2doptions">-options</a></strong>
+
+<dd>
+<p>(Re)sets the list of options presented.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dcommand">-command</a></strong>
+
+<dd>
+<p>Defines the <a href="../../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/callbacks.html">callback</a> that is invokes when a new option
+is selected.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dvariable">-variable</a></strong>
+
+<dd>
+<p>Reference to a scalar that contains the current value of the
+selected option.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dtextvariable">-textvariable</a></strong>
+
+<dd>
+<p>Reference to a scalar that contains the text label of the current value of the
+selected option.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="methods">METHODS</a></h1>
+<dl>
+<dt><strong><a name="item_addoptions">addOptions</a></strong>
+
+<dd>
+<p>Adds OPTION_LIST to the already available options.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="example">EXAMPLE</a></h1>
+<pre>
+ use Tk;
+ my $mw = MainWindow-&gt;new();</pre>
+<pre>
+ my ($var, $tvar);
+ my $opt = $mw-&gt;Optionmenu(
+        -options =&gt; [[jan=&gt;1], [feb=&gt;2], [mar=&gt;3], [apr=&gt;4]],
+        -command =&gt; sub { print &quot;got: &quot;, shift, &quot;\n&quot; },
+        -variable =&gt; \$var,
+        -textvariable =&gt; \$tvar
+       )-&gt;pack;</pre>
+<pre>
+ $opt-&gt;addOptions([may=&gt;5],[jun=&gt;6],[jul=&gt;7],[aug=&gt;8]);</pre>
+<pre>
+ my $f = $mw-&gt;Frame(-relief=&gt;'groove', -borderwidth =&gt; 2)-&gt;pack;
+ $f-&gt;Label(-textvariable=&gt;\$tvar)-&gt;pack(-side =&gt; 'left');
+ $f-&gt;Label(-text =&gt; &quot; -&gt; &quot;)-&gt;pack(-side =&gt; 'left');
+ $f-&gt;Label(-textvariable=&gt;\$var)-&gt;pack(-side =&gt; 'left');</pre>
+<pre>
+ $mw-&gt;Button(-text=&gt;'Exit', -command=&gt;sub{$mw-&gt;destroy})-&gt;pack;</pre>
+<pre>
+ MainLoop;</pre>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Menubutton.html">the Tk::Menubutton manpage</a>, <a href="../../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/BrowseEntry.html">the Tk::BrowseEntry manpage</a></p>
+
+</body>
+
+</html>

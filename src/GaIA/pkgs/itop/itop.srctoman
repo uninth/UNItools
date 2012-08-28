@@ -1,0 +1,65 @@
+#
+# Documentation and  standard disclaimar
+#
+# Copyright (C) 2001 Niels Thomas Haugård
+# UNI-C
+# http://www.uni-c.dk/
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the 
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License 
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+#
+#++
+# NAME
+#	itop 1
+# SUMMARY
+#	top-like interrupt load monitor
+# PACKAGE
+#	UNItools
+# SYNOPSIS
+#	\fCitop [-n][-a]\fR
+# BESKRIVELSE
+#	\fCitop(1)\fR is a glorified Linux centric
+#	vesion of \fCcat /proc/interrupts\fR.
+# OPTIONS
+# .TP
+#	\fC-a\fR
+#	Display information on all interrupts.
+# .TP
+#	\fC-n \fInumber\fR
+#	Stop after fInumber\fR interactions. May kill the
+#	application in suc a way, that the tty becomes
+#	useless.
+# INTERRUPT TABLE
+#	Kernel dependent.
+# COMMANDS
+#	Written in \fCC(1)\fR, but requires \fCprocfs(1)\n.
+# SE OGSÅ
+#	Dokumentationen for UNItools.
+# DIAGNOSTICS
+#	None.
+# BUGS
+#	Report them to the author.
+# VERSION
+#	0.1.1
+# AUTHOR(S)
+#	Benedikt 'Hunz' Heinz <hunz@hunz.org> (http://hunz.org)
+# .br
+#	Manual page by Niels Thomas Haugård
+# .br
+#	UNI\(buC
+# .br
+#	DTU, Building 304
+# .br
+#	DK-2800 Kgs. Lyngby
+#--

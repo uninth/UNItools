@@ -1,0 +1,846 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML
+><HEAD
+><TITLE
+>Miscellaneous IP Protocol Filters</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.64
+"><LINK
+REL="HOME"
+TITLE="IPTraf User's Manual"
+HREF="manual.html"><LINK
+REL="UP"
+TITLE="Filters"
+HREF="filters.html"><LINK
+REL="PREVIOUS"
+TITLE="UDP Filters"
+HREF="udpfilters.html"><LINK
+REL="NEXT"
+TITLE="ARP, RARP, and other Non-IP Packet Filters"
+HREF="nonipfilters.html"></HEAD
+><BODY
+CLASS="SECT1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>IPTraf User's Manual</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="udpfilters.html"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Filters</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="nonipfilters.html"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="MISCIPFILTERS"
+>Miscellaneous IP Protocol Filters</A
+></H1
+><P
+>  Since version 2.5, IPTraf allows filtering of other IP (non-TCP,
+  non-UDP) protocols by source and destination IP address (as compared
+  to the simple toggles in previous versions).</P
+><P
+>  Other IP filters are managed under the
+<I
+CLASS="EMPHASIS"
+>Filters.../Other IP...</I
+> menu.
+  It has the same options as the <I
+CLASS="EMPHASIS"
+>Filters.../TCP...</I
+> menu.</P
+><DIV
+CLASS="FIGURE"
+><A
+NAME="AEN1678"
+></A
+><P
+><IMG
+SRC="iptraf-othipfltdefine.png"></P
+><P
+><B
+>Figure 6. The filter name dialog for other IP protocols</B
+></P
+></DIV
+><P
+>  As with the TCP filter menu, select <I
+CLASS="EMPHASIS"
+>Define new
+filter...</I
+> to define a new
+  filter. Enter a description and press Enter to go to the next dialog box.</P
+><P
+>  The network criteria dialog box asks for the
+  source and destination addresses and wildcard masks, and which protocols
+  to match.</P
+><P
+>  As with the TCP and UDP filters, you may enter an IP address or host
+  name in the <TT
+CLASS="COMPUTEROUTPUT"
+>Address</TT
+> fields. Specify under the
+<TT
+CLASS="COMPUTEROUTPUT"
+>Wildcard mask</TT
+>
+  fields the bit masks that determine which bits in the
+  rule's addresses are to be matched with the addresses in the packets
+  just like as in the TCP and UDP filter dialogs.</P
+><P
+>  After the addresses and masks, enter <TT
+CLASS="COMPUTEROUTPUT"
+>Y</TT
+> beside each protocol to
+  match. Any other entry (or no entry) for the protocol fields
+  will cause the filter to ignore those protocols.</P
+><P
+>  If the <TT
+CLASS="COMPUTEROUTPUT"
+>Include/Exclude</TT
+> field is set
+to <TT
+CLASS="COMPUTEROUTPUT"
+>E</TT
+>, (exclude), the filter logic will
+be reversed, and all packets matched by the filter will be omitted
+instead. This is useful if you want to display all packets of a type
+of traffic except for a select few (just
+  like the TCP and UDP filters). This field is set
+to <TT
+CLASS="COMPUTEROUTPUT"
+>I</TT
+> (include) by default.</P
+><P
+>  Define as many entries as you need. Entries are processed in the order
+  they are entered. Therefore, if a packet matches an entry, it will
+  no longer match any other matching filter entry.</P
+><P
+>&#13;  The miscellaneous IP protocol filter matches packets whose
+  source and destination addresses exactly fit the filter's source and
+  destination
+  specifications (unlike the TCP/UDP filters which match packets flowing
+  in both directions). In other words, the filter matches packets flowing
+  in only one direction. Should you want to match packets flowing in the
+  opposite direction, you will have to define another
+  filter entry reversing the source and destination addresses and
+  masks. The example below illustrates this:&#13;</P
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN1695"
+>Examples</A
+></H2
+><P
+>  To display only ICMP packets from anywhere to host 10.0.0.1:</P
+><DIV
+CLASS="INFORMALTABLE"
+><A
+NAME="AEN1698"
+></A
+><P
+></P
+><TABLE
+BORDER="0"
+WIDTH="100%"
+BGCOLOR="#E0E0E0"
+CELLSPACING="0"
+CELLPADDING="4"
+CLASS="CALSTABLE"
+><TBODY
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Address</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>0.0.0.0</TT
+></TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>10.0.0.1</TT
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Wildcard mask</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>0.0.0.0</TT
+></TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>255.255.255.255</TT
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Protocols to match</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>ICMP: <TT
+CLASS="COMPUTEROUTPUT"
+>Y</TT
+></TD
+><TD
+>&nbsp;</TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Include/Exclude</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>I</TT
+></TD
+><TD
+>&nbsp;</TD
+></TR
+></TBODY
+></TABLE
+><P
+></P
+></DIV
+><P
+>  This does not match ICMP packets from 10.0.0.1 to anywhere
+  (while a similar TCP/UDP filter would have matched the
+  opposite-flowing TCP and UDP packets). To match ICMP packets from host
+  10.0.0.1 to anywhere (the reverse of the above example):</P
+><DIV
+CLASS="INFORMALTABLE"
+><A
+NAME="AEN1725"
+></A
+><P
+></P
+><TABLE
+BORDER="0"
+WIDTH="100%"
+BGCOLOR="#E0E0E0"
+CELLSPACING="0"
+CELLPADDING="4"
+CLASS="CALSTABLE"
+><TBODY
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Address</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>10.0.0.1</TT
+></TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>0.0.0.0</TT
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Wildcard mask</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>255.255.255.255</TT
+></TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>0.0.0.0</TT
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Protocols to match</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>ICMP: <TT
+CLASS="COMPUTEROUTPUT"
+>Y</TT
+></TD
+><TD
+>&nbsp;</TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Include/Exclude</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>I</TT
+></TD
+><TD
+>&nbsp;</TD
+></TR
+></TBODY
+></TABLE
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="SECT2"
+><H2
+CLASS="SECT2"
+><A
+NAME="AEN1751"
+>Other Examples</A
+></H2
+><P
+>  To display all OSPF, IGP, and IGRP packets only from anywhere to anywhere</P
+><DIV
+CLASS="INFORMALTABLE"
+><A
+NAME="AEN1754"
+></A
+><P
+></P
+><TABLE
+BORDER="0"
+WIDTH="100%"
+BGCOLOR="#E0E0E0"
+CELLSPACING="0"
+CELLPADDING="4"
+CLASS="CALSTABLE"
+><TBODY
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Address</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>0.0.0.0</TT
+></TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>0.0.0.0</TT
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Wildcard mask</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>0.0.0.0</TT
+></TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>0.0.0.0</TT
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Protocols to match</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>OSPF: <TT
+CLASS="COMPUTEROUTPUT"
+>Y</TT
+> IGP: <TT
+CLASS="COMPUTEROUTPUT"
+>Y</TT
+> IGRP: <TT
+CLASS="COMPUTEROUTPUT"
+>Y</TT
+></TD
+><TD
+>&nbsp;</TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Include/Exclude</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>I</TT
+></TD
+><TD
+>&nbsp;</TD
+></TR
+></TBODY
+></TABLE
+><P
+></P
+></DIV
+><P
+>  To display all ICMP except those destined for 207.0.115.45</P
+><P
+>  First entry:</P
+><DIV
+CLASS="INFORMALTABLE"
+><A
+NAME="AEN1784"
+></A
+><P
+></P
+><TABLE
+BORDER="0"
+WIDTH="100%"
+BGCOLOR="#E0E0E0"
+CELLSPACING="0"
+CELLPADDING="4"
+CLASS="CALSTABLE"
+><TBODY
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Address</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>0.0.0.0</TT
+></TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>207.0.115.45</TT
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Wildcard mask</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>0.0.0.0</TT
+></TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>255.255.255.255</TT
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Protocols to match</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>ICMP: <TT
+CLASS="COMPUTEROUTPUT"
+>Y</TT
+></TD
+><TD
+>&nbsp;</TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Include/Exclude</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>E</TT
+></TD
+><TD
+>&nbsp;</TD
+></TR
+></TBODY
+></TABLE
+><P
+></P
+></DIV
+><P
+>  Then enter a second entry:</P
+><DIV
+CLASS="INFORMALTABLE"
+><A
+NAME="AEN1811"
+></A
+><P
+></P
+><TABLE
+BORDER="0"
+WIDTH="100%"
+BGCOLOR="#E0E0E0"
+CELLSPACING="0"
+CELLPADDING="4"
+CLASS="CALSTABLE"
+><TBODY
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Address</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>0.0.0.0</TT
+></TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>0.0.0.0</TT
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Wildcard mask</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>0.0.0.0</TT
+></TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>0.0.0.0</TT
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Protocols to match </TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>ICMP: <TT
+CLASS="COMPUTEROUTPUT"
+>Y</TT
+></TD
+><TD
+>&nbsp;</TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+>Include/Exclude</TD
+><TD
+WIDTH="33%"
+ALIGN="LEFT"
+VALIGN="TOP"
+><TT
+CLASS="COMPUTEROUTPUT"
+>I</TT
+></TD
+><TD
+>&nbsp;</TD
+></TR
+></TBODY
+></TABLE
+><P
+></P
+></DIV
+><DIV
+CLASS="TIP"
+><P
+></P
+><TABLE
+CLASS="TIP"
+WIDTH="100%"
+BORDER="0"
+><TR
+><TD
+WIDTH="25"
+ALIGN="CENTER"
+VALIGN="TOP"
+><IMG
+SRC="./stylesheet-images/tip.gif"
+HSPACE="5"
+ALT="Tip"></TD
+><TH
+ALIGN="LEFT"
+VALIGN="CENTER"
+><B
+>Tip</B
+></TH
+></TR
+><TR
+><TD
+>&nbsp;</TD
+><TD
+ALIGN="LEFT"
+VALIGN="TOP"
+><P
+>  To omit all non-TCP and non-UDP IP traffic from the display,
+  define a filter with
+source and destination addresses <TT
+CLASS="COMPUTEROUTPUT"
+>0.0.0.0</TT
+>,
+  wildcard masks <TT
+CLASS="COMPUTEROUTPUT"
+>0.0.0.0</TT
+>, without
+specifying <TT
+CLASS="COMPUTEROUTPUT"
+>Y</TT
+> to any of the protocols.
+  Mark the <TT
+CLASS="COMPUTEROUTPUT"
+>Include/Exclude</TT
+> field with
+an <TT
+CLASS="COMPUTEROUTPUT"
+>I</TT
+>.</P
+></TD
+></TR
+></TABLE
+></DIV
+><P
+>  The filters can also be edited in much the same way as the TCP and UDP
+  filters with the same keystrokes. After selecting the filter you want to
+  edit, you will see the IP addresses/hostnames and masks of the
+  filter rules. As you move the selection bar to select a rule, the bottom
+  of the selection box displays the protocols that particular rule matches.</P
+><P
+>  The <I
+CLASS="EMPHASIS"
+>Detach filter...</I
+> item causes the filter to deactivate, and all
+  protocols (other than TCP and UDP of course) will be displayed
+  in the lower window.</P
+><P
+>  As with the TCP and UDP filter editing dialogs, you can press Enter to
+  edit the selected rule, I to insert at the selection bar's current
+  position, A to add to the list of rules, and D to delete the currently
+  pointed rule. You can move the rule selection bar with the Up and Down
+  cursor keys.</P
+><P
+>  The <I
+CLASS="EMPHASIS"
+>Delete filter...</I
+> menu item allows you to delete an entire filter.</P
+></DIV
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="udpfilters.html"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="manual.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="nonipfilters.html"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>UDP Filters</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="filters.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>ARP, RARP, and other Non-IP Packet Filters</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

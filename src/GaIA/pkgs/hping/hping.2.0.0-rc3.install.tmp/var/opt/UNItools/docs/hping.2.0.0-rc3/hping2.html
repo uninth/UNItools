@@ -1,0 +1,1024 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of HPING2</TITLE>
+</HEAD><BODY>
+<H1>HPING2</H1>
+Section: Maintenance Commands (8)<BR>Updated: 2001 Aug 14<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+hping2 - send (almost) arbitrary TCP/IP packets to network hosts
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>hping2</B>
+
+[
+<B>-hvnqVDzZ012WrfxykQbFSRPAUXYjJBuTG</B>
+
+] [
+<B>-c</B>
+
+<I>count</I>
+
+] [
+<B>-i</B>
+
+<I>wait</I>
+
+] [
+<B>--fast</B>
+
+] [
+<B>-I</B>
+
+<I>interface</I>
+
+] [
+<B>-9</B>
+
+<I>signature</I>
+
+] [
+<B>-a</B>
+
+<I>host</I>
+
+] [
+<B>-t</B>
+
+<I>ttl</I>
+
+] [
+<B>-N</B>
+
+<I>ip id</I>
+
+] [
+<B>-H</B>
+
+<I>ip protocol</I>
+
+] [
+<B>-g</B>
+
+<I>fragoff</I>
+
+] [
+<B>-m</B>
+
+<I>mtu</I>
+
+] [
+<B>-o</B>
+
+<I>tos</I>
+
+] [
+<B>-C</B>
+
+<I>icmp type</I>
+
+] [
+<B>-K</B>
+
+<I>icmp code</I>
+
+] [
+<B>-s</B>
+
+<I>source port</I>
+
+] [
+<B>-p[+][+]</B>
+
+<I>dest port</I>
+
+] [
+<B>-w</B>
+
+<I>tcp window</I>
+
+] [
+<B>-O</B>
+
+<I>tcp offset</I>
+
+] [
+<B>-M</B>
+
+<I>tcp sequence number</I>
+
+] [
+<B>-L</B>
+
+<I>tcp ack</I>
+
+] [
+<B>-d</B>
+
+<I>data size</I>
+
+] [
+<B>-E</B>
+
+<I>filename</I>
+
+] [
+<B>-e</B>
+
+<I>signature</I>
+
+] [
+<B>--icmp-ipver</B>
+
+<I>version</I>
+
+] [
+<B>--icmp-iphlen</B>
+
+<I>length</I>
+
+] [
+<B>--icmp-iplen</B>
+
+<I>length</I>
+
+] [
+<B>--icmp-ipid</B>
+
+<I>id</I>
+
+] [
+<B>--icmp-ipproto</B>
+
+<I>protocol</I>
+
+] [
+<B>--icmp-cksum</B>
+
+<I>checksum</I>
+
+] [
+<B>--icmp-ts</B>
+
+] [
+<B>--icmp-addr</B>
+
+] [
+<B>--tcpexitcode</B>
+
+] [
+<B>--tcp-timestamp</B>
+
+] [
+<B>--tr-stop</B>
+
+] [
+<B>--tr-keep-ttl</B>
+
+] [
+<B>--tr-no-rtt</B>
+
+] [
+<B>--rand-dest</B>
+
+] [
+<B>--rand-source</B>
+
+]
+hostname
+<BR>
+
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+hping2 is a network tool able to send custom TCP/IP packets and to
+display target replies like ping program does with ICMP replies. hping2
+handle fragmentation, arbitrary packets body and size and can be used in
+order to transfer files encapsulated under supported protocols. Using
+hping2 you are able to perform at least the following stuff:
+<P>
+<BR>&nbsp;-&nbsp;Test&nbsp;firewall&nbsp;rules
+<BR>&nbsp;-&nbsp;Advanced&nbsp;port&nbsp;scanning
+<BR>&nbsp;-&nbsp;Test&nbsp;net&nbsp;performance&nbsp;using&nbsp;different&nbsp;protocols,
+<BR>&nbsp;&nbsp;&nbsp;packet&nbsp;size,&nbsp;TOS&nbsp;(type&nbsp;of&nbsp;service)&nbsp;and&nbsp;fragmentation.
+<BR>&nbsp;-&nbsp;Path&nbsp;MTU&nbsp;discovery
+<BR>&nbsp;-&nbsp;Transferring&nbsp;files&nbsp;between&nbsp;even&nbsp;really&nbsp;fascist&nbsp;firewall
+<BR>&nbsp;&nbsp;&nbsp;rules.
+<BR>&nbsp;-&nbsp;Traceroute-like&nbsp;under&nbsp;different&nbsp;protocols.
+<BR>&nbsp;-&nbsp;Firewalk-like&nbsp;usage.
+<BR>&nbsp;-&nbsp;Remote&nbsp;OS&nbsp;fingerprinting.
+<BR>&nbsp;-&nbsp;TCP/IP&nbsp;stack&nbsp;auditing.
+<BR>&nbsp;-&nbsp;A&nbsp;lot&nbsp;of&nbsp;others.
+<P>
+<I>It's also a good didactic tool to learn TCP/IP</I>.
+
+hping2 is developed and maintained by <A HREF="mailto:antirez@invece.org">antirez@invece.org</A> and is
+licensed under GPL version 2. Development is open so you can send
+me patches, suggestion and affronts without inhibitions.
+<A NAME="lbAE">&nbsp;</A>
+<H2>HPING SITE</H2>
+
+primary site at
+<B><A HREF="http://www.hping.org">http://www.hping.org</A></B>.
+
+You can found both the stable release and the instruction
+to download the latest source code at <A HREF="http://www.hping.org/download.html">http://www.hping.org/download.html</A>
+<A NAME="lbAF">&nbsp;</A>
+<H2>BASE OPTIONS</H2>
+
+<DL COMPACT>
+<DT><I>-h --help</I>
+
+<DD>
+Show an help screen on standard output, so you can pipe to less.
+<DT><I>-v --version</I>
+
+<DD>
+Show version information and API used to access to data link layer,
+<I>linux sock packet</I>
+
+or
+<I>libpcap.</I>
+
+<DT><I>-c --count count</I>
+
+<DD>
+Stop after sending (and receiving)
+<I>count</I>
+
+response packets. After last packet was send hping2 wait COUNTREACHED_TIMEOUT
+seconds target host replies. You are able to tune COUNTREACHED_TIMEOUT editing
+hping2.h
+<DT><I>-i --interval</I>
+
+<DD>
+Wait
+the specified number of seconds or micro seconds between sending each packet.
+--interval X set
+<I>wait</I>
+
+to X seconds, --interval uX set
+<I>wait</I>
+
+to X micro seconds.
+The default is to wait
+one second between each packet. Using hping2 to transfer files tune this
+option is really important in order to increase transfer rate. Even using
+hping2 to perform idle/spoofing scanning you should tune this option, see
+<B>HPING2-HOWTO</B>
+
+for more information.
+<DT><I>--fast</I>
+
+<DD>
+Alias for -i u10000. Hping will send 10 packets for second.
+<DT><I>--faster</I>
+
+<DD>
+Alias for -i u1. Faster then --fast ;) (but not as fast as your computer can send packets due to the signal-driven design).
+<DT><I>-n --numeric</I>
+
+<DD>
+Numeric output only, No attempt will be made to lookup symbolic names for host addresses.
+<DT><I>-q --quiet</I>
+
+<DD>
+Quiet output. Nothing is displayed except the summary lines at
+startup time and when finished.
+<DT><I>-I --interface interface name</I>
+
+<DD>
+By default on linux and BSD systems hping2 uses default routing interface.
+In other systems or when there is no default route
+hping2 uses the first non-loopback interface.
+However you are able to force hping2 to use the interface you need using
+this option. Note: you don't need to specify the whole name, for
+example -I et will match eth0 ethernet0 myet1 et cetera. If no interfaces
+match hping2 will try to use lo.
+<DT><I>-V --verbose</I>
+
+<DD>
+Enable verbose output. TCP replies will be shown as follows:
+<P>
+len=46 ip=192.168.1.1 flags=RA DF seq=0 ttl=255 id=0 win=0 rtt=0.4 ms
+tos=0 iplen=40 seq=0 ack=1380893504 sum=2010 urp=0 
+<DT><I>-D --debug</I>
+
+<DD>
+Enable debug mode, it's useful when you experience some problem with
+hping2. When debug mode is enabled you will get more information about
+<B>interface detection, data link layer access, interface settings, options</B>
+
+<B>parsing, fragmentation, HCMP protocol</B>
+
+and other stuff.
+<DT><I>-z --bind</I>
+
+<DD>
+Bind CTRL+Z to
+<B>time to live (TTL)</B>
+
+so you will able to increment/decrement ttl of outgoing packets pressing
+CTRL+Z once or twice.
+<DT><I>-Z --unbind</I>
+
+<DD>
+Unbind CTRL+Z so you will able to stop hping2.
+</DL>
+<A NAME="lbAG">&nbsp;</A>
+<H2>PROTOCOL SELECTION</H2>
+
+Default protocol is TCP, by default hping2 will send tcp headers to target
+host's port 0 with a winsize of 64 without any tcp flag on. Often this
+is the best way to do an 'hide ping', useful when target is behind
+a firewall that drop ICMP. Moreover a tcp null-flag to port 0 has a good
+probability of not being logged.
+<DL COMPACT>
+<DT><I>-0 --rawip</I>
+
+<DD>
+RAW IP mode, in this mode hping2 will send IP header with data
+appended with --signature and/or --file, see also --ipproto that
+allows you to set the ip protocol field.
+<DT><I>-1 --icmp</I>
+
+<DD>
+ICMP mode, by default hping2 will send ICMP echo-request, you can set
+other ICMP type/code using
+<B>--icmptype --icmpcode</B>
+
+options.
+<DT><I>-2 --udp</I>
+
+<DD>
+UDP mode, by default hping2 will send udp to target host's port 0.
+UDP header tunable options are the following:
+<B>--baseport, --destport, --keep.</B>
+
+<DT><I>-8 --scan</I>
+
+<DD>
+Scan mode, the option expects an argument that describes groups of
+ports to scan. port groups are comma separated: a number describes
+just a single port, so 1,2,3 means port 1, 2 and 3. ranges are specified
+using a start-end notation, like 1-1000, that tell hping to scan ports between 1 and 1000 (included). the special word
+<B>all</B>
+
+is an alias for 0-65535, while the special word
+<B>known</B>
+
+includes all the ports listed in /etc/services.
+<BR>
+
+Groups can be combined, so the following command line will
+scan ports between 1 and 1000 AND port 8888 AND ports listed in /etc/services:
+<B>hping --scan 1-1000,8888,known -S target.host.com</B>
+
+<BR>
+
+Groups can be negated (subtracted) using a ! character as prefix,
+so the following command line will scan all the ports NOT listed
+in /etc/services in the range 1-1024:
+<B>hping --scan '1-1024,!known' -S target.host.com</B>
+
+<BR>
+
+Keep in mind that while hping seems much more like a port scanner in
+this mode, most of the hping switches are still honored, so for example to
+perform a SYN scan you need to specify the
+<B>-S</B>
+
+option, you can change the TCP windows size, TTL, control the
+IP fragmentation as usually, and so on. The only real difference is that
+the standard hping behaviors are encapsulated into a scanning
+algorithm.
+<BR>
+
+<B>Tech note</B>:
+
+The scan mode uses a two-processes design, with shared memory for synchronization. The scanning algorithm is still not optimal, but already quite fast.
+<BR>
+
+<B>Hint</B>:
+
+unlike most scanners, hping shows some interesting info about received
+packets, the IP ID, TCP win, TTL, and so on, don't forget to look
+at this additional information when you perform a scan! Sometimes they
+shows interesting details.
+<DT><I>-9 --listen signature</I>
+
+<DD>
+HPING2 listen mode, using this option hping2 waits for packet that contain
+<I>signature</I>
+
+and dump from
+<I>signature</I>
+
+end to packet's end. For example if hping2 --listen TEST reads a packet
+that contain
+<B>234-09sdflkjs45-TESThello_world</B>
+
+it will display
+<B>hello_world</B>.
+
+</DL>
+<A NAME="lbAH">&nbsp;</A>
+<H2>IP RELATED OPTIONS</H2>
+
+<DL COMPACT>
+<DT><I>-a --spoof hostname</I>
+
+<DD>
+Use this option in order to set a fake IP source address, this option
+ensures that target will not gain your real address. However replies
+will be sent to spoofed address, so you will can't see them. In order
+to see how it's possible to perform spoofed/idle scanning see the
+<B>HPING2-HOWTO</B>.
+
+<DT><I>--rand-source</I>
+
+<DD>
+This option enables the
+<B>random source mode</B>.
+
+hping will send packets with random source address. It is interesting
+to use this option to stress firewall state tables, and other
+per-ip basis dynamic tables inside the TCP/IP stacks and firewall
+software.
+<DT><I>--rand-dest</I>
+
+<DD>
+This option enables the
+<B>random destination mode</B>.
+
+hping will send the packets to random addresses obtained following
+the rule you specify as the target host. You need to specify
+a numerical IP address as target host like
+<B>10.0.0.x</B>.
+
+All the occurrences of
+<B>x</B>
+
+will be replaced with a random number in the range 0-255. So to obtain
+Internet IP addresses in the whole IPv4 space use something like
+<B>hping x.x.x.x --rand-dest</B>.
+
+If you are not sure about what kind of addresses your rule is generating
+try to use the
+<B>--debug</B>
+
+switch to display every new destination address generated.
+When this option is turned on, matching packets will be accept from all
+the destinations.
+<BR>
+
+<B>Warning</B>:
+
+when this option is enabled hping can't detect the right outgoing
+interface for the packets, so you should use the
+<B>--interface</B>
+
+option to select the desired outgoing interface.
+<DT><I>-t --ttl time to live</I>
+
+<DD>
+Using this option you can set
+<B>TTL (time to live)</B>
+
+of outgoing packets, it's likely that you will use this with
+<B>--traceroute</B>
+
+or
+<B>--bind</B>
+
+options. If in doubt try
+<B></B>`<B>hping2 some.host.com -t 1 --traceroute</B>'.
+
+<DT><I>-N --id</I>
+
+<DD>
+Set ip-&gt;id field. Default id is random but if fragmentation is turned on
+and id isn't specified it will be
+<B>getpid() &amp; 0xFF</B>,
+
+to implement a better solution is in TODO list.
+<DT><I>-H --ipproto</I>
+
+<DD>
+Set the ip protocol in RAW IP mode.
+<DT><I>-W --winid</I>
+
+<DD>
+id from Windows* systems before Win2k has different byte ordering, if this
+option is enable
+hping2 will properly display id replies from those Windows.
+<DT><I>-r --rel</I>
+
+<DD>
+Display id increments instead of id. See the
+<B>HPING2-HOWTO</B>
+
+for more information. Increments aren't computed as id[N]-id[N-1] but
+using packet loss compensation. See relid.c for more information.
+<DT><I>-f --frag</I>
+
+<DD>
+Split packets in more fragments, this may be useful in order to test
+IP stacks fragmentation performance and to test if some
+packet filter is so weak that can be passed using tiny fragments
+(anachronistic). Default 'virtual mtu' is 16 bytes. see also
+<I>--mtu</I>
+
+option.
+<DT><I>-x --morefrag</I>
+
+<DD>
+Set more fragments IP flag, use this option if you want that target
+host send an
+<B>ICMP time-exceeded during reassembly</B>.
+
+<DT><I>-y --dontfrag</I>
+
+<DD>
+Set don't fragment IP flag, this can be used to perform
+<B>MTU path discovery</B>.
+
+<DT><I>-g --fragoff fragment offset value</I>
+
+<DD>
+Set the fragment offset.
+<DT><I>-m --mtu mtu value</I>
+
+<DD>
+Set different 'virtual mtu' than 16 when fragmentation is enabled. If
+packets size is greater that 'virtual mtu' fragmentation is automatically
+turned on.
+<DT><I>-o --tos hex_tos</I>
+
+<DD>
+Set
+<B>Type Of Service (TOS)</B>,
+
+for more information try
+<B>--tos help</B>.
+
+<DT><I>-G --rroute</I>
+
+<DD>
+Record route. Includes the RECORD_ROUTE option in each packet sent and
+displays the route buffer of returned packets. Note that the IP header
+is only large enough for nine such routes. Many hosts ignore or discard
+this option. Also note that using hping you are able to use record route
+even if target host filter ICMP. Record route is an IP option, not
+an ICMP option, so you can use record route option even in TCP and UDP
+mode.
+</DL>
+<A NAME="lbAI">&nbsp;</A>
+<H2>ICMP RELATED OPTIONS</H2>
+
+<DL COMPACT>
+<DT><I>-C --icmptype type</I>
+
+<DD>
+Set icmp type, default is
+<B>ICMP echo request</B>
+
+(implies --icmp).
+<DT><I>-K --icmpcode code</I>
+
+<DD>
+Set icmp code, default is 0 (implies --icmp).
+<DT><I>--icmp-ipver</I>
+
+<DD>
+Set IP version of IP header contained into ICMP data, default is 4.
+<DT><I>--icmp-iphlen</I>
+
+<DD>
+Set IP header length of IP header contained into ICMP data, default is 5 (5 words of 32 bits).
+<DT><I>--icmp-iplen</I>
+
+<DD>
+Set IP packet length of IP header contained into ICMP data, default is the real
+length.
+<DT><I>--icmp-ipid</I>
+
+<DD>
+Set IP id of IP header contained into ICMP data, default is random.
+<DT><I>--icmp-ipproto</I>
+
+<DD>
+Set IP protocol of IP header contained into ICMP data, default is TCP.
+<DT><I>--icmp-cksum</I>
+
+<DD>
+Set ICMP checksum, for default is the valid checksum.
+<DT><I>--icmp-ts</I>
+
+<DD>
+Alias for --icmptype 13 (to send ICMP timestamp requests).
+<DT><I>--icmp-addr</I>
+
+<DD>
+Alias for --icmptype 17 (to send ICMP address mask requests).
+</DL>
+<A NAME="lbAJ">&nbsp;</A>
+<H2>TCP/UDP RELATED OPTIONS</H2>
+
+<DL COMPACT>
+<DT><I>-s --baseport source port</I>
+
+<DD>
+hping2 uses source port in order to guess replies sequence number. It
+starts with a base source port number, and increase this number for each
+packet sent. When packet is received sequence number can be computed as
+<I>replies.dest.port - base.source.port</I>.
+
+Default base source port is random, using this option you are able to
+set different number. If you need that source port not be increased for
+each sent packet use the
+<I>-k --keep</I>
+
+option.
+<DT><I>-p --destport [+][+]dest port</I>
+
+<DD>
+Set destination port, default is 0. If '+' character precedes dest port
+number (i.e. +1024) destination port will be increased for each reply
+received. If double '+' precedes dest port number (i.e. ++1024), destination
+port will be increased for each packet sent.
+By default destination port can be modified interactively using
+<B>CTRL+z</B>.
+
+<DT><I>--keep</I>
+
+<DD>
+keep still source port, see
+<I>--baseport</I>
+
+for more information.
+<DT><I>-w --win</I>
+
+<DD>
+Set TCP window size. Default is 64.
+<DT><I>-O --tcpoff</I>
+
+<DD>
+Set fake tcp data offset. Normal data offset is tcphdrlen / 4.
+<DT><I>-M --tcpseq</I>
+
+<DD>
+Set the TCP sequence number.
+<DT><I>-L --tcpack</I>
+
+<DD>
+Set the TCP ack.
+<DT><I>-Q --seqnum</I>
+
+<DD>
+This option can be used in order to collect sequence numbers generated
+by target host. This can be useful when you need to analyze whether
+TCP sequence number is predictable. Output example:
+<P>
+<B>#hping2 win98 --seqnum -p 139 -S -i u1 -I eth0</B>
+
+<PRE>
+HPING uaz (eth0 192.168.4.41): S set, 40 headers + 0 data bytes
+2361294848 +2361294848
+2411626496 +50331648
+2545844224 +134217728
+2713616384 +167772160
+2881388544 +167772160
+3049160704 +167772160
+3216932864 +167772160
+3384705024 +167772160
+3552477184 +167772160
+3720249344 +167772160
+3888021504 +167772160
+4055793664 +167772160
+4223565824 +167772160
+</PRE>
+
+<P>
+The first column reports the sequence number, the second difference
+between current and last sequence number. As you can see target host's sequence
+numbers are predictable.
+<DT><I>-b --badcksum</I>
+
+<DD>
+Send packets with a bad UDP/TCP checksum.
+<DT><I>--tcp-timestamp</I>
+
+<DD>
+Enable the TCP timestamp option, and try to guess the timestamp update
+frequency and the remote system uptime.
+<DT><I>-F --fin</I>
+
+<DD>
+Set FIN tcp flag.
+<DT><I>-S --syn</I>
+
+<DD>
+Set SYN tcp flag.
+<DT><I>-R --rst</I>
+
+<DD>
+Set RST tcp flag.
+<DT><I>-P --push</I>
+
+<DD>
+Set PUSH tcp flag.
+<DT><I>-A --ack</I>
+
+<DD>
+Set ACK tcp flag.
+<DT><I>-U --urg</I>
+
+<DD>
+Set URG tcp flag.
+<DT><I>-X --xmas</I>
+
+<DD>
+Set Xmas tcp flag.
+<DT><I>-Y --ymas</I>
+
+<DD>
+Set Ymas tcp flag.
+</DL>
+<A NAME="lbAK">&nbsp;</A>
+<H2>COMMON OPTIONS</H2>
+
+<DL COMPACT>
+<DT><I>-d --data data size</I>
+
+<DD>
+Set packet body size. Warning, using --data 40 hping2 will not generate
+0 byte packets but protocol_header+40 bytes. hping2 will display
+packet size information as first line output, like this:
+<B>HPING <A HREF="http://www.yahoo.com">www.yahoo.com</A> (ppp0 204.71.200.67): NO FLAGS are set, 40 headers + 40 data bytes</B>
+
+<DT><I>-E --file filename</I>
+
+<DD>
+Use
+<B>filename</B>
+
+contents to fill packet's data.
+<DT><I>-e --sign signature</I>
+
+<DD>
+Fill first
+<I>signature length</I>
+
+bytes of data with
+<I>signature</I>.
+
+If the
+<I>signature length</I>
+
+is bigger than data size an error message will be displayed.
+If you don't specify the data size hping will use the signature
+size as data size.
+This option can be used safely with
+<I>--file filename</I>
+
+option, remainder data space will be filled using
+<I>filename</I>.
+
+<DT><I>-j --dump</I>
+
+<DD>
+Dump received packets in hex.
+<DT><I>-J --print</I>
+
+<DD>
+Dump received packets' printable characters.
+<DT><I>-B --safe</I>
+
+<DD>
+Enable safe protocol, using this option lost packets in file transfers
+will be resent. For example in order to send file /etc/passwd from host
+A to host B you may use the following:
+<PRE>
+<I>[host_a]</I>
+<B># hping2 host_b --udp -p 53 -d 100 --sign signature --safe --file /etc/passwd</B>
+<I>[host_b]</I>
+<B># hping2 host_a --listen signature --safe --icmp</B>
+</PRE>
+
+<DT><I>-u --end</I>
+
+<DD>
+If you are using
+<I>--file filename</I>
+
+option, tell you when EOF has been reached. Moreover prevent that other end
+accept more packets. Please, for more information see the
+<B>HPING2-HOWTO</B>.
+
+<DT><I>-T --traceroute</I>
+
+<DD>
+Traceroute mode. Using this option hping2 will increase ttl for each
+<B>ICMP time to live 0 during transit</B>
+
+received. Try
+<B>hping2 host --traceroute</B>.
+
+This option implies --bind and --ttl 1. You can override the ttl of 1
+using the --ttl option. Since 2.0.0 stable it prints RTT information.
+<DT><I>--tr-keep-ttl</I>
+
+<DD>
+Keep the TTL fixed in traceroute mode, so you can monitor just one hop
+in the route. For example, to monitor how the 5th hop changes or
+how its RTT changes you can try
+<B>hping2 host --traceroute --ttl 5 --tr-keep-ttl</B>.
+
+<DT><I>--tr-stop</I>
+
+<DD>
+If this option is specified hping will exit once the first packet
+that isn't an ICMP time exceeded is received. This better emulates
+the traceroute behavior.
+<DT><I>--tr-no-rtt</I>
+
+<DD>
+Don't show RTT information in traceroute mode. The ICMP time exceeded RTT
+information aren't even calculated if this option is set.
+<DT><I>--tcpexitcode</I>
+
+<DD>
+Exit with last received packet tcp-&gt;th_flag as exit code. Useful for scripts
+that need, for example, to known if the port 999 of some host reply with
+SYN/ACK or with RST in response to SYN, i.e. the service is up or down.
+</DL>
+<A NAME="lbAL">&nbsp;</A>
+<H2>TCP OUTPUT FORMAT</H2>
+
+The standard TCP output format is the following:
+<P>
+len=46 ip=192.168.1.1 flags=RA DF seq=0 ttl=255 id=0 win=0 rtt=0.4 ms
+<P>
+<B>len</B>
+
+is the size, in bytes, of the data captured from the data link layer
+excluding the data link header size. This may not match the IP datagram
+size due to low level transport layer padding.
+<P>
+<B>ip</B>
+
+is the source ip address.
+<P>
+<B>flags</B>
+
+are the TCP flags, R for RESET, S for SYN, A for ACK, F for FIN,
+P for PUSH, U for URGENT, X for not standard 0x40, Y for not standard
+0x80.
+<P>
+If the reply contains
+<B>DF</B>
+
+the IP header has the don't fragment bit set.
+<P>
+<B>seq</B>
+
+is the sequence number of the packet, obtained using the source
+port for TCP/UDP packets, the sequence field for ICMP packets.
+<P>
+<B>id</B>
+
+is the IP ID field.
+<P>
+<B>win</B>
+
+is the TCP window size.
+<P>
+<B>rtt</B>
+
+is the round trip time in milliseconds.
+<P>
+If you run hping using the
+<B>-V</B>
+
+command line switch it will display additional information about the
+packet, example:
+<P>
+len=46 ip=192.168.1.1 flags=RA DF seq=0 ttl=255 id=0 win=0 rtt=0.4 ms
+tos=0 iplen=40 seq=0 ack=1223672061 sum=e61d urp=0 
+<P>
+<B>tos</B>
+
+is the type of service field of the IP header.
+<P>
+<B>iplen</B>
+
+is the IP total len field.
+<P>
+<B>seq and ack</B>
+
+are the sequence and acknowledge 32bit numbers in the TCP header.
+<P>
+<B>sum</B>
+
+is the TCP header checksum value.
+<P>
+<B>urp</B>
+
+is the TCP urgent pointer value.
+<P>
+<A NAME="lbAM">&nbsp;</A>
+<H2>UDP OUTPUT FORMAT</H2>
+
+<P>
+The standard output format is:
+<P>
+len=46 ip=192.168.1.1 seq=0 ttl=64 id=0 rtt=6.0 ms
+<P>
+The field meaning is just the same as the TCP output meaning of the
+same fields.
+<P>
+<A NAME="lbAN">&nbsp;</A>
+<H2>ICMP OUTPUT FORMAT</H2>
+
+<P>
+An example of ICMP output is:
+<P>
+ICMP Port Unreachable from ip=192.168.1.1 name=nano.marmoc.net
+<P>
+It is very simple to understand. It starts with the string &quot;ICMP&quot;
+followed by the description of the ICMP error, Port Unreachable
+in the example. The ip field is the IP source address of the IP
+datagram containing the ICMP error, the name field is just the
+numerical address resolved to a name (a dns PTR request) or UNKNOWN if the
+resolution failed.
+<P>
+The ICMP Time exceeded during transit or reassembly format is a bit
+different:
+<P>
+TTL 0 during transit from ip=192.168.1.1 name=nano.marmoc.net
+<P>
+TTL 0 during reassembly from ip=192.70.106.25 name=UNKNOWN   
+<P>
+The only difference is the description of the error, it starts with
+TTL 0.
+<P>
+<A NAME="lbAO">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Salvatore Sanfilippo &lt;<A HREF="mailto:antirez@invece.org">antirez@invece.org</A>&gt;, with the help of the people mentioned in AUTHORS file and at <A HREF="http://www.hping.org/authors.html">http://www.hping.org/authors.html</A>
+<A NAME="lbAP">&nbsp;</A>
+<H2>BUGS</H2>
+
+Even using the --end and --safe options to transfer files the final packet
+will be padded with 0x00 bytes.
+<P>
+
+Data is read without care about alignment, but alignment is enforced
+in the data structures.
+This will not be a problem under i386 but, while usually the TCP/IP
+headers are naturally aligned, may create problems with different
+processors and bogus packets if there is some unaligned access around
+the code (hopefully none).
+<P>
+
+On solaris hping does not work on the loopback interface. This seems
+a solaris problem, as stated in the tcpdump-workers mailing list,
+so the libpcap can't do nothing to handle it properly.
+<A NAME="lbAQ">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<A HREF="../man8/ping.8.html">ping</A>(8), <A HREF="../man8/traceroute.8.html">traceroute</A>(8), <A HREF="../man8/ifconfig.8.html">ifconfig</A>(8), <A HREF="../man1/nmap.1.html">nmap</A>(1)
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">HPING SITE</A><DD>
+<DT><A HREF="#lbAF">BASE OPTIONS</A><DD>
+<DT><A HREF="#lbAG">PROTOCOL SELECTION</A><DD>
+<DT><A HREF="#lbAH">IP RELATED OPTIONS</A><DD>
+<DT><A HREF="#lbAI">ICMP RELATED OPTIONS</A><DD>
+<DT><A HREF="#lbAJ">TCP/UDP RELATED OPTIONS</A><DD>
+<DT><A HREF="#lbAK">COMMON OPTIONS</A><DD>
+<DT><A HREF="#lbAL">TCP OUTPUT FORMAT</A><DD>
+<DT><A HREF="#lbAM">UDP OUTPUT FORMAT</A><DD>
+<DT><A HREF="#lbAN">ICMP OUTPUT FORMAT</A><DD>
+<DT><A HREF="#lbAO">AUTHOR</A><DD>
+<DT><A HREF="#lbAP">BUGS</A><DD>
+<DT><A HREF="#lbAQ">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 18:58:26 GMT, August 22, 2012
+</BODY>
+</HTML>

@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+# Script der *kan kaldes* efter selve installationen
+#
+
+. /lan/ssi/projects/UNItools/src/Linux/2.4.21-20cpsmp/pkgs/p0f/CFG
+
+# Preserve CWD
+SAVEDIR=/lan/ssi/projects/UNItools/src/Linux/2.4.21-20cpsmp/pkgs/p0f
+
+# Source
+SRC=$SRC
+
+(
+	cd $SRC/test;
+	make p0fq sendack sendack2 sendsyn
+	for f in p0fq sendack sendack2 sendsyn tryid
+	do
+		install-sh -c -m 555 $f $ROOT/bin/
+	done
+)
+
+mkdir -p /var/opt/UNItools/docs/$PKG.$VER/
+for FILE in ChangeLog  COPYING  CREDITS  KNOWN_BUGS  README  TODO
+do
+	/usr/local/bin/install-sh -c -m 444 $SRC/doc/$FILE /var/opt/UNItools/docs/$TOOLBOX_CAT/$PKG.$VER/
+done
+
+exit 0
+

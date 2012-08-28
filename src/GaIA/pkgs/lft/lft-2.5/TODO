@@ -1,0 +1,14 @@
+
+LFT TO-DO
+---------
+
+Features to ADD (not in any particular order)
+
+ - 64-bit support
+ - IPv6 support
+ - display min/avg/max/stddev RTT instead of just the samples
+ - VJ-type UDP-based tracing for comparison using a '-u' option
+ - lookup whois and dns info in background thread (if requested) so it is 
+   ready once the trace is complete (on selected platforms)
+ - spread after contacting target to expose all paths through inline filter 
+ - implement target fingerprinting using TCP timestamps option (RFC 1323)

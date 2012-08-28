@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>ActiveState::Table - Simple table class</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>ActiveState::Table - Simple table class</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>ActiveState::Table - Simple table class</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ $t = ActiveState::Table-&gt;new;
+ $t-&gt;add_row({ a =&gt; 1, b =&gt; 2 });
+ print $t-&gt;as_csv;</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Instances of the <code>ActiveState::Table</code> class represent a 2 dimensional
+table of fields (or columns if you wish) and rows.  The fields are
+ordered and have case-sensitive names. The rows are numbered.</p>
+<p>The following methods are provided:</p>
+<dl>
+<dt><strong><a name="item_new">$t = ActiveState::Table-&gt;new</a></strong>
+
+<dd>
+<p>This creates a new empty table object.</p>
+</dd>
+</li>
+<dt><strong><a name="item_fields">$t-&gt;fields</a></strong>
+
+<dd>
+<p>This returns the current field names.  In scalar context it returns
+the number of fields.</p>
+</dd>
+</li>
+<dt><strong><a name="item_rows">$t-&gt;rows</a></strong>
+
+<dd>
+<p>The returns the current rows.  Each row is returned as reference to an
+array of values in the same order as the fields. The array might be
+shorter than the number of fields, when the trailing values are <a href="../../../../../lib/5.8.7/pod/perlfunc.html#item_undef"><code>undef</code></a>.</p>
+</dd>
+<dd>
+<p>In scalar context it returns the number of rows in the table.</p>
+</dd>
+</li>
+<dt><strong><a name="item_fetchrow">$t-&gt;fetchrow( $index )</a></strong>
+
+<dd>
+<p>This returns the given row.  An array reference is returned in scalar
+context.  The array might be shorter than the number of fields, when
+the trailing values are <a href="../../../../../lib/5.8.7/pod/perlfunc.html#item_undef"><code>undef</code></a>.</p>
+</dd>
+<dd>
+<p>In list context the values are returned one by one.  There will be as
+many values as there are fields in the table.  Some values might be
+<a href="../../../../../lib/5.8.7/pod/perlfunc.html#item_undef"><code>undef</code></a>.</p>
+</dd>
+<dd>
+<p>If there is no row with the given $index, then <a href="../../../../../lib/5.8.7/pod/perlfunc.html#item_undef"><code>undef</code></a> is returned in
+scalar context and the empty list in list context.</p>
+</dd>
+</li>
+<dt><strong><a name="item_fetchrow_arrayref">$t-&gt;fetchrow_arrayref( $index )</a></strong>
+
+<dd>
+<p>Same as <a href="#item_fetchrow"><code>fetchrow()</code></a> but will return an array reference even in list
+context.</p>
+</dd>
+</li>
+<dt><strong><a name="item_fetchrow_hashref">$t-&gt;fetchrow_hashref( $index )</a></strong>
+
+<dd>
+<p>This returns the given row.  A hash reference is returned with keys
+corresponding to the field names and the values corresponding to the
+given row.  The values might be <a href="../../../../../lib/5.8.7/pod/perlfunc.html#item_undef"><code>undef</code></a>, but a key for all the fields
+will exist.</p>
+</dd>
+<dd>
+<p>If there is no row with the given $index, then <a href="../../../../../lib/5.8.7/pod/perlfunc.html#item_undef"><code>undef</code></a> is returned.</p>
+</dd>
+</li>
+<dt><strong><a name="item_add_field">$t-&gt;add_field( $field )</a></strong>
+
+<dd>
+<p>This adds another field to the table.  The field must be a string.  If
+the field already exists it is not added again, and the <a href="#item_add_field"><code>add_field()</code></a>
+call does nothing.</p>
+</dd>
+<dd>
+<p>There is no return value.</p>
+</dd>
+</li>
+<dt><strong><a name="item_add_row">$t-&gt;add_row( $row )</a></strong>
+
+<dd>
+<p>This adds another row to the table.  The row must currently be a hash
+reference.  If the hash contains new fields they are added
+automatically in sorted order.  To enforce an order add the fields
+before adding rows.</p>
+</dd>
+<dd>
+<p>There is no return value.</p>
+</dd>
+</li>
+<dt><strong><a name="item_as_box">$t-&gt;as_box( %options )</a></strong>
+
+<dd>
+<p>This formats the table as text and returns it. The following options
+might be provided as key/value pairs:</p>
+</dd>
+<dd>
+<pre>
+   name                 | default
+   ---------------------+----------
+   null                 | &quot;NULL&quot;
+   show_header          | 1
+   show_tailer          | 1
+   ---------------------+----------</pre>
+</dd>
+</li>
+<dt><strong><a name="item_as_csv">$t-&gt;as_csv( %options )</a></strong>
+
+<dd>
+<p>This formats the table as a CSV file (``comma-separated-values'') and
+returns it.  The following options might be provided as key/value
+pairs:</p>
+</dd>
+<dd>
+<pre>
+   name                 | default
+   ---------------------+----------
+   field_separator      | &quot;,&quot;
+   row_separator        | &quot;\n&quot;
+   null                 | &quot;NULL&quot;
+   show_header          | 1
+   ---------------------+----------</pre>
+</dd>
+<dd>
+<p>The method does not currently quote or escape values if they contain
+any of the separators.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>none.</p>
+
+</body>
+
+</html>

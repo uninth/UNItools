@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>ActiveState::Handy - Collection of small utility functions</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>ActiveState::Handy - Collection of small utility functions</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>ActiveState::Handy - Collection of small utility functions</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ use ActiveState::Handy qw(add);
+ my $sum = add(1, 2, 3);</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module provides a collection of small utility functions.</p>
+<p>The following functions are provided:</p>
+<dl>
+<dt><strong><a name="item_add">add( @numbers )</a></strong>
+
+<dd>
+<p>Adds the given arguments together.</p>
+</dd>
+</li>
+<dt><strong><a name="item_cat">cat( $file )</a></strong>
+
+<dd>
+<p>Returns the content of a file.  Returns <a href="../../../../../lib/5.8.7/pod/perlfunc.html#item_undef"><code>undef</code></a> if the file could not
+be opened.  Unlike the <a href="#item_cat"><code>cat(1)</code></a> command it only takes a single file
+name argument.  The file is read in binary mode.</p>
+</dd>
+</li>
+<dt><strong><a name="item_cat_text">cat_text( $file )</a></strong>
+
+<dd>
+<p>Just like <a href="#item_cat"><code>cat()</code></a> but will read the file in text mode.  Makes a
+difference on some platforms (like Windows).</p>
+</dd>
+</li>
+<dt><strong><a name="item_ceil">ceil( $number )</a></strong>
+
+<dd>
+<p>Rounds the number up to the nearest integer.  Same as POSIX::ceil().</p>
+</dd>
+</li>
+<dt><strong><a name="item_cp_files">cp_files( $from, $to, @files )</a></strong>
+
+<dd>
+<p>Copies files from source to destination directory. Destination directory
+will be created if it doesn't exist.  Function dies if any file cannot
+be found.</p>
+</dd>
+</li>
+<dt><strong><a name="item_cp_tree">cp_tree( $from, $to )</a></strong>
+
+<dd>
+<p>Recursively copies all files and subdirectories from source to destination
+directory. All destination directories will be created if they don't
+already exist.</p>
+</dd>
+</li>
+<dt><strong><a name="item_iso_date">iso_date( $time )</a></strong>
+
+<dt><strong>iso_date( $y, $m, $d )</strong>
+
+<dd>
+<p>Returns a ISO 8601 formatted date; YYYY-MM-DD format.  See
+<code>http://www.cl.cam.ac.uk/~mgk25/iso-time.html</code>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_xml_esc">xml_esc( $text )</a></strong>
+
+<dd>
+<p>Will escape a piece of text so it can be embedded as text in an XML
+element.</p>
+</dd>
+</li>
+<dt><strong><a name="item_xml_clean">xml_clean( $text )</a></strong>
+
+<dd>
+<p>Will remove control characters so it can be embedded as text in an XML
+element. Does not perform escaping.</p>
+</dd>
+</li>
+</dl>
+<p>For legacy reasons this module re-exports the functions run(),
+<code>shell_quote()</code> and <code>decode_status()</code> from <code>ActiveState::Run</code>.</p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>none.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/ActiveState/Run.html">the ActiveState::Run manpage</a></p>
+
+</body>
+
+</html>

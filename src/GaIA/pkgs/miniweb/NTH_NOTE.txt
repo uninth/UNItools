@@ -1,0 +1,12 @@
+
+Hi everybody,
+Just wanted to share that if you don't want to browse across the source files and you need to configure miniweb these are the parameters:
+-p port (integer)
+-r path (path to dir)
+-l logfile (path to file)
+-m maxclients (integer)
+-d ListDirectories (boolean)
+Example:
+miniweb.exe -p 80 -r c:\httproot -l c:\miniweb\miniweb.log -m 500 -d 1
+ 
+

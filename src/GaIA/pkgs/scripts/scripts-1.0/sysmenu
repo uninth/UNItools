@@ -1,0 +1,474 @@
+#!/var/opt/UNItools/bin/bash
+#
+# $Header: /lan/ssi/projects/UNItools/Linux/rhes3.2/src/scripts/RCS/sysmenu,v 1.1 2005/09/20 20:15:08 root Exp $
+#
+# muck up
+#
+
+ADMIN_USER_NAME="`basename $0`"
+
+#
+# clean up on trap(s)
+#
+trap clean_f 1 2 3 13 15
+
+
+function clean_f() {
+	:
+	$echo "Trapped - ok."
+	# exit 1
+}
+
+function warn_host_menu {
+	cat << EOF
+     UNI-C Simple System Monitor System for FireWall-1
+------------------------------------------------------------------
+Hostnavn :......................... ${HOSTNAME}
+Firewall-1 status: ................ ${FWRUNNING}
+Antal konfigurerede interfaces: ... ${NO_IFS}
+------------------------------------------------------------------
+
+HUSK AT FJERNE MODEMET's KABEL FRA MASKINEN, ELLERS KAN DU HVERKEN
+STOPPE [halt] ELLER STARTE DEN !
+
+${ARCHIVE_ARR[@]}
+EOF
+#        while [ "$index" -lt "$element_count" ]
+#	do
+#	       echo "${ARCHIVE_ARR[$index]}"
+#	               let "index = $index + 1"
+#	       done
+	cat << EOF
+------------------------------------------------------------------
+EOF
+
+	while :;
+	do
+		choice_of "${STR8}" "${STR9}"
+
+		case ${CHOICE} in
+			"${STR8}")
+				break
+			;;
+			"${STR9}")
+				exit 0
+				break
+			;;
+			*)
+				echo unknown command
+			;;
+		esac
+	done
+	afterchoice
+}
+
+
+choice_of()
+{
+	beforemenu
+	select CHOICE
+	do
+		break
+	done
+}
+
+function beforemenu {
+cat << EOF
+
+Vælg venligst et af punkterne:
+------------------------------------------------------------------
+EOF
+}
+
+function afterchoice {
+	echo -en "\\033[2J\\033[1;1H"
+}
+
+function warn_menu {
+	afterchoice
+	cat << EOF
+
+Dette er sidste chance for at fortryde. Er du sikker på, at du vil
+$*
+
+EOF
+}
+
+function remote_menu {
+	afterchoice
+	while :;
+	do
+		choice_of "Ingenting endnu ... "
+		# $echo $N "argumenter til 'nmap':  $C"
+		# read OPT_ARG
+		# /var/opt/UNItools/bin/nmap $OPT_ARG
+		$echo $N "Tast <enter> $C"
+		read OK
+		break
+
+	done
+}
+
+function tools_menu {
+	afterchoice
+	echo "------------------------------------------------------------------"
+	echo "Vælg et værktøj. Efter valget får du en - kort - beskrivelse"
+	echo "samt mulighed for at angive eventuelle parametre."
+	echo "------------------------------------------------------------------"
+	while :;
+	do
+		choice_of "${STR5}" "${STR13}" "${STR14}" "${STR15}" "${STR16}" "${STR17}" "${STR18}" "${STR20}" 
+
+		case ${CHOICE} in
+			"${STR5}")
+				echo done
+				break
+			;;
+
+			"${STR13}")
+			cat << EOF
+Minicom info:
+
+Hjælp:		CTRL-A Z
+Dial-dir:	CTRL-A D
+Slut:		CTRL-A x
+
+Afbryd hjælp/dial-dir/... med <escape>
+
+EOF
+			$echo $N "Starter 'minicom' <enter> $C"
+			read OK
+			#/bin/cp /var/opt/UNItools/etc/minirc.dfl	\
+			#	/var/opt/UNItools/etc/minirc.dfl.pre
+
+			/var/opt/UNItools/bin/minicom
+			#
+			# Dette er egentlig unødvendigt da vi tager backup.
+			# Men, alligevel ...
+			#
+			#OLDSUM=`md5sum /var/opt/UNItools/etc/minirc.dfl.pre | awk '{ print $1}'`
+			#NEWSUM=`md5sum /var/opt/UNItools/etc/minirc.dfl | awk '{ print $1}'`
+
+			#if [ "${OLDSUM}" != "${NEWSUM}" ]; then
+			#	/bin/mv /var/opt/UNItools/etc/minirc.dfl.pre	\
+			#	/var/opt/UNItools/etc/minirc.dfl.`/bin/date +%Y%m%d-%H%M%s `
+			#else
+			#	/bin/rm /var/opt/UNItools/etc/minirc.dfl.pre
+			#fi
+
+			$echo $N "Tast <enter> $C"
+			read OK
+		;;
+		"${STR14}") # nmap
+			/var/opt/UNItools/bin/nmap -h
+			$echo $N "argumenter til 'nmap':  $C"
+			read OPT_ARG
+			/var/opt/UNItools/bin/nmap $OPT_ARG
+			$echo $N "Tast <enter> $C"
+			read OK
+
+		;;
+			"${STR15}") # iptraf
+			/var/opt/UNItools/bin/iptraf -h
+			$echo $N "argumenter til 'iptraf' (kaldes normalt uden):  $C"
+			read OPT_ARG
+			/var/opt/UNItools/bin/iptraf $OPT_ARG
+			$echo $N "Tast <enter> $C"
+			read OK
+
+		;;
+			"${STR16}") # saidar
+			/var/opt/UNItools/bin/saidar -h
+			$echo $N "argumenter til 'saidar' (kaldes normalt uden):  $C"
+			read OPT_ARG
+			/var/opt/UNItools/bin/saidar $OPT_ARG
+			$echo $N "Tast <enter> $C"
+			read OK
+
+		;;
+			"${STR17}") # top
+			/usr/bin/top -h
+			$echo $N "argumenter til 'top' (kaldes normalt uden):  $C"
+			read OPT_ARG
+			/usr/bin/top $OPT_ARG
+			$echo $N "Tast <enter> $C"
+			read OK
+
+		;;
+			"${STR18}") # mtr
+			/var/opt/UNItools/bin/mtr -h
+			$echo $N "argumenter til 'mtr':  $C"
+			read OPT_ARG
+			/var/opt/UNItools/bin/mtr $OPT_ARG
+			$echo $N "Tast <enter> $C"
+			read OK
+
+		;;
+			"${STR20}") # mtr
+			$echo "Maskinen `hostname` har følgende interfaces:"
+			$echo "------------------------------------------------------------------"
+			/sbin/ifconfig -a
+			$echo "------------------------------------------------------------------"
+			/usr/sbin/tcpdump -h
+			$echo "------------------------------------------------------------------"
+			$echo $N "argumenter til 'tcpdump':  $C"
+			read OPT_ARG
+			/usr/sbin/tcpdump $OPT_ARG
+			$echo $N "Tast <enter> $C"
+			read OK
+
+		;;
+		*)
+			echo "${STR0}"
+			;;
+		esac
+	done
+}
+
+function halting_system_menu {
+	warn_menu "stoppe maskinen '${HOSTNAME}' (halt) ?"
+	while :;
+	do
+		choice_of "${STR6}" "${STR7}"
+
+		case ${CHOICE} in
+			"${STR6}")
+				echo "${STR1}"
+				${DO_SHUTDOWN}
+				exit 0
+			;;
+			"${STR7}")
+				echo done
+				break
+			;;
+			*)
+				echo "${STR0}"
+			;;
+		esac
+	done
+}
+function reboot_system_menu {
+	warn_menu "genstarte maskinen '${HOSTNAME}' (reboot) ?"
+	while :;
+	do
+	choice_of "${STR6}" "${STR7}"
+	case ${CHOICE} in
+		"${STR6}")
+			echo "${STR10}"
+			${DO_REBOOT}
+			exit 0
+		;;
+		"${STR7}")
+			echo done
+			break
+		;;
+		*)
+			echo "${STR0}"
+		;;
+	esac
+	done
+}
+
+function last_info {
+	cat << EOF
+Kontakt til UNI·C's sikkerhedsafdeling:
+====================================================================
+UNI·C Firewall Support           | e-mail:......<fwsupport@uni-c.dk>
+UNI·C, DTU, Bygning 304          | Phone:............+45 35 87 88 88
+DK-2800 Lyngby, Denmark          | Fax:..............+45 35 87 88 90
+                                 | WWW:....http://sikkerhed.uni-c.dk
+Key fingerprint = 8BCA C3D2 4FAA C9AF 3CE9  BEB0 2F59 FFD4 1ED9 5416
+====================================================================
+EOF
+}
+
+#
+# The real stuff
+#
+function reconfig_as {
+
+	${DOIT} $1
+	sleep 2
+
+	echo "Udfører en gammel UNIX besværgelse (sync'er filsystemet tre gange :)"
+	sync; sync; sync
+	echo
+
+	cat << EOF
+Maskinen skal genstartes før ændringerne træder i kraft.  Vælg
+'genstart' hvis den oprindelige maskine ikke længere findes og
+'sluk' hvis den stadig er aktiv og mangler at blive ændret eller
+slukket.
+EOF
+
+
+	while :;
+	do
+	choice_of "genstart" "sluk"
+	case ${CHOICE} in
+		"genstart")
+			echo "${STR10}"
+			${DO_REBOOT}
+			exit 0
+		;;
+		"sluk")
+			echo "${STR1}"
+			${DO_SHUTDOWN}
+			exit 0
+		;;
+		*)
+			echo "${STR0}"
+		;;
+	esac
+	done
+}
+
+
+#
+# Vars
+#
+
+
+PS3='------------------------------------------------------------------
+Dit valg: '
+
+STR0="Prøv igen med et af tallene"
+STR1="stopper maskinen (halt) Sluk for strømmen om 1 min."
+
+STR2="Genstart som en anden maskine"
+STR3="stop (halt) maskinen"
+STR4="reboot / genstart maskinen"
+STR5="slut"
+
+STR6="Ja"
+STR7="Nej"
+
+STR8="Fortsæt"
+STR9="Afbryd uden at lave ændringer"
+
+STR10="Genstart af maskinen tager ca. 4 min."
+STR11="Nyt passwd for $ADMIN_USER_NAME"
+STR12="Kontakt til UNI·C"
+STR13="minicom (modem)"
+STR14="nmap (scanner)"
+STR15="iptraf (IP trafik)"
+STR16="saidar (IO stat)"
+STR17="top (PS stat)"
+STR18="mtr (ICMP traceroute)"
+STR19="Tools "
+STR20="Tcpdump "
+STR21="Remote ... "
+
+MYNAME=`basename $0`
+MYDIR="/var/opt/UNIha"
+DOIT=${MYDIR}/bin/doit.sh
+
+DO_SHUTDOWN="/sbin/shutdown -p now"
+DO_REBOOT="/sbin/shutdown -r now"
+
+################################################################################
+# Main
+################################################################################
+
+echo="builtin echo"
+case ${N}$C in
+	"") if $echo "\c" | grep c >/dev/null 2>&1; then
+		N='-n'
+	else
+		C='\c'
+	fi ;;
+esac
+
+#
+# Sæt er environment svarende til interaktiv login som admin
+#
+ADMIN_HOME=`awk -F: '$1 == "admin" { print $6 }' /etc/passwd`
+case `/bin/uname` in
+        IPSO)           . $ADMIN_HOME/.profile        > /dev/null 2>&1
+        ;;
+        Linux|Solaris)  . $ADMIN_HOME/.bash_profile   > /dev/null 2>&1
+                        . $ADMIN_HOME/.bashrc         > /dev/null 2>&1
+        ;;
+        *)              . $ADMIN_HOME/.profile        > /dev/null 2>&1
+        ;;
+esac
+
+#
+# Hostnavn og status for om fw1 kører samt antal
+# konfigurerede interfaces. Vis det for at undgå
+# en søvnig operatør tager fejl af to maskiner.
+#
+HOSTNAME=`hostname`.`domainname`
+FWRUNNING=`ps -eo fname | egrep '^fw$'`
+if [ -n "${FWRUNNING}" ]; then
+	FWRUNNING="startet og ok"
+else
+	FWRUNNING="standset og ikke ok"
+fi
+
+NO_IFS=`ifconfig -a 2>/dev/null | grep 'inet ' | grep -v 127.0.0.1 | wc -l | tr -d ' '`
+
+#
+# Tilgængelige arkiver
+#
+
+ADIR=${MYDIR}/archives
+# array med arkivnavne
+declare -a ARCHIVE_ARR
+ARCHIVE_ARR=(`ls ${ADIR} | sed 's/.tgz//g' `)
+index=0
+element_count=${#ARCHIVE_ARR[@]}
+
+echo -en "\\033[2J\\033[1;1H"
+# echo -en \\033[2J
+warn_host_menu
+
+#
+# Top level menu
+#
+while :;
+do
+	choice_of  "${STR5}" "${STR19}" "${STR3}" "${STR4}" "${STR11}" "${STR12}" "${STR21}"
+
+	case ${CHOICE} in
+		"${STR3}")
+			halting_system_menu
+		;;
+		"${STR4}")
+			reboot_system_menu
+		;;
+		"${STR5}")
+			echo done
+			break
+		;;
+		"${STR11}")
+			/usr/bin/passwd $ADMIN_USER_NAME
+			echo "Kodeordet er KUN rettet på denne maskine !"
+			$echo $N "Tast <enter> $C"
+			read OK
+		;;
+		"${STR12}")
+			last_info
+			$echo $N "Tast <enter> $C"
+			read OK
+		;;
+		"${STR19}")
+			tools_menu
+			$echo $N "Tast <enter> $C"
+			read OK
+		;;
+		"${STR21}")
+			remote_menu
+			$echo $N "Tast <enter> $C"
+			read OK
+		;;
+		*)
+			echo "${STR0}"
+		;;
+	esac
+	afterchoice
+done
+
+# afterchoice
+
+exit 0

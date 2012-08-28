@@ -1,0 +1,4 @@
+@set UPDATED 8 August 2011
+@set UPDATED-MONTH August 2011
+@set EDITION 5.8
+@set VERSION 5.8

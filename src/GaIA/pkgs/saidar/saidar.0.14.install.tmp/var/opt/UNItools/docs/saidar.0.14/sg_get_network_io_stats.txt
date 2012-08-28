@@ -1,0 +1,104 @@
+sg_get_network_io_stats(3)			    sg_get_network_io_stats(3)
+
+
+
+NAME
+       sg_get_network_io_stats,	 sg_get_network_io_stats_diff  -  get  network
+       statistics
+
+SYNOPSIS
+       #include <statgrab.h>
+
+
+       sg_network_io_stats *sg_get_network_io_stats(int *entries);
+
+       sg_network_io_stats *sg_get_network_io_stats_diff(int *entries);
+
+DESCRIPTION
+       Both calls take a pointer to an int, entries, which is filled with  the
+       number  of  network  interfaces the machine has. This is needed to know
+       how many sg_network_io_stats structures have been returned.  A  pointer
+       is returned to the first sg_network_io_stats.
+
+       sg_get_network_io_stats	returns the network traffic stored in the ker-
+       nel which holds the amount of data transferred since  bootup.  On  some
+       platforms,  such	 as Solaris 7, this value is stored in a 32bit int, so
+       wraps around when it reaches 4GB. Other platforms, such as  Solaris  8,
+       hold  the  value	 in a 64bit int, which wraps somewhere near 17 million
+       terabytes.
+
+       sg_get_network_io_stats also returns the number	of  packets  sent  and
+       received, and the number of errors that have occured. It also makes the
+       number of collisions available.
+
+       sg_get_network_io_stats_diff is	the  same  as  sg_get_network_io_stats
+       except  it  will	 return	 the  difference  since the last call. So, for
+       instance a call to sg_get_network_io_stats_diff	is  made,  and	called
+       again  5	 seconds later. Over that time, 20 bytes of traffic was trans-
+       mitted and 10 bytes received. Tx will store 20, rx will	store  10  and
+       systime	will store 5. This function copes with wrap arounds by the O/S
+       so should be seemless to use.
+
+RETURN VALUES
+       All network statistics return a pointer to a structure of type  sg_net-
+       work_io_stats.
+
+
+       typedef struct{
+	       char *interface_name;
+	       long long tx;
+	       long long rx;
+	       long long ipackets;
+	       long long opackets;
+	       long long ierrors;
+	       long long oerrors;
+	       long long collisions;
+	       time_t systime;
+       }sg_network_io_stats;
+
+
+       interface_name
+	      The  name known to the operating system.	(eg. on linux it might
+	      be eth0)
+
+       tx     The number of bytes transmitted.
+
+       rx     The number of bytes received.
+
+       ipackets
+	      The number of packets received.
+
+       opackets
+	      The number of packets transmitted.
+
+       ierrors
+	      The number of receive errors.
+
+       oerrors
+	      The number of transmit errors.
+
+       collisions
+	      The number of collisions.
+
+       systime
+	      The time period over which tx and rx were transferred.
+
+BUGS
+       On the very first call  sg_get_network_io_stats_diff  will  return  the
+       same  as	 sg_get_network_io_stats.  After the first call it will always
+       return the difference.
+
+       On operating system that hold only 32bits of data there is a problem if
+       the  values wrap twice. For example, on Solaris 7 if 9GB is transferred
+       and the operating system wraps at 4GB, the sg_get_network_io_stats_diff
+       function will return 5GB.
+
+SEE ALSO
+       statgrab(3)
+
+WEBSITE
+       http://www.i-scream.org/libstatgrab/
+
+
+
+i-scream		 $Date: 2005/04/25 11:25:45 sg_get_network_io_stats(3)

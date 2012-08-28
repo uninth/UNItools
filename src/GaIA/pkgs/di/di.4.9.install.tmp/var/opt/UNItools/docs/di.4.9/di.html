@@ -1,0 +1,523 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of di</TITLE>
+</HEAD><BODY>
+<H1>di</H1>
+Section: User Commands  (1)<BR>Updated: 20 Nov 2005<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>Name</H2>
+
+di - disk information
+<A NAME="lbAC">&nbsp;</A>
+<H2>Synopsis</H2>
+
+
+
+
+
+<B>di</B>
+
+[<B>-AaghHklLmnPtZ</B>]
+[<B>-b</B> <I>block-size</I>]
+[<B>-d</B> <I>display-size</I>]
+[<B>-f</B> <I>format</I>]
+[<B>-I</B> <I>include-fstyp-list</I>]
+[<B>-s</B> <I>sort-type</I>]
+[<B>-w</B> <I>block-width</I>]
+[<B>-W</B> <I>inode-width</I>]
+[<B>-x</B> <I>exclude-fstyp-list</I>]
+[<B>-X</B> <I>debug-level</I>]
+[<B>-z</B> <I>zone-name</I>]
+[<I>file</I> [...]]
+<P>
+
+<B>mi</B>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>Description</H2>
+
+
+
+
+<I>di</I> Displays usage information on mounted filesystems.  Block values are
+reported in megabytes (1024k bytes) by default, but may be changed.
+If <I>file</I> is specified, the usage information for the partition on which
+<I>file</I> is located is printed.
+<P>
+
+Unless the -a flag is specified, the following mounted
+filesystems will not
+normally be displayed: filesystems
+with total blocks &lt;= 0; filesystems marked by the operating
+system as &quot;ignore&quot;; automounted filesystems that are duplicates
+of other normally mounted filesystems; loopback filesystems
+that are part of a zone (Solaris).
+<P>
+
+<I>mi</I> Displays the mounted filesystem information.
+<P>
+
+Several switches may be specified to
+control the output of
+<I>di</I> and <I>mi</I>:
+<DL COMPACT>
+<DT><B>-A</B>
+
+<DD>
+Print all fields (used for debugging).  Mount points and special
+device names are printed at full width.  The -a flag is set.
+<DT><B>-a</B>
+
+<DD>
+Prints all mounted devices (normally, those with 0 total blocks are not
+printed - e.g. <B>/dev/proc</B>, <B>/dev/fd</B>).
+<DT><B>-b</B>
+
+<DD>
+<I>block-size</I>
+
+(compatibility: -B)
+<BR>
+
+Change the base block size from 1024 (default) to the size specified.
+<I>block-size</I> may be one of: k&nbsp;-&nbsp;1024 bytes, d&nbsp;-&nbsp;1000 bytes,
+or a specific size.
+<DT><B>-d</B>
+
+<DD>
+<I>display-size</I>
+
+Display the blocks in units specified by <I>display-size</I>.
+<I>display-size</I>
+may be one of: 512&nbsp;-&nbsp;POSIX, k&nbsp;-&nbsp;kilobytes,
+m&nbsp;-&nbsp;megabytes, g&nbsp;-&nbsp;gigabytes, t&nbsp;-&nbsp;terabytes, P&nbsp;-&nbsp;petabytes,
+E&nbsp;-&nbsp;exabytes, Z&nbsp;-&nbsp;zettabytes, Y&nbsp;-&nbsp;yottabytes,
+h&nbsp;-&nbsp;Scaled alternative 1, H&nbsp;-&nbsp;Scaled alternative 2,
+or a specific value to use as the block size.
+<DT><DD>
+Block display sizes greater than 1024 bytes are displayed with a precision
+of one decimal place after the radix.
+<DT><DD>
+The Scaled alternatives scale the sizes displayed and
+appends a suffix (e.g. 48.0k, 3.4M).
+<DT><DD>
+With scaled alternative 1, sizes within a
+line may scale to different units.
+<DT><DD>
+Scaled alternative 2 scales all the sizes in each individual line
+to the same unit size (the largest needed).
+<DT><B>-f</B>
+
+<DD>
+<I>format</I>
+
+Use the specified format string <I>format</I>.  Format strings are
+described below.
+<DT><B>-g</B>
+
+<DD>
+(alias for: -dg)
+<BR>
+
+Display sizes in gigabytes.
+<DT><B>-h</B>
+
+<DD>
+(alias for: -dh)
+<BR>
+
+Display partition sizes in scaled alternative 1 format.
+<DT><B>-H</B>
+
+<DD>
+(alias for: -dH)
+<BR>
+
+Display partition sizes in scaled alternative 2 format.
+<DT><B>-I</B>
+
+<DD>
+<I>include-fstype-list</I>
+
+(compatibility: -F)
+<BR>
+
+Include <I>only</I> the file system types listed in <I>include-fstyp-list</I>.
+The list is a comma separated list of file system types.
+Multiple -I options may be specified.
+e.g. -I nfs,rfs or -I nfs -I rfs.
+<DT><B>-k</B>
+
+<DD>
+(alias for: -dk)
+<BR>
+
+Display sizes in Kbytes.
+<DT><B>-l</B>
+
+<DD>
+Display only local file systems.
+<DT><B>-L</B>
+
+<DD>
+Don't do the check for duplicate filesystems.
+<DT><B>-m</B>
+
+<DD>
+(alias for: -dm)
+<BR>
+
+Display sizes in megabytes.
+<DT><B>-n</B>
+
+<DD>
+Do not print a header line above the list of file systems.  Useful when
+parsing the output of <I>di</I>.
+<DT><B>-P</B>
+
+<DD>
+Output format is POSIX standard.
+512 byte block size is the default.  The -k option may be used.
+<DT><B>-s</B>
+
+<DD>
+<I>sort-type</I>
+
+<BR>
+
+Use <I>sort-type</I> to sort the output.
+The output of <I>di</I> is normally sorted by name.  The output may
+be left unsorted (<B>-s&nbsp;n</B> command line switch) i.e. as it appears
+in the mount table or may be
+sorted by the special device name
+(<B>-s&nbsp;s</B> command line switch).  If the <B>-s &nbsp;r</B> command line
+switch is used, the sort order will be reversed.
+If <I>file</I> is specified on the
+command line, no sorting is done.
+<DT><B>-t</B>
+
+<DD>
+Print a totals line below the list of file systems.
+Memory filesystems (tmpfs, mfs) and read-only
+filesystems are not added to the totals.
+<DT><B>-w</B>
+
+<DD>
+<I>block-width</I>
+
+<BR>
+
+Set the print width for block values.  Default is eight.
+<DT><B>-W</B>
+
+<DD>
+<I>inode-width</I>
+
+<BR>
+
+Set the print width for inode values.  Default is seven.
+<DT><B>-x</B>
+
+<DD>
+<I>exclude-fstype-list</I>
+
+(old: -i)
+<BR>
+
+Exclude the file system types listed in <I>exclude-fstyp-list</I>.
+The list is a comma separated list of file system types.
+Multiple -x options may be specified.
+e.g. -x nfs,rfs or -x nfs -x rfs.
+<DT><B>-X</B>
+
+<DD>
+<I>level</I>
+
+<BR>
+
+Set the program's debugging level to <I>debug-level</I>.
+<DT><B>-z</B>
+
+<DD>
+<I>zone-name</I>
+
+<BR>
+
+Display the filesystems for the specified zone.
+The zone must be visible to the user.
+<DT><B>-Z</B>
+
+<DD>
+(alias for: -z all)
+<BR>
+
+Display the filesystems for all visible zones.
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>Format strings</H2>
+
+The output of <I>di</I> may be specified via a format string.  This
+string may be given either via the <B>-f</B> command line switch or by
+the <B>DIFMT</B> environment variable.  The format string may specify the
+following columns:
+<DL COMPACT><DT><DD>
+<DL COMPACT>
+<DT><B>m</B>
+
+<DD>
+Print the name of the mount point.
+<DT><B>M</B>
+
+<DD>
+Print the name of the mount point, at full length.  The mount point
+is formatted to the maximum width necessary for the longest mount
+point name.
+<DT><B>b</B>
+
+<DD>
+Print the total number of megabytes on the file system.
+See also the -d option.
+<DT><B>B</B>
+
+<DD>
+Print the total number of megabytes on the file system
+available for use by normal
+users.
+See also the -d option.
+<DT><B>u</B>
+
+<DD>
+Print the number of megabytes in use on the file system
+(actual number of megabytes used = total - free).
+See also the -d option.
+<DT><B>c</B>
+
+<DD>
+Print the number of megabytes not available for use by normal users
+(total - available).
+See also the -d option.
+<DT><B>f</B>
+
+<DD>
+Print the number of free (unused) megabytes on the file system.
+See also the -d option.
+<DT><B>v</B>
+
+<DD>
+Print the number of megabytes available for use by normal users.
+See also the -d option.
+<DT><B>p</B>
+
+<DD>
+Print the percentage of megabytes not available for use by normal users
+(number of megabytes not available for use / total disk space).
+See also the -d option.
+<DT><B>1</B>
+
+<DD>
+Print the percentage of total megabytes in use
+(actual number of megabytes used / total disk space).
+See also the -d option.
+<DT><B>2</B>
+
+<DD>
+Print the percentage of megabytes in use, BSD-style.  Represents the
+percentage of user-available space in use.  Note that values over 100%
+are possible
+(actual number of megabytes used / disk
+space available to non-root users).
+See also the -d option.
+<DT><B>a</B>
+
+<DD>
+Print the percentage of megabytes available for use by normal users
+(number of megabytes available for use / total disk space).
+See also the -d option.
+<DT><B>3</B>
+
+<DD>
+Print the percentage of total megabytes free
+(actual number of megabytes free / total disk space).
+See also the -d option.
+<DT><B>i</B>
+
+<DD>
+Print the total number of file slots (inodes) that can be created on the file
+system.
+<DT><B>U</B>
+
+<DD>
+Print the number of file slots in use.
+<DT><B>F</B>
+
+<DD>
+Print the number of file slots available.
+<DT><B>P</B>
+
+<DD>
+Print the percentage of file slots in use.
+<DT><B>s</B>
+
+<DD>
+Print the file system name (special device or remote mount point).
+<DT><B>S</B>
+
+<DD>
+Print the file system name (special device or remote mount point),
+at full length.
+The file system name
+is formatted to the maximum width necessary for the longest file system
+name.
+<DT><B>t</B>
+
+<DD>
+Print the file system type.
+<DT><B>T</B>
+
+<DD>
+Print the file system type at full length.  The file system type
+is formatted to the maximum width necessary for the longest file system
+type.
+<DT><B>I</B>
+
+<DD>
+Print the time the filesystem was mounted.  This column is
+not supported on all systems.
+<DT><B>O</B>
+
+<DD>
+Print the filesystem mount options.
+</DL>
+</DL>
+
+<P>
+
+The default format string for <I>di</I> is <B>smbuvpT</B>.
+<P>
+
+The default format string for <I>mi</I> is <B>MSTIO</B>.
+<P>
+
+The format string may also contain any other character not listed
+above.  The character will be printed as is.  e.g. di -f 'mbuvp|iUFP'
+will print the character '|' between the disk usage and the file slot
+usage.  The command sequence (Bourne Shell):
+<DL COMPACT><DT><DD>
+<BR>
+
+di -f 'mbuvp
+<BR>
+
+miUFP'
+<BR>
+
+</DL>
+
+will print two lines of data for each filesystem.
+<A NAME="lbAF">&nbsp;</A>
+<H2>Examples</H2>
+
+Various <I>df</I>
+equivalent format strings for System V release 4 are:
+<P>
+
+<DL COMPACT><DT><DD>
+<I>/usr/bin/df -v</I>     di -P -f msbuf1
+<BR>
+
+<I>/usr/bin/df -k</I>     di -dk -f sbcvpm
+<BR>
+
+<I>/usr/ucb/df</I>        di -dk -f sbuv2m
+</DL>
+
+<P>
+
+If you like your numbers to add up/calculate the percentage
+correctly, try one
+of the following format strings:
+<P>
+
+<DL COMPACT><DT><DD>
+di -f SMbuf1T
+<BR>
+
+di -f SMbcvpT
+<BR>
+
+di -f SMBuv2T
+</DL>
+
+<A NAME="lbAG">&nbsp;</A>
+<H2>Environment Variables</H2>
+
+The DIFMT environment variable may be used to specify the default
+display format string.
+<P>
+
+The DI_ARGS environment variable may be used to specify command
+line arguments.  e.g. If you always want gigabytes displayed, set
+DI_ARGS equal to &quot;-dg&quot;.  Any command line arguments specified
+will override the DI_ARGS environment variable.
+<P>
+
+The GNU df POSIXLY_CORRECT, and DF_BLOCK_SIZE and the BSD BLOCKSIZE
+environment variables are honored.
+<A NAME="lbAH">&nbsp;</A>
+<H2>Note</H2>
+
+For filesystems that do not report available blocks (e.g. System V
+release 3), the number of available blocks is considered to be the
+number of free blocks.
+<A NAME="lbAI">&nbsp;</A>
+<H2>WARNING</H2>
+
+Do not replace your system's <I>df</I> command with this program.  You
+will in all likelihood break your installation procedures.
+<A NAME="lbAJ">&nbsp;</A>
+<H2>See Also</H2>
+
+<A HREF="../man1/df.1.html">df</A>(1), <A HREF="../man5/fstab.5.html">fstab</A>(5), <A HREF="../man2/getmnt.2.html">getmnt</A>(2), <A HREF="../man2/getmntinfo.2.html">getmntinfo</A>(2), <A HREF="../man4/mnttab.4.html">mnttab</A>(4), <A HREF="../man1M/mount.1M.html">mount</A>(1M)
+<A HREF="../man2/statfs.2.html">statfs</A>(2), <A HREF="../man2/statvfs.2.html">statvfs</A>(2)
+<A NAME="lbAK">&nbsp;</A>
+<H2>Bugs</H2>
+
+Send bug reports to: <A HREF="mailto:di-bugs@gentoo.com">di-bugs@gentoo.com</A>
+<A NAME="lbAL">&nbsp;</A>
+<H2>Website</H2>
+
+<A HREF="http://www.gentoo.com/di/">http://www.gentoo.com/di/</A>
+<A NAME="lbAM">&nbsp;</A>
+<H2>Author</H2>
+
+This program is Copyright 1994-2006 by Brad Lanam.
+<P>
+
+Brad Lanam, Walnut Creek, CA (<A HREF="mailto:bll@gentoo.com">bll@gentoo.com</A>)
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">Name</A><DD>
+<DT><A HREF="#lbAC">Synopsis</A><DD>
+<DT><A HREF="#lbAD">Description</A><DD>
+<DT><A HREF="#lbAE">Format strings</A><DD>
+<DT><A HREF="#lbAF">Examples</A><DD>
+<DT><A HREF="#lbAG">Environment Variables</A><DD>
+<DT><A HREF="#lbAH">Note</A><DD>
+<DT><A HREF="#lbAI">WARNING</A><DD>
+<DT><A HREF="#lbAJ">See Also</A><DD>
+<DT><A HREF="#lbAK">Bugs</A><DD>
+<DT><A HREF="#lbAL">Website</A><DD>
+<DT><A HREF="#lbAM">Author</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 18:54:30 GMT, August 22, 2012
+</BODY>
+</HTML>

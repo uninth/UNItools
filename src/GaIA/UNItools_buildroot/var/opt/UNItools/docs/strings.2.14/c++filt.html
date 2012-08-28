@@ -1,0 +1,205 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of C++FILT</TITLE>
+</HEAD><BODY>
+<H1>C++FILT</H1>
+Section: GNU Development Tools (1)<BR>Updated: 2003-04-27<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+c++filt - Demangle C++ and Java symbols.
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<A NAME="ixAAC"></A>
+c++filt [<B>-_</B>|<B>--strip-underscores</B>]
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<B>-j</B>|<B>--java</B>]
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<B>-n</B>|<B>--no-strip-underscores</B>]
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<B>-s</B>&nbsp;<I>format</I>|<B>--format=</B><I>format</I>]
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[<B>--help</B>]&nbsp;&nbsp;[<B>--version</B>]&nbsp;&nbsp;[<I>symbol</I>...]
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<A NAME="ixAAD"></A>
+The C<FONT SIZE="-2">++</FONT> and Java languages provides function overloading, which means
+that you can write many functions with the same name (providing each
+takes parameters of different types).  All C<FONT SIZE="-2">++</FONT> and Java function names
+are encoded into a low-level assembly label (this process is known as
+<I>mangling</I>). The <B>c++filt</B>
+[1]
+program does the inverse mapping: it decodes (<I>demangles</I>) low-level
+names into user-level names so that the linker can keep these overloaded
+functions from clashing.
+<P>
+
+Every alphanumeric word (consisting of letters, digits, underscores,
+dollars, or periods) seen in the input is a potential label.  If the
+label decodes into a C<FONT SIZE="-2">++</FONT> name, the C<FONT SIZE="-2">++</FONT> name replaces the low-level
+name in the output.
+<P>
+
+You can use <B>c++filt</B> to decipher individual symbols:
+<P>
+
+
+
+<PRE>
+        c++filt &lt;symbol&gt;
+
+</PRE>
+
+
+<P>
+
+If no <I>symbol</I> arguments are given, <B>c++filt</B> reads symbol
+names from the standard input and writes the demangled names to the
+standard output.  All results are printed on the standard output.
+<A NAME="lbAE">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+<A NAME="ixAAE"></A>
+<DL COMPACT>
+<DT><B>-_</B><DD>
+<A NAME="ixAAF"></A>
+
+<DT><B>--strip-underscores</B><DD>
+<A NAME="ixAAG"></A>
+
+On some systems, both the C and C<FONT SIZE="-2">++</FONT> compilers put an underscore in front
+of every name.  For example, the C name <TT>&quot;foo&quot;</TT> gets the low-level
+name <TT>&quot;_foo&quot;</TT>.  This option removes the initial underscore.  Whether
+<B>c++filt</B> removes the underscore by default is target dependent.
+<DT><B>-j</B><DD>
+<A NAME="ixAAH"></A>
+
+<DT><B>--java</B><DD>
+<A NAME="ixAAI"></A>
+
+Prints demangled names using Java syntax.  The default is to use C<FONT SIZE="-2">++</FONT>
+syntax.
+<DT><B>-n</B><DD>
+<A NAME="ixAAJ"></A>
+
+<DT><B>--no-strip-underscores</B><DD>
+<A NAME="ixAAK"></A>
+
+Do not remove the initial underscore.
+<DT><B>-s</B> <I>format</I><DD>
+<A NAME="ixAAL"></A>
+
+<DT><B>--format=</B><I>format</I><DD>
+<A NAME="ixAAM"></A>
+
+<B>c++filt</B> can decode various methods of mangling, used by
+different compilers.  The argument to this option selects which
+method it uses:
+<DL COMPACT><DT><DD>
+<DL COMPACT>
+<DT>auto<DD>
+
+
+<A NAME="ixAAN"></A>
+Automatic selection based on executable (the default method)
+<DT>gnu<DD>
+
+
+<A NAME="ixAAO"></A>
+the one used by the <FONT SIZE="-1">GNU</FONT> C<FONT SIZE="-2">++</FONT> compiler (g++)
+<DT>lucid<DD>
+
+
+<A NAME="ixAAP"></A>
+the one used by the Lucid compiler (lcc)
+<DT>arm<DD>
+
+
+<A NAME="ixAAQ"></A>
+the one specified by the C<FONT SIZE="-2">++</FONT> Annotated Reference Manual
+<DT>hp<DD>
+
+
+<A NAME="ixAAR"></A>
+the one used by the <FONT SIZE="-1">HP</FONT> compiler (aCC)
+<DT>edg<DD>
+
+
+<A NAME="ixAAS"></A>
+the one used by the <FONT SIZE="-1">EDG</FONT> compiler
+<DT>gnu-v3<DD>
+
+
+<A NAME="ixAAT"></A>
+the one used by the <FONT SIZE="-1">GNU</FONT> C<FONT SIZE="-2">++</FONT> compiler (g++) with the V3 <FONT SIZE="-1">ABI</FONT>.
+<DT>java<DD>
+
+
+<A NAME="ixAAU"></A>
+the one used by the <FONT SIZE="-1">GNU</FONT> Java compiler (gcj)
+<DT>gnat<DD>
+
+
+<A NAME="ixAAV"></A>
+the one used by the <FONT SIZE="-1">GNU</FONT> Ada compiler (<FONT SIZE="-1">GNAT</FONT>).
+</DL>
+</DL>
+
+<DL COMPACT><DT><DD>
+</DL>
+
+<DT><B>--help</B><DD>
+<A NAME="ixAAW"></A>
+Print a summary of the options to <B>c++filt</B> and exit.
+<DT><B>--version</B><DD>
+<A NAME="ixAAX"></A>
+Print the version number of <B>c++filt</B> and exit.
+</DL>
+<A NAME="lbAF">&nbsp;</A>
+<H2>FOOTNOTES</H2>
+
+<A NAME="ixAAY"></A>
+<DL COMPACT>
+<DT>1.<DD>
+MS-DOS does not allow <TT>&quot;+&quot;</TT> characters in file names, so on
+MS-DOS this program is named <B>c++filt</B>.
+</DL>
+<A NAME="lbAG">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<A NAME="ixAAZ"></A>
+the Info entries for <I>binutils</I>.
+<A NAME="lbAH">&nbsp;</A>
+<H2>COPYRIGHT</H2>
+
+<A NAME="ixABA"></A>
+Copyright (c) 1991, 92, 93, 94, 95, 96, 97, 98, 99, 2000,
+2001, 2002, 2003 Free Software Foundation, Inc.
+<P>
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the <FONT SIZE="-1">GNU</FONT> Free Documentation License, Version 1.1
+or any later version published by the Free Software Foundation;
+with no Invariant Sections, with no Front-Cover Texts, and with no
+Back-Cover Texts.  A copy of the license is included in the
+section entitled ``<FONT SIZE="-1">GNU</FONT> Free Documentation License''.
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">OPTIONS</A><DD>
+<DT><A HREF="#lbAF">FOOTNOTES</A><DD>
+<DT><A HREF="#lbAG">SEE ALSO</A><DD>
+<DT><A HREF="#lbAH">COPYRIGHT</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 12:13:16 GMT, August 25, 2016
+</BODY>
+</HTML>

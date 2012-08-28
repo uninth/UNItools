@@ -1,0 +1,718 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of TCPSTAT</TITLE>
+</HEAD><BODY>
+<H1>TCPSTAT</H1>
+Section: User Commands  (1)<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+<BR>BSD mandoc<BR>
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+
+
+<B>tcpstat</B>
+
+ - report network interface statistics
+
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>tcpstat</B>
+
+[-<B>?haeFlp</B>
+
+]
+
+[-<B>B </B><I>bps</I>
+
+
+
+]
+
+[-<B>b </B><I>bps</I>
+
+
+
+]
+
+[-<B>f </B><I>filter expr</I>
+
+
+
+]
+
+[-<B>i </B><I>interface</I>
+
+
+
+]
+
+[-<B>o </B><I>output</I>
+
+
+
+]
+
+[-<B>R </B><I>seconds</I>
+
+
+
+]
+
+[-<B>r </B><I>filename</I>
+
+
+
+]
+
+[-<B>s </B><I>seconds</I>
+
+
+
+]
+
+[<I>interval</I>
+
+]
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<B>tcpstat</B>
+
+
+reports certain network interface statistics much like
+<A HREF="../man8/vmstat.8.html">vmstat</A>(8)
+
+
+does for system statistics.  Statistics include bandwidth being used,
+number of packets, average packet size, and much more.
+<P>
+
+Network information is collected either by reading data from
+<I>filename</I>
+
+ 
+or by directly monitoring the network interface
+<I>interface</I>
+
+ 
+The default action for
+<B>tcpstat</B>
+
+
+is to automatically search for an appropriate
+interface, and to show current statistics on it.
+<P>
+
+<I>interval </I>
+
+is the sample interval, in seconds, in which the statistics are based upon
+and when in default mode, how often the display is updated. If -1 is
+given, then the interval is taken to be the entire length of the sample.  
+Default is 5 seconds.
+<P>
+
+When reading data from
+<I>filename</I>
+
+ 
+<B>tcpstat</B>
+
+
+will exit immediately after the entire file has been processed.  When
+collecting data from
+<I>interface</I>
+
+ 
+<B>tcpstat</B>
+
+
+will keep running unless the
+-<B>s</B>
+
+option had been specified.
+<P>
+
+<A NAME="lbAE">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+The options are as follows:
+<DL COMPACT>
+<P>
+
+<DT><B>-a</B>
+
+
+<DD>
+Accounting mode.  Displays the estimated number of bytes per second,
+minute, hour, day, and month.
+<DT><B>-b </B><I>bps</I>
+
+
+
+
+<DD>
+Bandwidth mode.
+Displays the total number of seconds the
+data-throughput exceeded
+<I>bps</I>
+
+ 
+and the percentage of total time this was,
+as if the interface were limited to
+<I>bps</I>
+
+bits per second.  See the
+Sx NOTES
+
+section below to see how the
+<I>interval</I>
+
+affects bandwidth calculation.
+<DT><B>-B </B><I>bps</I>
+
+
+
+
+<DD>
+&quot;Dumb&quot; bandwidth mode.  Displays the total number of seconds the
+data-throughput exceeded
+<I>bps</I>
+
+ 
+and the percentage of total time this was.  See the
+Sx NOTES
+
+section below to see difference between &quot;dumb&quot; and normal
+bandwidth modes.
+<DT><B>-e</B>
+
+
+<DD>
+Suppresses the display of empty intervals.
+<DT><B>-F</B>
+
+
+<DD>
+Flush all output streams after printing each interval.  Sometimes useful
+when redirecting output into a file, or piping tcpstat into another
+program like
+<A HREF="../man1/grep.1.html">grep</A>(1).
+
+
+<DT><B>-f </B><I>filter expr</I>
+
+
+
+
+<DD>
+Filter the packets according the rules given by
+<I>filter expr</I>
+
+ 
+For the syntax of these rules, see
+<A HREF="../man1/tcpdump.1.html">tcpdump</A>(1).
+
+
+The argument must be quoted if it contains spaces in order to separate it
+from other options.
+<DT><B>-h , -
+
+</B>
+
+
+<DD>
+ 
+Display version and a brief help message.
+<DT><B>-i </B><I>interface</I>
+
+
+
+
+<DD>
+Do a live capture (rather than read from a file) on the interface
+<I>interface</I>
+
+given on the command line.  If
+<I>interface</I>
+
+is &quot;auto&quot; then
+<B>tcpstat</B>
+
+
+tries to find an appropriate one by itself.
+<DT><B>-l</B>
+
+
+<DD>
+Include the size of the link-layer header when calculating statistics.
+(Ethernet only, right now.  Usually 14 bytes per packet.)
+<DT><B>-p</B>
+
+
+<DD>
+Set the interface into non-promiscuous mode (promiscuous
+is the default) when doing live captures.
+<DT><B>-o </B><I>format</I>
+
+
+
+
+<DD>
+Set the output format when displaying statistics.  See the
+Sx OUTPUT FORMAT
+
+section below for a description of the syntax.
+<DT><B>-R </B><I>seconds</I>
+
+
+
+
+<DD>
+Show the timestamp relative to
+<I>seconds</I>
+
+ 
+Avoid this option, because it will most likely go away in future versions.
+<DT><B>-r </B><I>filename</I>
+
+
+
+
+<DD>
+Read all data from
+<I>filename</I>
+
+ 
+which may be a regular file, a named pipe or &quot;-&quot; to read it's data from
+standard input. Acceptable file formats include pcap
+(tcpdump1
+
+
+files) and &quot;snoop&quot; format files.
+<I>filename</I>
+
+is usually a file created by the
+<A HREF="../man1/tcpdump.1.html">tcpdump</A>(1)
+
+
+command using the &quot;-w&quot; option.
+<DT><B>-s </B><I>seconds</I>
+
+
+
+
+<DD>
+When monitoring an interface, 
+<B>tcpstat</B>
+
+
+runs for only 
+<I>seconds </I>
+
+seconds, and then quits.  When reading from a data file,
+<B>tcpstat</B>
+
+
+prints statistics for
+<I>seconds</I>
+
+seconds relative to the first packet seen.
+</DL>
+<P>
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>OUTPUT FORMAT</H2>
+
+The
+<I>output</I>
+
+string is any quoted string, and
+<B>tcpstat</B>
+
+
+will write this string to the stdout.  In addition,
+<B>tcpstat</B>
+
+
+will substitute certain values for substrings which begin with a &quot;%&quot;, as
+well as most standard
+<A HREF="../man3/printf.3.html">printf</A>(3)
+
+
+&quot;\&quot; escape characters. Here is a list of all substitution strings:
+<DL COMPACT>
+<P>
+
+<DT><B>% A</B>
+
+
+<DD>
+the number of ARP packets
+<DT><B>% a</B>
+
+
+<DD>
+the average packet size in bytes
+<DT><B>% B</B>
+
+
+<DD>
+the number of bytes per second
+<DT><B>% b</B>
+
+
+<DD>
+the number of bits per second
+<DT><B>% C</B>
+
+
+<DD>
+the number of ICMP and ICMPv6 packets
+<DT><B>% d</B>
+
+
+<DD>
+the standard deviation of the size of each packet in bytes
+<DT><B>% I</B>
+
+
+<DD>
+the number of IPv4 packets
+<DT><B>% l</B>
+
+
+<DD>
+the network &quot;load&quot; over the last minute, similar to
+<A HREF="../man1/uptime.1.html">uptime</A>(1)
+
+
+<DT><B>% M</B>
+
+
+<DD>
+the maximum packet size in bytes
+<DT><B>% m</B>
+
+
+<DD>
+the minimum packet size in bytes
+<DT><B>% N</B>
+
+
+<DD>
+the number of bytes
+<DT><B>% n</B>
+
+
+<DD>
+the number of packets
+<DT><B>% p</B>
+
+
+<DD>
+the number of packets per second
+<DT><B>% R</B>
+
+
+<DD>
+same as %S, but relative to the first packet seen
+<DT><B>% r</B>
+
+
+<DD>
+same as %s, but relative to the first packet seen
+<DT><B>% S</B>
+
+
+<DD>
+the timestamp for the interval in seconds after the &quot;UNIX epoch&quot;
+<DT><B>% s</B>
+
+
+<DD>
+the timestamp for the interval in seconds.microseconds after the &quot;UNIX epoch&quot;
+<DT><B>% T</B>
+
+
+<DD>
+the number of TCP packets
+<DT><B>% U</B>
+
+
+<DD>
+the number of UDP packets
+<DT><B>% V</B>
+
+
+<DD>
+the number of IPv6 packets
+<DT><B>% </B><I>number</I>
+
+
+
+
+<DD>
+switch the output to the file descriptor
+<I>number</I>
+
+at this point in the string.  All output for each interval before this
+parameter is by default the standard output (file descriptor 1).  Useful
+when redirecting the output into more than one file (or fifo) for separate
+statistics.  Be sure you know where they are going.  Writing to &quot;dangling&quot;
+file descriptors (without directing them to a specific destination) may
+produce unexpected results.
+<DT><B>% %</B>
+
+
+<DD>
+the &quot;%&quot; character
+</DL>
+<P>
+
+<P>
+
+The default
+<I>format</I>
+
+string for
+<B>tcpstat</B>
+
+
+is:
+<P>
+
+&quot;Time:%S\tn=%n\tavg=%a\tstddev=%d\tbps=%b\n&quot;
+<P>
+
+which will produce an output which would look similar to:
+
+<PRE>
+Time:940948785  n=107   avg=251.81      stddev=422.45   bps=43110.40
+Time:940948790  n=99    avg=400.21      stddev=539.39   bps=63393.60
+Time:940948795  n=43    avg=257.16      stddev=352.83   bps=17692.80
+</PRE>
+
+<P>
+
+It is worth noting for example, that many of the protocol filters (%T, %U,
+etc.) may be seen as being redundant because protocols can be filtered
+using
+-<B>f</B>
+
+(see
+Sx OPTIONS
+
+above)
+<A NAME="lbAG">&nbsp;</A>
+<H2>SIGNALS</H2>
+
+Upon receiving a SIGINT,
+<B>tcpstat</B>
+
+
+will print any remaining statistics, and then exit.
+Upon receiving a SIGUSR1 when printing intervals,
+<B>tcpstat</B>
+
+
+will print the current statistics immediately.  This can be useful
+when using an interval length of &quot;-1&quot; to print statistics on demand.
+<A NAME="lbAH">&nbsp;</A>
+<H2>FILES</H2>
+
+<DL COMPACT>
+<P>
+
+<DT><B>/dev/bpf n</B>
+
+
+
+
+
+
+<DD>
+the packet filter device
+</DL>
+<P>
+
+<A NAME="lbAI">&nbsp;</A>
+<H2>EXAMPLES</H2>
+
+
+<BLOCKQUOTE><TT>tcpstat -i fxp0</TT></BLOCKQUOTE>
+<P>
+
+Displays the default statistics every 5 seconds of all traffic currently
+passing through the fxp0 network interface.
+<P>
+
+
+<BLOCKQUOTE><TT>tcpstat -r file.dump</TT></BLOCKQUOTE>
+<P>
+
+Displays the default statistics every 5 seconds from the
+<A HREF="../man1/tcpdump.1.html">tcpdump</A>(1)
+
+
+generated file &quot;file.dump&quot;.
+<P>
+
+
+<BLOCKQUOTE><TT>&quot;tcpstat -f 'port (smtp or http)' -o '%S %b\n' -r file.dump&quot; 2.3</TT></BLOCKQUOTE>
+<P>
+
+Displays every 2.3 seconds the timestamp together with smtp and http
+traffic throughput of the data from &quot;file.dump&quot;, in a format which would
+be suitable for
+<A HREF="../man1/gnuplot.1.html">gnuplot</A>(1).
+
+
+<P>
+
+
+<BLOCKQUOTE><TT>tcpstat -b 28800 -r file.dump 0.5</TT></BLOCKQUOTE>
+<P>
+
+Displays what percentage of the traffic in file.dump exceeded the speed of
+my modem (28800 bits per second.)
+<P>
+
+<A NAME="lbAJ">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<A HREF="../man1/tcpdump.1.html">tcpdump</A>(1),
+
+
+<A HREF="../man3/pcap.3.html">pcap</A>(3),
+
+
+<A HREF="../man4/bpf.4.html">bpf</A>(4),
+
+
+<A HREF="../man3/printf.3.html">printf</A>(3)
+
+
+
+<A NAME="lbAK">&nbsp;</A>
+<H2>NOTES</H2>
+
+<A NAME="lbAL">&nbsp;</A>
+<H3>Interval size affects bandwidth</H3>
+
+Due to the nature of how bandwidth is actually measured (from discrete
+samples of data), the bandwidth numbers displayed will vary according to the
+<I>interval</I>
+
+variable.  Generally speaking, if you often have rapid bursts of packet data,
+the bandwidth reported will not reflect this when
+<I>interval</I>
+
+is sufficiently large.  This results in an &quot;averaging&quot; effect, which may or
+may not be desired.  On the other hand, if
+<I>interval</I>
+
+is too small (say &lt; 0.01), this results in unrealisticaly large
+bandwidths for very short amounts of time.
+<P>
+
+The reason for the latter is that most network interfaces do not hand over
+packets bit by bit, but rather packet by packet.  Thus, each packet is
+reported as being tranfered &quot;instantaneously&quot;, resulting in &quot;infinite&quot; (or
+rather indeterminable) bandwidth.  Thus, when counting single bits on the
+wire, there really is no such thing as &quot;bandwidth&quot; because they aren't
+really moving from the network stack's point of view (cf. Zeno's Paradox.)
+<P>
+
+A possible solution is to internaly spline the packet sizes together and
+report the bandwidth as the scalar integral over the given interval, but
+this has yet to be implimented, and to be honest, would be the proverbial
+cruise missle to destroy an ant hill.
+<P>
+
+That being said (whew!), a &quot;good value&quot; for
+<I>interval</I>
+
+is usualy somewhere between 0.5 and 2.
+<A NAME="lbAM">&nbsp;</A>
+<H3>Difference between normal and 'dumb' bandwidth modes.</H3>
+
+In normal bandwidth mode, when an interval exceeds the given bandwidth,
+the extra bytes are &quot;moved&quot; into the next interval.  This has the effect
+of trying to imagine how overloaded an interface would be if the interface
+had a smaller bandwidth, yet same amount of data tried to get through.
+<P>
+
+In &quot;dumb&quot; bandwidth mode, each interval which exceeds the given bandwidth
+is simply counted.  Nothin' else.
+<A NAME="lbAN">&nbsp;</A>
+<H2>HISTORY</H2>
+
+<B>tcpstat</B>
+
+
+was first written in Winter 1998 using
+Fx 3.0 ,
+
+and then finaly retrofited for Linux in Spring 2000.
+<A NAME="lbAO">&nbsp;</A>
+<H2>AUTHORS</H2>
+
+An Paul Herman Aq <A HREF="mailto:pherman@frenchfries.net">pherman@frenchfries.net</A>
+
+<BR>
+
+Cologne, Germany.
+<P>
+
+Please send all bug reports to this address.
+<A NAME="lbAP">&nbsp;</A>
+<H2>BUGS</H2>
+
+Due to a bug in libpcap, tcpstat will hang indefinately under Linux 
+when no packets arrive.  This is because the timeout in pcap_open_live()
+is ignored under Linux when the interface is idle, which causes pcap_dispatch()
+to never return.
+<P>
+
+Not tested with link types other than Ethernet, PPP, and &quot;None&quot; types.  
+<P>
+
+There may be problems reading non-IPv4 packets across platforms when
+reading null type link layers.  This is due to a lack of a standardized
+packet type descriptor in libpcap for this link type.
+<P>
+
+Snoop file formats cannot be read from stdin or named pipes.
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">OPTIONS</A><DD>
+<DT><A HREF="#lbAF">OUTPUT FORMAT</A><DD>
+<DT><A HREF="#lbAG">SIGNALS</A><DD>
+<DT><A HREF="#lbAH">FILES</A><DD>
+<DT><A HREF="#lbAI">EXAMPLES</A><DD>
+<DT><A HREF="#lbAJ">SEE ALSO</A><DD>
+<DT><A HREF="#lbAK">NOTES</A><DD>
+<DL>
+<DT><A HREF="#lbAL">Interval size affects bandwidth</A><DD>
+<DT><A HREF="#lbAM">Difference between normal and 'dumb' bandwidth modes.</A><DD>
+</DL>
+<DT><A HREF="#lbAN">HISTORY</A><DD>
+<DT><A HREF="#lbAO">AUTHORS</A><DD>
+<DT><A HREF="#lbAP">BUGS</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 18:56:55 GMT, August 22, 2012
+</BODY>
+</HTML>

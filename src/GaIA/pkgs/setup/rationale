@@ -1,0 +1,92 @@
+<p><h4>General information</h4></p>
+<p>Please do not configure the package untill all interfaces has been enabled
+and the firewall software installed.<br>
+Also notice, that ssh access without password for the user admin has been
+granted from UNI<FONT COLOR=RED><EM>&middot;</EM></FONT>C.<br>
+Notice, that if you choose to disable that
+by editing <code>/home/admin/.ssh/authorized_keys</code>, UNI<FONT COLOR=RED><EM>&middot;</EM></FONT>C can no longer maintain and monitor your firewall.</p>
+<p><h4>Requirements</h4></p>
+<p>This version of <b>UNItools 1.0</b> requires <em>Check Point NGX (R60)</em> on
+Secure Platform (SPLAT). Binaries etc. has been made on Red Hat Enterprice 3.0
+server edition (patched).</p>
+<p><b>Compatability</b></p>
+<p>Packages in <b>UNItools</b> version 1.0 are compatabile with Check Point
+Firewall-1 version NG and NGX. But <em>the installation script assumes
+NGX</em>. Notice, there are difference on backup/restore procedures, cron
+and other packages installed by Check Point.</p>
+<p><h4>Installation</h4></p>
+<p>On the new firewall, as the user <em>admin</em> in <em>expert</em> mode, do
+the following:<br>
+If you are working internally at UNI<FONT COLOR=RED><EM>&middot;</EM></FONT>C, do:
+<pre>
+	scp 172.16.201.90:/home/projects/UNItools/dist/Linux/NGX/1.0.UNItools.tgz /var/tmp
+</pre>
+Outside UNIC, mount the CDROM and execute:
+<pre>
+	cd /
+	tar xvfpz /mnt/cdrom/1.0.UNItools.tgz
+</pre><br>
+Then do <PRE>/var/opt/UNItools/setup/setup.sh <b>install</b></PRE></p>
+<p><h4>Configuration</h4></p>
+<p>Configuration is done by the installer which setup links inside
+<code>/var/opt/UNItools</code>, installs a default <code>/etc/ntp.conf</code>
+and <code>crontab</code> for the user <code>root</code>:
+<pre>
+0 1 * * 1,2,3,4,5,6,7 /bin/echo y | /bin/backup -p 10
+0 0 * * 1,2,3,4,5,6,7 backup_util sched
+</pre>
+The installation enables backup to local disk using <code>backup_util</code>
+and keeps only the last 10 days. The backup is scheduled by <code>cron</code>, 
+please edit <code>crontab</code> for the user <code>root</code> if you do
+not like the default settings
+<pre>
+	crontab -u root -e
+</pre>
+Some scripts has the ability to notify an e-mail address in case of errors.
+The settings is stored in <code>/var/opt/UNItools/conf/smtpclient.SH</code>.
+<br>
+The default mail recipient is <b>fwsupport@ssi.uni-c.dk</b>
+and the default mailhub <b>mail.ssi.uni-c.dk</b>. Please change to reflect
+your environment. The default configuration looks like this:
+<br>
+<pre>
+# Sending mail in case of errors
+# Firewall NIS / DNS domainname
+DNSDOMAIN=`domainname`
+
+case $DNSDOMAIN in
+        ""|\(none\))
+                DNSDOMAIN=""    # FQDN may be identical with `hostname`
+        ;;
+        *)      DNSDOMAIN=".${DNSDOMAIN}" # Append DNSDOMAIN tho hostname
+esac
+
+# There is no garantee for that this name is known in an external DNS
+# The name is used in the e-mail for tracking
+FQDN="`hostname`${DNSDOMAIN}"
+
+# Recipient
+DEF_RCPT="<b>fwsupport@ssi.uni-c.dk</b>"
+
+# Sender not capable of receiving mail
+DEF_FROM="no-reply@${FQDN}"
+
+# Reply to this address 
+DEF_RETO="fwsupport@ssi.uni-c.dk"
+
+# Send smtp errors to this address
+DEF_ERTO="<b>fwsupport@ssi.uni-c.dk</b>"
+
+# Use this mail hub
+DEF_SMTP="<b>mail.ssi.uni-c.dk</b>"
+
+# Options for smtpclient
+OPTIONS="-f ${DEF_FROM} -r ${DEF_RETO} -e ${DEF_ERTO} -S ${DEF_SMTP} ${DEF_RCPT}"
+# Path to smtpclient
+SMTPCLIENT="/var/opt/UNItools/bin/smtpclient"
+</pre>
+Also notice, that ssh access without password for the user admin has been
+granted from UNI<FONT COLOR=RED><EM>&middot;</EM></FONT>C.<br>
+Notice, that if you choose to disable that
+by editing <code>/home/admin/.ssh/authorized_keys</code>, UNI<FONT COLOR=RED><EM>&middot;</EM></FONT>C
+can no longer maintain and monitor your firewall.</p>

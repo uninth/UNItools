@@ -1,0 +1,8 @@
+export LDFLAGS=-static
+
+	MAKEFILE=mtr-0.69/Makefile
+	if [ ! -f ${MAKEFILE}.org ]; then
+		cp $MAKEFILE ${MAKEFILE}.org
+	fi
+	sed 's/^LDFLAGS =.*/LDFLAGS = -static/g' < ${MAKEFILE}.org > $MAKEFILE
+

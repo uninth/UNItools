@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./copifuncs/copi.ifmcfg2</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir"># Transport programs for mail and news, used by iftoss</span>
+<span class="line">    1 </span>sendmail <span class="sym">/</span>usr<span class="sym">/</span>lib<span class="sym">/</span>sendmail <span class="sym">-</span>f $F $T
+<span class="line">    2 </span>rnews  <span class="sym">/</span>usr<span class="sym">/</span>lib<span class="sym">/</span>news<span class="sym">/</span>rnews
+<span class="line">    3 </span>
+<span class="line">    4 </span><span class="dir"># Unpackers, used by ifunpack.</span>
+<span class="line">    5 </span><span class="dir"># $F expands to archieve file name</span>
+<span class="line">    6 </span>unzip  <span class="sym">/</span>usr<span class="sym">/</span>bin<span class="sym">/</span>unzip <span class="sym">-</span>oq $F
+<span class="line">    7 </span>unarj  <span class="sym">/</span>usr<span class="sym">/</span>bin<span class="sym">/</span>unarj e $F
+<span class="line">    8 </span><span class="dir">#unarc  /usr/bin/unpack $F</span>
+<span class="line">    9 </span>unzoo  <span class="sym">/</span>usr<span class="sym">/</span>bin<span class="sym">/</span>zoo <span class="sym">-</span>extract $F
+<span class="line">   10 </span>unlzh  <span class="sym">/</span>usr<span class="sym">/</span>bin<span class="sym">/</span>lharc <span class="sym">-</span>x $F
+<span class="line">   11 </span>
+<span class="line">   12 </span><span class="dir"># Packer program, used by ifpack</span>
+<span class="line">   13 </span><span class="dir"># $F expands to archieve file name, $P - to list of packet names</span>
+<span class="line">   14 </span>packer  <span class="sym">/</span>usr<span class="sym">/</span>bin<span class="sym">/</span>zip $F $P
+<span class="line">   15 </span>
+<span class="line">   16 </span><span class="dir"># Maximum arcmail file size, will start new arcmail file if exceeds</span>
+<span class="line">   17 </span>maxfsize <span class="num">65000</span>
+<span class="line">   18 </span>
+<span class="line">   19 </span><span class="dir"># Maximum packet size, ifmail/ifnews will start new packet if exeeds.</span>
+<span class="line">   20 </span><span class="dir"># .out files are NOT created if nonzero specified, you must run ifpack</span>
+<span class="line">   21 </span><span class="dir"># to make packets out. (unimplemented)</span>
+<span class="line">   22 </span>maxpsize    <span class="num">65000</span>
+<span class="line">   23 </span>
+<span class="line">   24 </span><span class="dir"># cnews log file and (temporary) database for seen-bys</span>
+<span class="line">   25 </span>newslog  <span class="sym">/</span>usr<span class="sym">/</span>lib<span class="sym">/</span>news<span class="sym">/</span>log
+<span class="line">   26 </span>msgidbm  <span class="sym">/</span>tmp<span class="sym">/</span>ifmsgids
+<span class="line">   27 </span>
+<span class="line">   28 </span><span class="dir"># From this line on, values may be prefixed by a logical expression in</span>
+<span class="line">   29 </span><span class="dir"># round brackets. Operators are:</span> <span class="dstr">'!'</span><span class="dir">,</span> <span class="dstr">'&amp;'</span><span class="dir">,</span> <span class="dstr">'|'</span><span class="dir">,</span> <span class="dstr">'Xor'</span><span class="dir">.</span>
+<span class="line">   30 </span><span class="dir"># Possible elements are:</span>
+<span class="line">   31 </span><span class="dir"># - Nodelist flags (like</span> <span class="dstr">&quot;CM&quot;</span><span class="dir">,</span> <span class="dstr">&quot;MNP&quot;</span><span class="dir">,</span> <span class="dstr">&quot;V32&quot;</span><span class="dir"> etc.)</span>
+<span class="line">   32 </span><span class="dir"># - speed &lt;operator&gt; &lt;numeric&gt;</span>
+<span class="line">   33 </span><span class="dir">#         where &lt;operator&gt; is</span> <span class="dstr">'='</span><span class="dir">,</span> <span class="dstr">'!='</span><span class="dir">,</span> <span class="dstr">'&lt;'</span><span class="dir">,</span> <span class="dstr">'&gt;'</span><span class="dir">,</span> <span class="dstr">'&lt;='</span><span class="dir">,</span> <span class="dstr">'&gt;='</span><span class="dir"></span>
+<span class="line">   34 </span><span class="dir"># - address &lt;wildcard&gt;</span>
+<span class="line">   35 </span><span class="dir">#         where &lt;wildcard&gt; is an (possibly incomplete) fidonet address,</span>
+<span class="line">   36 </span><span class="dir">#         e.g.</span> <span class="dstr">&quot;5020/*&quot;</span><span class="dir"></span>
+<span class="line">   37 </span><span class="dir"># - time &lt;interval&gt;[,&lt;interval&gt;,...]</span>
+<span class="line">   38 </span><span class="dir">#         where &lt;interval&gt; is a day spec. with optional time spec., e.g.</span>
+<span class="line">   39 </span><span class="dir">#         Wk2000-0900,Sat1800-0000,Sun</span>
+<span class="line">   40 </span><span class="dir"># - phone &lt;prefix&gt;</span>
+<span class="line">   41 </span><span class="dir">#         e.g.</span> <span class="dstr">&quot;phone 7-095-&quot;</span><span class="dir"></span>
+<span class="line">   42 </span>
+<span class="line">   43 </span><span class="dir"># Dialing parameters</span>
+<span class="line">   44 </span><span class="dir"># of multiple</span> <span class="dstr">&quot;ModemPort&quot;</span><span class="dir">,</span> <span class="dstr">&quot;ModemReset&quot;</span><span class="dir">,</span> <span class="dstr">&quot;ModemDial&quot;</span><span class="dir">,</span> <span class="dstr">&quot;ModemHangup&quot;</span><span class="dir"> lines,</span>
+<span class="line">   45 </span><span class="dir"># first matching is used.</span>
+<span class="line">   46 </span><span class="dir"># of multiple</span> <span class="dstr">&quot;PhoneTrans&quot;</span><span class="dir">,</span> <span class="dstr">&quot;ModemConnect&quot;</span><span class="dir">,</span> <span class="dstr">&quot;ModemError&quot;</span><span class="dir"> lines, all matching</span>
+<span class="line">   47 </span><span class="dir"># are used.</span>
+<span class="line">   48 </span><span class="dir"># In send and expect strings, following substitutions are made:</span>
+<span class="line">   49 </span><span class="dir"># \\</span> <span class="dstr">'</span><span class="esc">\'</span> <span class="dstr">character</span>
+<span class="line">   50 </span><span class="dstr">#</span> <span class="esc">\r</span> <span class="dstr">carriage return (0x0d)</span>
+<span class="line">   51 </span><span class="dstr">#</span> <span class="esc">\n</span> <span class="dstr">new line (0x0a)</span>
+<span class="line">   52 </span><span class="dstr">#</span> <span class="esc">\t</span> <span class="dstr">tab (0x09)</span>
+<span class="line">   53 </span><span class="dstr">#</span> <span class="esc">\b</span> <span class="dstr">backspace (0x08)</span>
+<span class="line">   54 </span><span class="dstr">#</span> <span class="esc">\s</span> <span class="dstr">space (0x20)</span>
+<span class="line">   55 </span><span class="dstr">#</span> <span class="esc">\N</span><span class="dstr">NN (where N is an octal digit) - character with octal code NNN</span>
+<span class="line">   56 </span><span class="dstr">#</span> <span class="esc">\d</span> <span class="dstr">1 second delay (send strings only)</span>
+<span class="line">   57 </span><span class="dstr">#</span> <span class="esc">\p</span> <span class="dstr">1/4 second pause (send strings only)</span>
+<span class="line">   58 </span><span class="dstr">#</span> <span class="esc">\T</span> <span class="dstr">translated telephone no. (send strings only)</span>
+<span class="line">   59 </span><span class="dstr">#</span> <span class="esc">\D</span> <span class="dstr">untranslated telephone no. (send strings only)</span>
+<span class="line">   60 </span><span class="dstr"></span>
+<span class="line">   61 </span><span class="dstr"># ModemPort present a blank-separated list of ports with possible speed</span>
+<span class="line">   62 </span><span class="dstr"># extention (separated by colon); if speed is prefixed with '</span><span class="dir">L</span><span class="dstr">', it is</span>
+<span class="line">   63 </span><span class="dstr"># a &quot;locked&quot; port speed, otherwise it is a maximum speed to be set, while</span>
+<span class="line">   64 </span><span class="dstr"># actual speed is taken from the nodelist.  If speed is omitted (or set</span>
+<span class="line">   65 </span><span class="dstr"># to zero), previous port speed is not changed.</span>
+<span class="line">   66 </span><span class="dstr">#ModemPort (time Any0000-0900,Sat,Sun) ttyS0</span>
+<span class="line">   67 </span><span class="dstr">#ModemPort cua0:L38400</span><span class="dir"></span>
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

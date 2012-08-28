@@ -1,0 +1,377 @@
+.\"
+.\" $Id: di.1,v 1.34 2006-09-23 13:19:02-07 bll Exp $
+.\" $Revision: 1.34 $
+.\"
+.\" di.1
+.\"
+.\" Copyright 1994-2006 Brad Lanam  Walnut Creek CA USA
+.\"
+.\" bll@gentoo.com
+.\"
+.TH di 1 "20 Nov 2005"
+.SH Name
+di \- disk information
+.SH Synopsis
+.\" di [-AaghHklLmnPtZ] [-b block-size] [-d display-size] [-f format]
+.\" [-I include-fstyp-list] [-s sort-type] [-w block-width]
+.\" [-W inode-width] [-x exclude-fstyp-list] [-X debug-level]
+.\" [-z zone-name] [file [...]]
+.B di
+[\fB\-AaghHklLmnPtZ\fP]
+[\fB\-b\fP \fIblock\-size\fP]
+[\fB\-d\fP \fIdisplay\-size\fP]
+[\fB\-f\fP \fIformat\fP]
+[\fB\-I\fP \fIinclude\-fstyp\-list\fP]
+[\fB\-s\fP \fIsort\-type\fP]
+[\fB\-w\fP \fIblock\-width\fP]
+[\fB\-W\fP \fIinode\-width\fP]
+[\fB\-x\fP \fIexclude\-fstyp\-list\fP]
+[\fB\-X\fP \fIdebug-level\fP]
+[\fB\-z\fP \fIzone\-name\fP]
+[\fIfile\fP [...]]
+.PP
+.B mi
+.SH Description
+.NXA "di command" "dumpfs command"
+.NXA "di command" "df command"
+.NXR "disk" "displaying free space"
+\fIdi\fP Displays usage information on mounted filesystems.  Block values are
+reported in megabytes (1024k bytes) by default, but may be changed.
+If \fIfile\fP is specified, the usage information for the partition on which
+\fIfile\fP is located is printed.
+.PP
+Unless the \-a flag is specified, the following mounted
+filesystems will not
+normally be displayed: filesystems
+with total blocks <= 0; filesystems marked by the operating
+system as "ignore"; automounted filesystems that are duplicates
+of other normally mounted filesystems; loopback filesystems
+that are part of a zone (Solaris).
+.PP
+\fImi\fP Displays the mounted filesystem information.
+.PP
+Several switches may be specified to
+control the output of
+\fIdi\fP and \fImi\fP:
+.TP
+.B \-A
+Print all fields (used for debugging).  Mount points and special
+device names are printed at full width.  The \-a flag is set.
+.TP
+.B \-a
+Prints all mounted devices (normally, those with 0 total blocks are not
+printed \- e.g. \fB/dev/proc\fP, \fB/dev/fd\fP).
+.TP
+.B \-b
+.I block\-size
+(compatibility: \-B)
+.br
+Change the base block size from 1024 (default) to the size specified.
+\fIblock\-size\fP may be one of: k\ \-\ 1024 bytes, d\ \-\ 1000 bytes,
+or a specific size.
+.TP
+.B \-d
+.I display\-size
+Display the blocks in units specified by \fIdisplay\-size\fP.
+\fIdisplay\-size\fP
+may be one of: 512\ \-\ POSIX, k\ \-\ kilobytes,
+m\ \-\ megabytes, g\ \-\ gigabytes, t\ \-\ terabytes, P\ \-\ petabytes,
+E\ \-\ exabytes, Z\ \-\ zettabytes, Y\ \-\ yottabytes,
+h\ \-\ Scaled alternative 1, H\ \-\ Scaled alternative 2,
+or a specific value to use as the block size.
+.IP
+Block display sizes greater than 1024 bytes are displayed with a precision
+of one decimal place after the radix.
+.IP
+The Scaled alternatives scale the sizes displayed and
+appends a suffix (e.g. 48.0k, 3.4M).
+.IP
+With scaled alternative 1, sizes within a
+line may scale to different units.
+.IP
+Scaled alternative 2 scales all the sizes in each individual line
+to the same unit size (the largest needed).
+.TP
+.B \-f
+.I format
+Use the specified format string \fIformat\fP.  Format strings are
+described below.
+.TP
+.B \-g
+(alias for: \-dg)
+.br
+Display sizes in gigabytes.
+.TP
+.B \-h
+(alias for: \-dh)
+.br
+Display partition sizes in scaled alternative 1 format.
+.TP
+.B \-H
+(alias for: \-dH)
+.br
+Display partition sizes in scaled alternative 2 format.
+.TP
+.B \-I
+.I include\-fstype\-list
+(compatibility: \-F)
+.br
+Include \fIonly\fP the file system types listed in \fIinclude\-fstyp\-list\fP.
+The list is a comma separated list of file system types.
+Multiple \-I options may be specified.
+e.g. \-I nfs,rfs or \-I nfs \-I rfs.
+.TP
+.B \-k
+(alias for: \-dk)
+.br
+Display sizes in Kbytes.
+.TP
+.B \-l
+Display only local file systems.
+.TP
+.B \-L
+Don't do the check for duplicate filesystems.
+.TP
+.B \-m
+(alias for: \-dm)
+.br
+Display sizes in megabytes.
+.TP
+.B \-n
+Do not print a header line above the list of file systems.  Useful when
+parsing the output of \fIdi\fP.
+.TP
+.B \-P
+Output format is POSIX standard.
+512 byte block size is the default.  The \-k option may be used.
+.TP
+.B \-s
+.I sort\-type
+.br
+Use \fIsort\-type\fP to sort the output.
+The output of \fIdi\fP is normally sorted by name.  The output may
+be left unsorted (\fB-s\ n\fP command line switch) i.e. as it appears
+in the mount table or may be
+sorted by the special device name
+(\fB-s\ s\fP command line switch).  If the \fB-s \ r\fP command line
+switch is used, the sort order will be reversed.
+If \fIfile\fP is specified on the
+command line, no sorting is done.
+.TP
+.B \-t
+Print a totals line below the list of file systems.
+Memory filesystems (tmpfs, mfs) and read-only
+filesystems are not added to the totals.
+.TP
+.B \-w
+.I block\-width
+.br
+Set the print width for block values.  Default is eight.
+.TP
+.B \-W
+.I inode\-width
+.br
+Set the print width for inode values.  Default is seven.
+.TP
+.B \-x
+.I exclude\-fstype\-list
+(old: \-i)
+.br
+Exclude the file system types listed in \fIexclude\-fstyp\-list\fP.
+The list is a comma separated list of file system types.
+Multiple \-x options may be specified.
+e.g. \-x nfs,rfs or \-x nfs \-x rfs.
+.TP
+.B \-X
+.I level
+.br
+Set the program's debugging level to \fIdebug-level\fP.
+.TP
+.B \-z
+.I zone-name
+.br
+Display the filesystems for the specified zone.
+The zone must be visible to the user.
+.TP
+.B \-Z
+(alias for: \-z all)
+.br
+Display the filesystems for all visible zones.
+.SH Format strings
+The output of \fIdi\fP may be specified via a format string.  This
+string may be given either via the \fB-f\fP command line switch or by
+the \fBDIFMT\fP environment variable.  The format string may specify the
+following columns:
+.RS .5
+.TP
+.B m
+Print the name of the mount point.
+.TP
+.B M
+Print the name of the mount point, at full length.  The mount point
+is formatted to the maximum width necessary for the longest mount
+point name.
+.TP
+.B b
+Print the total number of megabytes on the file system.
+See also the \-d option.
+.TP
+.B B
+Print the total number of megabytes on the file system
+available for use by normal
+users.
+See also the \-d option.
+.TP
+.B u
+Print the number of megabytes in use on the file system
+(actual number of megabytes used = total \- free).
+See also the \-d option.
+.TP
+.B c
+Print the number of megabytes not available for use by normal users
+(total \- available).
+See also the \-d option.
+.TP
+.B f
+Print the number of free (unused) megabytes on the file system.
+See also the \-d option.
+.TP
+.B v
+Print the number of megabytes available for use by normal users.
+See also the \-d option.
+.TP
+.B p
+Print the percentage of megabytes not available for use by normal users
+(number of megabytes not available for use / total disk space).
+See also the \-d option.
+.TP
+.B 1
+Print the percentage of total megabytes in use
+(actual number of megabytes used / total disk space).
+See also the \-d option.
+.TP
+.B 2
+Print the percentage of megabytes in use, BSD-style.  Represents the
+percentage of user-available space in use.  Note that values over 100%
+are possible
+(actual number of megabytes used / disk
+space available to non-root users).
+See also the \-d option.
+.TP
+.B a
+Print the percentage of megabytes available for use by normal users
+(number of megabytes available for use / total disk space).
+See also the \-d option.
+.TP
+.B 3
+Print the percentage of total megabytes free
+(actual number of megabytes free / total disk space).
+See also the \-d option.
+.TP
+.B i
+Print the total number of file slots (inodes) that can be created on the file
+system.
+.TP
+.B U
+Print the number of file slots in use.
+.TP
+.B F
+Print the number of file slots available.
+.TP
+.B P
+Print the percentage of file slots in use.
+.TP
+.B s
+Print the file system name (special device or remote mount point).
+.TP
+.B S
+Print the file system name (special device or remote mount point),
+at full length.
+The file system name
+is formatted to the maximum width necessary for the longest file system
+name.
+.TP
+.B t
+Print the file system type.
+.TP
+.B T
+Print the file system type at full length.  The file system type
+is formatted to the maximum width necessary for the longest file system
+type.
+.TP
+.B I
+Print the time the filesystem was mounted.  This column is
+not supported on all systems.
+.TP
+.B O
+Print the filesystem mount options.
+.RE
+.PP
+The default format string for \fIdi\fP is \fBsmbuvpT\fP.
+.PP
+The default format string for \fImi\fP is \fBMSTIO\fP.
+.PP
+The format string may also contain any other character not listed
+above.  The character will be printed as is.  e.g. di \-f 'mbuvp|iUFP'
+will print the character '|' between the disk usage and the file slot
+usage.  The command sequence (Bourne Shell):
+.RS
+.br
+di \-f 'mbuvp
+.br
+miUFP'
+.br
+.RE
+will print two lines of data for each filesystem.
+.SH Examples
+Various \fIdf\fP
+equivalent format strings for System V release 4 are:
+.PP
+.RS
+\fI/usr/bin/df \-v\fP     di \-P \-f msbuf1
+.br
+\fI/usr/bin/df \-k\fP     di \-dk \-f sbcvpm
+.br
+\fI/usr/ucb/df\fP        di \-dk \-f sbuv2m
+.RE
+.PP
+If you like your numbers to add up/calculate the percentage
+correctly, try one
+of the following format strings:
+.PP
+.RS
+di \-f SMbuf1T
+.br
+di \-f SMbcvpT
+.br
+di \-f SMBuv2T
+.RE
+.SH Environment Variables
+The DIFMT environment variable may be used to specify the default
+display format string.
+.PP
+The DI_ARGS environment variable may be used to specify command
+line arguments.  e.g. If you always want gigabytes displayed, set
+DI_ARGS equal to "-dg".  Any command line arguments specified
+will override the DI_ARGS environment variable.
+.PP
+The GNU df POSIXLY_CORRECT, and DF_BLOCK_SIZE and the BSD BLOCKSIZE
+environment variables are honored.
+.SH Note
+For filesystems that do not report available blocks (e.g. System V
+release 3), the number of available blocks is considered to be the
+number of free blocks.
+.SH WARNING
+Do not replace your system's \fIdf\fP command with this program.  You
+will in all likelihood break your installation procedures.
+.SH See Also
+df(1), fstab(5), getmnt(2), getmntinfo(2), mnttab(4), mount(1M)
+statfs(2), statvfs(2)
+.SH Bugs
+Send bug reports to: di-bugs@gentoo.com
+.SH Website
+http://www.gentoo.com/di/
+.SH Author
+This program is Copyright 1994-2006 by Brad Lanam.
+.PP
+Brad Lanam, Walnut Creek, CA (bll@gentoo.com)

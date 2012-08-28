@@ -1,0 +1,196 @@
+export NMAP_VERSION = 3.93
+NMAP_NAME= nmap
+NMAP_URL= http://www.insecure.org/nmap/
+NMAP_PLATFORM=i686-pc-linux-gnu
+prefix = /var/opt/UNItools
+exec_prefix = ${prefix}
+bindir = /var/opt/UNItools/bin
+sbindir = ${exec_prefix}/sbin
+mandir = /var/opt/UNItools/share/man
+srcdir = .
+nmapdatadir = ${prefix}/share/nmap
+deskdir = $(prefix)/share/applications
+
+export NBASEDIR=nbase
+export NSOCKDIR=nsock
+CC = gcc
+CXX = g++
+CCOPT = 
+LIBPCAPDIR = libpcap
+LIBPCREDIR = libpcre
+export LIBDNETDIR = libdnet-stripped
+DEFS = -DHAVE_CONFIG_H -DNMAP_VERSION=\"$(NMAP_VERSION)\" -DNMAP_NAME=\"$(NMAP_NAME)\" -DNMAP_URL=\"$(NMAP_URL)\" -DNMAP_PLATFORM=\"$(NMAP_PLATFORM)\" -DNMAPDATADIR=\"$(nmapdatadir)\"
+# For mtrace debugging -- see MTRACE define in main.cc for instructions
+# Should only be enabled during debugging and not in any real release.
+# DEFS += -DMTRACE=1
+CXXFLAGS = -Ilibdnet-stripped/include -g -O2 -Wall  -Ilibpcap -Inbase -Insock/include $(CCOPT) $(DEFS)
+CPPFLAGS = 
+# CFLAGS = $(CXXFLAGS)
+# CFLAGS = $(DEFS) $(INCLS)
+STATIC =
+LDFLAGS = -Llibpcap -static -Lnbase -Lnsock/src/ $(STATIC)
+LIBS =  -lnbase -lnsock -lpcre -lpcap  libdnet-stripped/src/.libs/libdnet.a -lm 
+# LIBS =  -lefence -lm 
+# LIBS =  -lrmalloc -lm 
+SHTOOL = ./shtool
+INSTALL = $(SHTOOL) install 
+MAKEDEPEND = @MAKEDEPEND@
+export RPMTDIR=$(HOME)/rpm
+
+# DESTDIR is used by some package maintainers to install Nmap under
+# its usual directory structure into a different tree.  See the 
+# CHANGELOG for more info.
+DESTDIR =
+
+TARGET = nmap
+TARGETNMAPFE=
+INSTALLNMAPFE=
+
+export SRCS = main.cc nmap.cc targets.cc tcpip.cc nmap_error.cc utils.cc idle_scan.cc osscan.cc output.cc scan_engine.cc timing.cc charpool.cc services.cc protocols.cc nmap_rpc.cc portlist.cc NmapOps.cc TargetGroup.cc Target.cc FingerPrintResults.cc service_scan.cc NmapOutputTable.cc MACLookup.cc 
+
+OBJS = main.o nmap.o targets.o tcpip.o nmap_error.o utils.o idle_scan.o osscan.o output.o scan_engine.o timing.o charpool.o services.o protocols.o nmap_rpc.o portlist.o NmapOps.o TargetGroup.o Target.o FingerPrintResults.o service_scan.o NmapOutputTable.o MACLookup.o 
+
+export DEPS = nmap.h nmap_amigaos.h nmap_error.h targets.h idle_scan.h osscan.h output.h scan_engine.h timing.h tcpip.h utils.h global_structures.h charpool.h services.h protocols.h nmap_rpc.h portlist.h NmapOps.h TargetGroup.h Target.h FingerPrintResults.h service_scan.h NmapOutputTable.h MACLookup.h
+
+
+# %.o : %.cc -- nope this is a GNU extension
+.cc.o:
+	$(CXX) -c $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+all: $(TARGET) $(TARGETNMAPFE)
+
+$(TARGET): $(DEPS) $(LIBPCAPDIR)/libpcap.a  libdnet-stripped/src/.libs/libdnet.a $(NBASEDIR)/libnbase.a $(NSOCKDIR)/src/libnsock.a $(OBJS)
+	@echo Compiling nmap
+	rm -f $@
+	$(CXX) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
+
+# This empty rule is used to force execution of certain rules where I can't conveniently specify
+# all of the prerequisites (e.g. recursive makes and such)
+FORCE:
+
+$(LIBPCREDIR)/libpcre.a: $(LIBPCREDIR)/Makefile FORCE
+	@echo Compiling libpcre; cd $(LIBPCREDIR) && $(MAKE)
+
+$(LIBDNETDIR)/src/.libs/libdnet.a: $(LIBDNETDIR)/Makefile FORCE
+	@echo Compiling libdnet; cd $(LIBDNETDIR) && $(MAKE)
+
+$(LIBPCAPDIR)/libpcap.a: $(LIBPCAPDIR)/Makefile FORCE
+	@echo Compiling libpcap; cd $(LIBPCAPDIR) && $(MAKE)
+
+$(NBASEDIR)/libnbase.a: $(NBASEDIR)/Makefile FORCE
+	@echo Compiling libnbase;
+	cd $(NBASEDIR) && $(MAKE)
+
+$(NSOCKDIR)/src/libnsock.a: $(NSOCKDIR)/src/Makefile FORCE
+	@echo Compiling libnsock;
+	cd $(NSOCKDIR)/src && $(MAKE)
+
+#$(LIBPCAPDIR)/Makefile:
+#	@echo Configuring libpcap; cd $(LIBPCAPDIR); ./configure
+
+nmapfe/nmapfe: 
+#	@echo "FAILURES HERE ARE OK -- THEY JUST MEAN YOU CANNOT USE nmapfe"
+#	-rm -f nmapfe/Makefile
+#	-cd nmapfe; ./configure;
+	@if test -f nmapfe/Makefile; then echo "Building NmapFE graphical frontend"; cd nmapfe && $(MAKE) VERSION=$(NMAP_VERSION) STATIC=$(STATIC); else echo "NmapFE will not be made -- your system lacks the capabilities (perhaps GTK) for this graphical frontend.  You can still run command-line nmap!"; fi
+#	-cd nmapfe; test -f Makefile && $(MAKE) VERSION=$(NMAP_VERSION) STATIC=$(STATIC);
+#	@echo "END OF SECTION WHERE FAILURES ARE OK"
+
+# Make a statically compiled binary for portability between distributions
+static:
+	$(MAKE) STATIC=-static
+
+# Make the Nmap tarball
+distro:
+	cd scripts && $(MAKE) distro
+
+# Update the web site
+web:
+	cd scripts && $(MAKE) web
+
+clean: pcap_clean  dnet_clean nmapfe_clean nsock_clean nbase_clean my_clean
+
+my_clean:
+	rm -f $(OBJS) $(TARGET) config.cache
+pcap_clean:
+	-cd $(LIBPCAPDIR) && $(MAKE) clean
+pcre_clean:
+	-cd $(LIBPCREDIR) && $(MAKE) clean
+dnet_clean:
+	-cd $(LIBDNETDIR) && $(MAKE) clean
+nmapfe_clean:
+	-cd nmapfe && $(MAKE) clean
+nbase_clean:
+	-cd $(NBASEDIR) && $(MAKE) clean
+nsock_clean:
+	-cd $(NSOCKDIR)/src && $(MAKE) clean
+pcap_dist_clean:
+	-cd $(LIBPCAPDIR) && $(MAKE) distclean
+pcre_dist_clean:
+	-cd $(LIBPCREDIR) && $(MAKE) distclean
+dnet_dist_clean:
+	-cd $(LIBDNETDIR) && $(MAKE) distclean
+
+distclean: my_clean my_distclean pcap_dist_clean  dnet_dist_clean
+
+my_distclean:
+	rm -f Makefile Makefile.bak config.h stamp-h stamp-h.in \
+	         config.cache config.log config.status
+
+depend:
+	$(MAKEDEPEND) -s "# DO NOT DELETE" -- $(DEFS) -- $(SRCS)
+
+install-nmap: $(TARGET)
+	$(SHTOOL) mkdir -f -p -m 755 $(DESTDIR)$(bindir) $(DESTDIR)$(mandir)/man1 $(DESTDIR)$(nmapdatadir)
+	$(INSTALL) -c -m 755 -s nmap $(DESTDIR)$(bindir)/nmap
+	$(INSTALL) -c -m 644 docs/$(TARGET).1 $(DESTDIR)$(mandir)/man1/$(TARGET).1
+	$(INSTALL) -c -m 644 docs/nmap.xsl $(DESTDIR)$(nmapdatadir)/
+	$(INSTALL) -c -m 644 docs/nmap.dtd $(DESTDIR)$(nmapdatadir)/
+	$(INSTALL) -c -m 644 nmap-services $(DESTDIR)$(nmapdatadir)/
+	$(INSTALL) -c -m 644 nmap-rpc $(DESTDIR)$(nmapdatadir)/
+	$(INSTALL) -c -m 644 nmap-os-fingerprints $(DESTDIR)$(nmapdatadir)/
+	$(INSTALL) -c -m 644 nmap-service-probes $(DESTDIR)$(nmapdatadir)/
+	$(INSTALL) -c -m 644 nmap-protocols $(DESTDIR)$(nmapdatadir)/
+	$(INSTALL) -c -m 644 nmap-mac-prefixes $(DESTDIR)$(nmapdatadir)/
+
+install-nmapfe: $(TARGETNMAPFE)
+	$(SHTOOL) mkdir -f -p -m 755 $(DESTDIR)$(bindir) $(DESTDIR)$(mandir)/man1 $(DESTDIR)$(nmapdatadir) $(DESTDIR)$(deskdir)
+	@echo "If the next command fails -- you cannot use the X front end"
+	-test -f nmapfe/nmapfe && $(INSTALL) -c -m 755 -s nmapfe/nmapfe $(DESTDIR)$(bindir)/nmapfe && rm -f $(DESTDIR)$(bindir)/xnmap && $(SHTOOL) mkln -f -s $(DESTDIR)$(bindir)/nmapfe $(DESTDIR)$(bindir)/xnmap && $(INSTALL) -c -m 644 nmapfe.desktop $(DESTDIR)$(deskdir)/nmapfe.desktop && $(INSTALL) -c -m 644 docs/nmapfe.1 $(DESTDIR)$(mandir)/man1/nmapfe.1 && $(INSTALL) -c -m 644 docs/xnmap.1 $(DESTDIR)$(mandir)/man1/xnmap.1
+
+install: install-nmap $(INSTALLNMAPFE)
+
+uninstall:
+	rm -f $(bindir)/$(TARGET) $(bindir)/nmapfe $(bindir)/xnmap
+	rm -f $(deskdir)/nmapfe.desktop $(mandir)/man1/nmapfe.1
+	rm -f $(mandir)/man1/xnmap.1 $(mandir)/man1/nmap.1
+	rm -rf $(nmapdatadir) 
+
+${srcdir}/configure: configure.ac 
+	cd ${srcdir} && autoconf
+
+# autoheader might not change config.h.in, so touch a stamp file.
+${srcdir}/config.h.in: stamp-h.in
+${srcdir}/stamp-h.in: configure.ac acconfig.h \
+	config.h.top config.h.bot
+	cd ${srcdir} && autoheader
+	echo timestamp > ${srcdir}/stamp-h.in
+
+config.h: stamp-h
+stamp-h: config.h.in config.status
+	./config.status
+
+Makefile: Makefile.in config.status
+	./config.status
+
+config.status: configure
+	./config.status --recheck
+
+# DO NOT DELETE -- Needed by makedepend
+
+
+
+
+
+
+

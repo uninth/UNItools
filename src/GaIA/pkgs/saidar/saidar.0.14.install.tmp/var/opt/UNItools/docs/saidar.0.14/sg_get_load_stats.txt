@@ -1,0 +1,45 @@
+sg_get_load_stats(3)					  sg_get_load_stats(3)
+
+
+
+NAME
+       sg_get_load_stats - get system load
+
+SYNOPSIS
+       #include <statgrab.h>
+
+
+       sg_load_stats *sg_get_load_stats(void);
+
+DESCRIPTION
+       This call returns a pointer to a static buffer of sg_load_stats.
+
+       On  most systems this function is just a wrapper to the getloadavg sys-
+       tem call.
+
+RETURN VALUES
+       The structure returned is of type sg_load_stats.
+
+
+       typedef struct{
+	       double min1;
+	       double min5;
+	       double min15;
+       }sg_load_stats;
+
+
+       min1   The load average over 1 minute.
+
+       min5   The load average over 5 minutes.
+
+       min15  The load average over 15 minutes.
+
+SEE ALSO
+       statgrab(3)
+
+WEBSITE
+       http://www.i-scream.org/libstatgrab/
+
+
+
+i-scream		 $Date: 2005/04/25 11:25:45 $	  sg_get_load_stats(3)

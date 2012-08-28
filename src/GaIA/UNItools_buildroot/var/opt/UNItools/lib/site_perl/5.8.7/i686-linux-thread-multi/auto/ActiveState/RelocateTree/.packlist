@@ -1,0 +1,4 @@
+/var/opt/UNItools/bin/reloc_perl
+/var/opt/UNItools/lib/site_perl/5.8.7/ActiveState/RelocateTree.pm
+/var/opt/UNItools/man/man1/reloc_perl.1
+/var/opt/UNItools/man/man3/ActiveState::RelocateTree.3

@@ -1,0 +1,47 @@
+RANLIB(1)		     GNU Development Tools		     RANLIB(1)
+
+
+
+NAME
+       ranlib - generate index to archive.
+
+SYNOPSIS
+       ranlib [-vV] archive
+
+DESCRIPTION
+       ranlib  generates  an index to the contents of an archive and stores it
+       in the archive.	The index lists each symbol defined by a member of  an
+       archive that is a relocatable object file.
+
+       You may use nm -s or nm --print-armap to list this index.
+
+       An  archive  with  such	an  index speeds up linking to the library and
+       allows routines in the library to call each  other  without  regard  to
+       their placement in the archive.
+
+       The  GNU	 ranlib	 program  is another form of GNU ar; running ranlib is
+       completely equivalent to executing ar -s.
+
+OPTIONS
+       -v
+       -V
+       --version
+	   Show the version number of ranlib.
+
+SEE ALSO
+       ar(1), nm(1), and the Info entries for binutils.
+
+COPYRIGHT
+       Copyright (c) 1991, 92, 93, 94, 95, 96, 97, 98, 99, 2000,  2001,	 2002,
+       2003 Free Software Foundation, Inc.
+
+       Permission  is  granted to copy, distribute and/or modify this document
+       under the terms of the GNU Free Documentation License, Version  1.1  or
+       any  later  version  published by the Free Software Foundation; with no
+       Invariant Sections, with no Front-Cover Texts, and with	no  Back-Cover
+       Texts.  A copy of the license is included in the section entitled ‘‘GNU
+       Free Documentation License’’.
+
+
+
+binutils-2.13.90		  2003-04-27			     RANLIB(1)

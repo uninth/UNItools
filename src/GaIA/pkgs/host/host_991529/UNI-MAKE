@@ -1,0 +1,15 @@
+echo Makefile er rettet, så PREFIX peger på /var/opt/UNItools
+make
+strip host
+make install man clean
+
+manpage=host.1
+
+doc=/var/opt/UNItools/doc
+mkdir -p $bin $man $doc >/dev/null 2>&1
+
+groff -man -Tlatin1 $manpage | col -bx  >  $doc/`echo $manpage | awk -F. '{ print $1 }'`.txt
+groff -man          $manpage | ps2pdf -  >  $doc/`echo $manpage | awk -F. '{ print $1 }'`.pdf
+
+
+echo "host: DNS lookup utility" > /tmp/index

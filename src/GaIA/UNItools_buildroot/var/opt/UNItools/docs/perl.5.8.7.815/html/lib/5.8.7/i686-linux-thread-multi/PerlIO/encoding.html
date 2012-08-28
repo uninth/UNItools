@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<title>PerlIO::encoding - encoding layer</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',4);</script>
+<h1><a>PerlIO::encoding - encoding layer</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>PerlIO::encoding - encoding layer</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  open($f, &quot;&lt;:encoding(foo)&quot;, &quot;infoo&quot;);
+  open($f, &quot;&gt;:encoding(bar)&quot;, &quot;outbar&quot;);</pre>
+<pre>
+  use Encode qw(:fallbacks);
+  $PerlIO::encoding::fallback = FB_PERLQQ;</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Open a filehandle with a transparent encoding filter.</p>
+<p>On input, convert the bytes expected to be in the specified
+character set and encoding to Perl string data (Unicode and
+Perl's internal Unicode encoding, UTF-8).  On output, convert
+Perl string data into the specified character set and encoding.</p>
+<p>When the layer is pushed the current value of <code>$PerlIO::encoding::fallback</code>
+is saved and used as the check argument when calling the Encodings
+encode and decode.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../../lib/5.8.7/open.html">the open manpage</a>, <a href="../../../../lib/5.8.7/i686-linux-thread-multi/Encode.html">the Encode manpage</a>, <a href="../../../../lib/5.8.7/pod/perlfunc.html#binmode">binmode in the perlfunc manpage</a>, <a href="../../../../lib/5.8.7/pod/perluniintro.html">the perluniintro manpage</a></p>
+
+</body>
+
+</html>

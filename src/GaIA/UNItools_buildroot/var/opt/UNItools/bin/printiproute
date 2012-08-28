@@ -1,0 +1,309 @@
+#!/bin/sh
+#
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/scripts/scripts-1.0/RCS/printiproute,v 1.9 2012/12/10 14:05:01 root Exp $
+#
+# Lille Linux centrisk dims til dokumentation af statisk route pr. interface
+#
+
+printifcfg() {
+
+	# printifcfg "${E}" "${NET}" "${PREFIX}" "${LINK}" "${SPEED}" "${DUPLEX}"
+	# printifcfg "${E}" "${NET}" "${PREFIX}"
+	case $TYPE in
+		HTML)	interface "${1}"  "${NET}/${PREFIX}"
+		;;
+		TXT)	printf "%10s: %10s/%2d %s %s %s\n" "${1}" "${2}" "${3}" "${4}" "${5}" "${6}"
+		;;
+	esac
+
+}
+
+printrute() {
+	case $TYPE in
+		HTML)	
+			case $BG in
+				0)	BG=1
+					forward		"${1}/${2}" "$3"
+				;;
+
+				1)	BG=0
+					reverse		"${1}/${2}" "$3"
+				;;
+			esac
+		;;
+		TXT)	printf "\t%15s/%-2d\t->%20s\n" "${1}" "${2}" "$3"
+		;;
+	esac
+}
+
+printspace() {
+	case $TYPE in
+		HTML)	:
+		;;
+		TXT)	echo
+		;;
+	esac
+}
+
+html_head() {
+TITLE="route information"
+
+cat << EOF
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+		<HEAD>
+        <META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=UTF-8">
+		<TITLE>$TITLE</TITLE>
+<STYLE TYPE="text/css">
+BODY,DIV,TABLE,THEAD,TBODY,TFOOT,TR,TH,TD,P { font-family:"Arial"; font-size:x-small }
+p.white {color: #FFFFFF}
+body { color: #000000; } span.c1 {color: #FFFFFF}
+span.c4 {color: red}
+td.c3 {background-color: #E6E6E6}
+td.c2 {background-color: #999999}
+td.c1 {background-color: #0066CC}
+.copyright { border-top: 1px solid #999; font-family:verdana, arial, sans-serif; font-size:10px; color:#999; line-height:14px; }
+</STYLE>
+    </HEAD>
+    <H1>IP og rute konfiguration på firewall</H1>
+    <H2>$FQDN</H2>
+    <H3>$NOW</I></H3>
+
+EOF
+}
+
+html_body() {
+cat << EOF
+    <BODY LANG="da-DK" DIR="ltr">
+    <!--
+	valid as of `/bin/date`
+	$FQDN
+	`uname -a`
+    -->
+EOF
+}
+
+table_head()
+{
+cat << EOF
+        <TABLE WIDTH="100%" BORDER="1" CELLPADDING="4" CELLSPACING="0">
+            <COL WIDTH="25%">
+            <COL WIDTH="25%">
+            <COL WIDTH="25%">
+            <COL WIDTH="25%">
+            <TR VALIGN="top">
+                <TD WIDTH="152" BGCOLOR="#0066CC"><P CLASS="white">Interface</P></TD><TD WIDTH="153" BGCOLOR="#0066CC"><P CLASS="white">IP</P></TD>
+                <TD WIDTH="153" BGCOLOR="#0066CC"><P CLASS="white">Rute</P></TD>
+                <TD WIDTH="152" BGCOLOR="#0066CC"><P CLASS="white">gateway</P></TD>
+            </TR>
+EOF
+}
+
+interface() 
+{
+IFNAME=$1
+IP=$2
+cat << EOF
+            <TR VALIGN="top">
+		<TD WIDTH="152" BGCOLOR="#999999"><P>${IFNAME}</P></TD>
+                <TD WIDTH="153" BGCOLOR="#999999"><P>${IP}</P></TD>
+                <TD WIDTH="153" BGCOLOR="#999999"><P><BR></P></TD>
+                <TD WIDTH="152" BGCOLOR="#999999"><P><BR></P></TD> 
+            </TR>
+EOF
+}
+
+forward()
+{
+IP=$1
+GW=$2
+cat << EOF
+            <TR VALIGN="top"><TD WIDTH="152" BGCOLOR="#E6E6E6"><P><BR></P></TD>
+                <TD WIDTH="153" BGCOLOR="#E6E6E6"><P><BR></P></TD>
+                <TD WIDTH="153"><P>${IP}</P></TD>
+                <TD WIDTH="152"><P>${GW}</P></TD>
+            </TR>
+EOF
+}
+
+reverse()
+{
+IP=$1
+GW=$2
+cat << EOF
+            <TR VALIGN="top"><TD WIDTH="152" BGCOLOR="#E6E6E6"><P><BR></P></TD><TD WIDTH="153" BGCOLOR="#E6E6E6"><P><BR></P></TD>
+                <TD WIDTH="153" BGCOLOR="#E6E6E6"><P>${IP}</P></TD>
+                <TD WIDTH="152" BGCOLOR="#E6E6E6"><P>${GW}</P></TD>
+            </TR>
+EOF
+}
+
+table_end() {
+	cat << EOF
+        </TABLE>
+        <BR>
+EOF
+}
+
+html_end() {
+cat << EOF
+<P>Der tages forbehold for fejl. IP og rutetabellen er begrænset til IPv4 og indeholder ikke tunnel og loopback information</P><DIV CLASS="copyright"><BR><SPAN>Oversigt Copyright © 2007 UNI<SPAN CLASS="c4">·</SPAN>Cs sikkerhedsafdeling.</SPAN></DIV>
+    </BODY>
+</HTML>
+EOF
+}
+
+################################################################################
+#
+# Main
+#
+################################################################################
+
+NOW=`/bin/date +'%d %b %Y kl. %T'`
+# NOW=`date +"%A den %d %B %Y kl. %H:%M"`
+
+DNSDOMAIN=`domainname`
+case $DNSDOMAIN in
+	""|\(none\))
+		DNSDOMAIN=""    # fqdn kan være identisk med `hostname`
+	;;
+	*)      DNSDOMAIN=".${DNSDOMAIN}"
+esac
+
+# Der er ingen garanti for, at navnet findes i en ekstern DNS.
+FQDN="`hostname`${DNSDOMAIN}"
+
+ETH=`ifconfig -a| sed '
+	/^[ 	]/d;
+	s/[ 	].*//
+	 /^$/d
+	/^lo/d
+	'`
+
+TYPE=TXT
+BG=0
+
+case $1 in
+	html)	TYPE=HTML
+		html_head
+		html_body
+		table_head
+	;;
+	"")	cat << EOF
+                 IP and ROUTE
+date...........: `/bin/date`
+fqdn...........: $FQDN
+uname..........: `uname -a`
+
+EOF
+	;;
+esac
+
+for E in $ETH
+do
+
+	ifconfig $E | sed "/inet/!d; /inet6/d; s/.*addr://; s/[ 	].*ask:/	/ " | while read NET MASK
+	do
+
+		# eth2.xxx -> eth2
+		REAL_E=`echo $E |sed 's/\..*//'`
+ 
+		LINK=`ethtool $REAL_E	| sed '/Link/!d'`
+		SPEED=`ethtool $REAL_E	| sed '/Speed/!d'`
+		DUPLEX=`ethtool $REAL_E	| sed '/Duplex/!d'`
+
+		PREFIX=`ipcalc -p  $NET $MASK | sed 's/.*=//'`
+		printifcfg "${E}" "${NET}" "${PREFIX}" "${LINK}" "${SPEED}" "${DUPLEX}"
+
+		netstat -rn | grep $E | awk  '
+			#$0 ~ /0.0.0.0/	{ next }
+					{ print $1 " " $3 " " $2 }
+					' | while read N M GW
+					do
+						P=`ipcalc -p $N $M | sed 's/.*=//'`
+						if [ "$GW" = "0.0.0.0" ]; then
+							: ignore kernel route
+						else
+							printrute "${N}" "${P}" "$GW"
+						fi
+
+					done
+		printspace
+	done
+done
+
+case $TYPE in
+	HTML)	table_end
+		html_end
+	;;
+	*)	echo
+	;;
+esac
+
+exit 0
+
+#
+# Documentation and  standard disclaimar
+#
+# Copyright (C) 2001 Niels Thomas Haugård
+# UNI-C
+# http://www.uni-c.dk/
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the 
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License 
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+#
+#++
+# NAME
+#	printiproute.sh 1
+# SUMMARY
+#	print statisk rute pr. interface
+# PACKAGE
+#	UNItools
+# SYNOPSIS
+#	printiproute
+# BESKRIVELSE
+#	\fCprintiproute(1)\fR anvendes til dokumentation af rute udtryk
+#	pr. interface.
+#
+#	Programmet er ad-hoc.
+# OPTIONS
+# .TP
+#	html. Udskriv i html til stdout.
+# SE OGSÅ
+#	Dokumentationen for UNItools.
+# DIAGNOSTICS
+#	Programmet er Linux - centrisk og kræver pakken UNItools er installeret.
+# BUGS
+#	Det er der sikkert. Ret dem og send mig en opdatering.
+# VERSION
+#	$Date: 2012/12/10 14:05:01 $
+# .br
+#	$Revision: 1.9 $
+# .br
+#	$Source: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/scripts/scripts-1.0/RCS/printiproute,v $
+# .br
+#	$State: Exp $
+# HISTORY
+#	Se \fCrlog\fR $Id: printiproute,v 1.9 2012/12/10 14:05:01 root Exp $
+# AUTHOR(S)
+#	Niels Thomas Haugård
+# .br
+#	E-mail: thomas@haugaard.net
+# .br
+#	UNI\(buC
+# .br
+#	DTU, Building 304
+# .br
+#	DK-2800 Kgs. Lyngby
+#--

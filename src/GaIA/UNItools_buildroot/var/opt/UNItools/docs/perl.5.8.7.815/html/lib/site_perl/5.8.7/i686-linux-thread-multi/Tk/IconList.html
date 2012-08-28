@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>Tk::IconList - an icon list widget</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>Tk::IconList - an icon list widget</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#options">OPTIONS</a></li>
+		<li><a href="#methods">METHODS</a></li>
+	</ul>
+
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Tk::IconList - an icon list widget</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    use Tk::IconList;
+    $il = $mw-&gt;IconList(-browsecmd =&gt; sub { ... },
+                        -command   =&gt; sub { ... })-&gt;pack;
+    $il-&gt;Add($icon1, $text1);
+    $il-&gt;Add($icon2, $text2);
+    $il-&gt;Arrange;
+    ...
+    $il-&gt;DeleteAll;</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+</p>
+<h2><a name="options">OPTIONS</a></h2>
+<dl>
+<dt><strong><a name="item__2dbrowsecmd">-browsecmd</a></strong>
+
+<dt><strong><a name="item__2dcommand">-command</a></strong>
+
+<dt><strong><a name="item__2dfont">-font</a></strong>
+
+<dd>
+<p>-item -foreground|-fg</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<h2><a name="methods">METHODS</a></h2>
+<dl>
+<dt><strong><a name="item_deleteall">DeleteAll</a></strong>
+
+<dd>
+<p>Deletes all the items inside the canvas subwidget and reset the IconList's
+state.</p>
+</dd>
+</li>
+<dt><strong><a name="item_add">Add($image, $text)</a></strong>
+
+<dd>
+<p>Adds an icon into the IconList with the designated image and text.</p>
+</dd>
+</li>
+<dt><strong><a name="item_arrange">Arrange</a></strong>
+
+<dd>
+<p>Places the icons in a column-major arrangement.</p>
+</dd>
+</li>
+<dt><strong><a name="item_get">Get</a></strong>
+
+<dd>
+<p>Return the selected item.</p>
+</dd>
+</li>
+<dt><strong><a name="item_invoke">Invoke</a></strong>
+
+<dd>
+<p>Gets called when the user invokes the IconList (usually by double-clicking
+or pressing the Return key) (internal method).</p>
+</dd>
+</li>
+<dt><strong><a name="item_see"><code>See($tag)</code></a></strong>
+
+<dd>
+<p>If the item is not (completely) visible, scroll the canvas so that it
+becomes visible (internal method).</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>The original tkfbox.tcl from Tcl/Tk is:</p>
+<p>Copyright (c) 1994-1996 Sun Microsystems, Inc.</p>
+<p>See the file ``license.terms'' for information on usage and redistribution
+of this file, and for a DISCLAIMER OF ALL WARRANTIES.</p>
+<p>Translated to Perl/Tk by Slaven Rezic &lt;<a href="mailto:slaven.rezic@berlin.de">slaven.rezic@berlin.de</a>&gt;.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>Tk::FBox.</p>
+
+</body>
+
+</html>

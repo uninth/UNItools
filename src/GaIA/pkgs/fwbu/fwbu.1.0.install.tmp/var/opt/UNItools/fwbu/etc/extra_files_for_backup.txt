@@ -1,0 +1,10 @@
+/etc/rc.d/rc.local
+/etc/rc.d/rc.local.user
+/var/opt/UNIha/etc/UNIha.SH
+/var/opt/UNImrtg/cfg/*
+/var/opt/UNImrtg/etc/UNImrtg
+/var/opt/UNImrtg/etc/cp_http_mrtg.conf
+/var/opt/UNItools/conf/smtpclient.SH
+/var/opt/UNItools/etc/ntpd.conf
+/var/opt/UNIvdmon/*
+/var/ace/*

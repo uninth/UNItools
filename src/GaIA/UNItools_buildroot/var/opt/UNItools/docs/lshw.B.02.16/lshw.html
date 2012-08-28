@@ -1,0 +1,189 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of LSHW</TITLE>
+</HEAD><BODY>
+<H1>LSHW</H1>
+Section:  (1)<BR>Updated: 30 May 2010<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+lshw - list hardware
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<P>
+<B>lshw</B> [ <B>-version</B> ] 
+<P>
+<B>lshw</B> [ <B>-help</B> ] 
+<P>
+<B>lshw</B> [ <B>-X</B> ] 
+<P>
+<B>lshw</B> [ <B> [ -html ]  [ -short ]  [ -xml ]  [ -json ]  [ -businfo ] </B> ]  [ <B>-dump </B><I>filename</I><B></B> ]  [ <B>-class </B><I>class</I><B></B><I>...</I> ]  [ <B>-disable </B><I>test</I><B></B><I>...</I> ]  [ <B>-enable </B><I>test</I><B></B><I>...</I> ]  [ <B>-sanitize</B> ]  [ <B>-numeric</B> ]  [ <B>-quiet</B> ] 
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<P>
+
+<P>
+<B>lshw</B>
+is a small tool to extract detailed information on the hardware
+configuration of the machine. It can report exact memory
+configuration, firmware version, mainboard configuration, 
+CPU version
+and speed, cache configuration, bus speed, etc. on 
+DMI-capable x86 or IA-64
+systems and on some PowerPC
+machines (PowerMac G4 is known to work).
+<P>
+
+It currently supports DMI (x86 and IA-64 only), OpenFirmware device tree (PowerPC only),
+PCI/AGP, CPUID (x86), IDE/ATA/ATAPI, PCMCIA (only tested on x86), SCSI and USB.
+<P>
+
+<DL COMPACT>
+<DT><B>-version</B><DD>
+Displays the version of <B>lshw</B> and exits.
+<DT><B>-help</B><DD>
+Displays the available command line options and quits.
+<DT><B>-X</B><DD>
+Launch the X11 GUI (if available).
+<DT><B>-html</B><DD>
+Outputs the device tree as an HTML page.
+<DT><B>-xml</B><DD>
+Outputs the device tree as an XML tree.
+<DT><B>-json</B><DD>
+Outputs the device tree as a JSON object (JavaScript Object Notation).
+<DT><B>-short</B><DD>
+Outputs the device tree showing hardware paths, very much like the output of HP-UX's <B>ioscan</B>.
+<DT><B>-businfo</B><DD>
+Outputs the device list showing bus information, detailing SCSI, USB, IDE and PCI addresses.
+<DT><B>-dump </B><I>filename</I><B></B><DD>
+Dump collected information into a file (SQLite database).
+<DT><B>-class </B><I>class</I><B></B><DD>
+Only show the given class of hardware. <I>class</I> can be found using <B>lshw -short</B> or <B>lshw -businfo</B>.
+<DT><B>-C </B><I>class</I><B></B><DD>
+Alias for <B>-class</B> <I>class</I>.
+<DT><B>-enable </B><I>test</I><B></B><DD>
+<DT><B>-disable </B><I>test</I><B></B><DD>
+Enables or disables a test. <I>test</I> can be <B>dmi</B> (for DMI/SMBIOS extensions), <B>device-tree</B> (for OpenFirmware device tree), <B>spd</B> (for memory Serial Presence Detect), <B>memory</B> (for memory-size guessing heuristics), <B>cpuinfo</B> (for kernel-reported CPU detection), <B>cpuid</B> (for CPU detection), <B>pci</B> (for PCI/AGP access), <B>isapnp</B> (for ISA PnP extensions), <B>pcmcia</B> (for PCMCIA/PCCARD), <B>ide</B> (for IDE/ATAPI), <B>usb</B> (for USB devices),<B>scsi</B> (for SCSI) or <B>network</B> (for network interfaces detection).
+<DT><B>-quiet</B><DD>
+Don't display status.
+<DT><B>-sanitize</B><DD>
+Remove potentially sensitive information from output (IP addresses, serial numbers, etc.).
+<DT><B>-numeric</B><DD>
+Also display numeric IDs (for PCI and USB devices).
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>BUGS</H2>
+
+<P>
+
+<B>lshw</B> currently does not detect 
+Firewire(IEEE1394) devices.
+<P>
+
+Not all architectures supported by GNU/Linux are fully supported (e.g.
+CPU detection).
+<P>
+
+&quot;Virtual&quot; SCSI interfaces used for SCSI emulation over IDE are not reported correctly yet.
+<A NAME="lbAF">&nbsp;</A>
+<H2>NOTES</H2>
+
+<P>
+
+<B>lshw</B> must be run as super user or it will only report
+partial information.
+<A NAME="lbAG">&nbsp;</A>
+<H2>FILES</H2>
+
+<P>
+
+<DL COMPACT>
+<DT><B>/usr/local/share/pci.ids</B><DD>
+<DT><B>/usr/share/pci.ids</B><DD>
+<DT><B>/etc/pci.ids</B><DD>
+<DT><B>/usr/share/hwdata/pci.ids</B><DD>
+A list of all known PCI ID's (vendors, devices, classes and subclasses).
+<DT><B>/proc/bus/pci/*</B><DD>
+Used to access the configuration of installed PCI busses and devices.
+<DT><B>/proc/ide/*</B><DD>
+Used to access the configuration of installed IDE busses and devices.
+<DT><B>/proc/scsi/*, /dev/sg*</B><DD>
+Used to access the configuration of installed SCSI devices.
+<DT><B>/dev/cpu/*/cpuid</B><DD>
+Used on x86 platforms to access CPU-specific configuration.
+<DT><B>/proc/device-tree/*</B><DD>
+Used on PowerPC platforms to access OpenFirmware configuration.
+<DT><B>/proc/bus/usb/*</B><DD>
+Used to access the configuration of installed USB busses and devices.
+<DT><B>/sys/*</B><DD>
+Used on 2.6 kernels to access hardware/driver configuration information.
+</DL>
+<A NAME="lbAH">&nbsp;</A>
+<H2>EXAMPLES</H2>
+
+<P>
+
+<DL COMPACT>
+<DT><B>lshw -short</B><DD>
+Lists hardware in a compact format.
+<DT><B>lshw -class disk -class storage</B><DD>
+Lists all disks and storage controllers in the system.
+<DT><B>lshw -html -class network</B><DD>
+Lists all network interfaces in HTML.
+<DT><B>lshw -disable dmi</B><DD>
+Don't use DMI to detect hardware.
+</DL>
+<A NAME="lbAI">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<P>
+
+<I>/proc/*</I>, <B><A HREF="../man1/linuxinfo.1.html">linuxinfo</A></B>(1), <B><A HREF="../man8/lspci.8.html">lspci</A></B>(8), <B><A HREF="../man8/lsusb.8.html">lsusb</A></B>(8)
+<A NAME="lbAJ">&nbsp;</A>
+<H2>COPYING</H2>
+
+<P>
+
+<B>lshw</B> is distributed under the GNU GENERAL PUBLIC LICENSE (GPL) version 2.
+<A NAME="lbAK">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+<P>
+
+<B>lshw</B> is maintained by Lyonel Vincent
+&lt;<A HREF="mailto:lyonel@ezix.org">lyonel@ezix.org</A>&gt;.
+<A NAME="lbAL">&nbsp;</A>
+<H2>OTHER INFO</H2>
+
+<P>
+
+The webpage for <B>lshw</B> is at 
+<BR>&nbsp;&lt;URL:<A HREF="http://lshw.org/">http://lshw.org/</A>&gt;
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">BUGS</A><DD>
+<DT><A HREF="#lbAF">NOTES</A><DD>
+<DT><A HREF="#lbAG">FILES</A><DD>
+<DT><A HREF="#lbAH">EXAMPLES</A><DD>
+<DT><A HREF="#lbAI">SEE ALSO</A><DD>
+<DT><A HREF="#lbAJ">COPYING</A><DD>
+<DT><A HREF="#lbAK">AUTHOR</A><DD>
+<DT><A HREF="#lbAL">OTHER INFO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 22:08:43 GMT, March 26, 2014
+</BODY>
+</HTML>

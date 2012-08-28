@@ -1,0 +1,244 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of sg_get_process_stats</TITLE>
+</HEAD><BODY>
+<H1>sg_get_process_stats</H1>
+Section: C Library Functions (3)<BR>Updated: $Date:&nbsp;2005/04/25&nbsp;11:25:45&nbsp;$<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+sg_get_process_stats, sg_get_process_count, sg_process_compare_name, sg_process_compare_pid, sg_process_compare_uid, sg_process_compare_gid, sg_process_compare_size, sg_process_compare_res, sg_process_compare_cpu, sg_process_compare_time - get process statistics
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<PRE>
+#include &lt;<A HREF="file:/usr/include/statgrab.h">statgrab.h</A>&gt;
+</PRE>
+
+<P>
+<P>
+
+sg_process_stats *<I>sg_get_process_stats</I>(int *<I>entries</I>);
+<P>
+
+sg_process_count *<I>sg_get_process_count</I>(void);
+<P>
+
+int <I>sg_process_compare_name</I>(const void *<I>va</I>, const void *<I>vb</I>);
+<P>
+
+int <I>sg_process_compare_pid</I>(const void *<I>va</I>, const void *<I>vb</I>);
+<P>
+
+int <I>sg_process_compare_uid</I>(const void *<I>va</I>, const void *<I>vb</I>);
+<P>
+
+int <I>sg_process_compare_gid</I>(const void *<I>va</I>, const void *<I>vb</I>);
+<P>
+
+int <I>sg_process_compare_size</I>(const void *<I>va</I>, const void *<I>vb</I>);
+<P>
+
+int <I>sg_process_compare_res</I>(const void *<I>va</I>, const void *<I>vb</I>);
+<P>
+
+int <I>sg_process_compare_cpu</I>(const void *<I>va</I>, const void *<I>vb</I>);
+<P>
+
+int <I>sg_process_compare_time</I>(const void *<I>va</I>, const void *<I>vb</I>);
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+The sg_get_process_stats takes a pointer to
+an int, entries, which is filled with the
+number of processes the snapshot contains. The return value is a
+pointer to the first member of an array of
+sg_process_stats structures; the number
+of entries in the array is returned in
+entries.
+<P>
+
+sg_get_process_count returns a pointer to a
+static buffer of type sg_process_count.
+<P>
+
+These two functions provide information on the process running
+on the system. In the first case lots of detail is provided, and
+in the second case a summary of the states of the current processes.
+<P>
+
+<P>
+sg_process_compare_name
+<P>
+
+sg_process_compare_pid
+<P>
+
+sg_process_compare_uid
+<P>
+
+sg_process_compare_gid
+<P>
+
+sg_process_compare_size
+<P>
+
+sg_process_compare_res
+<P>
+
+sg_process_compare_cpu
+<P>
+
+sg_process_compare_time
+<P>
+<P>
+
+These functions compare two sg_process_stats entries, and return an 
+int to represent which one is greater. The main use of these functions
+is to be passed to qsort to sort the sg_process_stats by the given type.
+<P>
+
+For example: 
+<P>
+
+qsort(sg_process_stats ps, int ps_size, sizeof *ps, sg_process_compare_pid);
+<A NAME="lbAE">&nbsp;</A>
+<H2>RETURN&nbsp;VALUES</H2>
+
+The structure returned by sg_get_process_stats is of type
+sg_process_stats.
+<P>
+
+<PRE>
+
+typedef struct {
+        char *process_name;
+        char *proctitle;
+
+        pid_t pid;
+        pid_t parent; /* Parent pid */
+        pid_t pgid;   /* process id of process group leader */
+
+        uid_t uid;
+        uid_t euid;
+        gid_t gid;
+        gid_t egid;
+
+        unsigned long long proc_size; /* in bytes */
+        unsigned long long proc_resident; /* in bytes */
+        time_t time_spent; /* time running in seconds */
+        double cpu_percent;
+        int nice;
+        sg_process_state state;
+} sg_process_stats;
+    
+</PRE>
+
+<P>
+
+<PRE>
+
+typedef enum {
+        SG_PROCESS_STATE_RUNNING,
+        SG_PROCESS_STATE_SLEEPING,
+        SG_PROCESS_STATE_STOPPED,
+        SG_PROCESS_STATE_ZOMBIE,
+        SG_PROCESS_STATE_UNKNOWN
+} sg_process_state;
+    
+</PRE>
+
+<DL COMPACT>
+<DT>process_name<DD>
+The name of the command that was run.
+<DT>proctitle<DD>
+The command line (the &quot;title&quot;) of the process. Take
+note - this can be modified by the process, so isn't
+guaranteed to be the original command line.
+<DT>pid<DD>
+The process ID.
+<DT>parent<DD>
+The parent process ID.
+<DT>pgid<DD>
+The process ID of the process group leader.
+<DT>uid<DD>
+The UID the process is running as.
+<DT>euid<DD>
+The effective UID the process is running as.
+<DT>gid<DD>
+The GID the process is running as.
+<DT>egid<DD>
+The effective GID the process is running as.
+<DT>proc_size<DD>
+The size of the process in bytes.
+<DT>proc_resident<DD>
+The size of the process that's resident in memory.
+<DT>time_spent<DD>
+The number of seconds the process has been running.
+<DT>cpu_percent<DD>
+The current percentage of CPU the process is using.
+<DT>nice<DD>
+The nice value of the process.
+<DT>state<DD>
+The current state of the process. See sg_process_state
+for permitted values.
+</DL>
+<P>
+
+The structure returned by sg_get_process_count is of type
+sg_process_count.
+<P>
+
+<PRE>
+
+typedef struct{
+        int total;
+        int running;
+        int sleeping;
+        int stopped;
+        int zombie;
+}sg_process_count;
+    
+</PRE>
+
+<DL COMPACT>
+<DT>total<DD>
+The total number of processes.
+<DT>running<DD>
+The number of running processes.
+<DT>sleeping<DD>
+The number of sleeping processes.
+<DT>stopped<DD>
+The number of stopped processes.
+<DT>zombie<DD>
+The number of zombie processes.
+</DL>
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE&nbsp;ALSO</H2>
+
+<B><A HREF="../man3/statgrab.3.html">statgrab</A></B>(3)
+<A NAME="lbAG">&nbsp;</A>
+<H2>WEBSITE</H2>
+
+<A HREF="http://www.i-scream.org/libstatgrab/">http://www.i-scream.org/libstatgrab/</A>
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">RETURN&nbsp;VALUES</A><DD>
+<DT><A HREF="#lbAF">SEE&nbsp;ALSO</A><DD>
+<DT><A HREF="#lbAG">WEBSITE</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 15:24:04 GMT, March 26, 2014
+</BODY>
+</HTML>

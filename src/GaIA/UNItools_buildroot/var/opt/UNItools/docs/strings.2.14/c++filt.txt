@@ -1,0 +1,114 @@
+C++FILT(1)		     GNU Development Tools		    C++FILT(1)
+
+
+
+NAME
+       c++filt - Demangle C++ and Java symbols.
+
+SYNOPSIS
+       c++filt [-_│--strip-underscores]
+	       [-j│--java]
+	       [-n│--no-strip-underscores]
+	       [-s format│--format=format]
+	       [--help]	 [--version]  [symbol...]
+
+DESCRIPTION
+       The  C++	 and Java languages provides function overloading, which means
+       that you can write many functions with the same	name  (providing  each
+       takes  parameters of different types).  All C++ and Java function names
+       are encoded into a low-level assembly label (this process is  known  as
+       mangling). The c++filt [1] program does the inverse mapping: it decodes
+       (demangles) low-level names into user-level names so  that  the	linker
+       can keep these overloaded functions from clashing.
+
+       Every  alphanumeric  word  (consisting of letters, digits, underscores,
+       dollars, or periods) seen in the input is a potential  label.   If  the
+       label decodes into a C++ name, the C++ name replaces the low-level name
+       in the output.
+
+       You can use c++filt to decipher individual symbols:
+
+	       c++filt <symbol>
+
+       If no symbol arguments are given, c++filt reads symbol names  from  the
+       standard	 input	and writes the demangled names to the standard output.
+       All results are printed on the standard output.
+
+OPTIONS
+       -_
+       --strip-underscores
+	   On some systems, both the C and C++ compilers put an underscore  in
+	   front  of  every name.  For example, the C name "foo" gets the low-
+	   level name "_foo".  This option  removes  the  initial  underscore.
+	   Whether  c++filt removes the underscore by default is target depen-
+	   dent.
+
+       -j
+       --java
+	   Prints demangled names using Java syntax.  The default  is  to  use
+	   C++ syntax.
+
+       -n
+       --no-strip-underscores
+	   Do not remove the initial underscore.
+
+       -s format
+       --format=format
+	   c++filt  can	 decode various methods of mangling, used by different
+	   compilers.  The argument to this option  selects  which  method  it
+	   uses:
+
+	   "auto"
+	       Automatic selection based on executable (the default method)
+
+	   "gnu"
+	       the one used by the GNU C++ compiler (g++)
+
+	   "lucid"
+	       the one used by the Lucid compiler (lcc)
+
+	   "arm"
+	       the one specified by the C++ Annotated Reference Manual
+
+	   "hp"
+	       the one used by the HP compiler (aCC)
+
+	   "edg"
+	       the one used by the EDG compiler
+
+	   "gnu-v3"
+	       the one used by the GNU C++ compiler (g++) with the V3 ABI.
+
+	   "java"
+	       the one used by the GNU Java compiler (gcj)
+
+	   "gnat"
+	       the one used by the GNU Ada compiler (GNAT).
+
+       --help
+	   Print a summary of the options to c++filt and exit.
+
+       --version
+	   Print the version number of c++filt and exit.
+
+FOOTNOTES
+       1.  MS-DOS  does	 not  allow "+" characters in file names, so on MS-DOS
+	   this program is named c++filt.
+
+SEE ALSO
+       the Info entries for binutils.
+
+COPYRIGHT
+       Copyright (c) 1991, 92, 93, 94, 95, 96, 97, 98, 99, 2000,  2001,	 2002,
+       2003 Free Software Foundation, Inc.
+
+       Permission  is  granted to copy, distribute and/or modify this document
+       under the terms of the GNU Free Documentation License, Version  1.1  or
+       any  later  version  published by the Free Software Foundation; with no
+       Invariant Sections, with no Front-Cover Texts, and with	no  Back-Cover
+       Texts.  A copy of the license is included in the section entitled ‘‘GNU
+       Free Documentation License’’.
+
+
+
+binutils-2.13.90		  2003-04-27			    C++FILT(1)

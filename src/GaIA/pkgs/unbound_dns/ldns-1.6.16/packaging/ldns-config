@@ -1,0 +1,31 @@
+#!/bin/sh
+
+prefix="/home/unbound"
+exec_prefix="${prefix}"
+VERSION="1.6.16"
+CFLAGS="-Wwrite-strings -W -Wall -O2 -g -D_GNU_SOURCE"
+CPPFLAGS="  -I/home/unbound/include "
+LDFLAGS="  -L/home/unbound/lib "
+LIBS="  -lcrypto -ldl"
+LIBDIR="${exec_prefix}/lib"
+INCLUDEDIR="${prefix}/include"
+
+for arg in $@
+do
+    if [ $arg = "--cflags" ]
+    then
+        echo "-I${INCLUDEDIR}"
+    fi
+    if [ $arg = "--libs" ]
+    then
+        echo "${LDFLAGS} -L${LIBDIR} ${LIBS} -lldns"
+    fi
+    if [ $arg = "-h" ] || [ $arg = "--help" ]
+    then
+        echo "Usage: $0 [--cflags] [--libs] [--version]"
+    fi
+    if [ $arg = "--version" ]
+    then
+        echo "${VERSION}"
+    fi
+done

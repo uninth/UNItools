@@ -1,0 +1,126 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of sg_get_mem_stats</TITLE>
+</HEAD><BODY>
+<H1>sg_get_mem_stats</H1>
+Section: C Library Functions (3)<BR>Updated: $Date:&nbsp;2005/04/25&nbsp;11:25:45&nbsp;$<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+sg_get_mem_stats, sg_get_swap_stats - get VM statistics
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<PRE>
+#include &lt;<A HREF="file:/usr/include/statgrab.h">statgrab.h</A>&gt;
+</PRE>
+
+<P>
+<P>
+
+sg_mem_stats *<I>sg_get_mem_stats</I>(void);
+<P>
+
+sg_swap_stats *<I>sg_get_swap_stats</I>(void);
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+Memory statistics are accessed through the
+sg_get_mem_stats function. It returns a
+pointer to a static sg_mem_stats.
+<P>
+
+The sg_get_swap_stats returns returns swap
+statistics. It returns a pointer to a static
+sg_swap_stats.
+<P>
+
+On the FreeBSD operating system elevated privileges are required
+to access the swap statistics. Making the program setgid kmem
+should be sufficient. Programs running as root will not have this
+problem.
+<A NAME="lbAE">&nbsp;</A>
+<H2>RETURN&nbsp;VALUES</H2>
+
+The VM system calls can return a pointer to either a
+sg_mem_stats or a
+sg_swap_stats.
+<P>
+
+<PRE>
+
+typedef struct{
+        long long total;
+        long long free;
+        long long used;
+        long long cache;
+}sg_mem_stats;
+    
+</PRE>
+
+<DL COMPACT>
+<DT>total  <DD>
+The total amount of memory in bytes.
+<DT>free  <DD>
+The total free memory in bytes.
+<DT>used  <DD>
+The total used memory in bytes.
+<DT>cache  <DD>
+The amount of cache used in bytes.
+</DL>
+<P>
+
+<PRE>
+
+typedef struct{
+        long long total;
+        long long used;
+        long long free;
+}sg_swap_stats;
+    
+</PRE>
+
+<DL COMPACT>
+<DT>total  <DD>
+The total swap space in bytes.
+<DT>used  <DD>
+The used swap in bytes.
+<DT>free  <DD>
+The free swap in bytes.
+</DL>
+<A NAME="lbAF">&nbsp;</A>
+<H2>TODO</H2>
+
+Add a function to hold open the file descriptor to the kernel
+memory structures. Doing this would allow the elevated privileges
+to be dropped early on.
+<A NAME="lbAG">&nbsp;</A>
+<H2>SEE&nbsp;ALSO</H2>
+
+<B><A HREF="../man3/statgrab.3.html">statgrab</A></B>(3)
+<A NAME="lbAH">&nbsp;</A>
+<H2>WEBSITE</H2>
+
+<A HREF="http://www.i-scream.org/libstatgrab/">http://www.i-scream.org/libstatgrab/</A>
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">RETURN&nbsp;VALUES</A><DD>
+<DT><A HREF="#lbAF">TODO</A><DD>
+<DT><A HREF="#lbAG">SEE&nbsp;ALSO</A><DD>
+<DT><A HREF="#lbAH">WEBSITE</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 15:24:05 GMT, March 26, 2014
+</BODY>
+</HTML>

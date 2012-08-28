@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<HTML
+><HEAD
+><TITLE
+>  Upgrading from Earlier Versions</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.64
+"><LINK
+REL="HOME"
+TITLE="IPTraf User's Manual"
+HREF="manual.html"><LINK
+REL="UP"
+TITLE="Getting Started"
+HREF="gettingstarted.html"><LINK
+REL="PREVIOUS"
+TITLE="Getting Started"
+HREF="gettingstarted.html"><LINK
+REL="NEXT"
+TITLE="Starting and Stopping IPTraf"
+HREF="startstop.html"></HEAD
+><BODY
+CLASS="SECT1"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><DIV
+CLASS="NAVHEADER"
+><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TH
+COLSPAN="3"
+ALIGN="center"
+>IPTraf User's Manual</TH
+></TR
+><TR
+><TD
+WIDTH="10%"
+ALIGN="left"
+VALIGN="bottom"
+><A
+HREF="gettingstarted.html"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="80%"
+ALIGN="center"
+VALIGN="bottom"
+>Getting Started</TD
+><TD
+WIDTH="10%"
+ALIGN="right"
+VALIGN="bottom"
+><A
+HREF="startstop.html"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+></TABLE
+><HR
+ALIGN="LEFT"
+WIDTH="100%"></DIV
+><DIV
+CLASS="SECT1"
+><H1
+CLASS="SECT1"
+><A
+NAME="UPGRADING"
+>Upgrading from Earlier Versions</A
+></H1
+><P
+>  If you're running IPTraf 2.0.x or earlier, and
+  you're using TCP/UDP filters, do a <B
+CLASS="COMMAND"
+>make upgrade</B
+> procedure in the
+  <TT
+CLASS="FILENAME"
+>src/</TT
+> directory.
+  Versions 1.4.x and 2.0.x erroneously placed the filter data files in a
+  wrong directory due to a filename parsing bug.</P
+><P
+>  The filter state information for all filters has been merged into a
+  single file. The addition of better criteria in the miscellaneous IP
+  filters also required the change in filter state file format. There is
+  no need to redefine your existing TCP and UDP filters, but IPTraf 2.5 
+  will not use the last filters you applied with the previous versions.
+  Just re-apply them before you run the IP traffic monitor.</P
+><P
+>  Since the simple filter toggles for other IP protocols have been
+  replaced with better filter definitions, they will have to define them
+  if you wish to filter these protocols as described in the filters section.</P
+><P
+>  Also verify the settings for ARP, RARP, and non-IP filter toggles before
+  running any of the statistical facilities for the first time</P
+></DIV
+><DIV
+CLASS="NAVFOOTER"
+><HR
+ALIGN="LEFT"
+WIDTH="100%"><TABLE
+WIDTH="100%"
+BORDER="0"
+CELLPADDING="0"
+CELLSPACING="0"
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+><A
+HREF="gettingstarted.html"
+>&#60;&#60;&#60; Previous</A
+></TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="manual.html"
+>Home</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+><A
+HREF="startstop.html"
+>Next &#62;&#62;&#62;</A
+></TD
+></TR
+><TR
+><TD
+WIDTH="33%"
+ALIGN="left"
+VALIGN="top"
+>Getting Started</TD
+><TD
+WIDTH="34%"
+ALIGN="center"
+VALIGN="top"
+><A
+HREF="gettingstarted.html"
+>Up</A
+></TD
+><TD
+WIDTH="33%"
+ALIGN="right"
+VALIGN="top"
+>Starting and Stopping IPTraf</TD
+></TR
+></TABLE
+></DIV
+></BODY
+></HTML
+>

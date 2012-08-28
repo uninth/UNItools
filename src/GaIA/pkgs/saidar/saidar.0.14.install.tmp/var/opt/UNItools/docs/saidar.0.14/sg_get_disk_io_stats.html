@@ -1,0 +1,134 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of sg_get_disk_io_stats</TITLE>
+</HEAD><BODY>
+<H1>sg_get_disk_io_stats</H1>
+Section: C Library Functions (3)<BR>Updated: $Date:&nbsp;2005/04/25&nbsp;11:25:45&nbsp;$<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+sg_get_disk_io_stats, sg_get_disk_io_stats_diff - get disk io statistics
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<PRE>
+#include &lt;<A HREF="file:/usr/include/statgrab.h">statgrab.h</A>&gt;
+</PRE>
+
+<P>
+<P>
+
+sg_disk_io_stats *<I>sg_get_disk_io_stats</I>(int *<I>entries</I>);
+<P>
+
+sg_disk_io_stats *<I>sg_get_disk_io_stats_diff</I>(int *<I>entries</I>);
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+Both calls take a pointer to an int,
+entries, which is filled with the number
+of disks the machine has. This is needed to know how many
+sg_disk_io_stats structures have been
+returned. A pointer is returned to the first
+sg_disk_io_stats.
+<P>
+
+sg_get_disk_io_stats returns the disk IO stored
+in the kernel which holds the amount of data transferred since
+bootup. On some platforms, such as Solaris 7, this value is
+stored in a 32bit int, so wraps around when it reaches 4GB. Other
+platforms, such as Solaris 8, hold the value in a 64bit int,
+which wraps somewhere near 17 million terabytes.
+<P>
+
+sg_get_disk_io_stats_diff is the same as
+sg_get_disk_io_stats except it will return the
+difference since the last call. So, for instance a call to
+sg_get_disk_io_stats_diff is made, and called
+again 5 seconds later. Over that time, 2000 bytes of traffic were
+written and 10000 bytes read. write_bytes
+will store 2000 bytes, read_bytes will
+store 10000, and systime will store 5.
+This function copes with wrap arounds by the O/S so should be
+seemless to use.
+<P>
+
+On Solaris libstatgrab will attempt to get the cXtXdXsX
+representation for the disk_name string. If
+it fails it will use a name like sd0. On some systems programs
+calling libstatgrab will need elevated privileges to lookup
+some of the names. The mappings are built up when
+sg_init is called.
+<A NAME="lbAE">&nbsp;</A>
+<H2>RETURN&nbsp;VALUES</H2>
+
+All diskio statistics return a pointer to a structure of type
+sg_disk_io_stats.
+<P>
+
+<PRE>
+
+typedef struct{
+        char *disk_name;
+        long long read_bytes;
+        long long write_bytes;
+        time_t systime;
+}sg_disk_io_stats;
+    
+</PRE>
+
+<DL COMPACT>
+<DT>disk_name  <DD>
+The name known to the operating system.
+(eg. on linux it might be hda)
+<DT>read_bytes  <DD>
+The number of bytes the disk has read.
+<DT>write_bytes  <DD>
+The number of bytes the disk has written.
+<DT>systime  <DD>
+The time period over which read_bytes
+and write_bytes were transferred.
+</DL>
+<A NAME="lbAF">&nbsp;</A>
+<H2>BUGS</H2>
+
+On the very first call sg_get_disk_io_stats_diff
+will return the same as sg_get_disk_io_stats.
+After the first call it will always return the difference.
+<P>
+
+On operating systems that hold only 32bits of data there is a
+problem if the values wrap twice. For example, on Solaris 7 if
+9GB is transferred and the operating system wraps at 4GB, the
+sg_get_disk_io_stats_diff function will return
+5GB.
+<A NAME="lbAG">&nbsp;</A>
+<H2>SEE&nbsp;ALSO</H2>
+
+<B><A HREF="../man3/statgrab.3.html">statgrab</A></B>(3)
+<A NAME="lbAH">&nbsp;</A>
+<H2>WEBSITE</H2>
+
+<A HREF="http://www.i-scream.org/libstatgrab/">http://www.i-scream.org/libstatgrab/</A>
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">RETURN&nbsp;VALUES</A><DD>
+<DT><A HREF="#lbAF">BUGS</A><DD>
+<DT><A HREF="#lbAG">SEE&nbsp;ALSO</A><DD>
+<DT><A HREF="#lbAH">WEBSITE</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 15:24:03 GMT, March 26, 2014
+</BODY>
+</HTML>

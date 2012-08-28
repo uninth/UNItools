@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>ActiveState::Path - Collection of small utility functions</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>ActiveState::Path - Collection of small utility functions</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>ActiveState::Path - Collection of small utility functions</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  use ActiveState::Path qw(find_prog);
+  my $ls = find_prog(&quot;ls&quot;);</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module provides a collection of small utility functions dealing
+with file paths.</p>
+<p>The following functions are provided:</p>
+<dl>
+<dt><strong><a name="item_abs_path">abs_path( $path )</a></strong>
+
+<dd>
+<p>Returns an absolute pathname denoting the same file as $path.  If
+$path is already absolute it is returned unchanged.  The $path does
+not have to reference an existing file or directory.</p>
+</dd>
+<dd>
+<p>This functions differs from <a href="#item_realpath"><code>realpath()</code></a> by only removing ``.'' or ``..''
+segments at the beginning of $path and by only resolving the
+symlinks needed to process the ``..'' segments correctly.  The
+<a href="#item_realpath"><code>realpath()</code></a> function also requires the file at $path to exist.</p>
+</dd>
+</li>
+<dt><strong><a name="item_find_prog">find_prog( $name )</a></strong>
+
+<dt><strong>find_prog( $path )</strong>
+
+<dd>
+<p>This function returns the full path to the given program if it can be
+located on the system.  Otherwise <a href="../../../../../lib/5.8.7/pod/perlfunc.html#item_undef"><code>undef</code></a> is returned.</p>
+</dd>
+<dd>
+<p>The returned path might be relative.</p>
+</dd>
+</li>
+<dt><strong><a name="item_is_abs_path">is_abs_path( $path )</a></strong>
+
+<dd>
+<p>Returns TRUE if $path is an absolute file name.  This function works
+the same as File::Spec method file_name_is_absolute().</p>
+</dd>
+</li>
+<dt><strong><a name="item_join_path">join_path( $base, $path )</a></strong>
+
+<dd>
+<p>Returns a path that will reference the same file as $path does when
+the current directory is $base.  If $path is absolute then it is
+returned unchanged.</p>
+</dd>
+<dd>
+<p>The $base should reference an existing directory.  The $path does not
+have to refence an existing file or directory.</p>
+</dd>
+<dd>
+<p>Any leading ``.'' and ``..'' segments are removed from the $path before
+the paths are joined.  In order to process ``..'' segments <a href="#item_join_path"><code>join_path()</code></a>
+will need to resolve symlinks in $base, and the function might croak
+if this involves a symlink cycle.</p>
+</dd>
+</li>
+<dt><strong><a name="item_path_list"><code>path_list()</code></a></strong>
+
+<dd>
+<p>Returns the list of directories that will be searched to find
+programs.  The <a href="#item_path_list"><code>path_list()</code></a> is derived from the PATH environment
+variable.  In scalar context this returns the number of paths to be
+searched.</p>
+</dd>
+<dd>
+<p>On Unix when the PATH environment variable is not present then this
+function returns an empty list, but most shells still default to a
+path list like (<em>/usr/bin</em>, <em>/bin</em>).</p>
+</dd>
+</li>
+<dt><strong><a name="item_realpath">realpath( $path )</a></strong>
+
+<dd>
+<p>Returns the canonicalized absolute pathname of the path passed in.
+All symbolic links are expanded and references to <em>/./</em>, <em>/../</em> and
+extra <em>/</em> characters are resolved.  The $path passed in must be an
+existing file.  The function will croak if not, or if the symbolic
+links can't be expanded.</p>
+</dd>
+<dd>
+<p>This differs from the Cwd::realpath() function in that $path does
+not have to be a directory.</p>
+</dd>
+</li>
+<dt><strong><a name="item_rel_path">rel_path( $base, $path )</a></strong>
+
+<dd>
+<p>Return a relative pathname that denotes the same file as $path when
+$base is the current directory.</p>
+</dd>
+<dd>
+<p>The $base should reference an existing directory.  The $path does not
+have to refence an existing file or directory.</p>
+</dd>
+<dd>
+<p>This function differs from the File::Spec method <code>abs2rel()</code> in that it
+make sure that any ``..'' segments in the returned value is correct when
+the corresponding $base segments are symlinks.  If the $base path
+contains symlink cycles there might not be any relative path that can
+be produced, and in that case <a href="#item_rel_path"><code>rel_path()</code></a> falls back to returning
+abs_path($path).</p>
+</dd>
+</li>
+<dt><strong><a name="item_unsymlinked">unsymlinked( $path )</a></strong>
+
+<dd>
+<p>If $path denotes a symlink expand it, otherwise return $path
+unchanged.  The $path must reference an existing file.  This function
+differs from <a href="#item_realpath"><code>realpath()</code></a> by only expanding the symlink at the last
+segment of $path.</p>
+</dd>
+<dd>
+<p>On systems that don't implement symlinks this function is a noop,
+always returning $path unchanged.</p>
+</dd>
+<dd>
+<p>This function will croak if it's not possible to expand the symlink
+because of cycles.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>none.</p>
+
+</body>
+
+</html>

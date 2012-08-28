@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/setup/setup-1.0/RCS/interface_status,v 1.1 2014/05/13 21:48:40 root Exp $
+#
+
+printf "%10s\t%-10s\t\t\t%-25s\n" "Interface" "Link status" "IPv4 addr"
+IFNAMES=`ifconfig -a|sed '/^[ 	]/d; s/[  ].*//; /^$/d; /^lo$/d; /sit/d'`
+for IFNAME in $IFNAMES
+do
+	ifconfig ${IFNAME} up
+	IPv4=`ifconfig ${IFNAME} |sed '/inet addr/!d; s/.*addr://; s/[ 	].*Mask:/\//'`
+	STATUS=`ethtool ${IFNAME} | sed '/Link/!d; s/^[ \t]*//;s/[ \t]*$//'`
+	printf "%10s\t%-10s\t/\t%25s\n" ${IFNAME} "${STATUS}"  "${IPv4}"
+done

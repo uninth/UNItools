@@ -1,0 +1,78 @@
+head	1.4;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.4
+date	2014.08.19.13.44.05;	author root;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2014.08.19.09.48.18;	author root;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2014.08.18.13.48.47;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.07.03.10.49.18;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@/etc/rc.d/rc.local
+/etc/rc.d/rc.local.user
+/var/opt/UNIha/etc/UNIha.SH
+/var/opt/UNImrtg/cfg/*
+/var/opt/UNImrtg/etc/UNImrtg
+/var/opt/UNImrtg/etc/cp_http_mrtg.conf
+/var/opt/UNItools/conf/smtpclient.SH
+/var/opt/UNItools/etc/ntpd.conf
+/var/opt/UNIvdmon/*
+/var/ace/*
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@a0 1
+# UPDATED-BY-FWBU
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@a3 1
+/var/CPbackup/schemes/system_configuration.cpbak
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 1
+d12 1
+@

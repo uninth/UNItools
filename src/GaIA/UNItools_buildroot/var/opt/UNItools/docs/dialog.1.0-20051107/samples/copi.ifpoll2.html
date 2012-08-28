@@ -1,0 +1,137 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./copifuncs/copi.ifpoll2</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span>
+<span class="line">    1 </span><span class="dir"># Packets backup directory - You have to CREATE this directory</span>
+<span class="line">    2 </span>BAK<span class="sym">=/</span>var<span class="sym">/</span>spool<span class="sym">/</span>ifmail<span class="sym">/</span>BAK
+<span class="line">    3 </span>
+<span class="line">    4 </span><span class="dir"># logfile of ifcico</span>
+<span class="line">    5 </span>IFLOG<span class="sym">=/</span>var<span class="sym">/</span>log<span class="sym">/</span>ifmail<span class="sym">/</span>sysiflog
+<span class="line">    6 </span>
+<span class="line">    7 </span><span class="dir"># log archive</span>
+<span class="line">    8 </span>IFLOGARC<span class="sym">=/</span>var<span class="sym">/</span>log<span class="sym">/</span>ifmail<span class="sym">/</span>TheLog
+<span class="line">    9 </span>
+<span class="line">   10 </span><span class="dir"># owner of</span> <span class="dstr">&quot;ifcico&quot;</span><span class="dir"></span>
+<span class="line">   11 </span>IFCICO_OWNER<span class="sym">=</span>fnet
+<span class="line">   12 </span>
+<span class="line">   13 </span><span class="dir"># how often should i try to call NODE?</span>
+<span class="line">   14 </span>MaxTry<span class="sym">=</span><span class="num">30</span>
+<span class="line">   15 </span>
+<span class="line">   16 </span><span class="dir"># delay between outgoing calls in seconds</span>
+<span class="line">   17 </span>DELAY<span class="sym">=</span><span class="num">10</span>
+<span class="line">   18 </span>
+<span class="line">   19 </span><span class="dir"># where to log processing - file or tty/console</span>
+<span class="line">   20 </span>INFO_TTY<span class="sym">=/</span>dev<span class="sym">/</span>console
+<span class="line">   21 </span>
+<span class="line">   22 </span><span class="dir"># Lets backup the log and use a new one</span>
+<span class="line">   23 </span><span class="kwa">if</span> <span class="sym">[ -</span>e $IFLOG <span class="sym">];</span> then
+<span class="line">   24 </span>	echo Rearranging logs<span class="sym">...</span>
+<span class="line">   25 </span>	cat $IFLOG <span class="sym">&gt;&gt;</span> $IFLOGARC
+<span class="line">   26 </span>	cp <span class="sym">/</span>dev<span class="sym">/</span>null $IFLOG
+<span class="line">   27 </span>fi
+<span class="line">   28 </span>
+<span class="line">   29 </span>echo <span class="str">&quot;`date</span> <span class="esc">\&quot;</span><span class="str">+%b %d %T</span><span class="esc">\&quot;</span><span class="str">` ifpoll[$$]: starting&quot;</span> <span class="dir"># &gt;&gt; $INFO_TTY</span>
+<span class="line">   30 </span>
+<span class="line">   31 </span><span class="dir"># remember me, not to run as root..</span>
+<span class="line">   32 </span><span class="dir">#</span>
+<span class="line">   33 </span><span class="kwa">if</span> <span class="sym">[</span> `whoami` <span class="sym">!=</span> <span class="str">&quot;$IFCICO_OWNER&quot;</span> <span class="sym">];</span> then
+<span class="line">   34 </span>	echo <span class="str">&quot;*** run $0 as the owner of ifcico ***&quot;</span>
+<span class="line">   35 </span>	echo <span class="str">&quot;`date</span> <span class="esc">\&quot;</span><span class="str">+%b %d %T</span><span class="esc">\&quot;</span><span class="str">` ifpoll[$$]: wrong uid (rc 2)&quot;</span> <span class="dir"># &gt;&gt; $INFO_TTY</span>
+<span class="line">   36 </span>	exit <span class="num">2</span>
+<span class="line">   37 </span>fi
+<span class="line">   38 </span>
+<span class="line">   39 </span><span class="dir"># argv[1] is the optional node to call</span>
+<span class="line">   40 </span><span class="dir">#</span>
+<span class="line">   41 </span><span class="kwa">if</span> <span class="sym">[</span> <span class="str">&quot;$1&quot;</span> <span class="sym">!=</span> <span class="str">&quot;&quot;</span> <span class="sym">];</span> then
+<span class="line">   42 </span>	<span class="kwa">if</span> <span class="sym">[</span> <span class="str">&quot;$1&quot;</span> <span class="sym">=</span> <span class="str">&quot;-?&quot;</span> <span class="sym">] || [</span> <span class="str">&quot;$1&quot;</span> <span class="sym">=</span> <span class="str">&quot;-h&quot;</span> <span class="sym">];</span> then
+<span class="line">   43 </span>		echo <span class="str">&quot;usage: ifpoll [&lt;node&gt;]&quot;</span>
+<span class="line">   44 </span>		exit <span class="num">3</span>
+<span class="line">   45 </span>	<span class="kwa">else</span>
+<span class="line">   46 </span>		NODE<span class="sym">=</span>$<span class="num">1</span>
+<span class="line">   47 </span>	fi
+<span class="line">   48 </span>fi
+<span class="line">   49 </span>
+<span class="line">   50 </span><span class="dir"># let</span><span class="dstr">'s pack the fido stuff..</span>
+<span class="line">   51 </span><span class="dstr">#</span>
+<span class="line">   52 </span><span class="dstr">$FIDOPATH/ifpack</span>
+<span class="line">   53 </span><span class="dstr"></span>
+<span class="line">   54 </span><span class="dstr"># loop until ifcico could connect the node or MaxTry is encountered</span>
+<span class="line">   55 </span><span class="dstr">#</span>
+<span class="line">   56 </span><span class="dstr">i=1; errlv=1</span>
+<span class="line">   57 </span><span class="dstr">while let '</span><span class="dir">i &lt;= MaxTry</span><span class="dstr">' &amp;&amp; let '</span><span class="dir">errlv != 0</span><span class="dstr">'</span>
+<span class="line">   58 </span><span class="dstr">do</span>
+<span class="line">   59 </span><span class="dstr">	echo -n &quot;`date</span> <span class="esc">\&quot;</span><span class="dstr">+%b %d %T</span><span class="esc">\&quot;</span><span class="dstr">` ifpoll[$$]: $i. try ($NODE) &quot; # &gt;&gt; $INFO_TTY</span>
+<span class="line">   60 </span><span class="dstr">	#</span>
+<span class="line">   61 </span><span class="dstr">	# start ifcico in master mode ..</span>
+<span class="line">   62 </span><span class="dstr">	#</span>
+<span class="line">   63 </span><span class="dstr">	$FIDOPATH/ifcico -r 1 $NODE</span>
+<span class="line">   64 </span><span class="dstr">	errlv=$?</span>
+<span class="line">   65 </span><span class="dstr">	if [ $errlv != &quot;0&quot; ]; then</span>
+<span class="line">   66 </span><span class="dstr">		echo &quot;failed&quot; # &gt;&gt; $INFO_TTY</span>
+<span class="line">   67 </span><span class="dstr">		if [ $i != $MaxTry ]; then</span>
+<span class="line">   68 </span><span class="dstr">			sleep $DELAY</span>
+<span class="line">   69 </span><span class="dstr">		fi</span>
+<span class="line">   70 </span><span class="dstr">		let i=i+1</span>
+<span class="line">   71 </span><span class="dstr">	else</span>
+<span class="line">   72 </span><span class="dstr">		echo &quot;ok :)&quot; # &gt;&gt; $INFO_TTY</span>
+<span class="line">   73 </span><span class="dstr">	fi</span>
+<span class="line">   74 </span><span class="dstr">done</span>
+<span class="line">   75 </span><span class="dstr"></span>
+<span class="line">   76 </span><span class="dstr"># if the poll was fine, unpacking..</span>
+<span class="line">   77 </span><span class="dstr">#</span>
+<span class="line">   78 </span><span class="dstr">if [ $errlv = &quot;0&quot; ]; then</span>
+<span class="line">   79 </span><span class="dstr">	echo &quot;`date</span> <span class="esc">\&quot;</span><span class="dstr">+%b %d %T</span><span class="esc">\&quot;</span><span class="dstr">` ifpoll[$$]: unpacking.. &quot; # &gt;&gt; $INFO_TTY</span>
+<span class="line">   80 </span><span class="dstr">    	cp -f /var/spool/ifmail/inb/*.* $BAK</span>
+<span class="line">   81 </span><span class="dstr">	$FIDOPATH/ifunpack</span>
+<span class="line">   82 </span><span class="dstr">	# add here some additional lines for processing tic files or</span>
+<span class="line">   83 </span><span class="dstr">	# incoming file-lists or simular..</span>
+<span class="line">   84 </span><span class="dstr">else</span>
+<span class="line">   85 </span><span class="dstr">	# write me a mail about the failed poll</span>
+<span class="line">   86 </span><span class="dstr">	tail --lines=20 $IFLOG | elm -s &quot;ifpoll: failed&quot; $IFCICO_SYSOP &gt;/dev/null</span>
+<span class="line">   87 </span><span class="dstr">fi</span>
+<span class="line">   88 </span><span class="dstr"></span>
+<span class="line">   89 </span><span class="dstr">echo &quot;`date</span> <span class="esc">\&quot;</span><span class="dstr">+%b %d %T</span><span class="esc">\&quot;</span><span class="dstr">` ifpoll[$$]: finished (rc $errlv)&quot; # &gt;&gt; $INFO_TTY</span>
+<span class="line">   90 </span><span class="dstr"></span>
+<span class="line">   91 </span><span class="dstr"># Collect some infos...</span>
+<span class="line">   92 </span><span class="dstr">echo &quot;&quot;</span>
+<span class="line">   93 </span><span class="dstr">echo &quot;*** Outgoing File Transfer Stats: ***&quot;</span>
+<span class="line">   94 </span><span class="dstr">grep sent $IFLOG</span>
+<span class="line">   95 </span><span class="dstr">echo &quot;*** Incoming File Transfer Stats: ***&quot;</span>
+<span class="line">   96 </span><span class="dstr">grep received $IFLOG</span>
+<span class="line">   97 </span><span class="dstr">echo &quot;&quot;</span>
+<span class="line">   98 </span><span class="dstr"></span>
+<span class="line">   99 </span><span class="dstr">echo &quot;----&gt;&gt; New mail: &lt;&lt;-----&quot;</span>
+<span class="line">  100 </span><span class="dstr">grep echomail $IFLOG</span>
+<span class="line">  101 </span><span class="dstr">echo &quot;----&gt;&gt; Personal mail: &lt;&lt;-----&quot;</span>
+<span class="line">  102 </span><span class="dstr">grep &quot;mail from&quot; $IFLOG</span>
+<span class="line">  103 </span><span class="dstr">echo &quot;&quot;</span>
+<span class="line">  104 </span><span class="dstr"></span>
+<span class="line">  105 </span><span class="dstr"># return the errorlevel of ifcico</span>
+<span class="line">  106 </span><span class="dstr">exit $errlv</span><span class="dir"></span>
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

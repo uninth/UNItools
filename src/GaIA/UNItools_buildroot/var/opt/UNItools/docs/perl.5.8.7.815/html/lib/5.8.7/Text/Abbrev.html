@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<title>abbrev - create an abbreviation table from a list</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',3);</script>
+<h1><a>abbrev - create an abbreviation table from a list</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#example">EXAMPLE</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>abbrev - create an abbreviation table from a list</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    use Text::Abbrev;
+    abbrev $hashref, LIST</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Stores all unambiguous truncations of each element of LIST
+as keys in the associative array referenced by <code>$hashref</code>.
+The values are the original list elements.</p>
+<p>
+</p>
+<hr />
+<h1><a name="example">EXAMPLE</a></h1>
+<pre>
+    $hashref = abbrev qw(list edit send abort gripe);</pre>
+<pre>
+    %hash = abbrev qw(list edit send abort gripe);</pre>
+<pre>
+    abbrev $hashref, qw(list edit send abort gripe);</pre>
+<pre>
+    abbrev(*hash, qw(list edit send abort gripe));</pre>
+
+</body>
+
+</html>

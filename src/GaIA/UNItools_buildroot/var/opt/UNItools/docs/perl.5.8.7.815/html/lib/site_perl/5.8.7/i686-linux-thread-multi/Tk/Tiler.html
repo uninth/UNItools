@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>Tk::Tiler - Scrollable frame with sub-widgets arranged into rows</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>Tk::Tiler - Scrollable frame with sub-widgets arranged into rows</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Tk::Tiler - Scrollable frame with sub-widgets arranged into rows</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  use Tk::Tiler;</pre>
+<pre>
+  my $tl = $parent-&gt;Scrolled('Tiler', -columns =&gt; n, -rows =&gt; n);</pre>
+<pre>
+  my $a  = $tl-&gt;Xxxxx(...);
+  my $b  = $tl-&gt;Xxxxx(...);
+  my $c  = $tl-&gt;Xxxxx(...);</pre>
+<pre>
+  $tl-&gt;Manage($a,$b,$c);</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Tiler is derived form Tk::Frame. It is a geometry managing widget which
+accepts widgets to manage. It places the widgets in a grid with as many
+widgets as possible in a row. All the ``slots'' in the grid are the same size,
+which is determined by the largest managed widget.</p>
+<p>The grid may be scrolled vertically.</p>
+
+</body>
+
+</html>

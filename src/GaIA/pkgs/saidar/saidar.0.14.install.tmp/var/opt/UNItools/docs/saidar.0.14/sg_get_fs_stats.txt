@@ -1,0 +1,103 @@
+sg_get_fs_stats(3)					    sg_get_fs_stats(3)
+
+
+
+NAME
+       sg_get_fs_stats - get filesystem statistics
+
+SYNOPSIS
+       #include <statgrab.h>
+
+
+       sg_fs_stats *sg_get_fs_stats(int *entries);
+
+DESCRIPTION
+       The sg_get_fs_stats takes a pointer to an int, entries, which is filled
+       with the number of mounted file systems the  machine  has.  The	return
+       value  is  a  pointer  to  the  first member of an array of sg_fs_stats
+       structures; the number of entries in the array is returned in  entries.
+
+       The  function  returns  statistics about mounted filesystems, including
+       free space and inode usage.
+
+RETURN VALUES
+       sg_get_fs_stats returns a pointer to a structure of type sg_fs_stats.
+
+
+       typedef struct {
+	       char *device_name;
+	       char *fs_type;
+	       char *mnt_point;
+	       long long size;
+	       long long used;
+	       long long avail;
+	       long long total_inodes;
+	       long long used_inodes;
+	       long long free_inodes;
+	       long long avail_inodes;
+	       long long io_size;
+	       long long block_size;
+	       long long total_blocks;
+	       long long free_blocks;
+	       long long used_blocks;
+	       long long avail_blocks;
+       } sg_fs_stats;
+
+
+       device_name
+	      The name known to the operating system.  (eg. on linux it	 might
+	      be hda)
+
+       fs_type
+	      The type of the filesystem.
+
+       mnt_point
+	      The mount point of the file system.
+
+       size   The size, in bytes, of the file system.
+
+       used   The amount of space, in bytes, used on the filesystem.
+
+       avail  The amount of space, in bytes, available on the filesystem.
+
+       total_inodes
+	      The total number of inodes in the filesystem.
+
+       used_inodes
+	      The number of used inodes in the filesystem.
+
+       free_inodes
+	      The number of free inodes in the filesystem.
+
+       avail_inodes
+	      The number of free inodes available to non-privileged processes.
+
+       io_size
+	      A suggested optimal block size for IO operations	--  if	you’re
+	      reading or writing lots of data, do it in chunks of this size.
+
+       block_size
+	      How  big blocks actually are on the underlying filesystem (typi-
+	      cally for purposes of stats reporting).
+
+       total_blocks
+	      The total number of blocks in the filesystem.
+
+       free_blocks
+	      The number of free blocks in the filesystem.
+
+       used_blocks
+	      The number of used blocks in the filesystem.
+
+       avail_blocks
+	      The number of free blocks available to non-privileged processes.
+
+SEE ALSO
+       statgrab(3)
+
+WEBSITE
+       http://www.i-scream.org/libstatgrab/
+
+
+
+i-scream		 $Date: 2005/07/13 13:01:23 $	    sg_get_fs_stats(3)

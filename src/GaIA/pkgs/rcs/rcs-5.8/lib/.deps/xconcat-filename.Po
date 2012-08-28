@@ -1,0 +1,14 @@
+xconcat-filename.o xconcat-filename.o: xconcat-filename.c config.h \
+  concat-filename.h xalloc.h \
+  /usr/lib/gcc/i386-redhat-linux/4.1.2/include/stddef.h \
+  xalloc-oversized.h
+
+config.h:
+
+concat-filename.h:
+
+xalloc.h:
+
+/usr/lib/gcc/i386-redhat-linux/4.1.2/include/stddef.h:
+
+xalloc-oversized.h:

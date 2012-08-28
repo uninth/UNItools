@@ -1,0 +1,326 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of RCSDIFF</TITLE>
+</HEAD><BODY>
+<H1>RCSDIFF</H1>
+Section: User Commands  (1)<BR>Updated: 2011-08-30<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+rcsdiff - compare RCS revisions
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>rcsdiff</B>
+
+[
+<B>-k</B><I>subst</I>
+
+] [
+<B>-q</B>
+
+] [
+<B>-r</B><I>rev1</I>
+
+[
+<B>-r</B><I>rev2</I>
+
+] ] [
+<B>-T</B>
+
+] [
+<B>-V</B>[<I>n</I>]
+
+] [
+<B>-x</B><I>suffixes</I>
+
+] [
+<B>-z</B><I>zone</I>
+
+] [
+<I>diff options</I>
+
+]
+<I>file ...</I>
+
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<B>rcsdiff</B>
+
+runs
+<B><A HREF="../man1/diff.1.html">diff</A></B>(1)
+
+to compare two revisions of each <FONT SIZE="-1">RCS</FONT> file given.
+<P>
+
+Filenames matching an <FONT SIZE="-1">RCS</FONT> suffix denote <FONT SIZE="-1">RCS</FONT> files;
+all others denote working files.
+Names are paired as explained in
+<B><A HREF="../man1/ci.1.html">ci</A></B>(1).
+
+<P>
+
+The option
+<B>-q</B>
+
+suppresses diagnostic output.
+Zero, one, or two revisions may be specified with
+<B>-r</B>.
+
+The option
+<B>-k</B><I>subst</I>
+
+affects keyword substitution when extracting
+revisions, as described in
+<B><A HREF="../man1/co.1.html">co</A></B>(1);
+
+for example,
+<B>-kk&nbsp;-r1.1&nbsp;-r1.2</B>
+
+ignores differences in keyword values when comparing revisions
+<B>1.1</B>
+
+and
+<B>1.2</B>.
+
+To avoid excess output from locker name substitution,
+<B>-kkvl</B>
+
+is assumed if (1) at most one revision option is given,
+(2) no
+<B>-k</B>
+
+option is given, (3)
+<B>-kkv</B>
+
+is the default keyword substitution, and
+(4) the working file's mode would be produced by
+<B>co&nbsp;-l.</B>
+
+See
+<B><A HREF="../man1/co.1.html">co</A></B>(1)
+
+for details
+about
+<B>-T</B>,
+
+<B>-V</B>,
+
+<B>-x</B>
+
+and
+<B>-z</B>.
+
+Otherwise, all options of
+<B><A HREF="../man1/diff.1.html">diff</A></B>(1)
+
+that apply to regular files are accepted, with the same meaning as for
+<B>diff</B>.
+
+<P>
+
+If both
+<I>rev1</I>
+
+and
+<I>rev2</I>
+
+are omitted,
+<B>rcsdiff</B>
+
+compares the latest revision on the
+default branch (by default the trunk)
+with the contents of the corresponding working file.  This is useful
+for determining what you changed since the last checkin.
+<P>
+
+If
+<I>rev1</I>
+
+is given, but
+<I>rev2</I>
+
+is omitted,
+<B>rcsdiff</B>
+
+compares revision
+<I>rev1</I>
+
+of the <FONT SIZE="-1">RCS</FONT> file with
+the contents of the corresponding working file.
+<P>
+
+If both
+<I>rev1</I>
+
+and
+<I>rev2</I>
+
+are given,
+<B>rcsdiff</B>
+
+compares revisions
+<I>rev1</I>
+
+and
+<I>rev2</I>
+
+of the <FONT SIZE="-1">RCS</FONT> file.
+<P>
+
+Both
+<I>rev1</I>
+
+and
+<I>rev2</I>
+
+may be given numerically or symbolically.
+<A NAME="lbAE">&nbsp;</A>
+<H2>EXAMPLE</H2>
+
+The command
+<P>
+
+<B>        rcsdiff  f.c</B>
+
+<P>
+
+compares the latest revision on the default branch of the <FONT SIZE="-1">RCS</FONT> file
+to the contents of the working file
+<B>f.c</B>.
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>ENVIRONMENT</H2>
+
+<DL COMPACT>
+<DT><B></B><FONT SIZE="-1"><B>RCSINIT</B></FONT><B></B>
+
+<DD>
+Options prepended to the argument list, separated by spaces.
+A backslash escapes spaces within an option.
+The
+<B></B><FONT SIZE="-1"><B>RCSINIT</B></FONT><B></B>
+
+options are prepended to the argument lists of most <FONT SIZE="-1">RCS</FONT> commands.
+Useful
+<B></B><FONT SIZE="-1"><B>RCSINIT</B></FONT><B></B>
+
+options include
+<B>-q</B>,
+
+<B>-V</B>,
+
+<B>-x</B>,
+
+and
+<B>-z</B>.
+
+<DT><B></B><FONT SIZE="-1"><B>RCS_MEM_LIMIT</B></FONT><B></B>
+
+<DD>
+An integer
+<I>lim</I>,
+
+measured in kilobytes, specifying the threshold under
+which commands will try to use memory-based operations for
+processing the <FONT SIZE="-1">RCS</FONT> file.
+(For <FONT SIZE="-1">RCS</FONT> files of size
+<I>lim</I>
+
+kilobytes or greater,
+RCS will use the slower standard input/output routines.)
+Default value is 256.
+<DT><B></B><FONT SIZE="-1"><B>TMPDIR</B></FONT><B></B>
+
+<DD>
+Name of the temporary directory.
+If not set, the environment variables
+<B></B><FONT SIZE="-1"><B>TMP</B></FONT><B></B>
+
+and
+<B></B><FONT SIZE="-1"><B>TEMP</B></FONT><B></B>
+
+are inspected instead and the first value found is taken;
+if none of them are set,
+a host-dependent default is used, typically
+<B>/tmp</B>.
+
+</DL>
+<A NAME="lbAG">&nbsp;</A>
+<H2>DIAGNOSTICS</H2>
+
+Exit status is 0 for no differences during any comparison,
+1 for some differences, 2 for trouble.
+
+<A NAME="lbAH">&nbsp;</A>
+<H2>IDENTIFICATION</H2>
+
+Author: Walter F. Tichy.
+<BR>
+
+Manual Page Revision: 5.8; Release Date: 2011-08-30.
+<BR>
+
+Copyright &#169; 2010, 2011 Thien-Thi Nguyen.
+<BR>
+
+Copyright &#169; 1990, 1991, 1992, 1993 Paul Eggert.
+<BR>
+
+Copyright &#169; 1982, 1988, 1989 Walter F. Tichy.
+<BR>
+
+<A NAME="lbAI">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="../man1/ci.1.html">ci</A></B>(1),
+
+<B><A HREF="../man1/co.1.html">co</A></B>(1),
+
+<B><A HREF="../man1/diff.1.html">diff</A></B>(1),
+
+<B><A HREF="../man1/ident.1.html">ident</A></B>(1),
+
+<B><A HREF="../man1/rcs.1.html">rcs</A></B>(1),
+
+<B><A HREF="../man1/rcsintro.1.html">rcsintro</A></B>(1),
+
+<B><A HREF="../man1/rcsmerge.1.html">rcsmerge</A></B>(1),
+
+<B><A HREF="../man1/rlog.1.html">rlog</A></B>(1).
+
+<P>
+
+Walter F. Tichy,
+<FONT SIZE="-1">RCS</FONT>--A System for Version Control,
+<I>Software--Practice &amp; Experience</I>
+
+<B>15</B>,
+
+7 (July 1985), 637-654.
+<BR>
+
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">EXAMPLE</A><DD>
+<DT><A HREF="#lbAF">ENVIRONMENT</A><DD>
+<DT><A HREF="#lbAG">DIAGNOSTICS</A><DD>
+<DT><A HREF="#lbAH">IDENTIFICATION</A><DD>
+<DT><A HREF="#lbAI">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 18:55:30 GMT, August 22, 2012
+</BODY>
+</HTML>

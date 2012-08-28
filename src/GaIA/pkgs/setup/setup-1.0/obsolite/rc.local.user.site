@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# $Header$
+#
+# Site specific tweaks
+#
+/sbin/ifconfig -a| sed '/Link/!d; /Loopback/d; s/Link.*//; s/\.[0-9]*//' | sort -u |
+while read INTERFACE
+do
+	# lock interface
+	ethtool -s ${INTERFACE} speed 1000 duplex full autoneg on
+	# Increase FIFO buffer on network netcard
+	ethtool -G ${INTERFACE} rx 4096 tx 4096
+done

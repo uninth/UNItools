@@ -1,0 +1,148 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>tkvars - Variables used or set by Tk</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>tkvars - Variables used or set by Tk</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#keywords">KEYWORDS</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>tkvars - Variables used or set by Tk</p>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The following perl variables are either set or used by Tk at various times
+in its execution. (For a list of variables used by perl see <a href="../../../../../lib/5.8.7/pod/perlvar.html">the perlvar manpage</a>.)</p>
+<dl>
+<dt><strong><a name="item__tk__library"><strong>$Tk::library</strong></a></strong>
+
+<dd>
+<p>This variable holds the file name for a directory containing the modules
+related to Tk.  These modules include an initialization
+file that is normally processed whenever a Tk application starts up,
+plus other files containing procedures that implement default behaviors
+for widgets.
+The initial value of <strong>$Tk::library</strong> is set when Tk is added to
+an interpreter;  this is done by searching searching for a directory
+named Tk in the directory where the file <em>Tk.pm</em>, or the first
+directory <em>Tk</em> in <a href="../../../../../lib/5.8.7/pod/perlvar.html#item__inc"><code>@INC</code></a>.</p>
+</dd>
+<dd>
+<p>The <strong>TK_LIBRARY</strong> environment variable used by Tcl/Tk is not
+supported by perl/Tk.  Please use <a href="../../../../../lib/5.8.7/pod/perlvar.html#_inc">@INC</a> to change where modules
+are searched.</p>
+</dd>
+<dd>
+<p><strong>Note:</strong> This is Tcl remnant. With perl it makes more sense to
+use <a href="../../../../../lib/5.8.7/pod/perlvar.html#item__inc"><code>@INC</code></a> and <a href="../../../../../lib/5.8.7/pod/perlvar.html#item__inc"><code>%INC</code></a>).</p>
+</dd>
+</li>
+<dt><strong><a name="item__tk__patchlevel"><strong>$Tk::patchLevel</strong></a></strong>
+
+<dd>
+<p>Contains a decimal integer giving the current patch level for Tk.
+The patch level is incremented for each new release or patch, and
+it uniquely identifies an official version of Tk.</p>
+</dd>
+<dd>
+<p><strong>Note:</strong> this is Tcl remnant. With perl it makes more sense to
+use <strong>$Tk::VERSION</strong> described below.</p>
+</dd>
+</li>
+<dt><strong><a name="item__tk__strictmotif"><strong>$Tk::strictMotif</strong></a></strong>
+
+<dd>
+<p>This variable is set to zero by default.
+If an application sets it to one, then Tk attempts to adhere as
+closely as possible to Motif look-and-feel standards.
+For example, active elements such as buttons and scrollbar
+sliders will not change color when the pointer passes over them.</p>
+</dd>
+</li>
+<dt><strong><a name="item__tk__version"><strong>$Tk::VERSION</strong></a></strong>
+
+<dd>
+<p>The variable holds the current version number of the perl/Tk
+release in the form <em>major</em>.<em>minor</em>.  <em>Major</em> and
+<em>minor</em> are integers.</p>
+</dd>
+<dd>
+<p>The <em>major</em> version number shows on which
+Tcl/Tk release perl/Tk is based.  E.g., <strong>402</strong> means based on
+Tcls Tk 4.2.  (Patchlevel of Tcls Tk are not incorporated because
+perl/Tk tended  to be ``<em>ahead</em>'' of them on some fixes and behind on
+others.  The first digest of the major version number increases in
+any Tk release that includes changes that are not backward compatible
+(i.e. whenever existing perl/Tk applications and scripts may have to change to
+work with the new release).</p>
+</dd>
+<dd>
+<p>The <em>minor</em> version depends on perl/Tk only. It uses the
+'even'='stable', 'odd'='experimental' scheme that linux uses:</p>
+</dd>
+<dd>
+<pre>
+ .0xx  - inherently 'alpha'
+ .1xx  - experimental 'beta'
+ .2xx  - stable
+ .3xx  - experimental
+ .4xx  - stable
+ ...</pre>
+</dd>
+<dd>
+<p>The minor version number increases with
+each new release of Tk, except that it resets to zero whenever the
+major version number changes.</p>
+</dd>
+</li>
+<dt><strong><a name="item__tk__version"><strong>$Tk::version</strong></a></strong>
+
+<dd>
+<p>The variable holds the current version number of the Tk
+library in the form <em>major</em>.<em>minor</em>.  <em>Major</em> and
+<em>minor</em> are integers.  The major version number increases in
+any Tk release that includes changes that are not backward compatible
+(i.e. whenever existing Tk applications and scripts may have to change to
+work with the new release).  The minor version number increases with
+each new release of Tk, except that it resets to zero whenever the
+major version number changes.</p>
+</dd>
+<dd>
+<p><strong>Note:</strong> this is Tcl remnant.  With perl it makes more sense to
+use <strong>$Tk::VERSION</strong> described above.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="keywords">KEYWORDS</a></h1>
+<p>variables, version</p>
+
+</body>
+
+</html>

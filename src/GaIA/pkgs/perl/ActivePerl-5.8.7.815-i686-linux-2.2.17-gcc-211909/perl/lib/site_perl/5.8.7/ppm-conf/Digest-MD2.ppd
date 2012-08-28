@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOFTPKG NAME="Digest-MD2" VERSION="2,3,0,0">
+  <TITLE>Digest-MD2</TITLE>
+  <ABSTRACT>Perl interface to the MD2 algorithm</ABSTRACT>
+  <AUTHOR>Gisle Aas &lt;gisle@ActiveState.com></AUTHOR>
+  <IMPLEMENTATION>
+    <CODEBASE HREF="http://ppm.ActiveState.com/PPMPackages/5.8-linux/i686-linux-thread-multi-5.8/Digest-MD2.tar.gz"/>
+  </IMPLEMENTATION>
+</SOFTPKG>

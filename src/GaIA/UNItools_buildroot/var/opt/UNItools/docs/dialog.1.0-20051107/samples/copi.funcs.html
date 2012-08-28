@@ -1,0 +1,1333 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./copifuncs/copi.funcs</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir">#!/bin/bash</span>
+<span class="line">    1 </span><span class="dir"># $Id: copi.funcs,v 1.3 2001/01/15 22:24:26 tom Exp $</span>
+<span class="line">    2 </span><span class="dir">#  ComeOn Point Functions! v0.9.2</span>
+<span class="line">    3 </span><span class="dir">#  - usate da vari altri moduli ComeOn Point...</span>
+<span class="line">    4 </span><span class="dir">#</span>
+<span class="line">    5 </span><span class="dir">#  AUTHOR: Beppe (beppe.dem&#64;nsm.it)</span>
+<span class="line">    6 </span><span class="dir">#</span>
+<span class="line">    7 </span><span class="dir">#  This program is free software; you can redistribute it and/or</span>
+<span class="line">    8 </span><span class="dir">#  modify it under the terms of the GNU General Public License</span>
+<span class="line">    9 </span><span class="dir">#  as published by the Free Software Foundation; either version 2</span>
+<span class="line">   10 </span><span class="dir">#  of the License, or (at your option) any later version.</span>
+<span class="line">   11 </span><span class="dir">#</span>
+<span class="line">   12 </span><span class="dir">#  This program is distributed in the hope that it will be useful,</span>
+<span class="line">   13 </span><span class="dir">#  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="line">   14 </span><span class="dir">#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="line">   15 </span><span class="dir">#  GNU General Public License for more details.</span>
+<span class="line">   16 </span><span class="dir">#</span>
+<span class="line">   17 </span><span class="dir">#  You should have received a copy of the GNU General Public License</span>
+<span class="line">   18 </span><span class="dir">#  along with this program; if not, write to the Free Software</span>
+<span class="line">   19 </span><span class="dir">#  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.</span>
+<span class="line">   20 </span><span class="dir">#</span>
+<span class="line">   21 </span>
+<span class="line">   22 </span>HOST<span class="sym">=</span>`hostname`
+<span class="line">   23 </span>DOMAIN<span class="sym">=</span>`hostname <span class="sym">-</span>d`
+<span class="line">   24 </span>PKTNAME<span class="sym">=</span><span class="str">&quot;ComeOn Point Installer!&quot;</span>
+<span class="line">   25 </span>COMEONDIR<span class="sym">=/</span>usr<span class="sym">/</span>lib<span class="sym">/</span>ComeOn
+<span class="line">   26 </span>
+<span class="line">   27 </span>AKASETUP<span class="sym">=</span>$COMEONDIR<span class="sym">/</span>point<span class="sym">/.</span>akasetup
+<span class="line">   28 </span>COPIUSER<span class="sym">=</span>$COMEONDIR<span class="sym">/</span>point<span class="sym">/.</span>copi<span class="sym">.</span>user
+<span class="line">   29 </span>EMSIFILE<span class="sym">=</span>$COMEONDIR<span class="sym">/</span>point<span class="sym">/.</span>emsi
+<span class="line">   30 </span>PNTSETUP<span class="sym">=</span>$COMEONDIR<span class="sym">/</span>point<span class="sym">/.</span>pntsetup
+<span class="line">   31 </span>
+<span class="line">   32 </span><span class="kwd">mkstemp</span><span class="sym">() {</span>
+<span class="line">   33 </span>  eval <span class="str">'tmp_'</span>$<span class="num">1</span><span class="str">'=`tempfile 2&gt;/dev/null` || tmp_'</span>$<span class="num">1</span><span class="str">'=/tmp/'</span>$<span class="num">1</span><span class="str">'$$'</span>
+<span class="line">   34 </span><span class="sym">}</span>
+<span class="line">   35 </span>
+<span class="line">   36 </span><span class="dir"># Args: [start_uid]</span>
+<span class="line">   37 </span><span class="dir"># Returns: $FOUND_UID</span>
+<span class="line">   38 </span><span class="kwd">find_unused_uid</span><span class="sym">() {</span>
+<span class="line">   39 </span>
+<span class="line">   40 </span>  <span class="kwa">if</span> <span class="sym">[</span> $<span class="num">1</span> <span class="sym">];</span> then
+<span class="line">   41 </span>    FOUND_UID<span class="sym">=</span>$<span class="num">1</span>
+<span class="line">   42 </span>  <span class="kwa">else</span>
+<span class="line">   43 </span>    FOUND_UID<span class="sym">=</span><span class="num">501</span>
+<span class="line">   44 </span>  fi
+<span class="line">   45 </span>
+<span class="line">   46 </span>  <span class="kwa">while</span> <span class="sym">[</span> <span class="str">&quot;`cut -f3 -d: /etc/passwd | grep -x $FOUND_UID`&quot;</span> <span class="sym">]</span>
+<span class="line">   47 </span>  <span class="kwa">do</span>
+<span class="line">   48 </span>    FOUND_UID<span class="sym">=</span>$<span class="sym">[</span>$FOUND_UID<span class="sym">+</span><span class="num">1</span><span class="sym">]</span>
+<span class="line">   49 </span>  done
+<span class="line">   50 </span><span class="sym">}</span>
+<span class="line">   51 </span>
+<span class="line">   52 </span><span class="kwd">int2fido</span><span class="sym">() {</span>
+<span class="line">   53 </span> _RETVAL<span class="sym">=</span><span class="str">&quot;`echo $1 | cut -f3 -d. | cut -c2-`:</span><span class="esc">\</span>
+<span class="line">   54 </span><span class="str">`echo $1 | cut -f2 -d. | cut -c2-`/</span><span class="esc">\</span>
+<span class="line">   55 </span><span class="str">`echo $1 | cut -f1 -d. | cut -c2-`&quot;</span>
+<span class="line">   56 </span><span class="sym">}</span>
+<span class="line">   57 </span><span class="kwd">int2fidonet</span><span class="sym">() {</span>
+<span class="line">   58 </span> _RETVAL<span class="sym">=</span><span class="str">&quot;`echo $1 | cut -f3 -d. | cut -c2-`:</span><span class="esc">\</span>
+<span class="line">   59 </span><span class="str">`echo $1 | cut -f2 -d. | cut -c2-`/</span><span class="esc">\</span>
+<span class="line">   60 </span><span class="str">`echo $1 | cut -f1 -d. | cut -c2-`&#64;</span><span class="esc">\</span>
+<span class="line">   61 </span><span class="str">`echo $1 | cut -f4- -d.`&quot;</span>
+<span class="line">   62 </span><span class="sym">}</span>
+<span class="line">   63 </span><span class="kwd">fido2int</span><span class="sym">() {</span>
+<span class="line">   64 </span> _RETVAL<span class="sym">=</span><span class="str">&quot;f</span><span class="esc">\</span>
+<span class="line">   65 </span><span class="str">`echo $1 | cut -f2 -d '/'`.n</span><span class="esc">\</span>
+<span class="line">   66 </span><span class="str">`echo $1 | cut -f1 -d '/' | cut -f2 -d:`.z</span><span class="esc">\</span>
+<span class="line">   67 </span><span class="str">`echo $1 | cut -f1 -d '/' | cut -f1 -d:`&quot;</span>
+<span class="line">   68 </span><span class="sym">}</span>
+<span class="line">   69 </span><span class="kwd">fidonet2int</span><span class="sym">() {</span>
+<span class="line">   70 </span> _RETVAL<span class="sym">=</span><span class="str">&quot;f</span><span class="esc">\</span>
+<span class="line">   71 </span><span class="str">`echo $1 | cut -f2 -d/ | cut -f1 -d&#64;`.n</span><span class="esc">\</span>
+<span class="line">   72 </span><span class="str">`echo $1 | cut -f1 -d/ | cut -f2 -d:`.z</span><span class="esc">\</span>
+<span class="line">   73 </span><span class="str">`echo $1 | cut -f1 -d/ | cut -f1 -d:`.</span><span class="esc">\</span>
+<span class="line">   74 </span><span class="str">`echo $1 | cut -f2 -d&#64;`&quot;</span>
+<span class="line">   75 </span><span class="sym">}</span>
+<span class="line">   76 </span><span class="kwd">fidonetpoint2int</span><span class="sym">() {</span>
+<span class="line">   77 </span> _RETVAL<span class="sym">=</span><span class="str">&quot;p</span><span class="esc">\</span>
+<span class="line">   78 </span><span class="str">`echo $1 | cut -f2 -d. | cut -f1 -d&#64;`.f</span><span class="esc">\</span>
+<span class="line">   79 </span><span class="str">`echo $1 | cut -f2 -d/ | cut -f1 -d.`.n</span><span class="esc">\</span>
+<span class="line">   80 </span><span class="str">`echo $1 | cut -f2 -d: | cut -f1 -d/`.z</span><span class="esc">\</span>
+<span class="line">   81 </span><span class="str">`echo $1 | cut -f1 -d/ | cut -f1 -d:`.</span><span class="esc">\</span>
+<span class="line">   82 </span><span class="str">`echo $1 | cut -f2 -d&#64;`.org&quot;</span>
+<span class="line">   83 </span><span class="sym">}</span>
+<span class="line">   84 </span>
+<span class="line">   85 </span><span class="dir"># Parameters: fqdn</span>
+<span class="line">   86 </span><span class="kwd">configure_loopback</span><span class="sym">() {</span>
+<span class="line">   87 </span>  dialog <span class="sym">--</span>backtitle <span class="str">&quot;$TITLE&quot;</span> <span class="sym">--</span>infobox <span class="str">&quot;Configuro la rete (in modo loopback)...&quot;</span> <span class="num">0 0</span>
+<span class="line">   88 </span>
+<span class="line">   89 </span>  FQDN<span class="sym">=</span>$<span class="num">1</span>
+<span class="line">   90 </span>  HOST<span class="sym">=</span>`echo $FQDN <span class="sym">|</span> cut <span class="sym">-</span>f1 <span class="sym">-</span>d<span class="sym">.</span>`
+<span class="line">   91 </span>  DOMAIN<span class="sym">=</span>`echo $FQDN <span class="sym">|</span> cut <span class="sym">-</span>f2<span class="sym">- -</span>d<span class="sym">.</span>`
+<span class="line">   92 </span>
+<span class="line">   93 </span>  save <span class="sym">/</span>etc<span class="sym">/</span>hostname
+<span class="line">   94 </span>  echo $FQDN <span class="sym">&gt;/</span>etc<span class="sym">/</span>HOSTNAME
+<span class="line">   95 </span>  export HOSTNAME<span class="sym">=</span>$FQDN
+<span class="line">   96 </span>  hostname $HOST
+<span class="line">   97 </span>
+<span class="line">   98 </span>  save <span class="sym">/</span>etc<span class="sym">/</span>rc<span class="sym">.</span>d<span class="sym">/</span>rc<span class="sym">.</span>inet1
+<span class="line">   99 </span>  cat <span class="sym">&lt;&lt;</span>EOF <span class="sym">&gt;/</span>etc<span class="sym">/</span>rc<span class="sym">.</span>d<span class="sym">/</span>rc<span class="sym">.</span>inet1
+<span class="line">  100 </span><span class="dir">#! /bin/sh</span>
+<span class="line">  101 </span><span class="dir">#</span>
+<span class="line">  102 </span><span class="dir"># rc.inet1      This shell script boots up the base INET system.</span>
+<span class="line">  103 </span>
+<span class="line">  104 </span><span class="dir"># Attach the loopback device.</span>
+<span class="line">  105 </span><span class="sym">/</span>sbin<span class="sym">/</span>ifconfig lo <span class="num">127.0.0.1</span>
+<span class="line">  106 </span><span class="sym">/</span>sbin<span class="sym">/</span>route add <span class="sym">-</span>net <span class="num">127.0.0.0</span>
+<span class="line">  107 </span>
+<span class="line">  108 </span><span class="dir"># End of rc.inet1</span>
+<span class="line">  109 </span>EOF
+<span class="line">  110 </span>  chmod <span class="num">755</span> <span class="sym">/</span>etc<span class="sym">/</span>rc<span class="sym">.</span>d<span class="sym">/</span>rc<span class="sym">.</span>inet1
+<span class="line">  111 </span>
+<span class="line">  112 </span>
+<span class="line">  113 </span>  save <span class="sym">/</span>etc<span class="sym">/</span>networks
+<span class="line">  114 </span>  cat <span class="sym">&lt;&lt;</span>EOF <span class="sym">&gt;/</span>etc<span class="sym">/</span>networks
+<span class="line">  115 </span><span class="dir">#</span>
+<span class="line">  116 </span><span class="dir"># networks      This file describes a number of netname-to-address</span>
+<span class="line">  117 </span><span class="dir">#               mappings for the TCP/IP subsystem.  It is mostly</span>
+<span class="line">  118 </span><span class="dir">#               used at boot time, when no name servers are running.</span>
+<span class="line">  119 </span><span class="dir">#</span>
+<span class="line">  120 </span>
+<span class="line">  121 </span>loopback        <span class="num">127.0.0.0</span>
+<span class="line">  122 </span>
+<span class="line">  123 </span><span class="dir"># End of networks.</span>
+<span class="line">  124 </span>EOF
+<span class="line">  125 </span>  chmod <span class="num">644</span> <span class="sym">/</span>etc<span class="sym">/</span>networks
+<span class="line">  126 </span>
+<span class="line">  127 </span>
+<span class="line">  128 </span>  save <span class="sym">/</span>etc<span class="sym">/</span>hosts
+<span class="line">  129 </span>  cat <span class="sym">&lt;&lt;</span>EOF <span class="sym">&gt;/</span>etc<span class="sym">/</span>hosts
+<span class="line">  130 </span><span class="dir">#</span>
+<span class="line">  131 </span><span class="dir"># hosts         This file describes a number of hostname-to-address</span>
+<span class="line">  132 </span><span class="dir">#               mappings for the TCP/IP subsystem.  It is mostly</span>
+<span class="line">  133 </span><span class="dir">#               used at boot time, when no name servers are running.</span>
+<span class="line">  134 </span><span class="dir">#               On small systems, this file can be used instead of a</span>
+<span class="line">  135 </span><span class="dir">#</span>               <span class="dstr">&quot;named&quot;</span><span class="dir"> name server.  Just add the names, addresses</span>
+<span class="line">  136 </span><span class="dir">#               and any aliases to this file...</span>
+<span class="line">  137 </span><span class="dir">#</span>
+<span class="line">  138 </span><span class="dir"># By the way, Arnt Gulbrandsen &lt;agulbra&#64;nvg.unit.no&gt; says that 127.0.0.1</span>
+<span class="line">  139 </span><span class="dir"># should NEVER be named with the name of the machine.  It causes problems</span>
+<span class="line">  140 </span><span class="dir"># for some (stupid) programs, irc and reputedly talk. :^)</span>
+<span class="line">  141 </span><span class="dir">#</span>
+<span class="line">  142 </span><span class="dir"># But we (ComeOn Linux!) says that this is not valid for you, because</span>
+<span class="line">  143 </span><span class="dir"># you resulted to have not a network at the installation time.</span>
+<span class="line">  144 </span>
+<span class="line">  145 </span><span class="dir"># For loopbacking.</span>
+<span class="line">  146 </span><span class="num">127.0.0.1</span>	localhost	$FQDN	$HOST
+<span class="line">  147 </span>
+<span class="line">  148 </span><span class="dir"># End of hosts.</span>
+<span class="line">  149 </span>EOF
+<span class="line">  150 </span>  chmod <span class="num">644</span> <span class="sym">/</span>etc<span class="sym">/</span>hosts
+<span class="line">  151 </span>
+<span class="line">  152 </span>  save <span class="sym">/</span>etc<span class="sym">/</span>resolv<span class="sym">.</span>conf
+<span class="line">  153 </span>  echo domain $DOMAIN <span class="sym">&gt;/</span>etc<span class="sym">/</span>resolv<span class="sym">.</span>conf
+<span class="line">  154 </span>  chmod <span class="num">644</span> <span class="sym">/</span>etc<span class="sym">/</span>resolv<span class="sym">.</span>conf
+<span class="line">  155 </span>
+<span class="line">  156 </span>  save <span class="sym">/</span>etc<span class="sym">/</span>host<span class="sym">.</span>conf
+<span class="line">  157 </span>  cat <span class="sym">&lt;&lt;</span>EOF <span class="sym">&gt;/</span>etc<span class="sym">/</span>host<span class="sym">.</span>conf
+<span class="line">  158 </span>order hosts<span class="sym">,</span>bind
+<span class="line">  159 </span>multi on
+<span class="line">  160 </span>EOF
+<span class="line">  161 </span>  chmod <span class="num">644</span> <span class="sym">/</span>etc<span class="sym">/</span>host<span class="sym">.</span>conf
+<span class="line">  162 </span>
+<span class="line">  163 </span>  <span class="sym">/</span>etc<span class="sym">/</span>rc<span class="sym">.</span>d<span class="sym">/</span>rc<span class="sym">.</span>inet1
+<span class="line">  164 </span><span class="sym">}</span>
+<span class="line">  165 </span>
+<span class="line">  166 </span><span class="dir"># Private function, adds an user to a group. Args: user, group</span>
+<span class="line">  167 </span><span class="kwd">add_to_group</span><span class="sym">() {</span>
+<span class="line">  168 </span>
+<span class="line">  169 </span>  <span class="kwa">if</span> <span class="sym">[ !</span> <span class="str">&quot;`groups</span> <span class="esc">\&quot;</span><span class="str">$1</span><span class="esc">\&quot;</span> <span class="str">| grep</span> <span class="esc">\&quot;</span> <span class="str">$2</span> <span class="esc">\&quot;</span><span class="str">`&quot;</span> <span class="sym">]</span>
+<span class="line">  170 </span>  then
+<span class="line">  171 </span>    USERS<span class="sym">=</span><span class="str">&quot;`grep</span> <span class="esc">\&quot;</span><span class="str">$2:</span><span class="esc">\&quot;</span> <span class="str">/etc/group | cut -s -f4 -d:`&quot;</span>
+<span class="line">  172 </span>
+<span class="line">  173 </span>    mkstemp group
+<span class="line">  174 </span>    <span class="kwa">if</span> <span class="sym">[</span> <span class="str">&quot;$USERS&quot;</span> <span class="sym">];</span> then
+<span class="line">  175 </span>      sed <span class="str">&quot;/$2:/s/:$USERS/:$USERS,$1/&quot;</span> <span class="sym">/</span>etc<span class="sym">/</span>group <span class="sym">&gt;</span>$tmp_group
+<span class="line">  176 </span>    <span class="kwa">else</span>
+<span class="line">  177 </span>      sed <span class="str">&quot;/$2:/s/:/:$1/3&quot;</span> <span class="sym">/</span>etc<span class="sym">/</span>group <span class="sym">&gt;</span>$tmp_group
+<span class="line">  178 </span>    fi
+<span class="line">  179 </span>
+<span class="line">  180 </span>    save <span class="sym">/</span>etc<span class="sym">/</span>group
+<span class="line">  181 </span>    mv $tmp_group <span class="sym">/</span>etc<span class="sym">/</span>group
+<span class="line">  182 </span>  fi
+<span class="line">  183 </span><span class="sym">}</span>
+<span class="line">  184 </span>
+<span class="line">  185 </span><span class="dir"># Arguments: user, fullname</span>
+<span class="line">  186 </span><span class="kwd">add_postmaster</span><span class="sym">() {</span>
+<span class="line">  187 </span>  dialog <span class="sym">--</span>backtitle <span class="str">&quot;$TITLE&quot;</span> <span class="sym">--</span>infobox <span class="str">&quot;Creo l'user principale e/o ne adatto le informazioni...&quot;</span> <span class="num">0 0</span>
+<span class="line">  188 </span>
+<span class="line">  189 </span>  USER<span class="sym">=</span><span class="str">&quot;$1&quot;</span>
+<span class="line">  190 </span>  NAME<span class="sym">=</span><span class="str">&quot;$2&quot;</span>
+<span class="line">  191 </span>  HOMEDIR<span class="sym">=</span><span class="str">&quot;/home/$USER&quot;</span>
+<span class="line">  192 </span>
+<span class="line">  193 </span><span class="dir">#  echo</span> <span class="dstr">&quot;$USER&quot;</span><span class="dir"> &gt;$COPIUSER	# you</span><span class="dstr">'ve to do this in any other location</span>
+<span class="line">  194 </span><span class="dstr">  ENTRY=&quot;`cut /etc/passwd -s -f1,2,5 -d: | grep $USER:`&quot;</span>
+<span class="line">  195 </span><span class="dstr">  if [ &quot;$ENTRY&quot; ]</span>
+<span class="line">  196 </span><span class="dstr">  then</span>
+<span class="line">  197 </span><span class="dstr">    OLDNAME=&quot;`echo $ENTRY | cut -f3 -d:`&quot;</span>
+<span class="line">  198 </span><span class="dstr">    PASW=&quot;`echo $ENTRY | cut -f2 -d:`&quot;</span>
+<span class="line">  199 </span><span class="dstr">    if [ &quot;$OLDNAME&quot; != &quot;$NAME&quot; ]</span>
+<span class="line">  200 </span><span class="dstr">    then</span>
+<span class="line">  201 </span><span class="dstr">      mkstemp passwd</span>
+<span class="line">  202 </span><span class="dstr">      sed &quot;/$USER:$PASW:/s/:$OLDNAME:/:$NAME:/&quot; /etc/passwd &gt;$tmp_passwd</span>
+<span class="line">  203 </span><span class="dstr">      save /etc/passwd</span>
+<span class="line">  204 </span><span class="dstr">      mv $tmp_passwd /etc/passwd</span>
+<span class="line">  205 </span><span class="dstr">    fi</span>
+<span class="line">  206 </span><span class="dstr"></span>
+<span class="line">  207 </span><span class="dstr">    add_to_group &quot;$USER&quot; mail</span>
+<span class="line">  208 </span><span class="dstr">  else</span>
+<span class="line">  209 </span><span class="dstr">    if [ -f /bin/bash ]; then USERSHELL=/bin/bash; else USERSHELL=&quot;&quot;; fi</span>
+<span class="line">  210 </span><span class="dstr">    find_unused_uid</span>
+<span class="line">  211 </span><span class="dstr">    echo &quot;$USER:*:$FOUND_UID:12:$NAME:$HOMEDIR:$USERSHELL&quot; &gt;&gt;/etc/passwd</span>
+<span class="line">  212 </span><span class="dstr">    mkdir -p $HOMEDIR -m 755</span>
+<span class="line">  213 </span><span class="dstr">    chown $USER.mail $HOMEDIR</span>
+<span class="line">  214 </span><span class="dstr">  fi</span>
+<span class="line">  215 </span><span class="dstr">}</span>
+<span class="line">  216 </span><span class="dstr"></span>
+<span class="line">  217 </span><span class="dstr">comment_nntp_in_inetdconf() {</span>
+<span class="line">  218 </span><span class="dstr">  dialog --backtitle &quot;$TITLE&quot; --infobox &quot;Commento la riga '</span><span class="dir">nntp</span><span class="dstr">' in /etc/inetd.conf...&quot; 0 0</span>
+<span class="line">  219 </span><span class="dstr"></span>
+<span class="line">  220 </span><span class="dstr">  mkstemp inetd</span>
+<span class="line">  221 </span><span class="dstr">  sed &quot;/in.nntpd/s/nntp/#&amp;/&quot; /etc/inetd.conf &gt;$tmp_inetd</span>
+<span class="line">  222 </span><span class="dstr">  save /etc/inetd.conf</span>
+<span class="line">  223 </span><span class="dstr">  mv $tmp_inetd /etc/inetd.conf</span>
+<span class="line">  224 </span><span class="dstr">  killall -1 inetd</span>
+<span class="line">  225 </span><span class="dstr">}</span>
+<span class="line">  226 </span><span class="dstr"></span>
+<span class="line">  227 </span><span class="dstr"># Args: organization</span>
+<span class="line">  228 </span><span class="dstr">set_organization() {</span>
+<span class="line">  229 </span><span class="dstr">  dialog --backtitle &quot;$TITLE&quot; --infobox &quot;Imposto l'</span><span class="dir"> origin...</span><span class="dstr">&quot; 0 0</span>
+<span class="line">  230 </span><span class="dstr"></span>
+<span class="line">  231 </span><span class="dstr">  ORGANIZATION=/etc/organization</span>
+<span class="line">  232 </span><span class="dstr">  save $ORGANIZATION</span>
+<span class="line">  233 </span><span class="dstr"></span>
+<span class="line">  234 </span><span class="dstr">  NEW_ORGANIZATION=&quot;</span><span class="dir">$1</span><span class="dstr">&quot;</span>
+<span class="line">  235 </span><span class="dstr">  echo &quot;</span><span class="dir">$NEW_ORGANIZATION</span><span class="dstr">&quot; &gt;$ORGANIZATION</span>
+<span class="line">  236 </span><span class="dstr">}</span>
+<span class="line">  237 </span><span class="dstr"></span>
+<span class="line">  238 </span><span class="dstr">create_innconf_newsfeeds_distrib() {</span>
+<span class="line">  239 </span><span class="dstr">  dialog --backtitle &quot;</span><span class="dir">$TITLE</span><span class="dstr">&quot; --infobox &quot;</span><span class="dir">Creo i files di configurazione principali di InterNet News (inn)...</span><span class="dstr">&quot; 0 0</span>
+<span class="line">  240 </span><span class="dstr"></span>
+<span class="line">  241 </span><span class="dstr"># File: inn.conf</span>
+<span class="line">  242 </span><span class="dstr">  INNCONF=~news/inn.conf</span>
+<span class="line">  243 </span><span class="dstr">  save $INNCONF</span>
+<span class="line">  244 </span><span class="dstr"></span>
+<span class="line">  245 </span><span class="dstr">  cat &lt;&lt;EOF &gt;$INNCONF</span>
+<span class="line">  246 </span><span class="dstr">##  $Revision: 1.3 $</span>
+<span class="line">  247 </span><span class="dstr">##  inn.conf -- inn configuration data</span>
+<span class="line">  248 </span><span class="dstr">##  Format:</span>
+<span class="line">  249 </span><span class="dstr">##	&lt;parameter&gt;:&lt;whitespace&gt;&lt;value&gt;</span>
+<span class="line">  250 </span><span class="dstr">##  Used by various programs and libinn.  The following parameters are defined:</span>
+<span class="line">  251 </span><span class="dstr">##	domain		Local domain, without leading period.</span>
+<span class="line">  252 </span><span class="dstr">##  	fromhost	What to put in the From line; default is FQDN</span>
+<span class="line">  253 </span><span class="dstr">##			of the local host.</span>
+<span class="line">  254 </span><span class="dstr">##	moderatormailer	Where to mail moderated postings, if not found</span>
+<span class="line">  255 </span><span class="dstr">##			in the moderators file; see moderators(5).</span>
+<span class="line">  256 </span><span class="dstr">##	pathhost	What to put in the Path and Xref headers; default</span>
+<span class="line">  257 </span><span class="dstr">##			is FQDN of the local host.</span>
+<span class="line">  258 </span><span class="dstr">##	organization	If $ORGANIZATION doesn't exist.  What to put in</span>
+<span class="line">  259 </span><span class="dstr">##			the Organization header if blank.</span>
+<span class="line">  260 </span><span class="dstr">##	server		If $NNTPSERVER doesn't exist.  Local NNTP server</span>
+<span class="line">  261 </span><span class="dstr">##			host to connect to.</span>
+<span class="line">  262 </span><span class="dstr">##</span>
+<span class="line">  263 </span><span class="dstr"></span>
+<span class="line">  264 </span><span class="dstr">server:         $HOST.$DOMAIN</span>
+<span class="line">  265 </span><span class="dstr">domain:         $DOMAIN</span>
+<span class="line">  266 </span><span class="dstr">pathhost:	$HOST</span>
+<span class="line">  267 </span><span class="dstr">EOF</span>
+<span class="line">  268 </span><span class="dstr"></span>
+<span class="line">  269 </span><span class="dstr">  chmod 444 $INNCONF</span>
+<span class="line">  270 </span><span class="dstr">  chown news.news $INNCONF</span>
+<span class="line">  271 </span><span class="dstr"></span>
+<span class="line">  272 </span><span class="dstr"></span>
+<span class="line">  273 </span><span class="dstr"># File: newsfeeds</span>
+<span class="line">  274 </span><span class="dstr">  NEWSFEEDS=~news/newsfeeds</span>
+<span class="line">  275 </span><span class="dstr">  save $NEWSFEEDS</span>
+<span class="line">  276 </span><span class="dstr"></span>
+<span class="line">  277 </span><span class="dstr">  echo -e &quot;</span><span class="dir">ME:*::\n</span><span class="dstr">&quot; &gt;$NEWSFEEDS</span>
+<span class="line">  278 </span><span class="dstr"></span>
+<span class="line">  279 </span><span class="dstr">  IAKA=1</span>
+<span class="line">  280 </span><span class="dstr">  OK=1</span>
+<span class="line">  281 </span><span class="dstr">  while [ &quot;</span><span class="dir">$OK</span><span class="dstr">&quot; != 0 ]</span>
+<span class="line">  282 </span><span class="dstr">  do</span>
+<span class="line">  283 </span><span class="dstr">    AKA=&quot;</span><span class="dir">`cut $AKASETUP -f$IAKA -d:`</span><span class="dstr">&quot;</span>
+<span class="line">  284 </span><span class="dstr">    if [ ! &quot;</span><span class="dir">$AKA</span><span class="dstr">&quot; ]</span>
+<span class="line">  285 </span><span class="dstr">    then</span>
+<span class="line">  286 </span><span class="dstr">      OK=0</span>
+<span class="line">  287 </span><span class="dstr">    else</span>
+<span class="line">  288 </span><span class="dstr">      if [ $IAKA != 1 ]</span>
+<span class="line">  289 </span><span class="dstr">      then</span>
+<span class="line">  290 </span><span class="dstr">        TMPAKA=&quot;</span><span class="dir">`echo $AKA | cut -f-4 -d.`</span><span class="dstr">&quot;</span>
+<span class="line">  291 </span><span class="dstr">        SENDCRON=&quot;</span><span class="dir">$SENDCRON $TMPAKA</span><span class="dstr">&quot;</span>
+<span class="line">  292 </span><span class="dstr">        echo -n &quot;</span><span class="dir">$TMPAKA/</span><span class="dstr">&quot; &gt;&gt;$NEWSFEEDS</span>
+<span class="line">  293 </span><span class="dstr">      fi</span>
+<span class="line">  294 </span><span class="dstr">      TMPAKA=&quot;</span><span class="dir">`echo $AKA | cut -f1-2 -d.`</span><span class="dstr">&quot;</span>
+<span class="line">  295 </span><span class="dstr">      if [ $IAKA = 1 ]; then</span>
+<span class="line">  296 </span><span class="dstr">        SENDCRON=&quot;</span><span class="dir">$SENDCRON $TMPAKA</span><span class="dstr">&quot;</span>
+<span class="line">  297 </span><span class="dstr">      fi</span>
+<span class="line">  298 </span><span class="dstr">      echo -e &quot;</span><span class="dir">$TMPAKA\\</span><span class="dstr">&quot; &gt;&gt;$NEWSFEEDS</span>
+<span class="line">  299 </span><span class="dstr">      echo -e &quot;</span><span class="dir">\t:!*,`echo $AKA | cut -f4 -d.`.*\\</span><span class="dstr">&quot; &gt;&gt;$NEWSFEEDS</span>
+<span class="line">  300 </span><span class="dstr">      echo -e &quot;</span><span class="dir">\t:Tf,Wfb,B4096/1024:\n</span><span class="dstr">&quot; &gt;&gt;$NEWSFEEDS</span>
+<span class="line">  301 </span><span class="dstr">    fi</span>
+<span class="line">  302 </span><span class="dstr">    IAKA=$[$IAKA+1]</span>
+<span class="line">  303 </span><span class="dstr">  done</span>
+<span class="line">  304 </span><span class="dstr"></span>
+<span class="line">  305 </span><span class="dstr">  chmod 444 $NEWSFEEDS</span>
+<span class="line">  306 </span><span class="dstr">  chown news.news $NEWSFEEDS</span>
+<span class="line">  307 </span><span class="dstr"></span>
+<span class="line">  308 </span><span class="dstr"></span>
+<span class="line">  309 </span><span class="dstr"># File: distrib.pats</span>
+<span class="line">  310 </span><span class="dstr">  DISTRIB=~news/distrib.pats</span>
+<span class="line">  311 </span><span class="dstr">  save $DISTRIB</span>
+<span class="line">  312 </span><span class="dstr"></span>
+<span class="line">  313 </span><span class="dstr">  IAKA=1</span>
+<span class="line">  314 </span><span class="dstr">  OK=1</span>
+<span class="line">  315 </span><span class="dstr">  while [ &quot;</span><span class="dir">$OK</span><span class="dstr">&quot; != 0 ]; do</span>
+<span class="line">  316 </span><span class="dstr">    AKA=&quot;</span><span class="dir">`cut $AKASETUP -f$IAKA -d:`</span><span class="dstr">&quot;</span>
+<span class="line">  317 </span><span class="dstr">    IAKA=$[$IAKA+1]</span>
+<span class="line">  318 </span><span class="dstr">    if [ &quot;</span><span class="dir">$AKA</span><span class="dstr">&quot; = &quot;</span><span class="dir"></span><span class="dstr">&quot; ]; then</span>
+<span class="line">  319 </span><span class="dstr">      OK=0</span>
+<span class="line">  320 </span><span class="dstr">    else</span>
+<span class="line">  321 </span><span class="dstr">      DOM=&quot;</span><span class="dir">`echo $AKA | cut -f4 -d.`</span><span class="dstr">&quot;</span>
+<span class="line">  322 </span><span class="dstr">      echo &quot;</span><span class="dir">10:$DOM.*:$DOM</span><span class="dstr">&quot; &gt;&gt;$DISTRIB</span>
+<span class="line">  323 </span><span class="dstr">    fi</span>
+<span class="line">  324 </span><span class="dstr">  done</span>
+<span class="line">  325 </span><span class="dstr"></span>
+<span class="line">  326 </span><span class="dstr">  chmod 444 $DISTRIB</span>
+<span class="line">  327 </span><span class="dstr">  chown news.news $DISTRIB</span>
+<span class="line">  328 </span><span class="dstr">}</span>
+<span class="line">  329 </span><span class="dstr"></span>
+<span class="line">  330 </span><span class="dstr"># Args: num_of_days</span>
+<span class="line">  331 </span><span class="dstr">create_expirectl() {</span>
+<span class="line">  332 </span><span class="dstr">  dialog --backtitle &quot;</span><span class="dir">$TITLE</span><span class="dstr">&quot; --infobox &quot;</span><span class="dir">Imposto il periodo di transito dei messaggi...</span><span class="dstr">&quot; 0 0</span>
+<span class="line">  333 </span><span class="dstr"></span>
+<span class="line">  334 </span><span class="dstr">  EXPIRECTL=~news/expire.ctl</span>
+<span class="line">  335 </span><span class="dstr">  save $EXPIRECTL</span>
+<span class="line">  336 </span><span class="dstr"></span>
+<span class="line">  337 </span><span class="dstr">  EXPIRE_DAYS=$1</span>
+<span class="line">  338 </span><span class="dstr"></span>
+<span class="line">  339 </span><span class="dstr">  echo -e &quot;</span><span class="dir">/remember/:14\n\n*:A:2:$EXPIRE_DAYS:$EXPIRE_DAYS</span><span class="dstr">&quot; &gt;$EXPIRECTL</span>
+<span class="line">  340 </span><span class="dstr"></span>
+<span class="line">  341 </span><span class="dstr">  chmod 440 $EXPIRECTL</span>
+<span class="line">  342 </span><span class="dstr">  chown news.news $EXPIRECTL</span>
+<span class="line">  343 </span><span class="dstr">}</span>
+<span class="line">  344 </span><span class="dstr"></span>
+<span class="line">  345 </span><span class="dstr">create_nnrpaccess() {</span>
+<span class="line">  346 </span><span class="dstr">  dialog --backtitle &quot;</span><span class="dir">$TITLE</span><span class="dstr">&quot; --infobox &quot;</span><span class="dir">Rendo accessibili le news in lettura...</span><span class="dstr">&quot; 0 0</span>
+<span class="line">  347 </span><span class="dstr"></span>
+<span class="line">  348 </span><span class="dstr">  NNRPACCESS=~news/nnrp.access</span>
+<span class="line">  349 </span><span class="dstr">  save $NNRPACCESS</span>
+<span class="line">  350 </span><span class="dstr"></span>
+<span class="line">  351 </span><span class="dstr">  cat &lt;&lt;EOF &gt;$NNRPACCESS</span>
+<span class="line">  352 </span><span class="dstr">##  $Revision: 1.3 $</span>
+<span class="line">  353 </span><span class="dstr">##  nnrp.access - access file for on-campus NNTP sites</span>
+<span class="line">  354 </span><span class="dstr">##  Format:</span>
+<span class="line">  355 </span><span class="dstr">##	&lt;host&gt;:&lt;perm&gt;:&lt;user&gt;:&lt;pass&gt;:&lt;groups&gt;</span>
+<span class="line">  356 </span><span class="dstr">##  Connecting host must be found in this file; the last match found is</span>
+<span class="line">  357 </span><span class="dstr">##  used, so put defaults first.</span>
+<span class="line">  358 </span><span class="dstr">##	&lt;host&gt;		Wildcard name or IP address</span>
+<span class="line">  359 </span><span class="dstr">##	&lt;perm&gt;		R to read; P to post</span>
+<span class="line">  360 </span><span class="dstr">##	&lt;user&gt;		Username for authentication before posting</span>
+<span class="line">  361 </span><span class="dstr">##	&lt;pass&gt;		Password, for same reason</span>
+<span class="line">  362 </span><span class="dstr">##	&lt;groups&gt;	Newsgroup patterns that can be read or not read</span>
+<span class="line">  363 </span><span class="dstr">##  To disable posting put a space in the &lt;user&gt; and &lt;pass&gt; fields, since</span>
+<span class="line">  364 </span><span class="dstr">##  there is no way for client to enter one.</span>
+<span class="line">  365 </span><span class="dstr">##</span>
+<span class="line">  366 </span><span class="dstr">## Default is no access, no way to authentication, and no groups.</span>
+<span class="line">  367 </span><span class="dstr"># *:: -no- : -no- :!*</span>
+<span class="line">  368 </span><span class="dstr">##  Foo, Incorporated, hosts have no password, can read anything.</span>
+<span class="line">  369 </span><span class="dstr"># *.foo.com:Read Post:::*</span>
+<span class="line">  370 </span><span class="dstr"></span>
+<span class="line">  371 </span><span class="dstr">*:: -no- : -no- :!*</span>
+<span class="line">  372 </span><span class="dstr">localhost.$DOMAIN:Read Post:::*</span>
+<span class="line">  373 </span><span class="dstr">$HOST.$DOMAIN:Read Post:::*</span>
+<span class="line">  374 </span><span class="dstr"></span>
+<span class="line">  375 </span><span class="dstr">EOF</span>
+<span class="line">  376 </span><span class="dstr"></span>
+<span class="line">  377 </span><span class="dstr">  chmod 440 $NNRPACCESS</span>
+<span class="line">  378 </span><span class="dstr">  chown news.news $NNRPACCESS</span>
+<span class="line">  379 </span><span class="dstr">}</span>
+<span class="line">  380 </span><span class="dstr"></span>
+<span class="line">  381 </span><span class="dstr">create_hostsnntp() {</span>
+<span class="line">  382 </span><span class="dstr">  dialog --backtitle &quot;</span><span class="dir">$TITLE</span><span class="dstr">&quot; --infobox &quot;</span><span class="dir">Rendo accessibili le news in scrittura...</span><span class="dstr">&quot; 0 0</span>
+<span class="line">  383 </span><span class="dstr"></span>
+<span class="line">  384 </span><span class="dstr">  HOSTSNNTP=~news/hosts.nntp</span>
+<span class="line">  385 </span><span class="dstr">  save $HOSTSNNTP</span>
+<span class="line">  386 </span><span class="dstr"></span>
+<span class="line">  387 </span><span class="dstr">  cat &lt;&lt;EOF &gt;$HOSTSNNTP</span>
+<span class="line">  388 </span><span class="dstr">##  $Revision: 1.3 $</span>
+<span class="line">  389 </span><span class="dstr">##  hosts.nntp - names and addresses that feed us news</span>
+<span class="line">  390 </span><span class="dstr">##  Format</span>
+<span class="line">  391 </span><span class="dstr">##      &lt;host&gt;:</span>
+<span class="line">  392 </span><span class="dstr">##      &lt;host&gt;:&lt;password&gt;</span>
+<span class="line">  393 </span><span class="dstr">##  &lt;host&gt; can be a name or IP address; no wildcards.  Any hosts not</span>
+<span class="line">  394 </span><span class="dstr">##  listed here are handed off to nnrpd.</span>
+<span class="line">  395 </span><span class="dstr"></span>
+<span class="line">  396 </span><span class="dstr">$HOST.$DOMAIN:</span>
+<span class="line">  397 </span><span class="dstr"></span>
+<span class="line">  398 </span><span class="dstr">EOF</span>
+<span class="line">  399 </span><span class="dstr"></span>
+<span class="line">  400 </span><span class="dstr">  chmod 440 $HOSTSNNTP</span>
+<span class="line">  401 </span><span class="dstr">  chown news.news $HOSTSNNTP</span>
+<span class="line">  402 </span><span class="dstr">}</span>
+<span class="line">  403 </span><span class="dstr"></span>
+<span class="line">  404 </span><span class="dstr">create_dirs_and_files() {</span>
+<span class="line">  405 </span><span class="dstr"></span>
+<span class="line">  406 </span><span class="dstr">  CURMASK=`umask`</span>
+<span class="line">  407 </span><span class="dstr">  . ./copi.wheel</span>
+<span class="line">  408 </span><span class="dstr">  pushd /var/log &gt;/dev/null</span>
+<span class="line">  409 </span><span class="dstr">  mkdir -p news -m 755; chown news.news news</span>
+<span class="line">  410 </span><span class="dstr">  cd /var/log/news; mkdir -p OLD -m 755; chown news.news OLD</span>
+<span class="line">  411 </span><span class="dstr">  cd /var/spool; mkdir -p news -m 775; chown news.news news</span>
+<span class="line">  412 </span><span class="dstr">  cd /var/spool/news; umask 02</span>
+<span class="line">  413 </span><span class="dstr">  mkdir -p out.going control junk in.coming</span>
+<span class="line">  414 </span><span class="dstr">  chown news.news out.going control junk in.coming</span>
+<span class="line">  415 </span><span class="dstr">  cd in.coming; mkdir -p bad tmp; chown news.news bad tmp; umask $CURMASK</span>
+<span class="line">  416 </span><span class="dstr">  ln -sf ~news /usr/local/lib/</span>
+<span class="line">  417 </span><span class="dstr">  ln -sf ~news/inews /usr/bin/</span>
+<span class="line">  418 </span><span class="dstr">  chmod 1777 /var/tmp</span>
+<span class="line">  419 </span><span class="dstr"></span>
+<span class="line">  420 </span><span class="dstr">  cd /var/spool</span>
+<span class="line">  421 </span><span class="dstr">  mkdir -p uucppublic</span>
+<span class="line">  422 </span><span class="dstr">  chown uucp.uucp uucppublic</span>
+<span class="line">  423 </span><span class="dstr">  chmod 1777 uucppublic</span>
+<span class="line">  424 </span><span class="dstr"></span>
+<span class="line">  425 </span><span class="dstr">  cd ~news</span>
+<span class="line">  426 </span><span class="dstr">  touch history history.dir history.pag errlog log</span>
+<span class="line">  427 </span><span class="dstr">  chown news.news history* log errlog</span>
+<span class="line">  428 </span><span class="dstr">  chmod 664 history* log errlog</span>
+<span class="line">  429 </span><span class="dstr"></span>
+<span class="line">  430 </span><span class="dstr">  save active</span>
+<span class="line">  431 </span><span class="dstr">  echo &quot;</span><span class="dir">control 0000000000 0000000001 y</span><span class="dstr">&quot; &gt; active</span>
+<span class="line">  432 </span><span class="dstr">  echo &quot;</span><span class="dir">junk 0000000000 0000000001 y</span><span class="dstr">&quot; &gt;&gt; active</span>
+<span class="line">  433 </span><span class="dstr">  chown news.news active</span>
+<span class="line">  434 </span><span class="dstr"></span>
+<span class="line">  435 </span><span class="dstr">  save active.times</span>
+<span class="line">  436 </span><span class="dstr">  echo &quot;</span><span class="dir">control 814573260 usenet</span><span class="dstr">&quot; &gt; active.times</span>
+<span class="line">  437 </span><span class="dstr">  echo &quot;</span><span class="dir">junk 814573260 usenet</span><span class="dstr">&quot; &gt;&gt; active.times</span>
+<span class="line">  438 </span><span class="dstr">  chown news.news active.times</span>
+<span class="line">  439 </span><span class="dstr"></span>
+<span class="line">  440 </span><span class="dstr">  save newsgroups</span>
+<span class="line">  441 </span><span class="dstr">  :&gt;newsgroups</span>
+<span class="line">  442 </span><span class="dstr">  chown news.news newsgroups</span>
+<span class="line">  443 </span><span class="dstr"></span>
+<span class="line">  444 </span><span class="dstr">  popd &gt;/dev/null</span>
+<span class="line">  445 </span><span class="dstr">}</span>
+<span class="line">  446 </span><span class="dstr"></span>
+<span class="line">  447 </span><span class="dstr">install_rcnews() {</span>
+<span class="line">  448 </span><span class="dstr">  dialog --backtitle &quot;</span><span class="dir">$TITLE</span><span class="dstr">&quot; --infobox &quot;</span><span class="dir">Avvio l</span><span class="dstr">'InterNet News daemon (innd) e l'</span><span class="dir">installo negli script di boot, attendere... attenzione che e</span><span class="dstr">' probabile che in questa fase non sia possibile entrare da un'</span><span class="dir">altra VC come root.</span><span class="dstr">&quot; 0 0</span>
+<span class="line">  449 </span><span class="dstr"></span>
+<span class="line">  450 </span><span class="dstr">  RCLOCAL=/etc/rc.d/rc.local</span>
+<span class="line">  451 </span><span class="dstr">  RCNEWS=~news/etc/rc.news</span>
+<span class="line">  452 </span><span class="dstr">  RCLINE=&quot;</span><span class="dir">`grep $RCNEWS $RCLOCAL`</span><span class="dstr">&quot;</span>
+<span class="line">  453 </span><span class="dstr"></span>
+<span class="line">  454 </span><span class="dstr">  if [ ! &quot;</span><span class="dir">$RCLINE</span><span class="dstr">&quot; -o `echo $RCLINE | cut -c1` = '#' ]</span>
+<span class="line">  455 </span><span class="dstr">  then</span>
+<span class="line">  456 </span><span class="dstr">    save $RCLOCAL</span>
+<span class="line">  457 </span><span class="dstr">    echo -e &quot;</span><span class="dir">\n$RCNEWS</span><span class="dstr">&quot; &gt;&gt;$RCLOCAL</span>
+<span class="line">  458 </span><span class="dstr">  fi</span>
+<span class="line">  459 </span><span class="dstr"></span>
+<span class="line">  460 </span><span class="dstr">  cp copi.rcnews $RCNEWS</span>
+<span class="line">  461 </span><span class="dstr">  chmod 550 $RCNEWS</span>
+<span class="line">  462 </span><span class="dstr">  chown news.news $RCNEWS</span>
+<span class="line">  463 </span><span class="dstr"></span>
+<span class="line">  464 </span><span class="dstr">  if [ -f ~news/innd/innd.pid ]; then</span>
+<span class="line">  465 </span><span class="dstr">    su -l news -c &quot;</span><span class="dir">bin/ctlinnd shutdown x</span><span class="dstr">&quot; &gt;/dev/null</span>
+<span class="line">  466 </span><span class="dstr">    sleep 2	# wait for server to shutdown</span>
+<span class="line">  467 </span><span class="dstr">  fi</span>
+<span class="line">  468 </span><span class="dstr"></span>
+<span class="line">  469 </span><span class="dstr">  killall innd 2&gt;/dev/null	# make sure it's gone down</span>
+<span class="line">  470 </span><span class="dstr">  $RCNEWS</span>
+<span class="line">  471 </span><span class="dstr">}</span>
+<span class="line">  472 </span><span class="dstr"></span>
+<span class="line">  473 </span><span class="dstr">install_crontab_news() {</span>
+<span class="line">  474 </span><span class="dstr">  dialog --backtitle &quot;</span><span class="dir">$TITLE</span><span class="dstr">&quot; --infobox &quot;</span><span class="dir">Imposto la crontab di news per l</span><span class="dstr">'automantenimento del sistema (cancellazione giornaliera dei messaggi vecchi et similia)...&quot; 0 0</span>
+<span class="line">  475 </span><span class="dstr"></span>
+<span class="line">  476 </span><span class="dstr"></span>
+<span class="line">  477 </span><span class="dstr">  if [ -f $COPIUSER ]; then</span>
+<span class="line">  478 </span><span class="dstr">    POSTMST=&quot;`cat $COPIUSER`&quot;</span>
+<span class="line">  479 </span><span class="dstr">  else</span>
+<span class="line">  480 </span><span class="dstr">    POSTMST=&quot;root&quot;</span>
+<span class="line">  481 </span><span class="dstr">  fi</span>
+<span class="line">  482 </span><span class="dstr"></span>
+<span class="line">  483 </span><span class="dstr">  NEWSHOME=~news</span>
+<span class="line">  484 </span><span class="dstr">  save /var/spool/cron/crontabs/news</span>
+<span class="line">  485 </span><span class="dstr">  cat &lt;&lt;EOF | crontab - -u news</span>
+<span class="line">  486 </span><span class="dstr">#-------------------------------------------------------------------------------</span>
+<span class="line">  487 </span><span class="dstr"># /var/spool/cron/crontabs/news</span>
+<span class="line">  488 </span><span class="dstr">SHELL=/bin/sh</span>
+<span class="line">  489 </span><span class="dstr">#</span>
+<span class="line">  490 </span><span class="dstr">MAILTO=$POSTMST</span>
+<span class="line">  491 </span><span class="dstr">#</span>
+<span class="line">  492 </span><span class="dstr">#===============================================================================</span>
+<span class="line">  493 </span><span class="dstr">#</span>
+<span class="line">  494 </span><span class="dstr"># inn-1.4 (Inter Net News)</span>
+<span class="line">  495 </span><span class="dstr">#</span>
+<span class="line">  496 </span><span class="dstr">#===============================================================================</span>
+<span class="line">  497 </span><span class="dstr">#</span>
+<span class="line">  498 </span><span class="dstr">#-------------------------------------------------------------------------------</span>
+<span class="line">  499 </span><span class="dstr"># Daily housekeeping ... expires news and other things ...</span>
+<span class="line">  500 </span><span class="dstr">#-------------------------------------------------------------------------------</span>
+<span class="line">  501 </span><span class="dstr">#</span>
+<span class="line">  502 </span><span class="dstr">51 16 * * *	$NEWSHOME/bin/news.daily &lt; /dev/null</span>
+<span class="line">  503 </span><span class="dstr">#</span>
+<span class="line">  504 </span><span class="dstr">#-------------------------------------------------------------------------------</span>
+<span class="line">  505 </span><span class="dstr"># offer spooled news - that was spooled into the incoming directory when the</span>
+<span class="line">  506 </span><span class="dstr"># innd server wasn'</span><span class="dir">t available - again to the innd server.</span>
+<span class="line">  507 </span><span class="dir">#-------------------------------------------------------------------------------</span>
+<span class="line">  508 </span><span class="dir">#</span>
+<span class="line">  509 </span><span class="num">18</span> <span class="sym">* * * *</span>	$NEWSHOME<span class="sym">/</span>rnews <span class="sym">-</span>U
+<span class="line">  510 </span><span class="dir">#</span>
+<span class="line">  511 </span><span class="dir">#-------------------------------------------------------------------------------</span>
+<span class="line">  512 </span><span class="dir"># send news batches to your fidonet(-like) news feeds</span>
+<span class="line">  513 </span><span class="dir">#-------------------------------------------------------------------------------</span>
+<span class="line">  514 </span><span class="dir">#</span>
+<span class="line">  515 </span><span class="num">49 16</span> <span class="sym">* * *</span>	$NEWSHOME<span class="sym">/</span>send<span class="sym">-</span>ifmail$SENDCRON
+<span class="line">  516 </span><span class="dir">#</span>
+<span class="line">  517 </span><span class="dir">#-------------------------------------------------------------------------------</span>
+<span class="line">  518 </span><span class="dir">#</span>
+<span class="line">  519 </span>EOF
+<span class="line">  520 </span>
+<span class="line">  521 </span>  echo $NEWSHOME<span class="sym">/</span>send<span class="sym">-</span>ifmail$SENDCRON <span class="sym">&gt;/</span>etc<span class="sym">/</span>point<span class="sym">.</span>ifsend
+<span class="line">  522 </span><span class="sym">}</span>
+<span class="line">  523 </span>
+<span class="line">  524 </span><span class="dir"># Private func</span>
+<span class="line">  525 </span><span class="dir"># Args: dir_with_sources, bindir, cfgdir, logdir, version</span>
+<span class="line">  526 </span>copi<span class="sym">.</span><span class="kwd">ifmCfg</span><span class="sym">() {</span>
+<span class="line">  527 </span>
+<span class="line">  528 </span>  SRCDIR<span class="sym">=</span><span class="str">&quot;$1&quot;</span>
+<span class="line">  529 </span>  BINDIR<span class="sym">=</span><span class="str">&quot;$2&quot;</span>
+<span class="line">  530 </span>  CFGDIR<span class="sym">=</span><span class="str">&quot;$3&quot;</span>
+<span class="line">  531 </span>  LOGDIR<span class="sym">=</span><span class="str">&quot;$4&quot;</span>
+<span class="line">  532 </span>  VERSION<span class="sym">=</span><span class="str">&quot;$5&quot;</span>
+<span class="line">  533 </span>  SOURCE<span class="sym">=</span><span class="str">&quot;$SRCDIR/CONFIG&quot;</span>
+<span class="line">  534 </span>  CONFIGFILE<span class="sym">=</span><span class="str">&quot;$CFGDIR/config&quot;</span>
+<span class="line">  535 </span>
+<span class="line">  536 </span>  cat <span class="sym">&lt;&lt;</span>EOF <span class="sym">&gt;</span>$SOURCE
+<span class="line">  537 </span><span class="dir"># Compile-time configuration for ifmail FidoNet mailer and gateway</span>
+<span class="line">  538 </span>COPYRIGHT   <span class="sym">=</span> <span class="str">&quot;Eugene G. Crosser, 1993-1995&quot;</span>
+<span class="line">  539 </span>VERSION     <span class="sym">=</span> <span class="str">&quot;$VERSION&quot;</span>
+<span class="line">  540 </span>
+<span class="line">  541 </span><span class="dir"># Main configuration file. This default may be overwritten by -I key.</span>
+<span class="line">  542 </span>CONFIGFILE  <span class="sym">=</span> $CONFIGFILE
+<span class="line">  543 </span>
+<span class="line">  544 </span><span class="dir"># Debug messages turned on by -x key are written here.</span>
+<span class="line">  545 </span><span class="dir"># Some error messages may occationally appear here too.</span>
+<span class="line">  546 </span><span class="dir"># This may be changed in the</span> <span class="dstr">'config'</span><span class="dir"> file.</span>
+<span class="line">  547 </span>DEBUGFILE   <span class="sym">=</span> <span class="str">&quot;$LOGDIR/ifdebug&quot;</span>
+<span class="line">  548 </span>
+<span class="line">  549 </span><span class="dir"># Procession log. Usually gets several lines for each invocation.</span>
+<span class="line">  550 </span><span class="dir"># Also look for error diagnostics here.  If HAS_SYSLOG defined,</span>
+<span class="line">  551 </span><span class="dir"># only stdout and stderr from the packers and unpackers go to this</span>
+<span class="line">  552 </span><span class="dir"># file, while actual logging is done via syslog() calls.</span>
+<span class="line">  553 </span><span class="dir"># This may be changed in the</span> <span class="dstr">'config'</span><span class="dir"> file.</span>
+<span class="line">  554 </span>LOGFILE     <span class="sym">=</span> <span class="str">&quot;$LOGDIR/iflog&quot;</span>
+<span class="line">  555 </span>
+<span class="line">  556 </span><span class="dir"># Use syslog() facility codes for mail gate, news gate and ifcico.</span>
+<span class="line">  557 </span><span class="dir"># Define -DHAS_SYSLOG (see below)</span>
+<span class="line">  558 </span><span class="dir">#MAILLOG    = LOG_MAIL</span>
+<span class="line">  559 </span>MAILLOG    <span class="sym">=</span> LOG_LOCAL0
+<span class="line">  560 </span><span class="dir">#NEWSLOG    = LOG_NEWS</span>
+<span class="line">  561 </span>NEWSLOG    <span class="sym">=</span> LOG_LOCAL0
+<span class="line">  562 </span><span class="dir">#CICOLOG    = LOG_UUCP</span>
+<span class="line">  563 </span>CICOLOG    <span class="sym">=</span> LOG_LOCAL0
+<span class="line">  564 </span>
+<span class="line">  565 </span><span class="dir"># Directory where UUCP lock files reside.</span>
+<span class="line">  566 </span><span class="dir">#LOCKDIR     =</span> <span class="dstr">&quot;/var/lock&quot;</span><span class="dir"></span>
+<span class="line">  567 </span>LOCKDIR     <span class="sym">=</span> <span class="str">&quot;/var/spool/uucp&quot;</span>
+<span class="line">  568 </span>
+<span class="line">  569 </span><span class="dir"># Directory from which file requests are resolved.</span>
+<span class="line">  570 </span><span class="dir"># This may be changed from the</span> <span class="dstr">'config'</span><span class="dir"> file.</span>
+<span class="line">  571 </span><span class="dir">#PUBDIR      =</span> <span class="dstr">&quot;/home/ftp/pub&quot;</span><span class="dir"></span>
+<span class="line">  572 </span>PUBDIR      <span class="sym">=</span> <span class="str">&quot;/var/spool/uucppublic&quot;</span>
+<span class="line">  573 </span>
+<span class="line">  574 </span><span class="dir"># Compile-time system-dependant options.</span>
+<span class="line">  575 </span>
+<span class="line">  576 </span><span class="dir"># If you specify</span> <span class="dstr">&quot;-DHAS_NDBM_H&quot;</span><span class="dir">, ndbm calls will be used instead</span>
+<span class="line">  577 </span><span class="dir"># of dbm ones, and the feature will be activated of Cnews log processing</span>
+<span class="line">  578 </span><span class="dir"># to add entries to SEEN-BY if echo message is exported to several FTN</span>
+<span class="line">  579 </span><span class="dir"># nodes by Cnews mechanism. This works with INN too.</span>
+<span class="line">  580 </span>
+<span class="line">  581 </span><span class="dir"># If you specify</span> <span class="dstr">&quot;-DHAS_STATFS&quot;</span><span class="dir"> or</span> <span class="dstr">&quot;-DHAS_STATVFS&quot;</span><span class="dir">, statfs() (or statvfs()</span>
+<span class="line">  582 </span><span class="dir"># respectivly) call will be used to check available disk space. For statfs()</span>
+<span class="line">  583 </span><span class="dir"># call, you must also specify which .h file to use:</span> <span class="dstr">&quot;-DSTATFS_IN_VFS_H&quot;</span><span class="dir"> or</span>
+<span class="line">  584 </span><span class="dir">#</span> <span class="dstr">&quot;-DSTATFS_IN_STATFS_H&quot;</span><span class="dir"> or</span> <span class="dstr">&quot;-DSTATFS_IN_STATVFS_H&quot;</span><span class="dir">  or</span> <span class="dstr">&quot;-DSTATFS_IN_MOUNT_H&quot;</span><span class="dir">.</span>
+<span class="line">  585 </span><span class="dir"># For statvfs() call, statvfs.h is included.</span>
+<span class="line">  586 </span>
+<span class="line">  587 </span><span class="dir"># define -DSCO_STYLE_STATFS if your statfs() call requires 4 arguments.</span>
+<span class="line">  588 </span>
+<span class="line">  589 </span><span class="dir"># If you specify</span> <span class="dstr">&quot;-DHAS_SETSID&quot;</span><span class="dir">, setsid() call is used to detach from the</span>
+<span class="line">  590 </span><span class="dir"># control terminal. Otherwise setpgrp() call is used, and in this case you</span>
+<span class="line">  591 </span><span class="dir"># may specify</span> <span class="dstr">&quot;-DBSD_SETPGRP&quot;</span><span class="dir"> to use BSD-style call.  Used in ifcico only.</span>
+<span class="line">  592 </span>
+<span class="line">  593 </span><span class="dir"># If you specify</span> <span class="dstr">&quot;-DDONT_HAVE_TM_GMTOFF&quot;</span><span class="dir">, timezone offset will be calculated</span>
+<span class="line">  594 </span><span class="dir"># from the difference between the results of localtime() and gmtime() calls</span>
+<span class="line">  595 </span><span class="dir"># instead of using tm_gmtoff field of struct tm.</span>
+<span class="line">  596 </span>
+<span class="line">  597 </span><span class="dir"># If you specify</span> <span class="dstr">&quot;-DDONT_HAVE_GETOPT&quot;</span><span class="dir">, local definitions for getopt will</span>
+<span class="line">  598 </span><span class="dir"># be used (but not the function itself)</span>
+<span class="line">  599 </span>
+<span class="line">  600 </span><span class="dir"># For ifcico, you must specify -DHAS_TERMIOS_H (preffered), -DHAS_TERMIO_H</span>
+<span class="line">  601 </span><span class="dir"># or -DHAS_SGTTY_H to use POSIX-y, SysV-ish of BSD-ish terminal control.</span>
+<span class="line">  602 </span>
+<span class="line">  603 </span><span class="dir"># in SVR4 you should specify -DHAS_DIAL (and maybe -DHAS_DIAL_H) to use</span>
+<span class="line">  604 </span><span class="dir"># dial() library function instead of regular open().  Lock files are</span>
+<span class="line">  605 </span><span class="dir"># not used in this case.</span>
+<span class="line">  606 </span>
+<span class="line">  607 </span><span class="dir"># for uucp lock files, you must specify either -DASCII_LOCKFILES or</span>
+<span class="line">  608 </span><span class="dir"># -DBINARY_LOCKFILES</span>
+<span class="line">  609 </span>
+<span class="line">  610 </span><span class="dir"># define -DHAS_FSYNC if there is a fsync() system call (to update .flo</span>
+<span class="line">  611 </span><span class="dir"># files)</span>
+<span class="line">  612 </span>
+<span class="line">  613 </span><span class="dir"># define -DPARANOID if you want iftoss to deny packets with wrong password.</span>
+<span class="line">  614 </span>
+<span class="line">  615 </span><span class="dir"># define -DRELAXED if you want iftoss to accept packets that are not</span>
+<span class="line">  616 </span><span class="dir"># addressed to your node.</span>
+<span class="line">  617 </span>
+<span class="line">  618 </span><span class="dir"># define -DFORCEINTL if you want ifmail to create ^aINTL even if this is</span>
+<span class="line">  619 </span><span class="dir"># not an inter-zone netmail.</span>
+<span class="line">  620 </span>
+<span class="line">  621 </span><span class="dir"># define -DNEED_UUCPFROM if your MTA needs a uucp</span> <span class="dstr">&quot;From&quot;</span><span class="dir"> line in mail.</span>
+<span class="line">  622 </span>
+<span class="line">  623 </span><span class="dir"># define -DHAS_TCP if you want ifmail to be able to originate outgoing</span>
+<span class="line">  624 </span><span class="dir"># connections over TCP/IP (socket library needed)</span>
+<span class="line">  625 </span>
+<span class="line">  626 </span><span class="dir"># define -DHAS_TERM if you want ifmail to be able to originate outgoing</span>
+<span class="line">  627 </span><span class="dir"># connections over TERM (TCP</span> <span class="dstr">&quot;extention&quot;</span><span class="dir">, client.a needed)</span>
+<span class="line">  628 </span>
+<span class="line">  629 </span><span class="dir"># define -DHAS_REGEX_H or -DHAS_LIBGEN_H if you have either of these</span>
+<span class="line">  630 </span><span class="dir"># header files for regular expression handlers.</span>
+<span class="line">  631 </span>
+<span class="line">  632 </span><span class="dir"># define -DHAS_SYSLOG to use syslog() instead of logging to files.</span>
+<span class="line">  633 </span><span class="dir"># Files are necessary anyway, external programs</span><span class="dstr">' stdout and stderr</span>
+<span class="line">  634 </span><span class="dstr"># are redirected there.</span>
+<span class="line">  635 </span><span class="dstr"></span>
+<span class="line">  636 </span><span class="dstr"># define -DNEED_BSY if you want ifpack and ifcico to create .bsy</span>
+<span class="line">  637 </span><span class="dstr"># files preventing simultaneous processing of the same node.</span>
+<span class="line">  638 </span><span class="dstr"></span>
+<span class="line">  639 </span><span class="dstr"># define -DNEED_FORK if your system is uncapable of getting rid of the</span>
+<span class="line">  640 </span><span class="dstr"># control terminal unless you are running not as a group leader.</span>
+<span class="line">  641 </span><span class="dstr"></span>
+<span class="line">  642 </span><span class="dstr"># define -DREGEX_NEED_CARET if your re_comp/re_exec require that the</span>
+<span class="line">  643 </span><span class="dstr"># mask starts with a '</span><span class="dir">^</span><span class="dstr">' to match the beginning of the string.</span>
+<span class="line">  644 </span><span class="dstr"></span>
+<span class="line">  645 </span><span class="dstr"># as of June 1994, FreeBSD has a nasty bug in the kernel lseek() code:</span>
+<span class="line">  646 </span><span class="dstr"># if you make lseek() to a point before the start of the file, it</span>
+<span class="line">  647 </span><span class="dstr"># succeeds and the writing point becomes negative.  Fortunately,</span>
+<span class="line">  648 </span><span class="dstr"># subsequent write()s fail :-).  To overwork this, define</span>
+<span class="line">  649 </span><span class="dstr"># -DNEGATIVE_SEEK_BUG, this will add an extra fseek() to restore</span>
+<span class="line">  650 </span><span class="dstr"># zero writing point where necessary.</span>
+<span class="line">  651 </span><span class="dstr"></span>
+<span class="line">  652 </span><span class="dstr"># define -DNEED_TRAP if you want debugging information when the programs</span>
+<span class="line">  653 </span><span class="dstr"># are aborted with segmentation fault etc.  Currently tested and works</span>
+<span class="line">  654 </span><span class="dstr"># only with Linux, and only with newer kernels (1.1.20+)</span>
+<span class="line">  655 </span><span class="dstr"></span>
+<span class="line">  656 </span><span class="dstr"># define -DSLAVE_SENDS_NAK_TOO if you have problems answering incoming</span>
+<span class="line">  657 </span><span class="dstr"># EMSI sessions originated by FrontDoor.  FrontDoor does not follow</span>
+<span class="line">  658 </span><span class="dstr"># EMSI specifications when originating calls, this is a workaround.</span>
+<span class="line">  659 </span><span class="dstr"></span>
+<span class="line">  660 </span><span class="dstr"># define -DDONT_HAVE_DIRENT if there is no working opendir()/readdir()</span>
+<span class="line">  661 </span><span class="dstr"># etc. in your libc.  You will aso need to add &quot;dirent.o&quot; to the NEEDED</span>
+<span class="line">  662 </span><span class="dstr"># (see below).</span>
+<span class="line">  663 </span><span class="dstr"></span>
+<span class="line">  664 </span><span class="dstr"># Linux:</span>
+<span class="line">  665 </span><span class="dstr">OPTS        = -DHAS_STATFS -DSTATFS_IN_VFS_H -DHAS_SETSID -DHAS_NDBM_H</span> <span class="esc">\\</span>
+<span class="line">  666 </span><span class="dstr">		-DDONT_HAVE_TM_GMTOFF -DHAS_TERMIOS_H -DASCII_LOCKFILES</span> <span class="esc">\\</span>
+<span class="line">  667 </span><span class="dstr">		-DHAS_FSYNC -DHAS_IOCTL_H -DHAS_REGEX_H -DHAS_TCP</span> <span class="esc">\\</span>
+<span class="line">  668 </span><span class="dstr">		-DFORCEINTL -DHAS_SYSLOG -DNEED_UUCPFROM -DNEED_BSY</span> <span class="esc">\\</span>
+<span class="line">  669 </span><span class="dstr">		-DREGEX_NEED_CARET -DNEED_TRAP -DSLAVE_SENDS_NAK_TOO</span> <span class="esc">\\</span>
+<span class="line">  670 </span><span class="dstr">		-DNEED_FORK -DLESS_RFC_KLUDGES</span>
+<span class="line">  671 </span><span class="dstr"></span>
+<span class="line">  672 </span><span class="dstr"># 386BSD:</span>
+<span class="line">  673 </span><span class="dstr">#OPTS        = -DHAS_STATFS -DSTATFS_IN_MOUNT_H -DHAS_SETSID -DHAS_NDBM_H</span> <span class="esc">\\</span>
+<span class="line">  674 </span><span class="dstr">		-DHAS_TERMIOS_H -DASCII_LOCKFILES -DHAS_FSYNC -DHAS_IOCTL_H</span> <span class="esc">\\</span>
+<span class="line">  675 </span><span class="dstr">		-DHAS_REGEX_H -DHAS_TCP -DHAS_SYSLOG -DNEED_UUCPFROM</span> <span class="esc">\\</span>
+<span class="line">  676 </span><span class="dstr">		-DNEED_BSY -DNEED_FORK -DNEGATIVE_SEEK_BUG</span> <span class="esc">\\</span>
+<span class="line">  677 </span><span class="dstr">		-DREGEX_NEED_CARET</span>
+<span class="line">  678 </span><span class="dstr"></span>
+<span class="line">  679 </span><span class="dstr"># SVR4:</span>
+<span class="line">  680 </span><span class="dstr">#OPTS        = -DHAS_STATVFS -DDONT_HAVE_TM_GMTOFF -DHAS_SETSID -DHAS_NDBM_H</span> <span class="esc">\\</span>
+<span class="line">  681 </span><span class="dstr">		-DHAS_TERMIOS_H -DHAS_DIAL -DHAS_DIAL_H -DASCII_LOCKFILES</span> <span class="esc">\\</span>
+<span class="line">  682 </span><span class="dstr">		-DHAS_FSYNC -DHAS_IOCTL_H -DHAS_LIBGEN_H -DHAS_TCP</span> <span class="esc">\\</span>
+<span class="line">  683 </span><span class="dstr">		-DHAS_SYSLOG -DREGEX_NEED_CARET</span>
+<span class="line">  684 </span><span class="dstr"># SunOS:</span>
+<span class="line">  685 </span><span class="dstr">#OPTS        = -DHAS_STATFS -DSTATFS_IN_VFS_H -DHAS_SETSID -DHAS_NDBM_H</span> <span class="esc">\\</span>
+<span class="line">  686 </span><span class="dstr">		-DDONT_HAVE_GETOPT -DHAS_TERMIOS_H -DASCII_LOCKFILES</span> <span class="esc">\\</span>
+<span class="line">  687 </span><span class="dstr">		-DHAS_FSYNC -DHAS_TCP -DHAS_SYSLOG</span> <span class="esc">\\</span>
+<span class="line">  688 </span><span class="dstr">		-DREGEX_NEED_CARET</span>
+<span class="line">  689 </span><span class="dstr"></span>
+<span class="line">  690 </span><span class="dstr"># SCO Unix 3.2v4.2</span>
+<span class="line">  691 </span><span class="dstr">#OPTS        = -DHAS_STATFS -DSTATFS_IN_STATFS_H -DSCO_STYLE_STATFS</span> <span class="esc">\\</span>
+<span class="line">  692 </span><span class="dstr">		-DHAS_TERMIOS_H -DDONT_HAVE_TM_GMTOFF -DDO_NEED_TIME</span> <span class="esc">\\</span>
+<span class="line">  693 </span><span class="dstr">		-DDONT_HAVE_GETOPT -DASCII_LOCKFILES -DHAS_IOCTL_H</span> <span class="esc">\\</span>
+<span class="line">  694 </span><span class="dstr">		-DHAS_TCP -DHAS_SYSLOG</span> <span class="esc">\\</span>
+<span class="line">  695 </span><span class="dstr">		-DREGEX_NEED_CARET</span>
+<span class="line">  696 </span><span class="dstr"></span>
+<span class="line">  697 </span><span class="dstr"># ISC Unix 3.2 v3.0</span>
+<span class="line">  698 </span><span class="dstr">#OPTS        = -DHAS_STATFS -DSTATFS_IN_STATFS_H -DHAS_TERMIO_H</span> <span class="esc">\\</span>
+<span class="line">  699 </span><span class="dstr">		-DDONT_HAVE_TM_GMTOFF -DDONT_HAVE_GETOPT</span> <span class="esc">\\</span>
+<span class="line">  700 </span><span class="dstr">		-DASCII_LOCKFILES -DHAS_IOCTL_H -DSCO_STYLE_STATFS</span> <span class="esc">\\</span>
+<span class="line">  701 </span><span class="dstr">		-DUSE_POLL -DHAS_NET_ERRNO_H -DSHORT_PID_T</span> <span class="esc">\\</span>
+<span class="line">  702 </span><span class="dstr">		-DHAS_TCP -DHAS_SYSLOG</span> <span class="esc">\\</span>
+<span class="line">  703 </span><span class="dstr">		-DREGEX_NEED_CARET</span>
+<span class="line">  704 </span><span class="dstr"># On ISC, if you are suing gcc, you can run into a trouble with sscanf()</span>
+<span class="line">  705 </span><span class="dstr"># function.  It appears that sscanf(string,&quot;%d.%d&quot;,&amp;int1,&amp;int2) where</span>
+<span class="line">  706 </span><span class="dstr"># string is a constant segfaults unless you specify &quot;-fwritable-strings&quot;</span>
+<span class="line">  707 </span><span class="dstr"># to gcc.  I would say that this is a bug in ISC libc.  If nessecary,</span>
+<span class="line">  708 </span><span class="dstr"># add this to the defines above.  If you have ISC version 4.0 or later,</span>
+<span class="line">  709 </span><span class="dstr"># you can add &quot;-posix&quot;, remove &quot;-DSHORT_PID_T&quot; and specify &quot;-DHAS_TERMIOS&quot;</span>
+<span class="line">  710 </span><span class="dstr"># to get benefit of posix terminal control.</span>
+<span class="line">  711 </span><span class="dstr"></span>
+<span class="line">  712 </span><span class="dstr"># for make install, where to put binaries and what owner to set</span>
+<span class="line">  713 </span><span class="dstr">BINDIR = $BINDIR</span>
+<span class="line">  714 </span><span class="dstr">OWNER = fnet</span>
+<span class="line">  715 </span><span class="dstr">GROUP = uucp</span>
+<span class="line">  716 </span><span class="dstr">MODE = 0711</span>
+<span class="line">  717 </span><span class="dstr">SMODE = 4711</span>
+<span class="line">  718 </span><span class="dstr"></span>
+<span class="line">  719 </span><span class="dstr">INSTALL = install</span>
+<span class="line">  720 </span><span class="dstr">RANLIB = ranlib</span>
+<span class="line">  721 </span><span class="dstr">#RANLIB = touch</span>
+<span class="line">  722 </span><span class="dstr">SHELL = /bin/sh</span>
+<span class="line">  723 </span><span class="dstr">ECHO = echo -e</span>
+<span class="line">  724 </span><span class="dstr">CC = gcc</span>
+<span class="line">  725 </span><span class="dstr">YACC = bison -y</span>
+<span class="line">  726 </span><span class="dstr">#YACC = yacc</span>
+<span class="line">  727 </span><span class="dstr">LEX = flex</span>
+<span class="line">  728 </span><span class="dstr">#LEX = lex</span>
+<span class="line">  729 </span><span class="dstr">AWK = awk</span>
+<span class="line">  730 </span><span class="dstr">TAR = tar</span>
+<span class="line">  731 </span><span class="dstr"></span>
+<span class="line">  732 </span><span class="dstr">#CFLAGS = -g -Wall</span>
+<span class="line">  733 </span><span class="dstr"># Linux, 386BSD, SunOS:</span>
+<span class="line">  734 </span><span class="dstr">CFLAGS = -O2 -Wall -m486 -s</span>
+<span class="line">  735 </span><span class="dstr"># SVR4:</span>
+<span class="line">  736 </span><span class="dstr">#CFLAGS = -O -Xa</span>
+<span class="line">  737 </span><span class="dstr"></span>
+<span class="line">  738 </span><span class="dstr">LDFLAGS = -s</span>
+<span class="line">  739 </span><span class="dstr"></span>
+<span class="line">  740 </span><span class="dstr"># For LIBS, you may need to add &quot;-lfl&quot; if you are using flex 2.4.x</span>
+<span class="line">  741 </span><span class="dstr"># If you need TERM also add e.g. &quot;/usr/src/term112/client.a&quot;</span>
+<span class="line">  742 </span><span class="dstr"></span>
+<span class="line">  743 </span><span class="dstr"># Linux</span>
+<span class="line">  744 </span><span class="dstr">LIBS = -ldbm</span>
+<span class="line">  745 </span><span class="dstr"># SunOS:</span>
+<span class="line">  746 </span><span class="dstr">#LIBS =</span>
+<span class="line">  747 </span><span class="dstr"># 386BSD:</span>
+<span class="line">  748 </span><span class="dstr">#LIBS = -lgdbm -lgnuregex</span>
+<span class="line">  749 </span><span class="dstr"># SVR4</span>
+<span class="line">  750 </span><span class="dstr">#LIBS = -ldbm -lform -lnsl -lsocket -lc -L/usr/ucblib -lucb</span>
+<span class="line">  751 </span><span class="dstr"># SCO</span>
+<span class="line">  752 </span><span class="dstr">#LIBS = -ldbm -lsocket -lintl</span>
+<span class="line">  753 </span><span class="dstr"># ISC</span>
+<span class="line">  754 </span><span class="dstr">#LIBS = -lcposix -lmalloc -ldbm -linet -lPW</span>
+<span class="line">  755 </span><span class="dstr"></span>
+<span class="line">  756 </span><span class="dstr">INCLUDES = -I</span><span class="esc">\$</span><span class="dstr">{INCDIR}</span>
+<span class="line">  757 </span><span class="dstr"># ISC</span>
+<span class="line">  758 </span><span class="dstr">#INCLUDES = -I/usr/include/rpcsvc -I</span><span class="esc">\$</span><span class="dstr">{INCDIR}</span>
+<span class="line">  759 </span><span class="dstr"></span>
+<span class="line">  760 </span><span class="dstr"># What programs are absent at your system?</span>
+<span class="line">  761 </span><span class="dstr">#NEEDED = strcasestr.o strncasecmp.o strcasecmp.o rename.o mkdir.o usleep.o</span> <span class="esc">\\</span>
+<span class="line">  762 </span><span class="dstr">		regexpr.o</span>
+<span class="line">  763 </span><span class="dstr"># Linux</span>
+<span class="line">  764 </span><span class="dstr">NEEDED =</span>
+<span class="line">  765 </span><span class="dstr"># SVR4</span>
+<span class="line">  766 </span><span class="dstr">#NEEDED = regexpr.o</span>
+<span class="line">  767 </span><span class="dstr"># SCO</span>
+<span class="line">  768 </span><span class="dstr">#NEEDED = strcasestr.o strncasecmp.o strcasecmp.o usleep.o regexpr.o</span>
+<span class="line">  769 </span><span class="dstr"># SunOS and 386BSD</span>
+<span class="line">  770 </span><span class="dstr">#NEEDED = signal.o</span>
+<span class="line">  771 </span><span class="dstr"># ISC</span>
+<span class="line">  772 </span><span class="dstr">#NEEDED = usleep.o regexpr.o vsyslog.o</span>
+<span class="line">  773 </span><span class="dstr">EOF</span>
+<span class="line">  774 </span><span class="dstr"></span>
+<span class="line">  775 </span><span class="dstr">}</span>
+<span class="line">  776 </span><span class="dstr"></span>
+<span class="line">  777 </span><span class="dstr"># Args: package.tgz, bin_dir, cfg_dir, log_dir, version, where_to_put_src</span>
+<span class="line">  778 </span><span class="dstr">install_ifmail() {</span>
+<span class="line">  779 </span><span class="dstr">  dialog --backtitle &quot;$TITLE&quot; --infobox &quot;Installo e compilo Ifmail...&quot; 0 0</span>
+<span class="line">  780 </span><span class="dstr"></span>
+<span class="line">  781 </span><span class="dstr">  AKAPRI=&quot;`cut $AKASETUP -f1 -d:`&quot;</span>
+<span class="line">  782 </span><span class="dstr">  int2fido $AKAPRI</span>
+<span class="line">  783 </span><span class="dstr">  AKAPRIFTN=$_RETVAL</span>
+<span class="line">  784 </span><span class="dstr"></span>
+<span class="line">  785 </span><span class="dstr">  if [ -f $COPIUSER ]</span>
+<span class="line">  786 </span><span class="dstr">  then</span>
+<span class="line">  787 </span><span class="dstr">    POST=&quot;`cat $COPIUSER`&quot;</span>
+<span class="line">  788 </span><span class="dstr">  else</span>
+<span class="line">  789 </span><span class="dstr">    POST=root</span>
+<span class="line">  790 </span><span class="dstr">  fi</span>
+<span class="line">  791 </span><span class="dstr"></span>
+<span class="line">  792 </span><span class="dstr">  TGZ=&quot;$1&quot;</span>
+<span class="line">  793 </span><span class="dstr">  BINDIR=&quot;$2&quot;</span>
+<span class="line">  794 </span><span class="dstr">  CFGDIR=&quot;$3&quot;</span>
+<span class="line">  795 </span><span class="dstr">  LOGDIR=&quot;$4&quot;</span>
+<span class="line">  796 </span><span class="dstr">  VERSION=&quot;$5&quot;</span>
+<span class="line">  797 </span><span class="dstr">  SRC=&quot;$6&quot;</span>
+<span class="line">  798 </span><span class="dstr"></span>
+<span class="line">  799 </span><span class="dstr">###################################################</span>
+<span class="line">  800 </span><span class="dstr">## passwd e group</span>
+<span class="line">  801 </span><span class="dstr">####################################</span>
+<span class="line">  802 </span><span class="dstr"></span>
+<span class="line">  803 </span><span class="dstr">  if [ &quot;`cut /etc/passwd -f1 -d: | grep -x fnet`&quot; ]</span>
+<span class="line">  804 </span><span class="dstr">  then</span>
+<span class="line">  805 </span><span class="dstr">    mkstemp passwd</span>
+<span class="line">  806 </span><span class="dstr">    grep -v &quot;fnet:&quot; /etc/passwd &gt;$tmp_passwd</span>
+<span class="line">  807 </span><span class="dstr">    save /etc/passwd</span>
+<span class="line">  808 </span><span class="dstr">    mv $tmp_passwd /etc/passwd</span>
+<span class="line">  809 </span><span class="dstr">  fi</span>
+<span class="line">  810 </span><span class="dstr"></span>
+<span class="line">  811 </span><span class="dstr">  find_unused_uid 92</span>
+<span class="line">  812 </span><span class="dstr">  echo &quot;fnet:*:$FOUND_UID:14:Fidonet Gate:$BINDIR:&quot; &gt;&gt;/etc/passwd</span>
+<span class="line">  813 </span><span class="dstr"></span>
+<span class="line">  814 </span><span class="dstr"></span>
+<span class="line">  815 </span><span class="dstr">####################################################</span>
+<span class="line">  816 </span><span class="dstr">#### dirs and files</span>
+<span class="line">  817 </span><span class="dstr">###################################</span>
+<span class="line">  818 </span><span class="dstr">  mkdir -p        $CFGDIR $LOGDIR /var/spool/ifmail/{BAK,nl.d} $BINDIR/magic</span>
+<span class="line">  819 </span><span class="dstr">  chown fnet.uucp $BINDIR{,/magic} $CFGDIR $LOGDIR /var/spool/ifmail/{,BAK,nl.d}</span>
+<span class="line">  820 </span><span class="dstr">  touch           $LOGDIR/{ifdebug,iflog,sysiflog,TheLog}</span>
+<span class="line">  821 </span><span class="dstr">  chown fnet.uucp $LOGDIR/{ifdebug,iflog,sysiflog,TheLog}</span>
+<span class="line">  822 </span><span class="dstr"></span>
+<span class="line">  823 </span><span class="dstr">##########################################################################</span>
+<span class="line">  824 </span><span class="dstr">#### COMPILAZIONE</span>
+<span class="line">  825 </span><span class="dstr">####################################</span>
+<span class="line">  826 </span><span class="dstr"></span>
+<span class="line">  827 </span><span class="dstr">  SRC=&quot;$SRC/`tar zxvf $TGZ -C $SRC | head -1`&quot;</span>
+<span class="line">  828 </span><span class="dstr"># ora in $SRC c'</span><span class="dir">e</span><span class="dstr">' il path completo dei source Ifmail</span>
+<span class="line">  829 </span><span class="dstr"></span>
+<span class="line">  830 </span><span class="dstr">  copi.ifmCfg $SRC $BINDIR $CFGDIR $LOGDIR $VERSION</span>
+<span class="line">  831 </span><span class="dstr">  patch -N -d $SRC &lt;ifpatch 2&gt;/dev/null</span>
+<span class="line">  832 </span><span class="dstr">  make clean -C $SRC</span>
+<span class="line">  833 </span><span class="dstr">  make -C $SRC</span>
+<span class="line">  834 </span><span class="dstr">##########################################################################</span>
+<span class="line">  835 </span><span class="dstr">#### INSTALLAZIONE</span>
+<span class="line">  836 </span><span class="dstr">####################################</span>
+<span class="line">  837 </span><span class="dstr">  make install -C $SRC</span>
+<span class="line">  838 </span><span class="dstr">}</span>
+<span class="line">  839 </span><span class="dstr"></span>
+<span class="line">  840 </span><span class="dstr"></span>
+<span class="line">  841 </span><span class="dstr"># Args: bin_dir, cfg_dir, log_dir, passwords</span>
+<span class="line">  842 </span><span class="dstr">#   note: passwords are colon-separated (&quot;:&quot;)</span>
+<span class="line">  843 </span><span class="dstr">configure_ifmail() {</span>
+<span class="line">  844 </span><span class="dstr">  dialog --backtitle &quot;$TITLE&quot; --infobox &quot;Configuro Ifmail...&quot; 0 0</span>
+<span class="line">  845 </span><span class="dstr"></span>
+<span class="line">  846 </span><span class="dstr">  BINDIR=$1</span>
+<span class="line">  847 </span><span class="dstr">  CFGDIR=$2</span>
+<span class="line">  848 </span><span class="dstr">  LOGDIR=$3</span>
+<span class="line">  849 </span><span class="dstr">  PASSWDS=$4</span>
+<span class="line">  850 </span><span class="dstr"></span>
+<span class="line">  851 </span><span class="dstr">  SPD=&quot;`             cut $EMSIFILE -f1`&quot;</span>
+<span class="line">  852 </span><span class="dstr">  SYSNAME=&quot;`         cut $EMSIFILE -f2`&quot;</span>
+<span class="line">  853 </span><span class="dstr">  LOCATION=&quot;`        cut $EMSIFILE -f3`&quot;</span>
+<span class="line">  854 </span><span class="dstr">  COMPLETE_PHONE=&quot;`  cut $EMSIFILE -f4`&quot;</span>
+<span class="line">  855 </span><span class="dstr">  INTERCOUNTRYPREF=&quot;`cut $EMSIFILE -f5`&quot;</span>
+<span class="line">  856 </span><span class="dstr">  LONG_DIST_PREFIX=&quot;`cut $EMSIFILE -f6`&quot;</span>
+<span class="line">  857 </span><span class="dstr">  NODEFLAGS=&quot;`       cut $EMSIFILE -f7`&quot;</span>
+<span class="line">  858 </span><span class="dstr">  DIALSTRING=&quot;`      cut $EMSIFILE -f8`&quot;</span>
+<span class="line">  859 </span><span class="dstr">  SYSOP=&quot;`           cut $EMSIFILE -f9`&quot;</span>
+<span class="line">  860 </span><span class="dstr"></span>
+<span class="line">  861 </span><span class="dstr">  COUNTRYPREF=&quot;`echo $COMPLETE_PHONE | cut -f1 -d'</span><span class="dir">-</span><span class="dstr">'`&quot;</span>
+<span class="line">  862 </span><span class="dstr">  PREF=&quot;`       echo $COMPLETE_PHONE | cut -f2 -d'</span><span class="dir">-</span><span class="dstr">'`&quot;</span>
+<span class="line">  863 </span><span class="dstr">  PHONE=&quot;`      echo $COMPLETE_PHONE | cut -f3 -d'</span><span class="dir">-</span><span class="dstr">'`&quot;</span>
+<span class="line">  864 </span><span class="dstr"></span>
+<span class="line">  865 </span><span class="dstr">  FNETCFG=$CFGDIR/config</span>
+<span class="line">  866 </span><span class="dstr">  AREAS=$CFGDIR/Areas</span>
+<span class="line">  867 </span><span class="dstr"></span>
+<span class="line">  868 </span><span class="dstr">  POINTS=&quot;`cat $PNTSETUP`&quot;</span>
+<span class="line">  869 </span><span class="dstr">  POST=&quot;`cat $COPIUSER`&quot;</span>
+<span class="line">  870 </span><span class="dstr">  AKAPRI=&quot;`cut $AKASETUP -f1 -d:`&quot;</span>
+<span class="line">  871 </span><span class="dstr">  int2fido &quot;$AKAPRI&quot;</span>
+<span class="line">  872 </span><span class="dstr">  AKAPRIFTN=&quot;$_RETVAL&quot;</span>
+<span class="line">  873 </span><span class="dstr"></span>
+<span class="line">  874 </span><span class="dstr">#invece di &quot;cp $SRC/misc/inn/send-ifmail ~news&quot;</span>
+<span class="line">  875 </span><span class="dstr">#-----------------------------------------------------------------------------</span>
+<span class="line">  876 </span><span class="dstr">  cp copi.sendifm1 ~news/send-ifmail</span>
+<span class="line">  877 </span><span class="dstr">  cat &lt;&lt;EOF &gt;&gt;~news/send-ifmail</span>
+<span class="line">  878 </span><span class="dstr">-p&quot;$BINDIR/ifnews %s&quot;</span> <span class="esc">\\</span>
+<span class="line">  879 </span><span class="dstr">EOF</span>
+<span class="line">  880 </span><span class="dstr">  cat copi.sendifm2 &gt;&gt;~news/send-ifmail</span>
+<span class="line">  881 </span><span class="dstr"></span>
+<span class="line">  882 </span><span class="dstr">  chmod 550 ~news/send-ifmail</span>
+<span class="line">  883 </span><span class="dstr">  chown news.news ~news/send-ifmail</span>
+<span class="line">  884 </span><span class="dstr"></span>
+<span class="line">  885 </span><span class="dstr">#invece di &quot;cp $SRC/misc/contrib/ifreq $BINDIR&quot;</span>
+<span class="line">  886 </span><span class="dstr">#-----------------------------------------------------------------------------</span>
+<span class="line">  887 </span><span class="dstr">  cp copi.ifreq1 $BINDIR/ifreq</span>
+<span class="line">  888 </span><span class="dstr">  cat &lt;&lt;EOF &gt;&gt;$BINDIR/ifreq</span>
+<span class="line">  889 </span><span class="dstr"># ifcico-config-file:</span>
+<span class="line">  890 </span><span class="dstr"></span><span class="esc">\$</span><span class="dstr">config = &quot;$CFGDIR/config&quot;;</span>
+<span class="line">  891 </span><span class="dstr"></span>
+<span class="line">  892 </span><span class="dstr"># change this to the default node, where requests should go to.</span>
+<span class="line">  893 </span><span class="dstr"></span><span class="esc">\$</span><span class="dstr">node = &quot;$AKAPRIFTN&quot;;</span>
+<span class="line">  894 </span><span class="dstr">EOF</span>
+<span class="line">  895 </span><span class="dstr">  cat copi.ifreq2 &gt;&gt;$BINDIR/ifreq</span>
+<span class="line">  896 </span><span class="dstr"></span>
+<span class="line">  897 </span><span class="dstr">  chmod 755 $BINDIR/ifreq</span>
+<span class="line">  898 </span><span class="dstr">  chown fnet.uucp $BINDIR/ifreq</span>
+<span class="line">  899 </span><span class="dstr"></span>
+<span class="line">  900 </span><span class="dstr">#invece di &quot;cp $SRC/misc/contrib/ifman $BINDIR&quot;</span>
+<span class="line">  901 </span><span class="dstr">#-----------------------------------------------------------------------------</span>
+<span class="line">  902 </span><span class="dstr">  cp copi.ifman1 $BINDIR/ifman</span>
+<span class="line">  903 </span><span class="dstr">  cat &lt;&lt;EOF &gt;&gt;$BINDIR/ifman</span>
+<span class="line">  904 </span><span class="dstr"></span><span class="esc">\$</span><span class="dstr">cfgfile=&quot;$CFGDIR/config&quot;;     # where the config is</span>
+<span class="line">  905 </span><span class="dstr"></span><span class="esc">\$</span><span class="dstr">ifowner=&quot;fnet&quot;;               # who is the owner of the ifmail</span>
+<span class="line">  906 </span><span class="dstr"></span>
+<span class="line">  907 </span><span class="dstr">EOF</span>
+<span class="line">  908 </span><span class="dstr">  cat copi.ifman2 &gt;&gt;$BINDIR/ifman</span>
+<span class="line">  909 </span><span class="dstr"></span>
+<span class="line">  910 </span><span class="dstr">  chmod 755 $BINDIR/ifman</span>
+<span class="line">  911 </span><span class="dstr">  chown fnet.uucp $BINDIR/ifman</span>
+<span class="line">  912 </span><span class="dstr"></span>
+<span class="line">  913 </span><span class="dstr">#invece di &quot;cp $SRC/misc/contrib/ifpoll $BINDIR&quot;</span>
+<span class="line">  914 </span><span class="dstr">#-----------------------------------------------------------------------------</span>
+<span class="line">  915 </span><span class="dstr">  cp copi.ifpoll1 $BINDIR/ifpoll</span>
+<span class="line">  916 </span><span class="dstr">  cat &lt;&lt;EOF &gt;&gt;$BINDIR/ifpoll</span>
+<span class="line">  917 </span><span class="dstr">FIDOPATH=$BINDIR</span>
+<span class="line">  918 </span><span class="dstr">LOGPATH=$LOGDIR</span>
+<span class="line">  919 </span><span class="dstr"></span>
+<span class="line">  920 </span><span class="dstr"># sysop of fido stuff</span>
+<span class="line">  921 </span><span class="dstr">IFCICO_SYSOP=$POST</span>
+<span class="line">  922 </span><span class="dstr"></span>
+<span class="line">  923 </span><span class="dstr"># my boss node (default address to poll)</span>
+<span class="line">  924 </span><span class="dstr">NODE=$AKAPRI</span>
+<span class="line">  925 </span><span class="dstr">EOF</span>
+<span class="line">  926 </span><span class="dstr">  cat copi.ifpoll2 &gt;&gt; $BINDIR/ifpoll</span>
+<span class="line">  927 </span><span class="dstr"></span>
+<span class="line">  928 </span><span class="dstr">  chmod 755 $BINDIR/ifpoll</span>
+<span class="line">  929 </span><span class="dstr">  chown fnet.uucp $BINDIR/ifpoll</span>
+<span class="line">  930 </span><span class="dstr"></span>
+<span class="line">  931 </span><span class="dstr"></span>
+<span class="line">  932 </span><span class="dstr">#########################################################</span>
+<span class="line">  933 </span><span class="dstr">##### se in syslog.conf non c'</span><span class="dir">e</span><span class="dstr">' &quot;local0.*&quot;, lo aggiunge</span>
+<span class="line">  934 </span><span class="dstr">################################</span>
+<span class="line">  935 </span><span class="dstr"></span>
+<span class="line">  936 </span><span class="dstr">  SYSLOG=&quot;`grep</span> <span class="esc">\&quot;</span><span class="dstr">local0.*</span>	<span class="esc">\&quot;</span> <span class="dstr">/etc/syslog.conf`&quot;</span>
+<span class="line">  937 </span><span class="dstr">  SYSCHECK_A=&quot;`echo</span> <span class="esc">\&quot;</span><span class="dstr">$SYSLOG</span><span class="esc">\&quot;</span> <span class="dstr">| cut -f1  | grep -x</span> <span class="esc">\&quot;</span><span class="dstr">local0.*</span><span class="esc">\&quot;</span><span class="dstr">`&quot;</span>
+<span class="line">  938 </span><span class="dstr">  SYSCHECK_B=&quot;`echo</span> <span class="esc">\&quot;</span><span class="dstr">$SYSLOG</span><span class="esc">\&quot;</span> <span class="dstr">| cut -f2- | grep $LOGDIR/sysiflog`&quot;</span>
+<span class="line">  939 </span><span class="dstr">  MYSYSLOG=&quot;local0.*</span><span class="esc">\t\t\t\t\t</span><span class="dstr">$LOGDIR/sysiflog&quot;</span>
+<span class="line">  940 </span><span class="dstr"></span>
+<span class="line">  941 </span><span class="dstr">  if [ ! &quot;$SYSCHECK_A&quot; -o ! &quot;$SYSCHECK_B&quot; ]</span>
+<span class="line">  942 </span><span class="dstr">  then</span>
+<span class="line">  943 </span><span class="dstr">    echo -e &quot;</span><span class="esc">\n</span><span class="dstr"># For ifmail&quot; &gt;&gt; /etc/syslog.conf</span>
+<span class="line">  944 </span><span class="dstr">    echo -e &quot;$MYSYSLOG&quot; &gt;&gt;/etc/syslog.conf</span>
+<span class="line">  945 </span><span class="dstr">    killall -1 syslogd</span>
+<span class="line">  946 </span><span class="dstr">  fi</span>
+<span class="line">  947 </span><span class="dstr"></span>
+<span class="line">  948 </span><span class="dstr"></span>
+<span class="line">  949 </span><span class="dstr">########################</span>
+<span class="line">  950 </span><span class="dstr">  save $AREAS</span>
+<span class="line">  951 </span><span class="dstr">  :&gt; $AREAS</span>
+<span class="line">  952 </span><span class="dstr">  chown fnet.uucp $AREAS</span>
+<span class="line">  953 </span><span class="dstr"></span>
+<span class="line">  954 </span><span class="dstr">  save $FNETCFG</span>
+<span class="line">  955 </span><span class="dstr">  cat &lt;&lt;EOF &gt;$FNETCFG</span>
+<span class="line">  956 </span><span class="dstr"># Configuration file for ifmail (ifgate+ifcico) package by Eugene Crosser</span>
+<span class="line">  957 </span><span class="dstr"># Compile-time default name of this file may be overridden by -I key.</span>
+<span class="line">  958 </span><span class="dstr">#</span>
+<span class="line">  959 </span><span class="dstr"># Lines with the first nonblank character '</span><span class="dir">#</span><span class="dstr">' are comments.</span>
+<span class="line">  960 </span><span class="dstr">#</span>
+<span class="line">  961 </span><span class="dstr"># Log file name. Overrides compile-time default.</span>
+<span class="line">  962 </span><span class="dstr">logfile  $LOGDIR/iflog</span>
+<span class="line">  963 </span><span class="dstr"></span>
+<span class="line">  964 </span><span class="dstr"># Debug file name. Overrides compile-time default.</span>
+<span class="line">  965 </span><span class="dstr">debugfile $LOGDIR/ifdebug</span>
+<span class="line">  966 </span><span class="dstr"></span>
+<span class="line">  967 </span><span class="dstr"># Debugging verbosity level (is overidden by -x key). Default is 0.</span>
+<span class="line">  968 </span><span class="dstr"># WARNING: if &gt;0 your messages will go in /tmp/ifmail !!!!!!!!!!!!!!!!!!</span>
+<span class="line">  969 </span><span class="dstr">verbose  0</span>
+<span class="line">  970 </span><span class="dstr"></span>
+<span class="line">  971 </span><span class="dstr"># The first is the main address:</span>
+<span class="line">  972 </span><span class="dstr">EOF</span>
+<span class="line">  973 </span><span class="dstr">#----------------------------</span>
+<span class="line">  974 </span><span class="dstr"></span>
+<span class="line">  975 </span><span class="dstr">  AKA=&quot;any&quot;</span>
+<span class="line">  976 </span><span class="dstr">  IAKA=0</span>
+<span class="line">  977 </span><span class="dstr">  while [ &quot;$AKA&quot; ]</span>
+<span class="line">  978 </span><span class="dstr">  do</span>
+<span class="line">  979 </span><span class="dstr">    IAKA=$[$IAKA+1]</span>
+<span class="line">  980 </span><span class="dstr">    AKA=&quot;`cut $AKASETUP -f$IAKA -d:`&quot;</span>
+<span class="line">  981 </span><span class="dstr">    if [ &quot;$AKA&quot; ]</span>
+<span class="line">  982 </span><span class="dstr">    then</span>
+<span class="line">  983 </span><span class="dstr">      int2fidonet $AKA</span>
+<span class="line">  984 </span><span class="dstr">      AKAFTN=&quot;`echo $_RETVAL | cut -f1 -d.`&quot;</span>
+<span class="line">  985 </span><span class="dstr">      echo &quot;# aka for `echo $AKAFTN | cut -f2 -d '</span><span class="dir">&#64;</span><span class="dstr">'`&quot; &gt;&gt; $FNETCFG</span>
+<span class="line">  986 </span><span class="dstr"></span>
+<span class="line">  987 </span><span class="dstr">      POINT=&quot;`echo $POINTS | cut -f$IAKA -d:`&quot;</span>
+<span class="line">  988 </span><span class="dstr"></span>
+<span class="line">  989 </span><span class="dstr">      AKAFTN=&quot;`echo $AKAFTN | cut -f1 -d '</span><span class="dir">&#64;</span><span class="dstr">'`.$POINT&#64;`echo $AKAFTN | cut -f2 -d '</span><span class="dir">&#64;</span><span class="dstr">'`&quot;</span>
+<span class="line">  990 </span><span class="dstr"></span>
+<span class="line">  991 </span><span class="dstr">      echo &quot;address  $AKAFTN&quot; &gt;&gt; $FNETCFG</span>
+<span class="line">  992 </span><span class="dstr">    fi</span>
+<span class="line">  993 </span><span class="dstr">  done</span>
+<span class="line">  994 </span><span class="dstr"></span>
+<span class="line">  995 </span><span class="dstr">#----------------------------</span>
+<span class="line">  996 </span><span class="dstr">  cat &lt;&lt;EOF &gt;&gt;$FNETCFG</span>
+<span class="line">  997 </span><span class="dstr"></span>
+<span class="line">  998 </span><span class="dstr"># Passwords for nodes. Not checked by iftoss (unless -DPARANOID specified</span>
+<span class="line">  999 </span><span class="dstr"># at compile-time), checked by ifcico.</span>
+<span class="line"> 1000 </span><span class="dstr"># Inserted into outgoing mail packets, EMSI and yoohoo packets.</span>
+<span class="line"> 1001 </span><span class="dstr">EOF</span>
+<span class="line"> 1002 </span><span class="dstr">#----------------------------</span>
+<span class="line"> 1003 </span><span class="dstr"></span>
+<span class="line"> 1004 </span><span class="dstr">  AKA=&quot;any&quot;</span>
+<span class="line"> 1005 </span><span class="dstr">  IAKA=0</span>
+<span class="line"> 1006 </span><span class="dstr">  while [ &quot;$AKA&quot; ]</span>
+<span class="line"> 1007 </span><span class="dstr">  do</span>
+<span class="line"> 1008 </span><span class="dstr">    IAKA=$[$IAKA+1]</span>
+<span class="line"> 1009 </span><span class="dstr">    AKA=&quot;`cut $AKASETUP -f$IAKA -d:`&quot;</span>
+<span class="line"> 1010 </span><span class="dstr">    if [ &quot;$AKA&quot; ]</span>
+<span class="line"> 1011 </span><span class="dstr">    then</span>
+<span class="line"> 1012 </span><span class="dstr">      int2fido $AKA</span>
+<span class="line"> 1013 </span><span class="dstr">      AKAFTN=$_RETVAL</span>
+<span class="line"> 1014 </span><span class="dstr"></span>
+<span class="line"> 1015 </span><span class="dstr">      PASSWD=&quot;`echo $PASSWDS | cut -f$IAKA -d:`&quot;</span>
+<span class="line"> 1016 </span><span class="dstr">      if [ &quot;$PASSWD&quot; ]</span>
+<span class="line"> 1017 </span><span class="dstr">      then</span>
+<span class="line"> 1018 </span><span class="dstr">        echo &quot;password $AKAFTN $PASSWD&quot; &gt;&gt; $FNETCFG</span>
+<span class="line"> 1019 </span><span class="dstr">      fi</span>
+<span class="line"> 1020 </span><span class="dstr">    fi</span>
+<span class="line"> 1021 </span><span class="dstr">  done</span>
+<span class="line"> 1022 </span><span class="dstr"></span>
+<span class="line"> 1023 </span><span class="dstr">#----------------------------</span>
+<span class="line"> 1024 </span><span class="dstr">  cat &lt;&lt;EOF &gt;&gt;$FNETCFG</span>
+<span class="line"> 1025 </span><span class="dstr"></span>
+<span class="line"> 1026 </span><span class="dstr"># Include config extention file (here: file with real passwords).</span>
+<span class="line"> 1027 </span><span class="dstr"># Includes may be nested. If the nesting is cyclic, the program cycles too.</span>
+<span class="line"> 1028 </span><span class="dstr"># You are warned.</span>
+<span class="line"> 1029 </span><span class="dstr"># include  $CFGDIR/passwds</span>
+<span class="line"> 1030 </span><span class="dstr"></span>
+<span class="line"> 1031 </span><span class="dstr"># System alias file - try to fetch ftn-style aliases from there.</span>
+<span class="line"> 1032 </span><span class="dstr"># If &quot;from&quot; address of a message from FidoNet matches _right_ side</span>
+<span class="line"> 1033 </span><span class="dstr"># of some entry in sysalias file, then the Reply-To: header is created</span>
+<span class="line"> 1034 </span><span class="dstr"># in the RFC message with the name part taken from the left side of the</span>
+<span class="line"> 1035 </span><span class="dstr"># sysalis entry and domain part taken from myfqdn (below). E.g., if a</span>
+<span class="line"> 1036 </span><span class="dstr"># fidonet message comes from &quot;John Smith of 1:234/567.89&#64;fidonet&quot; and</span>
+<span class="line"> 1037 </span><span class="dstr"># there is an entry in the sysalias file:</span>
+<span class="line"> 1038 </span><span class="dstr"># &quot;jsmith: John.Smith&#64;p89.f567.n234.z1.fidonet.org&quot;</span>
+<span class="line"> 1039 </span><span class="dstr"># and fqdn value is &quot;pccross.msk.su&quot;, then the resulting message will</span>
+<span class="line"> 1040 </span><span class="dstr"># contain a line: &quot;Reply-To: jsmith&#64;pccross.msk.su&quot;.</span>
+<span class="line"> 1041 </span><span class="dstr">sysalias /etc/aliases</span>
+<span class="line"> 1042 </span><span class="dstr"></span>
+<span class="line"> 1043 </span><span class="dstr"># This host fully qualified domain name to add to the alias above</span>
+<span class="line"> 1044 </span><span class="dstr">myfqdn  `hostname -f`</span>
+<span class="line"> 1045 </span><span class="dstr"></span>
+<span class="line"> 1046 </span><span class="dstr"># Directory for incoming packets/files:</span>
+<span class="line"> 1047 </span><span class="dstr">inbound  /var/spool/ifmail/inb</span>
+<span class="line"> 1048 </span><span class="dstr"># Directories for &quot;listed&quot; and &quot;protected&quot; sessions</span>
+<span class="line"> 1049 </span><span class="dstr">listinbound /var/spool/ifmail/inb</span>
+<span class="line"> 1050 </span><span class="dstr">protinbound /var/spool/ifmail/inb</span>
+<span class="line"> 1051 </span><span class="dstr"></span>
+<span class="line"> 1052 </span><span class="dstr"># Directory for outgoing packets (default domain and zone):</span>
+<span class="line"> 1053 </span><span class="dstr"># other zones will be like &quot;/var/spool/ifmail/outb.003&quot;,</span>
+<span class="line"> 1054 </span><span class="dstr"># other domains will be like &quot;/var/spool/ifmail/&lt;domain&gt;.&lt;zone&gt;&quot;</span>
+<span class="line"> 1055 </span><span class="dstr">outbound /var/spool/ifmail/outb</span>
+<span class="line"> 1056 </span><span class="dstr"></span>
+<span class="line"> 1057 </span><span class="dstr"># Directory from which the file requests are satisfied</span>
+<span class="line"> 1058 </span><span class="dstr">public  /var/spool/uucppublic</span>
+<span class="line"> 1059 </span><span class="dstr"></span>
+<span class="line"> 1060 </span><span class="dstr"># Directory with executables to satisfy &quot;magic&quot; file requests</span>
+<span class="line"> 1061 </span><span class="dstr"># if requested a file present in this directory, it will be</span>
+<span class="line"> 1062 </span><span class="dstr"># executed and stdout sent to the remote system. It is dangerous!</span>
+<span class="line"> 1063 </span><span class="dstr"># You are warned.</span>
+<span class="line"> 1064 </span><span class="dstr">magic  $BINDIR/magic</span>
+<span class="line"> 1065 </span><span class="dstr"></span>
+<span class="line"> 1066 </span><span class="dstr"># Primary nodelist (serves &quot;outbound&quot; directory and domain from the</span>
+<span class="line"> 1067 </span><span class="dstr"># first &quot;address&quot; statement). Name expanded with &quot;.NNN&quot; if neccessary.</span>
+<span class="line"> 1068 </span><span class="dstr">nodelist /var/spool/ifmail/nl.d/`cut $AKASETUP -f1 -d: | cut -f4 -d.`.ndl</span>
+<span class="line"> 1069 </span><span class="dstr"></span>
+<span class="line"> 1070 </span><span class="dstr"># Secondary nodelists and nodelists for other domains.</span>
+<span class="line"> 1071 </span><span class="dstr"># use directory name from the first &quot;nodelist&quot; statement.</span>
+<span class="line"> 1072 </span><span class="dstr">#           filename          originating address</span>
+<span class="line"> 1073 </span><span class="dstr">EOF</span>
+<span class="line"> 1074 </span><span class="dstr">#----------------------------</span>
+<span class="line"> 1075 </span><span class="dstr"></span>
+<span class="line"> 1076 </span><span class="dstr">  AKA=&quot;any&quot;</span>
+<span class="line"> 1077 </span><span class="dstr">  IAKA=0</span>
+<span class="line"> 1078 </span><span class="dstr">  while [ &quot;$AKA&quot; ]</span>
+<span class="line"> 1079 </span><span class="dstr">  do</span>
+<span class="line"> 1080 </span><span class="dstr">    IAKA=$[$IAKA+1]</span>
+<span class="line"> 1081 </span><span class="dstr">    AKA=&quot;`cut $AKASETUP -f$IAKA -d:`&quot;</span>
+<span class="line"> 1082 </span><span class="dstr">    if [ &quot;$AKA&quot; ]</span>
+<span class="line"> 1083 </span><span class="dstr">    then</span>
+<span class="line"> 1084 </span><span class="dstr">      int2fidonet $AKA</span>
+<span class="line"> 1085 </span><span class="dstr">      AKAFTN=&quot;`echo $_RETVAL | cut -f1 -d.`&quot;</span>
+<span class="line"> 1086 </span><span class="dstr">      echo -e &quot;nodelist  `echo $AKAFTN | cut -f2 -d '</span><span class="dir">&#64;</span><span class="dstr">'`.ndl</span><span class="esc">\t</span><span class="dstr">$AKAFTN&quot; &gt;&gt; $FNETCFG</span>
+<span class="line"> 1087 </span><span class="dstr">    fi</span>
+<span class="line"> 1088 </span><span class="dstr">  done</span>
+<span class="line"> 1089 </span><span class="dstr"></span>
+<span class="line"> 1090 </span><span class="dstr">#----------------------------</span>
+<span class="line"> 1091 </span><span class="dstr">  cat &lt;&lt;EOF &gt;&gt;$FNETCFG</span>
+<span class="line"> 1092 </span><span class="dstr"></span>
+<span class="line"> 1093 </span><span class="dstr"># domain translations, just context substitution.  Leading dot recommended.</span>
+<span class="line"> 1094 </span><span class="dstr"># May contain '</span><span class="dir">&#64;</span><span class="dstr">'-sign too.  First matching used.</span>
+<span class="line"> 1095 </span><span class="dstr"># NOTE: If you specify at least one domtrans line, there will be _NO_</span>
+<span class="line"> 1096 </span><span class="dstr"># default for fidonet &lt;--&gt; fidonet.org.  Don'</span><span class="dir">t forget to specify it</span>
+<span class="line"> 1097 </span><span class="dir"># explicitly as a last line.</span>
+<span class="line"> 1098 </span><span class="dir">#  		FTN side  			Internet side</span>
+<span class="line"> 1099 </span><span class="dir">#domtrans	f720.n335.z2.fidonet.org	giuda.deis.unical.it</span>
+<span class="line"> 1100 </span><span class="dir">#domtrans	.fidonet			.fidonet.org</span>
+<span class="line"> 1101 </span>
+<span class="line"> 1102 </span><span class="dir"># Automatically updated alias database.  If omitted or inaccessible,</span>
+<span class="line"> 1103 </span><span class="dir"># ^aREPLYADDR and ^aREPLYTO kludges are generated in fido messages.</span>
+<span class="line"> 1104 </span>database	<span class="sym">/</span>var<span class="sym">/</span>spool<span class="sym">/</span>ifmail<span class="sym">/</span>ifdbm
+<span class="line"> 1105 </span>
+<span class="line"> 1106 </span><span class="dir"># Sequencer file (used to generate unique IDs)</span>
+<span class="line"> 1107 </span>sequencer	<span class="sym">/</span>var<span class="sym">/</span>spool<span class="sym">/</span>ifmail<span class="sym">/</span>seq
+<span class="line"> 1108 </span>
+<span class="line"> 1109 </span><span class="dir"># Areas file (format:</span> <span class="dstr">&quot;AREA newsgroup distribution&quot;</span><span class="dir">)</span>
+<span class="line"> 1110 </span>areas		$CFGDIR<span class="sym">/</span>Areas
+<span class="line"> 1111 </span>
+<span class="line"> 1112 </span><span class="dir"># Bad groups prefixes - do not pass to fido if appear in Newsgroups header</span>
+<span class="line"> 1113 </span><span class="dir"># This is NOT the same as</span> <span class="dstr">&quot;!news.group&quot;</span><span class="dir"> in the cnews</span> <span class="dstr">&quot;sys&quot;</span><span class="dir"> file.</span>
+<span class="line"> 1114 </span><span class="dir"># badgroup relcom.ads.</span>
+<span class="line"> 1115 </span><span class="dir"># badgroup relcom.commerce.</span>
+<span class="line"> 1116 </span>
+<span class="line"> 1117 </span><span class="dir"># Maximum allowed number of groups in the Newsgroups header, article will</span>
+<span class="line"> 1118 </span><span class="dir"># not be gated if exeeds.  If zero or umitted - no limit.</span>
+<span class="line"> 1119 </span><span class="dir"># maxgroup    5</span>
+<span class="line"> 1120 </span>
+<span class="line"> 1121 </span><span class="dir"># Internet -&gt; FidoNet (outgoing) character mapping table (a la mapchan)</span>
+<span class="line"> 1122 </span><span class="dir"># outtab  $BINDIR/outkoi8alt</span>
+<span class="line"> 1123 </span>
+<span class="line"> 1124 </span><span class="dir"># FidoNet -&gt; Internet (incoming) character mapping table</span>
+<span class="line"> 1125 </span><span class="dir"># intab  $BINDIR/outaltkoi8</span>
+<span class="line"> 1126 </span>
+<span class="line"> 1127 </span><span class="dir"># Toss program, used by ifunpack</span>
+<span class="line"> 1128 </span>iftoss  $BINDIR<span class="sym">/</span>iftoss
+<span class="line"> 1129 </span>
+<span class="line"> 1130 </span>EOF
+<span class="line"> 1131 </span>
+<span class="line"> 1132 </span>  cat copi<span class="sym">.</span>ifmcfg2 <span class="sym">&gt;&gt;</span>$FNETCFG
+<span class="line"> 1133 </span>
+<span class="line"> 1134 </span>  <span class="kwa">if</span> <span class="sym">[</span> $<span class="sym">[</span>$<span class="sym">[</span>SPD<span class="sym">] &gt;</span> $<span class="sym">[</span><span class="num">19200</span><span class="sym">]] =</span> <span class="num">1</span> <span class="sym">];</span> then
+<span class="line"> 1135 </span>    SPDLOCK<span class="sym">=</span><span class="str">&quot;L38400&quot;</span>
+<span class="line"> 1136 </span>  elif <span class="sym">[</span> $<span class="sym">[</span>$<span class="sym">[</span>SPD<span class="sym">] &gt;</span> $<span class="sym">[</span><span class="num">9600</span><span class="sym">]] =</span> <span class="num">1</span> <span class="sym">];</span> then
+<span class="line"> 1137 </span>    SPDLOCK<span class="sym">=</span><span class="str">&quot;L19200&quot;</span>
+<span class="line"> 1138 </span>  elif <span class="sym">[</span> $<span class="sym">[</span>$<span class="sym">[</span>SPD<span class="sym">] &gt;</span> $<span class="sym">[</span><span class="num">2400</span><span class="sym">]] =</span> <span class="num">1</span> <span class="sym">];</span> then
+<span class="line"> 1139 </span>    SPDLOCK<span class="sym">=</span><span class="str">&quot;9600&quot;</span>
+<span class="line"> 1140 </span>  elif <span class="sym">[</span> $<span class="sym">[</span>$<span class="sym">[</span>SPD<span class="sym">] &gt;</span> $<span class="sym">[</span><span class="num">1200</span><span class="sym">]] =</span> <span class="num">1</span> <span class="sym">];</span> then
+<span class="line"> 1141 </span>    SPDLOCK<span class="sym">=</span><span class="str">&quot;2400&quot;</span>
+<span class="line"> 1142 </span>  elif <span class="sym">[</span> $<span class="sym">[</span>$<span class="sym">[</span>SPD<span class="sym">] &gt;</span> $<span class="sym">[</span><span class="num">300</span><span class="sym">]] =</span> <span class="num">1</span> <span class="sym">];</span> then
+<span class="line"> 1143 </span>    SPDLOCK<span class="sym">=</span><span class="str">&quot;1200&quot;</span>
+<span class="line"> 1144 </span>  <span class="kwa">else</span>
+<span class="line"> 1145 </span>    SPDLOCK<span class="sym">=</span><span class="str">&quot;300&quot;</span>
+<span class="line"> 1146 </span>  fi
+<span class="line"> 1147 </span>
+<span class="line"> 1148 </span>  echo <span class="str">&quot;ModemPort modem:$SPDLOCK&quot;</span> <span class="sym">&gt;&gt;</span>$FNETCFG
+<span class="line"> 1149 </span>  cat copi<span class="sym">.</span>ifmcfg5 <span class="sym">&gt;&gt;</span>$FNETCFG
+<span class="line"> 1150 </span>
+<span class="line"> 1151 </span>  echo <span class="str">&quot;PhoneTrans $COUNTRYPREF-$PREF-	/&quot;</span> <span class="sym">&gt;&gt;</span>$FNETCFG
+<span class="line"> 1152 </span>  echo <span class="str">&quot;PhoneTrans $COUNTRYPREF-		/ $LONG_DIST_PREFIX&quot;</span> <span class="sym">&gt;&gt;</span>$FNETCFG
+<span class="line"> 1153 </span>  echo <span class="str">&quot;PhoneTrans		/ $INTERCOUNTRYPREF&quot;</span> <span class="sym">&gt;&gt;</span>$FNETCFG
+<span class="line"> 1154 </span>  echo <span class="str">&quot;ModemReset ATZ</span><span class="esc">\r</span><span class="str">&quot;</span> <span class="sym">&gt;&gt;</span>$FNETCFG
+<span class="line"> 1155 </span>  echo <span class="str">&quot;ModemDial</span> <span class="esc">\d</span><span class="str">$DIALSTRING</span><span class="esc">\T\r</span><span class="str">&quot;</span> <span class="sym">&gt;&gt;</span>$FNETCFG
+<span class="line"> 1156 </span>
+<span class="line"> 1157 </span>  cat copi<span class="sym">.</span>ifmcfg4 <span class="sym">&gt;&gt;</span>$FNETCFG
+<span class="line"> 1158 </span>
+<span class="line"> 1159 </span>  echo <span class="str">&quot;Name		$SYSNAME&quot;</span> <span class="sym">&gt;&gt;</span>$FNETCFG
+<span class="line"> 1160 </span>  echo <span class="str">&quot;Location	$LOCATION&quot;</span> <span class="sym">&gt;&gt;</span>$FNETCFG
+<span class="line"> 1161 </span>  echo <span class="str">&quot;SysOp		$SYSOP&quot;</span> <span class="sym">&gt;&gt;</span>$FNETCFG
+<span class="line"> 1162 </span>  echo <span class="str">&quot;Phone		$COUNTRYPREF-$PREF-$PHONE&quot;</span> <span class="sym">&gt;&gt;</span>$FNETCFG
+<span class="line"> 1163 </span>  echo <span class="str">&quot;Speed		$SPD&quot;</span> <span class="sym">&gt;&gt;</span>$FNETCFG
+<span class="line"> 1164 </span>  echo <span class="str">&quot;Flags		$NODEFLAGS&quot;</span> <span class="sym">&gt;&gt;</span>$FNETCFG
+<span class="line"> 1165 </span>
+<span class="line"> 1166 </span>  chown fnet<span class="sym">.</span>uucp $FNETCFG
+<span class="line"> 1167 </span><span class="sym">}</span>
+<span class="line"> 1168 </span>
+<span class="line"> 1169 </span><span class="dir"># Args: cfg_dir</span>
+<span class="line"> 1170 </span><span class="kwd">configure_smail</span><span class="sym">() {</span>
+<span class="line"> 1171 </span>  dialog <span class="sym">--</span>backtitle <span class="str">&quot;$TITLE&quot;</span> <span class="sym">--</span>infobox <span class="str">&quot;Configuro Smail...&quot;</span> <span class="num">0 0</span>
+<span class="line"> 1172 </span>
+<span class="line"> 1173 </span>  USER<span class="sym">=</span><span class="str">&quot;`cat $COPIUSER`&quot;</span>
+<span class="line"> 1174 </span>  FNETHOME<span class="sym">=~</span>fnet
+<span class="line"> 1175 </span>
+<span class="line"> 1176 </span>  SMAIL<span class="sym">=</span>$<span class="num">1</span>
+<span class="line"> 1177 </span>  SMAILCONF<span class="sym">=</span>$SMAIL<span class="sym">/</span>config
+<span class="line"> 1178 </span>  ALIASES<span class="sym">=</span>$SMAIL<span class="sym">/</span>aliases
+<span class="line"> 1179 </span>  DIRECTORS<span class="sym">=</span>$SMAIL<span class="sym">/</span>directors
+<span class="line"> 1180 </span>  ROUTERS<span class="sym">=</span>$SMAIL<span class="sym">/</span>routers
+<span class="line"> 1181 </span>  TRANSPORTS<span class="sym">=</span>$SMAIL<span class="sym">/</span>transports
+<span class="line"> 1182 </span>  FTNPATHS<span class="sym">=</span>$SMAIL<span class="sym">/</span>ftnpaths
+<span class="line"> 1183 </span>
+<span class="line"> 1184 </span><span class="dir"># File: config</span>
+<span class="line"> 1185 </span>  save $SMAILCONF
+<span class="line"> 1186 </span>
+<span class="line"> 1187 </span>  cat <span class="sym">&lt;&lt;</span>EOF <span class="sym">&gt;</span>$SMAILCONF
+<span class="line"> 1188 </span><span class="dir">#</span>
+<span class="line"> 1189 </span><span class="dir">#       smail configuration for $HOST.$DOMAIN</span>
+<span class="line"> 1190 </span><span class="dir"># (see smail(5) man page for details and other options)</span>
+<span class="line"> 1191 </span><span class="dir">#</span>
+<span class="line"> 1192 </span>hostnames<span class="sym">=</span>$HOST<span class="sym">:</span>$HOST<span class="sym">.</span>$DOMAIN
+<span class="line"> 1193 </span>domains<span class="sym">=</span>$DOMAIN
+<span class="line"> 1194 </span>postmaster<span class="sym">=</span>$USER
+<span class="line"> 1195 </span>smtp_banner<span class="sym">=</span><span class="str">&quot;</span><span class="esc">\$</span><span class="str">primary_name Linux Smail</span><span class="esc">\$</span><span class="str">version #</span><span class="esc">\$</span><span class="str">compile_num ready at</span> <span class="esc">\$</span><span class="str">date&quot;</span>
+<span class="line"> 1196 </span>spool_mode<span class="sym">=</span><span class="num">0600</span>
+<span class="line"> 1197 </span>received_field<span class="sym">=</span><span class="str">&quot;Received:</span> <span class="esc">\\</span>
+<span class="line"> 1198 </span><span class="str"></span>	<span class="esc">\$</span><span class="str">{if def:sender_host</span> <span class="esc">\\</span>
+<span class="line"> 1199 </span><span class="str">		{from</span> <span class="esc">\$</span><span class="str">sender_host by</span> <span class="esc">\$</span><span class="str">primary_name</span> <span class="esc">\\</span>
+<span class="line"> 1200 </span><span class="str"></span>		<span class="esc">\$</span><span class="str">{if def:sender_proto: with</span> <span class="esc">\$</span><span class="str">sender_proto}</span><span class="esc">\\</span>
+<span class="line"> 1201 </span><span class="str"></span>		<span class="esc">\n\t</span><span class="str">(Linux Smail</span><span class="esc">\$</span><span class="str">version #</span><span class="esc">\$</span><span class="str">compile_num) }</span><span class="esc">\\</span>
+<span class="line"> 1202 </span><span class="str">	else{by</span> <span class="esc">\$</span><span class="str">primary_name</span> <span class="esc">\$</span><span class="str">{if def:sender_proto:with</span> <span class="esc">\$</span><span class="str">sender_proto }</span><span class="esc">\\</span>
+<span class="line"> 1203 </span><span class="str">		(Linux Smail</span><span class="esc">\$</span><span class="str">version #</span><span class="esc">\$</span><span class="str">compile_num)</span><span class="esc">\n\t</span><span class="str">}}</span><span class="esc">\\</span>
+<span class="line"> 1204 </span><span class="str">	id</span> <span class="esc">\$</span><span class="str">message_id;</span> <span class="esc">\$</span><span class="str">spool_date&quot;</span>
+<span class="line"> 1205 </span>trusted_users<span class="sym">=</span>root<span class="sym">:</span>uucp<span class="sym">:</span>daemon<span class="sym">:</span>fnet
+<span class="line"> 1206 </span>EOF
+<span class="line"> 1207 </span>
+<span class="line"> 1208 </span>
+<span class="line"> 1209 </span><span class="dir"># File: routers</span>
+<span class="line"> 1210 </span>  save $ROUTERS
+<span class="line"> 1211 </span>
+<span class="line"> 1212 </span>  cat <span class="sym">&lt;&lt;</span>EOF <span class="sym">&gt;</span>$ROUTERS
+<span class="line"> 1213 </span>ifmail<span class="sym">:</span> driver<span class="sym">=</span>pathalias<span class="sym">,</span>
+<span class="line"> 1214 </span>	transport<span class="sym">=</span>ifmail<span class="sym">;</span>
+<span class="line"> 1215 </span>
+<span class="line"> 1216 </span>	file<span class="sym">=</span>ftnpaths<span class="sym">,</span>
+<span class="line"> 1217 </span>	proto<span class="sym">=</span>lsearch<span class="sym">,</span>
+<span class="line"> 1218 </span>	domain<span class="sym">=</span>ftn<span class="sym">:</span>org
+<span class="line"> 1219 </span>EOF
+<span class="line"> 1220 </span>
+<span class="line"> 1221 </span>
+<span class="line"> 1222 </span><span class="dir"># File: transports</span>
+<span class="line"> 1223 </span>  save $TRANSPORTS
+<span class="line"> 1224 </span>
+<span class="line"> 1225 </span>  cat <span class="sym">&lt;&lt;</span>EOF <span class="sym">&gt;</span>$TRANSPORTS
+<span class="line"> 1226 </span>local<span class="sym">:</span>	driver <span class="sym">=</span> appendfile<span class="sym">,</span>
+<span class="line"> 1227 </span>	return_path<span class="sym">,</span>
+<span class="line"> 1228 </span>	local<span class="sym">,</span>
+<span class="line"> 1229 </span>	from<span class="sym">,</span>
+<span class="line"> 1230 </span>	unix_from_hack<span class="sym">;</span>
+<span class="line"> 1231 </span>
+<span class="line"> 1232 </span>	file <span class="sym">= /</span>var<span class="sym">/</span>spool<span class="sym">/</span>mail<span class="sym">/</span>\$<span class="sym">{</span>lc<span class="sym">:</span>user<span class="sym">},</span>
+<span class="line"> 1233 </span>	group <span class="sym">=</span> mail<span class="sym">,</span>
+<span class="line"> 1234 </span>	mode <span class="sym">=</span> <span class="num">0660</span><span class="sym">,</span>
+<span class="line"> 1235 </span>	suffix <span class="sym">=</span> <span class="str">&quot;</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">,</span>
+<span class="line"> 1236 </span>	append_as_user
+<span class="line"> 1237 </span>
+<span class="line"> 1238 </span>ifmail<span class="sym">:</span> driver<span class="sym">=</span>pipe<span class="sym">,</span>
+<span class="line"> 1239 </span>	from<span class="sym">,</span>
+<span class="line"> 1240 </span>	<span class="sym">-</span>received<span class="sym">,</span>
+<span class="line"> 1241 </span>	max_addrs<span class="sym">=</span><span class="num">5</span><span class="sym">,</span>
+<span class="line"> 1242 </span>	max_chars<span class="sym">=</span><span class="num">200</span><span class="sym">;</span>
+<span class="line"> 1243 </span>
+<span class="line"> 1244 </span>	pipe_as_sender<span class="sym">,</span>
+<span class="line"> 1245 </span>	cmd<span class="sym">=</span><span class="str">&quot;$FNETHOME/ifmail -r</span><span class="esc">\$</span><span class="str">host</span> <span class="esc">\$</span><span class="str">((</span><span class="esc">\$</span><span class="str">{strip:user})</span><span class="esc">\$</span><span class="str">)&quot;</span>
+<span class="line"> 1246 </span>
+<span class="line"> 1247 </span>EOF
+<span class="line"> 1248 </span>
+<span class="line"> 1249 </span>
+<span class="line"> 1250 </span><span class="dir"># File: directors</span>
+<span class="line"> 1251 </span>  save $DIRECTORS
+<span class="line"> 1252 </span>
+<span class="line"> 1253 </span>
+<span class="line"> 1254 </span><span class="dir"># File: aliases</span>
+<span class="line"> 1255 </span>  <span class="kwa">for</span> i in $ALIASES <span class="sym">/</span>etc<span class="sym">/</span>aliases <span class="sym">/</span>usr<span class="sym">/</span>lib<span class="sym">/</span>aliases
+<span class="line"> 1256 </span>  <span class="kwa">do</span>
+<span class="line"> 1257 </span>    <span class="kwa">if</span> <span class="sym">[ ! -</span>L $i <span class="sym">-</span>a <span class="sym">-</span>f $i <span class="sym">]</span>
+<span class="line"> 1258 </span>    then
+<span class="line"> 1259 </span>      mv $i $i<span class="sym">~</span>
+<span class="line"> 1260 </span>    fi
+<span class="line"> 1261 </span>  done
+<span class="line"> 1262 </span>
+<span class="line"> 1263 </span>  USERNAME<span class="sym">=</span><span class="str">&quot;`cut /etc/passwd -f1,5 -d: | grep $USER: | cut -f2 -d: | sed y/</span><span class="esc">\&quot; \&quot;</span><span class="str">/./`&quot;</span>
+<span class="line"> 1264 </span>  echo <span class="str">&quot;news: $USER&quot;</span> <span class="sym">&gt;&gt;</span> $ALIASES
+<span class="line"> 1265 </span>  echo <span class="str">&quot;usenet: $USER&quot;</span> <span class="sym">&gt;&gt;</span> $ALIASES
+<span class="line"> 1266 </span>  echo <span class="str">&quot;$USERNAME: $USER&quot;</span> <span class="sym">&gt;&gt;</span> $ALIASES
+<span class="line"> 1267 </span>
+<span class="line"> 1268 </span>  ln <span class="sym">-</span>sf $ALIASES <span class="sym">/</span>etc<span class="sym">/</span>
+<span class="line"> 1269 </span>  ln <span class="sym">-</span>sf $ALIASES <span class="sym">/</span>usr<span class="sym">/</span>lib<span class="sym">/</span>
+<span class="line"> 1270 </span>
+<span class="line"> 1271 </span>  cd $SMAIL	<span class="dir"># is this necessary?? E-mail me if you know,please</span>
+<span class="line"> 1272 </span>  mkaliases <span class="sym">&gt;/</span>dev<span class="sym">/</span>null
+<span class="line"> 1273 </span>
+<span class="line"> 1274 </span><span class="dir"># File: ftnpaths</span>
+<span class="line"> 1275 </span>  save $FTNPATHS
+<span class="line"> 1276 </span>
+<span class="line"> 1277 </span>  OK<span class="sym">=</span><span class="num">1</span>
+<span class="line"> 1278 </span>  IAKA<span class="sym">=</span><span class="num">1</span>
+<span class="line"> 1279 </span>  <span class="kwa">while</span> <span class="sym">[</span> $OK <span class="sym">!=</span> <span class="num">0</span> <span class="sym">];</span> <span class="kwa">do</span>
+<span class="line"> 1280 </span>    AKA<span class="sym">=</span><span class="str">&quot;`cut $AKASETUP -f$IAKA -d:`&quot;</span>
+<span class="line"> 1281 </span>    IAKA<span class="sym">=</span>$<span class="sym">[</span>$IAKA<span class="sym">+</span><span class="num">1</span><span class="sym">]</span>
+<span class="line"> 1282 </span>    <span class="kwa">if</span> <span class="sym">[ !</span> <span class="str">&quot;$AKA&quot;</span> <span class="sym">];</span> then
+<span class="line"> 1283 </span>      OK<span class="sym">=</span><span class="num">0</span>
+<span class="line"> 1284 </span>    <span class="kwa">else</span>
+<span class="line"> 1285 </span>      echo <span class="sym">-</span>e <span class="str">&quot;.`echo $AKA | cut -f4 -d.`</span><span class="esc">\t\t</span><span class="str">$AKA!%s&quot;</span> <span class="sym">&gt;&gt;</span>$FTNPATHS
+<span class="line"> 1286 </span>    fi
+<span class="line"> 1287 </span>  done
+<span class="line"> 1288 </span>
+<span class="line"> 1289 </span>
+<span class="line"> 1290 </span><span class="dir"># misc section</span>
+<span class="line"> 1291 </span>
+<span class="line"> 1292 </span>  chmod <span class="num">1775</span> <span class="sym">/</span>var<span class="sym">/</span>spool<span class="sym">/</span>mail
+<span class="line"> 1293 </span>  chgrp mail <span class="sym">/</span>var<span class="sym">/</span>spool<span class="sym">/</span>mail
+<span class="line"> 1294 </span>
+<span class="line"> 1295 </span>  cd $SMAIL
+<span class="line"> 1296 </span>  touch forward
+<span class="line"> 1297 </span>  <span class="sym">/</span>usr<span class="sym">/</span>lib<span class="sym">/</span>smail<span class="sym">/</span>mkdbm forward
+<span class="line"> 1298 </span>
+<span class="line"> 1299 </span><span class="dir"># reload sendmail</span>
+<span class="line"> 1300 </span>  killall sendmail <span class="num">2</span><span class="sym">&gt;/</span>dev<span class="sym">/</span>null
+<span class="line"> 1301 </span>  <span class="sym">/</span>usr<span class="sym">/</span>sbin<span class="sym">/</span>sendmail <span class="sym">-</span>bd <span class="sym">-</span>q15m 	<span class="dir"># if inetd handles smtp port, this will not load</span>
+<span class="line"> 1302 </span><span class="sym">}</span>
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

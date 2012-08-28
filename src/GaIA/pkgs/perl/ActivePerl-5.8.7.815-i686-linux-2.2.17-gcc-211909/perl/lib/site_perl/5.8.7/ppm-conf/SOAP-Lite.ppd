@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOFTPKG NAME="SOAP-Lite" VERSION="0,55,0,1">
+  <TITLE>SOAP-Lite</TITLE>
+  <ABSTRACT>Interface to the Simple Object Access Protocol (SOAP)</ABSTRACT>
+  <AUTHOR>Paul Kulchenko &lt;paulclinger@yahoo.com></AUTHOR>
+  <IMPLEMENTATION>
+    <DEPENDENCY NAME="URI" VERSION="1,35,0,0"/>
+    <DEPENDENCY NAME="XML-Parser" VERSION="2,34,0,1"/>
+    <DEPENDENCY NAME="libwww-perl" VERSION="5,803,0,1"/>
+    <CODEBASE HREF="http://ppm.ActiveState.com/PPMPackages/5.8-linux/i686-linux-thread-multi-5.8/SOAP-Lite.tar.gz"/>
+  </IMPLEMENTATION>
+</SOFTPKG>

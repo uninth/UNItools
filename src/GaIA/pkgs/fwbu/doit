@@ -1,0 +1,17 @@
+:
+echo mkdir -p /var/opt/UNItools/fwbu/etc /var/opt/UNItools/fwbu/bin /var/opt/UNItools/fwbu/docs/SPM/fwbu.1.0 | ssh admin@$1
+
+scp /var/opt/UNItools/fwbu/etc/extra_files_for_backup.txt	admin@$1:/var/opt/UNItools/fwbu/etc/extra_files_for_backup.txt
+scp /var/opt/UNItools/fwbu/etc/UNIcpfwbu.cfg				admin@$1:/var/opt/UNItools/fwbu/etc/
+scp /var/opt/UNItools/fwbu/bin/setup.sh						admin@$1:/var/opt/UNItools/fwbu/bin/
+scp /var/opt/UNItools/fwbu/bin/UNIcpfwbu.sh					admin@$1:/var/opt/UNItools/fwbu/bin/
+
+echo chmod -R 555 /var/opt/UNItools/fwbu | ssh admin@$1
+echo chmod 644 /var/opt/UNItools/fwbu/etc/* | ssh admin@$1
+
+echo find /var/opt/UNItools/fwbu -ls | ssh admin@$1
+
+ssh admin@$1 /var/opt/UNItools/fwbu/bin/setup.sh install
+
+echo /var/opt/UNItools/fwbu/bin/UNIcpfwbu.sh -v | ssh admin@$1
+

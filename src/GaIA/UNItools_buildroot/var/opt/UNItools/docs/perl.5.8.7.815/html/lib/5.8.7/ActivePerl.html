@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../displayToc.js"></script>
+<script language="JavaScript" src="../../tocParas.js"></script>
+<script language="JavaScript" src="../../tocTab.js"></script>
+<title>ActivePerl - ActiveState's quality-assured binary build of Perl</title>
+<link rel="stylesheet" href="../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',2);</script>
+<h1><a>ActivePerl - ActiveState's quality-assured binary build of Perl</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#the_activeperl___module">The ActivePerl:: module</a></li>
+	</ul>
+
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>ActivePerl - ActiveState's quality-assured binary build of Perl</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  use ActivePerl;
+  print &quot;$ActivePerl::VERSION\n&quot;;</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>ActivePerl is ActiveState's quality-assured binary build of Perl,
+available for AIX, HP-UX, Linux, Mac OS X, Solaris and
+Windows. ActivePerl includes:</p>
+<ul>
+<li>
+<p>The binary core distribution of perl.  See <a href="../../lib/5.8.7/pod/perl.html">the perl manpage</a> for details.</p>
+</li>
+<li>
+<p>A set of useful additional CPAN modules ``out of
+the box''.</p>
+</li>
+<li>
+<p>The Perl Package Manager, for quick and easy install of additional
+Perl extension modules.  See <a href="../../bin/ppm.html">the ppm manpage</a> for details.</p>
+</li>
+<li>
+<p>Complete documentation in HTML format.  This is found in the <em>html</em>
+sub directory where ActivePerl was installed.</p>
+</li>
+</ul>
+<p>The release notes for this version of ActivePerl is available in
+<a href="../../lib/5.8.7/pod/activeperl-release.html">the activeperl-release manpage</a>.  A list of changes beween builds of ActivePerl
+is found in <a href="../../lib/5.8.7/pod/activeperl-changes.html">the activeperl-changes manpage</a>.</p>
+<p>
+</p>
+<h2><a name="the_activeperl___module">The ActivePerl:: module</a></h2>
+<p>The <code>ActivePerl</code> module provide version information about ActivePerl.
+The module is built in so most of its variables and functions are
+available without having to <a href="../../lib/5.8.7/pod/perlfunc.html#item_require"><code>require</code></a> the module. The module was
+introduced in ActivePerl 814.</p>
+<p>The following functions are available:</p>
+<dl>
+<dt><strong><a name="item_version">ActivePerl-&gt;VERSION</a></strong>
+
+<dt><strong>ActivePerl-&gt;VERSION( $VERSION )</strong>
+
+<dd>
+<p>This method returns the current version of ActivePerl.  It is a number
+like <code>814</code> or <code>814.01</code>.  With argument croak if the current version
+is less than the given number.</p>
+</dd>
+<dd>
+<p>This method is inherited from Perl's <code>UNIVERSAL</code> class, and will
+usually be invoked indirectly by <a href="../../lib/5.8.7/pod/perlfunc.html#item_use"><code>use</code></a>, for instance:</p>
+</dd>
+<dd>
+<pre>
+    use ActivePerl 814;</pre>
+</dd>
+<dd>
+<p>This statement ensures that the scripts runs under ActivePerl 814 or
+better.  If this perl is not ActivePerl or is older than 814 then this
+statement would croak.</p>
+</dd>
+<dd>
+<p>The version number returned is picked up from the $ActivePerl::VERSION
+variable.  For conditional code it is usually better to test against
+this variable directly:</p>
+</dd>
+<dd>
+<pre>
+   if (($ActivePerl::VERSION || 0) &gt;= 814) {
+       ...
+   }</pre>
+</dd>
+<dd>
+<p>The <code>|| 0</code> ensures that this code does not produce a warning if
+running on ActivePerl 813 or older, or running on standard perl.</p>
+</dd>
+</li>
+<dt><strong><a name="item_activeperl_3a_3aproduct">ActivePerl::PRODUCT</a></strong>
+
+<dd>
+<p>This constant function returns ``ActivePerl'' for the free version and
+``ActivePerlEE'' for the Enterprise Edition product.</p>
+</dd>
+</li>
+<dt><strong><a name="item_activeperl_3a_3abuild">ActivePerl::BUILD</a></strong>
+
+<dd>
+<p>The value returned is the same as found in $ActivePerl::VERSION, but
+the subversion number will not be padded with 0.  It means that this
+value is suitable for printing, but unsafe for numeric comparisons.</p>
+</dd>
+<dd>
+<p>This returns the same value as Win32::BuildNumber(), but this function
+is only avalable on the Windows builds of ActivePerl.</p>
+</dd>
+</li>
+<dt><strong><a name="item_activeperl_3a_3aperl_version">ActivePerl::perl_version</a></strong>
+
+<dd>
+<p>Returns a full version number that also include the version of perl
+this ActivePerl release is based on.  It returns a string like
+``5.8.7.814'' or ``5.8.7.814.1''.</p>
+</dd>
+<dd>
+<p>This function is not directly built in and will only be avalable after
+'require ActivePerl' has executed.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../lib/5.8.7/pod/activeperl-release.html">the activeperl-release manpage</a>, <a href="../../lib/5.8.7/pod/activeperl-changes.html">the activeperl-changes manpage</a>, <a href="../../lib/5.8.7/pod/perl.html">the perl manpage</a></p>
+
+</body>
+
+</html>

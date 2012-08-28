@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./checklist6</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir">#! /bin/sh</span>
+<span class="line">    1 </span><span class="dir"># $Id: checklist6,v 1.4 2005/10/05 23:43:22 tom Exp $</span>
+<span class="line">    2 </span><span class="dir"># example showing the --colors option</span>
+<span class="line">    3 </span><span class="sym">:</span> $<span class="sym">{</span>DIALOG<span class="sym">=</span>dialog<span class="sym">}</span>
+<span class="line">    4 </span>
+<span class="line">    5 </span>tempfile<span class="sym">=</span>`tempfile <span class="num">2</span><span class="sym">&gt;/</span>dev<span class="sym">/</span>null` <span class="sym">||</span> tempfile<span class="sym">=/</span>tmp<span class="sym">/</span>test$$
+<span class="line">    6 </span>trap <span class="str">&quot;rm -f $tempfile&quot;</span> <span class="num">0 1 2 5 15</span>
+<span class="line">    7 </span>
+<span class="line">    8 </span>$DIALOG <span class="sym">--</span>help<span class="sym">-</span>button <span class="sym">--</span>item<span class="sym">-</span>help <span class="sym">--</span>colors <span class="sym">--</span>backtitle <span class="str">&quot;</span><span class="esc">\Z</span><span class="str">1No Such</span><span class="esc">\Z</span><span class="str">n Organization&quot;</span> \
+<span class="line">    9 </span>	<span class="sym">--</span>title <span class="str">&quot;CHECKLIST BOX&quot;</span> \
+<span class="line">   10 </span>        <span class="sym">--</span>checklist <span class="str">&quot;Hi, this is a checklist box. You can use this to</span> <span class="esc">\n\</span>
+<span class="line">   11 </span><span class="str">present a list of choices which can be turned on or</span> <span class="esc">\n\</span>
+<span class="line">   12 </span><span class="str">off. If there are more items than can fit on the</span> <span class="esc">\n\</span>
+<span class="line">   13 </span><span class="str">screen, the list will be scrolled. You can use the</span> <span class="esc">\n\</span>
+<span class="line">   14 </span><span class="str"></span><span class="esc">\Z</span><span class="str">4UP/DOWN</span><span class="esc">\Z</span><span class="str">n arrow keys, the first letter of the choice as a</span> <span class="esc">\n\</span>
+<span class="line">   15 </span><span class="str">hot key, or the number keys 1-9 to choose an option.</span> <span class="esc">\n\</span>
+<span class="line">   16 </span><span class="str">Press</span> <span class="esc">\Z</span><span class="str">b</span><span class="esc">\Z</span><span class="str">rSPACE</span><span class="esc">\Z</span><span class="str">n to toggle an option on/off.</span> <span class="esc">\n\n\</span>
+<span class="line">   17 </span><span class="str">  Which of the following are fruits?&quot;</span> <span class="num">20 61 5</span> \
+<span class="line">   18 </span>        <span class="str">&quot;Apple&quot;</span>      <span class="str">&quot;It's an</span> <span class="esc">\Z</span><span class="str">1apple</span><span class="esc">\Z</span><span class="str">n. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>                          off <span class="str">&quot;fruit&quot;</span> \
+<span class="line">   19 </span>        <span class="str">&quot;Dog&quot;</span>        <span class="str">&quot;No, that's not my dog. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>                  ON  <span class="str">&quot;not a fruit&quot;</span> \
+<span class="line">   20 </span>        <span class="str">&quot;Orange&quot;</span>     <span class="str">&quot;Yeah, that's juicy. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>                     off <span class="str">&quot;fruit&quot;</span> \
+<span class="line">   21 </span>        <span class="str">&quot;Chicken&quot;</span>    <span class="str">&quot;Normally not a pet. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>                     off <span class="str">&quot;not a fruit&quot;</span> \
+<span class="line">   22 </span>        <span class="str">&quot;&quot;</span>           <span class="str">&quot;No such pet. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>                            off <span class="str">&quot;not anything&quot;</span> \
+<span class="line">   23 </span>        <span class="str">&quot;Cat&quot;</span>        <span class="str">&quot;No, never put a dog and a cat together! xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span> oN  <span class="str">&quot;not a fruit&quot;</span> \
+<span class="line">   24 </span>        <span class="str">&quot;Fish&quot;</span>       <span class="str">&quot;Cats like</span> <span class="esc">\Z</span><span class="str">4fish</span><span class="esc">\Z</span><span class="str">n. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>                         On  <span class="str">&quot;not a fruit&quot;</span> \
+<span class="line">   25 </span>        <span class="str">&quot;Lemon&quot;</span>      <span class="str">&quot;You know how it</span> <span class="esc">\Z</span><span class="str">r</span><span class="esc">\Z</span><span class="str">b</span><span class="esc">\Z</span><span class="str">3tastes</span><span class="esc">\Z</span><span class="str">n. xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&quot;</span>                 on  <span class="str">&quot;the only one you wouldn't eat&quot;</span> <span class="num">2</span><span class="sym">&gt;</span> $tempfile
+<span class="line">   26 </span>
+<span class="line">   27 </span>retval<span class="sym">=</span>$?
+<span class="line">   28 </span>
+<span class="line">   29 </span>choice<span class="sym">=</span>`cat $tempfile`
+<span class="line">   30 </span><span class="kwa">case</span> $retval in
+<span class="line">   31 </span>  <span class="num">0</span><span class="sym">)</span>
+<span class="line">   32 </span>    echo <span class="str">&quot;OK '$choice' chosen.&quot;</span><span class="sym">;;</span>
+<span class="line">   33 </span>  <span class="num">1</span><span class="sym">)</span>
+<span class="line">   34 </span>    echo <span class="str">&quot;Cancel pressed.&quot;</span><span class="sym">;;</span>
+<span class="line">   35 </span>  <span class="num">2</span><span class="sym">)</span>
+<span class="line">   36 </span>    echo <span class="str">&quot;HELP '$choice' chosen.&quot;</span><span class="sym">;;</span>
+<span class="line">   37 </span>  <span class="num">255</span><span class="sym">)</span>
+<span class="line">   38 </span>    echo <span class="str">&quot;ESC pressed.&quot;</span><span class="sym">;;</span>
+<span class="line">   39 </span>  <span class="sym">*)</span>
+<span class="line">   40 </span>    echo <span class="str">&quot;Unexpected code $retval&quot;</span><span class="sym">;;</span>
+<span class="line">   41 </span>esac
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

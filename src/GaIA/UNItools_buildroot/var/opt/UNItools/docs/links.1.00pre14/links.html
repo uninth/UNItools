@@ -1,0 +1,621 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of LINKS</TITLE>
+</HEAD><BODY>
+<H1>LINKS</H1>
+Section: User Commands  (1)<BR>Updated: Oct, 2001<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<P>
+<P>
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+links - lynx-like alternative character mode WWW browser
+<P>
+<P>
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>links</B>
+
+<I>[options] URL</I>
+
+<P>
+<P>
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<B>links</B>
+
+is a text mode WWW browser, supporting
+colors, correct table rendering, background downloading, menu
+driven configuration interface and slim code.
+
+Frames are supported. You can have different file formats 
+associated with external viewers. mailto: and telnet:
+are supported via external clients.
+
+<I>links</I>
+
+can handle local (<A HREF="file://)">file://)</A> or remote (<A HREF="http://,">http://,</A> ftp:// or https://
+if there's compiled-in SSL support) URLs.
+<P>
+
+<P>
+<P>
+<A NAME="lbAE">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+Most options can be set in the user
+interface or config file, so usually you do not need to care about them.
+<P>
+<DL COMPACT>
+<DT><B>-anonymous</B><DD>
+Restrict links so that it can run on an anonymous account.
+No local file browsing. No downloads. Executing of viewers
+is allowed, but user can't add or modify entries in
+association table.
+<P>
+<DT><B>-assume-codepage </B><I>&lt;codepage&gt;</I><DD>
+Use the given codepage when the webpage did not specify
+its codepage. (default: ISO 8859-1)
+<P>
+<DT><B>-async-dns </B><I>&lt;0&gt;/&lt;1&gt;</I><DD>
+Asynchronous DNS resolver <A HREF="../man1/on.1.html">on</A>(1)/off(0). Default is on.
+<P>
+<DT><B>-base-session </B><I>&lt;number&gt;</I><DD>
+Linkses are connecting together, forming sessions by default. Normally,
+there's only one session with number 0. In this way, you can make him
+to form more sessions at once. See also <B>-no-connect</B> option.
+<P>
+<DT><B>-download-dir </B><I>&lt;path&gt;</I><DD>
+Default download directory.
+(default: actual dir)
+<P>
+<DT><B>-download-utime </B><I>&lt;0&gt;/&lt;1&gt;</I><DD>
+Set time of download files <A HREF="../man1/on.1.html">on</A>(1)/off(0). Default is off.
+<P>
+<DT><B>-dump</B><DD>
+Write a plain-text version of the given HTML document to stdout.
+<P>
+<DT><B>-format-cache-size </B><I>&lt;num&gt;</I><DD>
+Number of formatted document pages cached.
+(default: 5)
+<P>
+<DT><B>-<A HREF="ftp://ftp.anonymous-password">ftp.anonymous-password</A> </B><I>&lt;password&gt;</I><DD>
+Use this as the password for anonymous ftp sites.
+<P>
+<DT><B>-ftp-proxy </B><I>&lt;host:port&gt;</I><DD>
+Host and port number of the FTP proxy, or blank.
+(default: blank)
+<P>
+<DT><B>-help</B><DD>
+Print a help screen.
+<P>
+<DT><B>-http-bugs.http10 </B><I>&lt;0&gt;/&lt;1&gt;</I><DD>
+Turn use of HTTP/1.0 <A HREF="../man1/on.1.html">on</A>(1)/off(0). Default is off.
+<P>
+<DT><B>-http-bugs.allow-blacklist </B><I>&lt;0&gt;/&lt;1&gt;</I><DD>
+Turn blacklist of buggy servers <A HREF="../man1/on.1.html">on</A>(1)/off(0). Default is on.
+<P>
+<DT><B>-http-bugs.bug-302-redirect </B><I>&lt;0&gt;/&lt;1&gt;</I><DD>
+Turn broken redirect 302 (violates RFC, but compatible with Netscape)
+<A HREF="../man1/on.1.html">on</A>(1)/off(0). Default is off.
+<P>
+<DT><B>-http-bugs.bug_post-no-keepalive </B><I>&lt;0&gt;/&lt;1&gt;</I><DD>
+Turn no keepalive connection after POST request (for some buggy
+PHP databases) <A HREF="../man1/on.1.html">on</A>(1)/off(0). Default is off.
+<P>
+<DT><B>-http-proxy </B><I>&lt;host:port&gt;</I><DD>
+Host and port number of the HTTP proxy, or blank.
+(default: blank)
+<P>
+<DT><B>-language </B><I>&lt;langname&gt;</I><DD>
+Language to use in user interface.
+<P>
+<DT><B>-max-connections </B><I>&lt;max&gt;</I><DD>
+Maximum number of concurrent connections.
+(default: 10)
+<P>
+<DT><B>-max-connections-to-host </B><I>&lt;max&gt;</I><DD>
+Maximum number of concurrent connection to a given host.
+(default: 2)
+<P>
+<DT><B>-memory-cache-size </B><I>&lt;Kbytes&gt;</I><DD>
+Cache memory in Kilobytes.
+(default: 1024)
+<P>
+<DT><B>-width </B><I>&lt;size&gt;</I><DD>
+Size of screen in characters, used in combination with -dump.
+(default: 80)
+<P>
+<DT><B>-no-connect</B><DD>
+Runs links as a separate instance - instead of connecting to
+existing instance. Prevents him to connecting to an existing session.
+See also <B>-base-session</B> option.
+<P>
+<DT><B>-receive-timeout </B><I>&lt;sec&gt;</I><DD>
+Timeout on receive.
+(default: 120)
+<P>
+<DT><B>-retries </B><I>&lt;retry&gt;</I><DD>
+Number of retries.
+(default: 3)
+<P>
+<DT><B>-source</B><DD>
+Write the given HTML document in source form to stdout.
+<P>
+<DT><B>-unrestartable-receive-timeout </B><I>&lt;sec&gt;</I><DD>
+Timeout on non restartable connections.
+(default: 600)
+<P>
+<DT><B>-version</B><DD>
+Print the 
+<I>links</I>
+
+version number and exit.
+<P>
+<P>
+</DL>
+<A NAME="lbAF">&nbsp;</A>
+<H2>NAVIGATION KEYS</H2>
+
+You may optionally prefix each of this keys with a number, telling its
+repeat count (how much times to do it). You can also re-bind those keys,
+altough this feature is still in the state of testing, so undocumented.
+The keys you may use for navigation are:
+<DL COMPACT>
+<DT><B>PGDN</B>
+
+<DD>
+page down
+<DT><B>Space</B>
+
+<DD>
+page down
+<DT><B>PGUP</B>
+
+<DD>
+page up
+<DT><B>b</B>
+
+<DD>
+page up
+<DT><B>B</B>
+
+<DD>
+page up
+<DT><B>CursorDOWN</B>
+
+<DD>
+next link/down
+<DT><B>CursorUP</B>
+
+<DD>
+prev link/up
+<DT><B>^INS</B>
+
+<DD>
+copy to clipboard
+<DT><B>^C</B>
+
+<DD>
+copy to clipboard
+<DT><B>INS</B>
+
+<DD>
+scroll up
+<DT><B>^P</B>
+
+<DD>
+scroll up
+<DT><B>DEL</B>
+
+<DD>
+scroll down
+<DT><B>^N</B>
+
+<DD>
+scroll down
+<DT><B>[</B>
+
+<DD>
+scroll left
+<DT><B>]</B>
+
+<DD>
+scroll right
+<DT><B>HOME</B>
+
+<DD>
+home
+<DT><B>END</B>
+
+<DD>
+end of page
+<DT><B>CursorRIGHT</B>
+
+<DD>
+enter link/press button
+<DT><B>ENTER</B>
+
+<DD>
+enter link/press button
+<DT><B>CursorLEFT</B>
+
+<DD>
+go back
+<DT><B>d</B>
+
+<DD>
+download link
+<DT><B>D</B>
+
+<DD>
+download link
+<DT><B>/</B>
+
+<DD>
+search in the page
+<DT><B>?</B>
+
+<DD>
+search back in the page
+<DT><B>n</B>
+
+<DD>
+find next match
+<DT><B>N</B>
+
+<DD>
+find next match backwards
+<DT><B>f</B>
+
+<DD>
+zoom actual frame
+<DT><B>F</B>
+
+<DD>
+zoom actual frame
+<DT><B>^R</B>
+
+<DD>
+reload page
+<DT><B>g</B>
+
+<DD>
+go to URL
+<DT><B>G</B>
+
+<DD>
+go to the current URL
+<DT><B>a</B>
+
+<DD>
+add a new bookmark
+<DT><B>A</B>
+
+<DD>
+add a new bookmark
+<DT><B>s</B>
+
+<DD>
+bookmark manager
+<DT><B>S</B>
+
+<DD>
+bookmark manager
+<DT><B>q</B>
+
+<DD>
+quit
+<DT><B>Q</B>
+
+<DD>
+quit
+<DT><B>=</B>
+
+<DD>
+document information
+<DT><B>|</B>
+
+<DD>
+header information
+<DT><B>\</B>
+
+<DD>
+toggle HTML source/rendered view
+<DT><B>*</B>
+
+<DD>
+toggle display of images
+<DT><B>TAB</B>
+
+<DD>
+next frame
+<DT><B>ESC</B>
+
+<DD>
+menu/escape
+<DT><B>F9</B>
+
+<DD>
+menu
+<DT><B>F10</B>
+
+<DD>
+file menu
+<P>
+<P>
+</DL>
+<A NAME="lbAG">&nbsp;</A>
+<H2>EDITING KEYS</H2>
+
+The following keys can be used while editing a line/jumping to a URL:
+<DL COMPACT>
+<DT><B>CursorRIGHT</B>
+
+<DD>
+move right
+<DT><B>CursorLEFT</B>
+
+<DD>
+move left
+<DT><B>HOME</B>
+
+<DD>
+jump to the beginning
+<DT><B>^A</B>
+
+<DD>
+jump to the beginning
+<DT><B>END</B>
+
+<DD>
+jump to the end
+<DT><B>^E</B>
+
+<DD>
+jump to the end
+<DT><B>^INS</B>
+
+<DD>
+copy to clipboard
+<DT><B>^B</B>
+
+<DD>
+copy to clipboard
+<DT><B>^X</B>
+
+<DD>
+cut to clipboard
+<DT><B>^V</B>
+
+<DD>
+paste from clipboard
+<DT><B>ENTER</B>
+
+<DD>
+enter line
+<DT><B>BACKSPACE</B>
+
+<DD>
+delete back character
+<DT><B>^H</B>
+
+<DD>
+delete back character
+<DT><B>DEL</B>
+
+<DD>
+delete character
+<DT><B>^D</B>
+
+<DD>
+delete character
+<DT><B>^U</B>
+
+<DD>
+delete from beginning of the line
+<DT><B>^K</B>
+
+<DD>
+delete to the end of the line
+<DT><B>^W</B>
+
+<DD>
+auto complete line
+<P>
+<P>
+</DL>
+<A NAME="lbAH">&nbsp;</A>
+<H2>ENVIRONMENT</H2>
+
+<DL COMPACT>
+<DT><DD>
+<DT>CONFIG_DIR<DD>
+The location of &quot;.links/&quot;
+<P>
+<DT>WWW_HOME<DD>
+Homepage location (as in 
+<B>lynx</B>
+
+)
+<P>
+<DT>LINKS_XTERM<DD>
+The command to run when selecting &quot;File/New window&quot; and if
+<B>DISPLAY</B>
+
+is defined (default &quot;xterm -e&quot;)
+<P>
+<DT>LINKS_TWTERM<DD>
+The command to run when selecting &quot;File/New window&quot; and if
+<B>TWDISPLAY</B>
+
+is defined (default &quot;twterm -e&quot;)
+<P>
+<DT>SHELL<DD>
+Used for &quot;File/OS Shell&quot; menu
+<P>
+<DT>COMSPEC<DD>
+Used for &quot;File/OS Shell&quot; menu in DOS/Windows
+<P>
+<P>
+</DL>
+<A NAME="lbAI">&nbsp;</A>
+<H2>FILES</H2>
+
+<DL COMPACT>
+<DT><DD>
+<DT>~/.links/links.cfg<DD>
+Per-user config file, automatically created by
+<B>links. </B>
+
+Its format is same as the one of
+<I>user.cfg.</I>
+
+<P>
+<DT>~/.links/html.cfg<DD>
+Per-user config file, automatically created by
+<B>links.</B>
+
+It contains HTML rendering options. Its format is same as the one of
+<I>user.cfg.</I>
+
+<P>
+<DT>~/.links/user.cfg<DD>
+Per-user config file, not overwritten while saving
+<B>links</B>
+
+configuration. You can add your own options there (e.g. keybindings).
+Each line consists from option name (same as the command-line one,
+but without leading dash and with dashes converted to underscores),
+space, and its value, in quotes if it's a string. Lines which start
+with # are considered as comments and skipped.
+<P>
+<DT>~/.links/bookmarks<DD>
+Bookmarks file
+<P>
+<DT>~/.links/links.his<DD>
+Sites history file
+<P>
+<DT>~/.links/socket<DD>
+Internal links socket for communication between its instances.
+<P>
+<P>
+</DL>
+<A NAME="lbAJ">&nbsp;</A>
+<H2>PLATFORMS</H2>
+
+<B>links</B>
+
+is known to work on Linux, FreeBSD, OpenBSD, Solaris, IRIX, HPUX, Digital Unix, AIX,
+OS/2 and BeOS.
+Port for Win32 is in state of beta testing.
+<P>
+<P>
+<A NAME="lbAK">&nbsp;</A>
+<H2>BUGS</H2>
+
+Can't connect to some FTP servers (Novell, NT). Connection stays in &quot;Request
+sent&quot; state.
+<P>
+
+Frames don't work if there're more frames with same name. Turn them off in such
+case.
+<P>
+
+You can't upload large files; it takes _lots_ of memory.
+<P>
+
+You shouldn't press '^Z' when you are in a viewer
+<P>
+
+Please report any other bugs you find to
+<B>Mikulas Patocka</B>
+
+<B>&lt;<A HREF="mailto:mikulas@artax.karlin.mff.cuni.cz">mikulas@artax.karlin.mff.cuni.cz</A>&gt;</B>
+
+or to
+<B>links mailing list</B>
+
+<B>&lt;<A HREF="mailto:links-list@linuxfromscratch.org">links-list@linuxfromscratch.org</A>&gt;.</B>
+
+<P>
+<P>
+<A NAME="lbAL">&nbsp;</A>
+<H2>LICENSE</H2>
+
+<B>links</B>
+
+is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+<P>
+<P>
+<A NAME="lbAM">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+<I>links</I>
+
+was written by 
+<B>Mikulas Patocka </B>
+
+<B>&lt;<A HREF="mailto:mikulas@artax.karlin.mff.cuni.cz">mikulas@artax.karlin.mff.cuni.cz</A>&gt;.</B>
+
+See file 
+<I>AUTHORS</I>
+
+in the source tree for a list of people contributing to this project.
+
+The homepage of links can be found at
+<B><A HREF="http://links.browser.org/">http://links.browser.org/</A></B>
+
+
+This manual page was written by Peter Gervai &lt;<A HREF="mailto:grin@tolna.net">grin@tolna.net</A>&gt;,
+using excerpts from a (yet?) unknown
+<I>links</I>
+
+fan
+for the Debian GNU/Linux system (but may be used by others).
+Contributions from Francis A. Holop. Extended, clarified
+and made more up-to-date by Petr Baudis &lt;<A HREF="mailto:pasky@ji.cz">pasky@ji.cz</A>&gt;.
+<P>
+<P>
+<A NAME="lbAN">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="../man1/lynx.1.html">lynx</A></B>(1),
+
+<B><A HREF="../man1/w3m.1.html">w3m</A></B>(1),
+
+<B><A HREF="../man1/wget.1.html">wget</A></B>(1)
+
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">OPTIONS</A><DD>
+<DT><A HREF="#lbAF">NAVIGATION KEYS</A><DD>
+<DT><A HREF="#lbAG">EDITING KEYS</A><DD>
+<DT><A HREF="#lbAH">ENVIRONMENT</A><DD>
+<DT><A HREF="#lbAI">FILES</A><DD>
+<DT><A HREF="#lbAJ">PLATFORMS</A><DD>
+<DT><A HREF="#lbAK">BUGS</A><DD>
+<DT><A HREF="#lbAL">LICENSE</A><DD>
+<DT><A HREF="#lbAM">AUTHOR</A><DD>
+<DT><A HREF="#lbAN">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 18:57:03 GMT, August 22, 2012
+</BODY>
+</HTML>

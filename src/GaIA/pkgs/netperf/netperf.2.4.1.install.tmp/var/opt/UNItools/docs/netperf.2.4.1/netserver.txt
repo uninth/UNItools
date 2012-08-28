@@ -1,0 +1,51 @@
+netserver(1)							  netserver(1)
+
+
+
+NAME
+       netserver - a network performance benchmark server
+
+
+SYNOPSIS
+       netserver [-P portnum] [-n numcpus]
+
+
+DESCRIPTION
+       Netserver  listens  for	connections  from  a  benchmark,  and responds
+       accordingly.  It can either be run from or as a standalone daemon (with
+       the -p flag). If run from the -p option should not be used.
+
+
+   OPTIONS
+       -h     Display a usage string, and exit.
+
+       -n numcpus
+	      Specify  the  number of CPU’s in the system on those systems for
+	      which netperf has no way to find the number of CPU’s programati-
+	      cally.
+
+       -p portnum
+	      Listen  on  the  specified port.	This is used when running as a
+	      standalone daemon.
+
+
+BUGS
+       No known bugs at this time. If you think you have found a  bug,	please
+       send email to Rick Jones <raj@cup.hp.com>.
+
+
+SEE ALSO
+       Netperf: A Network Performance Benchmark
+       http://www.netperf.org/
+
+
+AUTHORS
+       HP Information Networks Division - Networking Performance Team.
+       Rick Jones     <raj@cup.hp.com>
+       Karen Choy     HP IND
+       Dave Shield    <daves@csc.liv.ac.uk>    (man pages)
+       Others too numerous to mention here - see the ACKNWLDGMNTS file
+
+
+
+								  netserver(1)

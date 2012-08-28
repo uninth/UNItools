@@ -1,0 +1,4 @@
+# export LDFLAGS=-static
+make install clean
+
+echo "realpath: Return the real path of a link" > /tmp/index

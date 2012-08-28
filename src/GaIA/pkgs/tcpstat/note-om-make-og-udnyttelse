@@ -1,0 +1,22 @@
+  572  fg
+  573  ./configure --help
+  574  ./configure --help|grep stat
+  575  grep LDFLAGS *
+  576  vi Makefile
+  577  fg
+  578  make
+  579  rm src/tcpstat
+  580  make
+  581  gcc  -O   -o tcpstat  tcpstat.o ../lib/libtcpstat.a -lm /usr/lib/libpcap.a 
+  582  gcc  -O   -o tcpstat  tcpstat.o ./lib/libtcpstat.a -lm /usr/lib/libpcap.a 
+  583  cd src
+  584  gcc  -O   -o tcpstat  tcpstat.o ../lib/libtcpstat.a -lm /usr/lib/libpcap.a 
+  585  lt
+  586  ldd tcpstat
+  587  td -x tcpstat sa
+  588  td sa
+  589  pwd
+  590  h
+  591  h > note-om-make-og-udnyttelse
+
+  tcpstat -i eth0 -o "Time:%S\ticmp=%C\ttcp=%T\tudp=%U\tIPv6=%V\n" -s 5

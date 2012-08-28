@@ -1,0 +1,607 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of POSTCONF</TITLE>
+</HEAD><BODY>
+<H1>POSTCONF</H1>
+Section: User Commands  (1)<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+postconf
+-
+Postfix configuration utility
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+
+<PRE>
+</PRE>
+
+<B>Managing main.cf:</B>
+<P>
+<B>postconf</B> [<B>-dfhnopvx</B>] [<B>-c </B><I>config_dir</I>]
+[<B>-C </B><I>class,...</I>] [<I>parameter ...</I>]
+<P>
+<B>postconf</B> [<B>-epv</B>] [<B>-c </B><I>config_dir</I>]
+<I>parameter</I><B>=</B><I>value ...</I>
+<P>
+<B>postconf</B> <B>-#</B> [<B>-pv</B>] [<B>-c </B><I>config_dir</I>]
+<I>parameter ...</I>
+<P>
+<B>postconf</B> <B>-X</B> [<B>-pv</B>] [<B>-c </B><I>config_dir</I>]
+<I>parameter ...</I>
+<P>
+<B>Managing master.cf service entries:</B>
+<P>
+<B>postconf</B> <B>-M</B> [<B>-fovx</B>] [<B>-c </B><I>config_dir</I>]
+[<I>service</I>[<B>/</B><I>type</I>]<I> ...</I>]
+<P>
+<B>postconf</B> <B>-M</B> [<B>-ev</B>] [<B>-c </B><I>config_dir</I>]
+<I>service</I><B>/</B><I>type</I><B>=</B><I>value ...</I>
+<P>
+<B>postconf</B> <B>-M#</B> [<B>-v</B>] [<B>-c </B><I>config_dir</I>]
+<I>service</I><B>/</B><I>type ...</I>
+<P>
+<B>postconf</B> <B>-MX</B> [<B>-v</B>] [<B>-c </B><I>config_dir</I>]
+<I>service</I><B>/</B><I>type ...</I>
+<P>
+<B>Managing master.cf service fields:</B>
+<P>
+<B>postconf</B> <B>-F</B> [<B>-fovx</B>] [<B>-c </B><I>config_dir</I>]
+[<I>service</I>[<B>/</B><I>type</I>[<B>/</B><I>field</I>]]<I> ...</I>]
+<P>
+<B>postconf</B> <B>-F</B> [<B>-ev</B>] [<B>-c </B><I>config_dir</I>]
+<I>service</I><B>/</B><I>type</I><B>/</B><I>field</I><B>=</B><I>value ...</I>
+<P>
+<B>Managing master.cf service parameters:</B>
+<P>
+<B>postconf</B> <B>-P</B> [<B>-fovx</B>] [<B>-c </B><I>config_dir</I>]
+[<I>service</I>[<B>/</B><I>type</I>[<B>/</B><I>parameter</I>]]<I> ...</I>]
+<P>
+<B>postconf</B> <B>-P</B> [<B>-ev</B>] [<B>-c </B><I>config_dir</I>]
+<I>service</I><B>/</B><I>type</I><B>/</B><I>parameter</I><B>=</B><I>value ...</I>
+<P>
+<B>postconf</B> <B>-PX</B> [<B>-v</B>] [<B>-c </B><I>config_dir</I>]
+<I>service</I><B>/</B><I>type</I><B>/</B><I>parameter ...</I>
+<P>
+<B>Managing bounce message templates:</B>
+<P>
+<B>postconf</B> <B>-b</B> [<B>-v</B>] [<B>-c </B><I>config_dir</I>]
+[<I>template_file</I>]
+<P>
+<B>postconf</B> <B>-t</B> [<B>-v</B>] [<B>-c </B><I>config_dir</I>]
+[<I>template_file</I>]
+<P>
+<B>Managing other configuration:</B>
+<P>
+<B>postconf</B> <B>-a</B>|<B>-A</B>|<B>-l</B>|<B>-m</B> [<B>-v</B>]
+[<B>-c </B><I>config_dir</I>]
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+
+
+By default, the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command displays the
+values of <B>main.cf</B> configuration parameters, and warns
+about possible mis-typed parameter names (Postfix 2.9 and later).
+It can also change <B>main.cf</B> configuration
+parameter values, or display other configuration information
+about the Postfix mail system.
+<P>
+Options:
+<DL COMPACT>
+<DT><B>-a</B><DD>
+List the available SASL server plug-in types.  The SASL
+plug-in type is selected with the <B>smtpd_sasl_type</B>
+configuration parameter by specifying one of the names
+listed below.
+<DL COMPACT><DT><DD>
+<DL COMPACT>
+<DT><B>cyrus</B><DD>
+This server plug-in is available when Postfix is built with
+Cyrus SASL support.
+<DT><B>dovecot</B><DD>
+This server plug-in uses the Dovecot authentication server,
+and is available when Postfix is built with any form of SASL
+support.
+</DL>
+</DL>
+
+<DT><DD>
+This feature is available with Postfix 2.3 and later.
+<DT><B>-A</B><DD>
+List the available SASL client plug-in types.  The SASL
+plug-in type is selected with the <B>smtp_sasl_type</B> or
+<B>lmtp_sasl_type</B> configuration parameters by specifying
+one of the names listed below.
+<DL COMPACT><DT><DD>
+<DL COMPACT>
+<DT><B>cyrus</B><DD>
+This client plug-in is available when Postfix is built with
+Cyrus SASL support.
+</DL>
+</DL>
+
+<DT><DD>
+This feature is available with Postfix 2.3 and later.
+<DT><B>-b</B> [<I>template_file</I>]<DD>
+Display the message text that appears at the beginning of
+delivery status notification (DSN) messages, replacing
+$<B>name</B> expressions with actual values as described in
+<B><A HREF="../man5/bounce.5.html">bounce</A></B>(5).
+<P>
+To override the built-in templates, specify a template file
+name at the end of the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command line, or
+specify a file name in <B>main.cf</B> with the
+<B>bounce_template_file</B> parameter.
+<P>
+To force selection of the built-in templates, specify an
+empty template file name on the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command
+line (in shell language: &quot;&quot;).
+<P>
+This feature is available with Postfix 2.3 and later.
+<DT><B>-c </B><I>config_dir</I><DD>
+The <B>main.cf</B> configuration file is in the named directory
+instead of the default configuration directory.
+<DT><B>-C </B><I>class,...</I><DD>
+When displaying <B>main.cf</B> parameters, select only
+parameters from the specified class(es):
+<DL COMPACT><DT><DD>
+<DL COMPACT>
+<DT><B>builtin</B><DD>
+Parameters with built-in names.
+<DT><B>service</B><DD>
+Parameters with service-defined names (the first field of
+a <B>master.cf</B> entry plus a Postfix-defined suffix).
+<DT><B>user</B><DD>
+Parameters with user-defined names.
+<DT><B>all</B><DD>
+All the above classes.
+</DL>
+</DL>
+
+<DT><DD>
+The default is as if &quot;<B>-C all</B>&quot; is
+specified.
+<P>
+This feature is available with Postfix 2.9 and later.
+<DT><B>-d</B><DD>
+Print <B>main.cf</B> default parameter settings instead of
+actual settings.
+Specify <B>-df</B> to fold long lines for human readability
+(Postfix 2.9 and later).
+<DT><B>-e</B><DD>
+Edit the <B>main.cf</B> configuration file, and update
+parameter settings with the &quot;<I>name=value</I>&quot; pairs on the
+<B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command line.
+<P>
+With <B>-M</B>, edit the <B>master.cf</B> configuration file,
+and replace one or more service entries with new values as
+specified with &quot;<I>service/type=value</I>&quot; on the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1)
+command line.
+<P>
+With <B>-F</B>, edit the <B>master.cf</B> configuration file,
+and replace one or more service fields with new values as
+specied with &quot;<I>service/type/field=value</I>&quot; on the
+<B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command line. Currently, the &quot;command&quot;
+field contains the command name and command arguments.  this
+may change in the near future, so that the &quot;command&quot; field
+contains only the command name, and a new &quot;arguments&quot;
+pseudofield contains the command arguments.
+<P>
+With <B>-P</B>, edit the <B>master.cf</B> configuration file,
+and add or update one or more service parameter settings
+(-o parameter=value settings) with new values as specied
+with &quot;<I>service/type/parameter=value</I>&quot; on the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1)
+command line.
+<P>
+In all cases the file is copied to a temporary file then
+renamed into place.  Specify quotes to protect special
+characters and whitespace on the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command
+line.
+<P>
+The <B>-e</B> option is no longer needed with Postfix version
+2.8 and later.
+<DT><B>-f</B><DD>
+Fold long lines when printing <B>main.cf</B> or <B>master.cf</B>
+configuration file entries, for human readability.
+<P>
+This feature is available with Postfix 2.9 and later.
+<DT><B>-F</B><DD>
+Show <B>master.cf</B> per-entry field settings (by default
+all services and all fields), formatted as one
+&quot;<I>service/type/field=value</I>&quot; per line. Specify <B>-Ff</B>
+to fold long lines.
+<P>
+Specify one or more &quot;<I>service/type/field</I>&quot; instances
+on the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command line to limit the output
+to fields of interest.  Trailing parameter name or service
+type fields that are omitted will be handled as &quot;*&quot; wildcard
+fields.
+<P>
+This feature is available with Postfix 2.11 and later.
+<DT><B>-h</B><DD>
+Show parameter or attribute values without the &quot;<I>name</I>
+= &quot; label that normally precedes the value.
+<DT><B>-l</B><DD>
+List the names of all supported mailbox locking methods.
+Postfix supports the following methods:
+<DL COMPACT><DT><DD>
+<DL COMPACT>
+<DT><B>flock</B><DD>
+A kernel-based advisory locking method for local files only.
+This locking method is available on systems with a BSD
+compatible library.
+<DT><B>fcntl</B><DD>
+A kernel-based advisory locking method for local and remote
+files.
+<DT><B>dotlock</B><DD>
+An application-level locking method. An application locks
+a file named <I>filename</I> by creating a file named
+<I>filename</I><B>.lock</B>.  The application is expected to
+remove its own lock file, as well as stale lock files that
+were left behind after abnormal program termination.
+</DL>
+</DL>
+
+<DT><B>-m</B><DD>
+List the names of all supported lookup table types. In
+Postfix configuration files, lookup tables are specified
+as <I>type</I><B>:</B><I>name</I>, where <I>type</I> is one of the
+types listed below. The table <I>name</I> syntax depends on
+the lookup table type as described in the DATABASE_README
+document.
+<DL COMPACT><DT><DD>
+<DL COMPACT>
+<DT><B>btree</B><DD>
+A sorted, balanced tree structure.  Available on systems
+with support for Berkeley DB databases.
+<DT><B>cdb</B><DD>
+A read-optimized structure with no support for incremental
+updates.  Available on systems with support for CDB databases.
+<DT><B>cidr</B><DD>
+A table that associates values with Classless Inter-Domain
+Routing (CIDR) patterns. This is described in <B><A HREF="../man5/cidr_table.5.html">cidr_table</A></B>(5).
+<DT><B>dbm</B><DD>
+An indexed file type based on hashing.  Available on systems
+with support for DBM databases.
+<DT><B>environ</B><DD>
+The UNIX process environment array. The lookup key is the
+variable name. Originally implemented for testing, someone
+may find this useful someday.
+<DT><B>fail</B><DD>
+A table that reliably fails all requests. The lookup table
+name is used for logging. This table exists to simplify
+Postfix error tests.
+<DT><B>hash</B><DD>
+An indexed file type based on hashing.  Available on systems
+with support for Berkeley DB databases.
+<DT><B>inline</B> (read-only)<DD>
+A non-shared, in-memory lookup table. Example: &quot;<B>inline:{
+</B><I>key</I><B>=</B><I>value</I><B>, { </B><I>key</I><B> = </B><I>text with whitespace
+or comma</I><B> }}</B>&quot;. Key-value pairs are separated by
+whitespace or comma; whitespace after &quot;<B>{</B>&quot; and before &quot;<B>}</B>&quot;
+is ignored. Inline tables eliminate the need to create a
+database file for just a few fixed elements.  See also the
+<I>static:</I> map type.
+<DT><B>internal</B><DD>
+A non-shared, in-memory hash table. Its content are lost
+when a process terminates.
+<DT><B>lmdb</B><DD>
+OpenLDAP LMDB database (a memory-mapped, persistent file).
+Available on systems with support for LMDB databases.  This
+is described in <B><A HREF="../man5/lmdb_table.5.html">lmdb_table</A></B>(5).
+<DT><B>ldap</B> (read-only)<DD>
+LDAP database client. This is described in <B><A HREF="../man5/ldap_table.5.html">ldap_table</A></B>(5).
+<DT><B>memcache</B><DD>
+Memcache database client. This is described in
+<B><A HREF="../man5/memcache_table.5.html">memcache_table</A></B>(5).
+<DT><B>mysql</B> (read-only)<DD>
+MySQL database client.  Available on systems with support
+for MySQL databases.  This is described in <B><A HREF="../man5/mysql_table.5.html">mysql_table</A></B>(5).
+<DT><B>pcre</B> (read-only)<DD>
+A lookup table based on Perl Compatible Regular Expressions.
+The file format is described in <B><A HREF="../man5/pcre_table.5.html">pcre_table</A></B>(5).
+<DT><B>pgsql</B> (read-only)<DD>
+PostgreSQL database client. This is described in
+<B><A HREF="../man5/pgsql_table.5.html">pgsql_table</A></B>(5).
+<DT><B>pipemap</B> (read-only)<DD>
+A lookup table that constructs a pipeline of tables.  Example:
+&quot;<B>pipemap:{</B><I>type_1:name_1,  ..., type_n:name_n</I><B>}</B>&quot;.
+Each &quot;pipemap:&quot; query is given to the first table.  Each
+lookup result becomes the query for the next table in the
+pipeline, and the last table produces the final result.
+When any table lookup produces no result, the pipeline
+produces no result. The first and last characters of the
+&quot;pipemap:&quot; table name must be &quot;<B>{</B>&quot; and &quot;<B>}</B>&quot;.
+Within these, individual maps are separated with comma or
+whitespace.
+<DT><B>proxy</B><DD>
+Postfix <B><A HREF="../man8/proxymap.8.html">proxymap</A></B>(8) client for shared access to Postfix
+databases. The table name syntax is <I>type</I><B>:</B><I>name</I>.
+<DT><B>randmap</B> (read-only)<DD>
+An in-memory table that performs random selection. Example:
+&quot;<B>randmap:{</B><I>result_1, ..., result_n</I><B>}</B>&quot;. Each table query
+returns a random choice from the specified results. The first
+and last characters of the &quot;randmap:&quot; table name must be
+&quot;<B>{</B>&quot; and &quot;<B>}</B>&quot;.  Within these, individual maps are
+separated with comma or whitespace.
+<DT><B>regexp</B> (read-only)<DD>
+A lookup table based on regular expressions. The file format
+is described in <B><A HREF="../man5/regexp_table.5.html">regexp_table</A></B>(5).
+<DT><B>sdbm</B><DD>
+An indexed file type based on hashing.  Available on systems
+with support for SDBM databases.
+<DT><B>socketmap</B> (read-only)<DD>
+Sendmail-style socketmap client. The table name is
+<B>inet</B>:<I>host</I>:<I>port</I>:<I>name</I> for a TCP/IP
+server, or <B>unix</B>:<I>pathname</I>:<I>name</I> for a
+UNIX-domain server. This is described in <B><A HREF="../man5/socketmap_table.5.html">socketmap_table</A></B>(5).
+<DT><B>sqlite</B> (read-only)<DD>
+SQLite database. This is described in <B><A HREF="../man5/sqlite_table.5.html">sqlite_table</A></B>(5).
+<DT><B>static</B> (read-only)<DD>
+A table that always returns its name as lookup result. For
+example, <B>static:foobar</B> always returns the string
+<B>foobar</B> as lookup result. Specify &quot;<B>static:{ </B><I>text
+with whitespace</I><B> }</B>&quot; when the result contains whitespace;
+this form ignores whitespace after &quot;<B>{</B>&quot; and before
+&quot;<B>}</B>&quot;. See also the <I>inline:</I> map.
+<DT><B>tcp</B> (read-only)<DD>
+TCP/IP client. The protocol is described in <B><A HREF="../man5/tcp_table.5.html">tcp_table</A></B>(5).
+<DT><B>texthash</B> (read-only)<DD>
+Produces similar results as hash: files, except that you
+don't need to run the <B><A HREF="../man1/postmap.1.html">postmap</A></B>(1) command before you
+can use the file, and that it does not detect changes after
+the file is read.
+<DT><B>unionmap</B> (read-only)<DD>
+A table that sends each query to multiple lookup tables and
+that concatenates all found results, separated by comma.
+The table name syntax is the same as for <B>pipemap</B>.
+<DT><B>unix</B> (read-only)<DD>
+A limited view of the UNIX authentication database. The
+following tables are implemented:
+<DL COMPACT><DT><DD>
+<DL COMPACT>
+<DT><B>unix:passwd.byname</B><DD>
+The table is the UNIX password database. The key is a login
+name.  The result is a password file entry in <B><A HREF="../man5/passwd.5.html">passwd</A></B>(5)
+format.
+<DT><B>unix:group.byname</B><DD>
+The table is the UNIX group database. The key is a group
+name.  The result is a group file entry in <B><A HREF="../man5/group.5.html">group</A></B>(5)
+format.
+</DL>
+</DL>
+
+</DL>
+</DL>
+
+<DT><DD>
+Other table types may exist depending on how Postfix was
+built.
+<DT><B>-M</B><DD>
+Show <B>master.cf</B> file contents instead of <B>main.cf</B>
+file contents.  Specify <B>-Mf</B> to fold long lines for
+human readability.
+<P>
+Specify zero or more arguments, each with a <I>service-name</I>
+or <I>service-name/service-type</I> pair, where <I>service-name</I>
+is the first field of a master.cf entry and <I>service-type</I>
+is one of (<B>inet</B>, <B>unix</B>, <B>fifo</B>, or <B>pass</B>).
+<P>
+If <I>service-name</I> or <I>service-name/service-type</I>
+is specified, only the matching master.cf entries will be
+output. For example, &quot;<B>postconf -Mf smtp</B>&quot; will output
+all services named &quot;smtp&quot;, and &quot;<B>postconf -Mf smtp/inet</B>&quot;
+will output only the smtp service that listens on the
+network.  Trailing service type fields that are omitted
+will be handled as &quot;*&quot; wildcard fields.
+<P>
+This feature is available with Postfix 2.9 and later. The
+syntax was changed from &quot;<I>name.type</I>&quot; to &quot;<I>name/type</I>&quot;,
+and &quot;*&quot; wildcard support was added with Postfix 2.11.
+<DT><B>-n</B><DD>
+Show only configuration parameters that have explicit
+<I>name=value</I> settings in <B>main.cf</B>.  Specify <B>-nf</B>
+to fold long lines for human readability (Postfix 2.9 and
+later).
+<DT><B>-o </B><I>name=value</I><DD>
+Override <B>main.cf</B> parameter settings.
+<P>
+This feature is available with Postfix 2.10 and later.
+<DT><B>-p</B><DD>
+Show <B>main.cf</B> parameter settings. This is the default.
+<P>
+This feature is available with Postfix 2.11 and later.
+<DT><B>-P</B><DD>
+Show <B>master.cf</B> service parameter settings (by default
+all services and all parameters).  formatted as one
+&quot;<I>service/type/parameter=value</I>&quot; per line.  Specify
+<B>-Pf</B> to fold long lines.
+<P>
+Specify one or more &quot;<I>service/type/parameter</I>&quot; instances
+on the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command line to limit the output
+to parameters of interest.  Trailing parameter name or
+service type fields that are omitted will be handled as &quot;*&quot;
+wildcard fields.
+<P>
+This feature is available with Postfix 2.11 and later.
+<DT><B>-t</B> [<I>template_file</I>]<DD>
+Display the templates for text that appears at the beginning
+of delivery status notification (DSN) messages, without
+expanding $<B>name</B> expressions.
+<P>
+To override the built-in templates, specify a template file
+name at the end of the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command line, or
+specify a file name in <B>main.cf</B> with the
+<B>bounce_template_file</B> parameter.
+<P>
+To force selection of the built-in templates, specify an
+empty template file name on the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command
+line (in shell language: &quot;&quot;).
+<P>
+This feature is available with Postfix 2.3 and later.
+<DT><B>-v</B><DD>
+Enable verbose logging for debugging purposes. Multiple
+<B>-v</B> options make the software increasingly verbose.
+<DT><B>-x</B><DD>
+Expand <I>$name</I> in <B>main.cf</B> or <B>master.cf</B>
+parameter values. The expansion is recursive.
+<P>
+This feature is available with Postfix 2.10 and later.
+<DT><B>-X</B><DD>
+Edit the <B>main.cf</B> configuration file, and remove the
+parameters named on the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command line.
+Specify a list of parameter names, not &quot;<I>name=value</I>&quot;
+pairs.
+<P>
+With <B>-M</B>, edit the <B>master.cf</B> configuration file,
+and remove one or more service entries as specified with
+&quot;<I>service/type</I>&quot; on the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command line.
+<P>
+With <B>-P</B>, edit the <B>master.cf</B> configuration file,
+and remove one or more service parameter settings (-o
+parameter=value settings) as specied with
+&quot;<I>service/type/parameter</I>&quot; on the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1)
+command line.
+<P>
+In all cases the file is copied to a temporary file then
+renamed into place.  Specify quotes to protect special
+characters on the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command line.
+<P>
+There is no <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command to perform the reverse
+operation.
+<P>
+This feature is available with Postfix 2.10 and later.
+Support for -M and -P was added with Postfix 2.11.
+<DT><B>-#</B><DD>
+Edit the <B>main.cf</B> configuration file, and comment out
+the parameters named on the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command line,
+so that those parameters revert to their default values.
+Specify a list of parameter names, not &quot;<I>name=value</I>&quot;
+pairs.
+<P>
+With <B>-M</B>, edit the <B>master.cf</B> configuration file,
+and comment out one or more service entries as specified
+with &quot;<I>service/type</I>&quot; on the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command
+line.
+<P>
+In all cases the file is copied to a temporary file then
+renamed into place.  Specify quotes to protect special
+characters on the <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command line.
+<P>
+There is no <B><A HREF="../man1/postconf.1.html">postconf</A></B>(1) command to perform the reverse
+operation.
+<P>
+This feature is available with Postfix 2.6 and later. Support
+for -M was added with Postfix 2.11.
+</DL>
+<A NAME="lbAE">&nbsp;</A>
+<H2>DIAGNOSTICS</H2>
+
+
+
+Problems are reported to the standard error stream.
+<A NAME="lbAF">&nbsp;</A>
+<H2>ENVIRONMENT</H2>
+
+
+<PRE>
+</PRE>
+
+<DL COMPACT>
+<DT><B>MAIL_CONFIG</B><DD>
+Directory with Postfix configuration files.
+</DL>
+<A NAME="lbAG">&nbsp;</A>
+<H2>CONFIGURATION PARAMETERS</H2>
+
+
+<PRE>
+</PRE>
+
+The following <B>main.cf</B> parameters are especially
+relevant to this program.
+<P>
+The text below provides only a parameter summary. See
+<B><A HREF="../man5/postconf.5.html">postconf</A></B>(5) for more details including examples.
+<DL COMPACT>
+<DT><B>config_directory (see 'postconf -d' output)</B><DD>
+The default location of the Postfix main.cf and master.cf
+configuration files.
+<DT><B>bounce_template_file (empty)</B><DD>
+Pathname of a configuration file with bounce message templates.
+</DL>
+<A NAME="lbAH">&nbsp;</A>
+<H2>FILES</H2>
+
+
+<PRE>
+/etc/postfix/main.cf, Postfix configuration parameters
+/etc/postfix/master.cf, Postfix master daemon configuration
+</PRE><A NAME="lbAI">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+
+<PRE>
+<A HREF="../man5/bounce.5.html">bounce</A>(5), bounce template file format <A HREF="../man5/master.5.html">master</A>(5), master.cf
+configuration file syntax <A HREF="../man5/postconf.5.html">postconf</A>(5), main.cf configuration
+file syntax
+</PRE><A NAME="lbAJ">&nbsp;</A>
+<H2>README FILES</H2>
+
+
+<PRE>
+</PRE>
+
+Use &quot;<B>postconf readme_directory</B>&quot; or &quot;<B>postconf
+html_directory</B>&quot; to locate this information.
+
+<PRE>
+DATABASE_README, Postfix lookup table overview
+</PRE><A NAME="lbAK">&nbsp;</A>
+<H2>LICENSE</H2>
+
+
+<PRE>
+</PRE>
+
+The Secure Mailer license must be distributed with this
+software.
+<A NAME="lbAL">&nbsp;</A>
+<H2>AUTHOR(S)</H2>
+
+
+<PRE>
+Wietse Venema
+IBM T.J. Watson Research
+P.O. Box 704
+Yorktown Heights, NY 10598, USA
+
+</PRE>
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">DIAGNOSTICS</A><DD>
+<DT><A HREF="#lbAF">ENVIRONMENT</A><DD>
+<DT><A HREF="#lbAG">CONFIGURATION PARAMETERS</A><DD>
+<DT><A HREF="#lbAH">FILES</A><DD>
+<DT><A HREF="#lbAI">SEE ALSO</A><DD>
+<DT><A HREF="#lbAJ">README FILES</A><DD>
+<DT><A HREF="#lbAK">LICENSE</A><DD>
+<DT><A HREF="#lbAL">AUTHOR(S)</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 12:21:55 GMT, August 25, 2016
+</BODY>
+</HTML>

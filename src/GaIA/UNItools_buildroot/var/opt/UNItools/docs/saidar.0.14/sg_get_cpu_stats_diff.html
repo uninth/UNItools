@@ -1,0 +1,136 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of sg_get_cpu_stats</TITLE>
+</HEAD><BODY>
+<H1>sg_get_cpu_stats</H1>
+Section: C Library Functions (3)<BR>Updated: $Date:&nbsp;2005/04/25&nbsp;11:25:45&nbsp;$<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+sg_get_cpu_stats, sg_get_cpu_stats_diff, sg_get_cpu_percents - get cpu usage
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<PRE>
+#include &lt;<A HREF="file:/usr/include/statgrab.h">statgrab.h</A>&gt;
+</PRE>
+
+<P>
+<P>
+
+sg_cpu_percents *<I>sg_get_cpu_percents</I>(void);
+<P>
+
+sg_cpu_stats *<I>sg_get_cpu_stats</I>(void);
+<P>
+
+sg_cpu_stats *<I>sg_get_cpu_stats_diff</I>(void);
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+sg_get_cpu_stats() and
+sg_get_cpu_stats_diff() both return static pointers
+of type sg_cpu_stats.
+sg_get_cpu_stats() returns the total amount of
+&quot;ticks&quot; the operating system has spent in each of the different
+states. sg_get_cpu_stats_diff() returns the
+difference in &quot;ticks&quot; for each of the states since last time
+sg_get_cpu_stats_diff() or
+sg_get_cpu_stats() was called. If it has never
+been called, it will return the result of
+sg_get_cpu_stats().
+<P>
+
+The value stored (the &quot;ticks&quot;) will vary between operating
+systems. For example Solaris has a total of 100 per second,
+while Linux has substantially more. Also, different operating
+systems store different information - you won't find nice cpu on
+Solaris for example.
+<P>
+
+Because of this, you will ideally always want to work on a scale
+against the total, or in percentages.
+<P>
+
+sg_get_cpu_percents() returns a pointer to a
+static sg_cpu_percents. The function
+calls sg_get_cpu_stats_diff() and changes the values
+into percentages. If it has never been called before (and nor has
+sg_get_cpu_stats() or
+sg_get_cpu_stats_diff()), the returned percentages
+will be the systems total ever since its uptime. (Unless the
+counters have cycled)
+<A NAME="lbAE">&nbsp;</A>
+<H2>RETURN&nbsp;VALUES</H2>
+
+There are two structures returned by the CPU statistics
+functions.
+<P>
+
+<PRE>
+
+typedef struct{
+        long long user;
+        long long kernel;
+        long long idle;
+        long long iowait;
+        long long swap;
+        long long nice;
+        long long total;
+        time_t systime;
+}sg_cpu_stats;
+    
+</PRE>
+
+<P>
+
+<PRE>
+
+typedef struct{
+        float user;
+        float kernel;
+        float idle;
+        float iowait;
+        float swap;
+        float nice;
+        time_t time_taken;
+}sg_cpu_percents;
+    
+</PRE>
+
+<DL COMPACT>
+<DT>user  kernel  idle  iowait  swap  nice  <DD>
+The different CPU states.
+<DT>systime  time_taken  <DD>
+The time taken in seconds since the last call of the
+function, or the system time.
+</DL>
+<A NAME="lbAF">&nbsp;</A>
+<H2>SEE&nbsp;ALSO</H2>
+
+<B><A HREF="../man3/statgrab.3.html">statgrab</A></B>(3)
+<A NAME="lbAG">&nbsp;</A>
+<H2>WEBSITE</H2>
+
+<A HREF="http://www.i-scream.org/libstatgrab/">http://www.i-scream.org/libstatgrab/</A>
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">RETURN&nbsp;VALUES</A><DD>
+<DT><A HREF="#lbAF">SEE&nbsp;ALSO</A><DD>
+<DT><A HREF="#lbAG">WEBSITE</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 15:24:03 GMT, March 26, 2014
+</BODY>
+</HTML>

@@ -1,0 +1,314 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../../tocTab.js"></script>
+<title>ActiveState::File::Atomic - edit files atomically with locking</title>
+<link rel="stylesheet" href="../../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',6);</script>
+<h1><a>ActiveState::File::Atomic - edit files atomically with locking</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>ActiveState::File::Atomic - edit files atomically with locking</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+   use ActiveState::File::Atomic;
+   my $at = ActiveState::File::Atomic-&gt;new($filename, writable =&gt; 1);</pre>
+<pre>
+   # For small files:
+   (my $contents = $at-&gt;slurp) =~ s/foo/bar/g;
+   $at-&gt;commit_string($contents);</pre>
+<pre>
+   # For larger files:
+   my $wfh = $at-&gt;tempfile;
+   while (defined($_ = $at-&gt;readline))) {
+       s/foo/bar/g;
+       print $wfh $_;
+   }
+   $at-&gt;commit_tempfile;</pre>
+<pre>
+   # If you have your own file:
+   $at-&gt;commit_file($myfile);</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>ActiveState::File::Atomic makes it easier to write code that modifies files
+safely. It always uses locking, making it safe for concurrent access. It also
+handles writing backup files; either simple ``.bak'' files, or a configurable
+number of numbered backups, inspired by the <code>logrotate(1)</code> utility.</p>
+<p>ActiveState::File::Atomic provides the following methods:</p>
+<dl>
+<dt><strong><a name="item_new"><code>new()</code></a></strong>
+
+<dd>
+<pre>
+    $file = ActiveState::File::Atomic-&gt;new($file, %opts);</pre>
+</dd>
+<dd>
+<p>Creates a new object, opening the <code>$file</code> in either read-only or
+read/write mode and locking it.  If the file cannot be opened or the
+lock on it cannot be obtained, the constuctor will croak.</p>
+</dd>
+<dd>
+<p>Options are passed as key/value pairs after the filename.  The
+supported options are:</p>
+</dd>
+<dl>
+<dt><strong><a name="item_writable">writable</a></strong>
+
+<dd>
+<p>A boolean. If true, the file is opened read/write, and you can call the
+write_handle(), revert(), and <code>commit()</code> methods. If not, the file is opened
+read-only, and these methods will croak if you try to use them.</p>
+</dd>
+</li>
+<dt><strong><a name="item_create">create</a></strong>
+
+<dd>
+<p>A boolean. If true, and writable is also true, the file is created if
+it does not already exist.  Note that no guarantees are made about
+when the file is created.  It may get created immediately, or it may
+only get created when the ActiveState::File::Atomic object is committed.</p>
+</dd>
+</li>
+<dt><strong><a name="item_mode">mode</a></strong>
+
+<dd>
+<p>If the create option was used, this option specifies the file
+creation mode for the newly created file.</p>
+</dd>
+</li>
+<dt><strong><a name="item_owner">owner</a></strong>
+
+<dd>
+<p>If the create option was used, this option specifies the numeric uid
+for the newly created file.  Setting this option only makes sense
+when running with superuser privileges.</p>
+</dd>
+</li>
+<dt><strong><a name="item_group">group</a></strong>
+
+<dd>
+<p>If the create option was used, this option specifies the numeric gid
+for the newly created file.  The superuser can specify arbitrary
+group IDs, but unprivileged users are normally only allowed to
+specify one of the groups they belong to.</p>
+</dd>
+</li>
+<dt><strong><a name="item_nolock">nolock</a></strong>
+
+<dd>
+<p>A boolean.  If true, the file is not actually locked until you call the
+<a href="../../../../../../lib/5.8.7/pod/perlfunc.html#item_lock"><code>lock()</code></a> method.  This allows you to minimize the amount of time between
+the <a href="../../../../../../lib/5.8.7/pod/perlfunc.html#item_lock"><code>lock()</code></a> and the commit(), if necessary.  Note that you can't actually
+call any other methods on the object until you call the <a href="../../../../../../lib/5.8.7/pod/perlfunc.html#item_lock"><code>lock()</code></a> method.</p>
+</dd>
+</li>
+<dt><strong><a name="item_timeout">timeout</a></strong>
+
+<dd>
+<p>A number representing seconds. Normally ActiveState::File::Atomic will
+wait forever trying to acquire a lock on the file. You can specify how
+long to wait with this option.  The constructor will croak if it times
+out waiting for the lock.</p>
+</dd>
+</li>
+<dt><strong><a name="item_backup_ext">backup_ext</a></strong>
+
+<dd>
+<p>A string. If specified, a backup file will be created when you call the
+<code>commit()</code> method. The backup file will be named the same thing as the
+original file with <a href="#item_backup_ext"><code>backup_ext</code></a> appended.</p>
+</dd>
+</li>
+<dt><strong><a name="item_rotate">rotate</a></strong>
+
+<dd>
+<p>A number.  If specified, <a href="#item_rotate"><code>rotate</code></a> backups will be kept. The files are
+named as the original file with <a href="#item_backup_ext"><code>backup_ext</code></a> and the current rotation
+number appended. If you didn't specify <a href="#item_backup_ext"><code>backup_ext</code></a>, the string <code>.</code>
+is used. To simply append the rotation number, specify an empty
+<a href="#item_backup_ext"><code>backup_ext</code></a>. Rotation numbers are always left-padded with zeros if
+<a href="#item_rotate"><code>rotate</code></a> is specified as 10 or greater.  This ensures that the files
+sort correctly.</p>
+</dd>
+</li>
+<dt><strong><a name="item_debug">debug</a></strong>
+
+<dd>
+<p>A bitmask that can specify one or more internal flags to specify
+troubleshooting functionality.  The following bits are currently
+supported:</p>
+</dd>
+<dd>
+<pre>
+    0x0001   strict - recursive lock attempts will produce errors
+             (additional strictures may be introduced in future)</pre>
+</dd>
+<dd>
+<pre>
+    0x0002   trace  - more information will be spit out of stderr
+             in case of errors or other unusual conditions</pre>
+</dd>
+<dd>
+<p>Defaults to $ENV{AS_FILE_ATOMIC_DEBUG} or 0.</p>
+</dd>
+<dd>
+<p>The 'strict' implementation is currently rather heavy-weight
+(it calls fork()).  It may also falsely detect recursive lock
+attempts by processes running on different hosts that lock the
+same file on a distributed filesystem such as NFS.</p>
+</dd>
+</li>
+</dl>
+<dt><strong><a name="item_slurp"><code>slurp()</code></a></strong>
+
+<dd>
+<p>Reads the entire contents of the file into a string, and returns it.</p>
+</dd>
+<dd>
+<p>This method croaks on failure.</p>
+</dd>
+</li>
+<dt><strong><a name="item_readline"><code>readline()</code></a></strong>
+
+<dd>
+<p>Returns a single line from the input $file, or <a href="../../../../../../lib/5.8.7/pod/perlfunc.html#item_undef"><code>undef</code></a> on EOF. Use this to
+iterate through a large file.</p>
+</dd>
+<dd>
+<p>This method croaks on failure.</p>
+</dd>
+</li>
+<dt><strong><a name="item_commit_string"><code>commit_string()</code></a></strong>
+
+<dd>
+<pre>
+   $at-&gt;commit_string($contents)</pre>
+</dd>
+<dd>
+<p>Commits <code>$contents</code> to the file. Internally, this creates a temporary file
+and writes <code>$contents</code> to it. The temporary file is atomically renamed to the
+original file. Backup files are created according to the settings of
+<a href="#item_backup_ext"><code>backup_ext</code></a> and <a href="#item_rotate"><code>rotate</code></a>.  The method will croak on failure or if the
+<a href="#item_writable"><code>writable</code></a> option was not passed to the constructor.</p>
+</dd>
+<dd>
+<p>Calling <a href="#item_commit_string"><code>commit_string()</code></a> implies close(). You should not call any other method
+on the object after calling commit_string().</p>
+</dd>
+<dt><strong><a name="item_commit_file"><code>commit_file()</code></a></strong>
+
+<dd>
+<pre>
+   $at-&gt;commit_file($filename)</pre>
+</dd>
+<dd>
+<p>Commits the contents of <code>$filename</code> to the file. Internally, this copies the
+contents of <code>$filename</code> into a temporary file. The temporary file is then
+atomically renamed to the original file. Backup files are created according to
+the settings of <a href="#item_backup_ext"><code>backup_ext</code></a> and <a href="#item_rotate"><code>rotate</code></a>.  The method will croak on failure
+or if the <a href="#item_writable"><code>writable</code></a> option was not passed to the constructor.</p>
+</dd>
+<dd>
+<p>Note that the specified file is only opened, read from, and closed.  It is
+neither modified nor deleted by ActiveState::File::Atomic.  The caller is
+responsible for cleaning up the file when they no longer need it.</p>
+</dd>
+<dd>
+<p>Calling <a href="#item_commit_file"><code>commit_file()</code></a> implies close(). You should not call any other method
+on the object after calling commit_file().</p>
+</dd>
+<dt><strong><a name="item_commit_fd"><code>commit_fd()</code></a></strong>
+
+<dd>
+<pre>
+   $at-&gt;commit_fd(fileno($HANDLE));</pre>
+</dd>
+<dd>
+<p>Commits the contents of the file underneath <code>$HANDLE</code> to the file.
+Internally, this copies from <code>$HANDLE</code> to a temporary file. The temporary
+file is atomically renamed to the original file. Backup files are created
+according to the settings of <a href="#item_backup_ext"><code>backup_ext</code></a> and <a href="#item_rotate"><code>rotate</code></a>.  The method will
+croak on failure or if the <a href="#item_writable"><code>writable</code></a> option was not passed to the
+constructor.</p>
+</dd>
+<dd>
+<p>Calling <a href="#item_commit_fd"><code>commit_fd()</code></a> implies close(). You should not call any other method
+on the object after calling commit_fd().</p>
+</dd>
+<dt><strong><a name="item_tempfile"><code>tempfile()</code></a></strong>
+
+<dd>
+<pre>
+   my $wfh = $at-&gt;tempfile;</pre>
+</dd>
+<dd>
+<p>Returns a writable handle to a temporary file that will be committed
+by commit_tempfile().  The returned handle is owned by
+ActiveState::File::Atomic and should NOT be closed by the caller.</p>
+</dd>
+<dd>
+<p>This method croaks on failure.</p>
+</dd>
+<dt><strong><a name="item_commit_tempfile"><code>commit_tempfile()</code></a></strong>
+
+<dd>
+<p>Commits the contents of the temporary file.</p>
+</dd>
+<dd>
+<p>Calling <a href="#item_commit_tempfile"><code>commit_tempfile()</code></a> implies close(). You should not call any other
+method on the object after calling commit_tempfile().</p>
+</dd>
+</li>
+<dt><strong><a name="item_close"><code>close()</code></a></strong>
+
+<dd>
+<p>Reverts any uncommitted changes and unlocks the file. You should not call any
+other methods after calling close().</p>
+</dd>
+<dd>
+<p>Normally there is no need to call <a href="#item_close"><code>close()</code></a> explicitly since the object
+destructor will invoke it when the object goes out of scope.</p>
+</dd>
+<dd>
+<p>This method can not fail and has no return value.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2004, ActiveState Corporation.
+All Rights Reserved.</p>
+
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>SOAP::Transport::IO - Server side IO support for SOAP::Lite</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>SOAP::Transport::IO - Server side IO support for SOAP::Lite</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>SOAP::Transport::IO - Server side IO support for SOAP::Lite</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  use SOAP::Transport::IO;</pre>
+<pre>
+  SOAP::Transport::IO::Server</pre>
+<pre>
+    # you may specify as parameters for new():
+    # -&gt; new( in =&gt; 'in_file_name' [, out =&gt; 'out_file_name'] )
+    # -&gt; new( in =&gt; IN_HANDLE      [, out =&gt; OUT_HANDLE] )
+    # -&gt; new( in =&gt; *IN_HANDLE     [, out =&gt; *OUT_HANDLE] )
+    # -&gt; new( in =&gt; \*IN_HANDLE    [, out =&gt; \*OUT_HANDLE] )</pre>
+<pre>
+    # -- OR --
+    # any combinations
+    # -&gt; new( in =&gt; *STDIN, out =&gt; 'out_file_name' )
+    # -&gt; new( in =&gt; 'in_file_name', =&gt; \*OUT_HANDLE )</pre>
+<pre>
+    # -- OR --
+    # use in() and/or out() methods
+    # -&gt; in( *STDIN ) -&gt; out( *STDOUT )</pre>
+<pre>
+    # -- OR --
+    # use default (when nothing specified):
+    #      in =&gt; *STDIN, out =&gt; *STDOUT</pre>
+<pre>
+    # don't forget, if you want to accept parameters from command line
+    # \*HANDLER will be understood literally, so this syntax won't work
+    # and server will complain</pre>
+<pre>
+    -&gt; new(@ARGV)</pre>
+<pre>
+    # specify path to My/Examples.pm here
+    -&gt; dispatch_to('/Your/Path/To/Deployed/Modules', 'Module::Name', 'Module::method')
+    -&gt; handle
+  ;</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2000-2001 Paul Kulchenko. All rights reserved.</p>
+<p>This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Paul Kulchenko (<a href="mailto:paulclinger@yahoo.com">paulclinger@yahoo.com</a>)</p>
+
+</body>
+
+</html>

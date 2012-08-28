@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# $Header$
+#
+# This script will be executed *after* all the other init scripts.
+# You can put your own initialization stuff in here if you don't
+# want to do the full Sys V style init stuff.
+
+#
+# The non-site specific configuration goes here
+#
+
+#
+# See http://www.cpug.org/forums/check-point-secureplatform-splat/11670-how-increase-arp-cache-size-splat-kernel.html
+# and http://www.gnulinuxclub.org/index.php?option=com_content&task=view&id=333&Itemid=49
+# and http://lists.netfilter.org/pipermail/netfilter/2002-November/040337.html
+#
+# echo 1024 > /proc/sys/net/ipv4/neigh/default/gc_thresh1
+# echo 4096 > /proc/sys/net/ipv4/neigh/default/gc_thresh2
+# echo 8192 > /proc/sys/net/ipv4/neigh/default/gc_thresh3
+
+#
+# Site specific configurations goes into rc.local.user.site
+# e.g. ethtool stuff
+#
+if [ -f /etc/rc.d/rc.local.user.site ]; then
+  . /etc/rc.d/rc.local.user.site
+fi

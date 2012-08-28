@@ -1,0 +1,584 @@
+head	1.3;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.3
+date	2014.01.06.17.25.24;	author root;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2013.07.18.08.39.06;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2013.06.18.15.17.29;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@#!/bin/bash
+#
+# $Header: /root/personal/nth/pkgs/setup/setup-1.0/RCS/unitools-setup-R76.sh,v 1.2 2013/07/18 08:39:06 root Exp $
+#
+
+logit() {
+        LOGIT_NOW="`/bin/date '+%H:%M:%S (%d/%m)'`"
+        STRING="$*"
+
+        if [ -n "${STRING}" ]; then
+                $echo "${LOGIT_NOW} ${STRING}"
+        else
+                while read LINE
+                do
+                        if [ -n "${LINE}" ]; then
+                                $echo "${LOGIT_NOW} ${LINE}"
+                        else
+                                $echo ""
+                        fi
+                done
+        fi
+}
+
+echo=/bin/echo
+case ${N}$C in
+        "") if $echo "\c" | grep c >/dev/null 2>&1; then
+                N='-n'
+        else
+                C='\c'
+        fi ;;
+esac
+
+#
+# source environmemt - required when running non-interactive
+# (FWDIR not set)
+#
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+if [ -f /etc/profile.d/CP.sh ]; then 
+	.  /etc/profile.d/CP.sh
+fi
+
+if [ -f /etc/profile.d/CPshell.sh ]; then 
+	.  /etc/profile.d/CPshell.sh
+fi      
+
+if [ "x$SHLVL" != "x1" ]; then # We're not a login shell
+	for i in /etc/profile.d/*.sh; do
+		if [ -x $i ]; then 
+			. $i    
+		fi      
+	done    
+fi
+
+case `fw ver | sed '/NGX/!d; s/.*NGX.*/NGX/g'` in
+	NGX)	echo "fw1 version NGX ok ... "
+	;;
+	*)
+		FWVER=`fw ver | egrep 'R75|R76'|sed 's/.*R/R/; s/ -.*//'`
+		case $FWVER in
+			R75.*)	echo "fw1 version R75 ($FWVER) ok ... "
+				INSTALL_NTP=TRUE
+				INSTALL_RC_LOCAL=TRUE
+				echo "will wipe Check Point NTP and install OpenBSD NTPd .."
+				echo "will install /etc/rc.local ... "
+			;;
+			R76)	echo "fw1 version R76 not testet fully yet ... "
+				INSTALL_NTP=FALSE
+				INSTALL_RC_LOCAL=FALSE
+				echo "will keep Check Point NTP"
+				echo "will NOT install /etc/rc.local"
+			;;
+			*)	echo "Unknown firewall version dont know what to do, bye"
+			exit 1
+			;;
+		esac
+	;;
+esac
+
+cd /var/opt/UNItools/setup
+
+cat << EOF
+  
+
+This is the setup script for UNItools for Check Point firewall-1, NGX on SPLAT
+
+You can install but NOT uninstall. Press <ctrl> - C if you don' like that.
+
+The installation will continue in 5 seconds
+
+EOF
+
+for f in 6 5 4 3 2 1 0
+do
+	$echo $N "[$f] $C"
+	sleep 1
+done
+
+################################################################################
+##
+## etc/passwd
+##
+
+logit "changing /etc/passwd ... "
+
+#cp /etc/passwd /tmp
+#
+#awk -F: '
+#	$1 == "root" {
+#		gsub("/root", "/home/admin", $6);
+#	};
+#	$1 == "admin" {
+#		gsub("/bin/cpshell", "/bin/bash", $7);
+#	};
+#
+#	{
+#		print $1":" $2":" $3":" $4":" $5":" $6":" $7
+#	};
+#' /etc/passwd > /etc/ptmp
+#
+##-rw-r--r--    1 root     root          303 Aug 25 11:31 /etc/passwd
+#
+#/bin/mv /etc/ptmp /etc/passwd
+#/bin/chown root:root /etc/passwd
+#/bin/chmod 444 /etc/passwd
+#
+#logit "user root and admin has now the same homedir (for scp/ssh keys issue)"
+#logit "user admin has now /bin/bash, not /bin/cpshell"
+#
+
+clish -sc "set user admin shell /bin/bash"
+clish -sc "set inactivity-timeout 720"
+
+logit "clish command done"
+
+################################################################################
+##
+## create /etc/scpusers
+##
+cat << EOF > /etc/scpusers
+admin
+EOF
+
+/bin/chown root:root /etc/scpusers
+/bin/chmod 444 /etc/scpusers
+
+logit "made /etc/scpusers for root, admin"
+
+################################################################################
+##
+## Change / add /var/opt/UNItools/bin to PATH for user admin
+##
+
+cp /var/opt/UNItools/conf/.bash_profile /home/admin
+
+logit "user admin has now a more desent .bash_profile ... "
+
+################################################################################
+##
+## Setup ssh keys. Will install in /root/.ssh -- but this should have been fixed
+## by now.
+##
+
+logit "Setting up ssh keys for user admin (aka root, uid 0) ... "
+
+if [ ! -f "$HOME/.ssh/authorized_keys" ]; then
+logit "laver ny ssh konfiguration ... "
+echo "" | ssh-keygen -t dsa 2>/dev/null
+echo "" | ssh-keygen -t rsa 2>/dev/null
+echo "" | ssh-keygen -t rsa1 2>/dev/null
+
+cat << EOF > /home/admin/.ssh/authorized_keys
+ssh-dss AAAAB3NzaC1kc3MAAACBAKUq/J8WuZgxZ++M4H7LplAd2xhKLpSHeL733LHpd6At2Yb9GgT7vfQYhqHCCMz8X1W3rt//BI0gm+8Dm7+Lkkh/4MY9l2LiQzzXOb1SzyQxOw90O6VyysuWnOkot+oxY2VD7305R3LLHgUy4ZvekyFcuh0hSPHEeL8U2rziLzSJAAAAFQCJ6NgOjgBWO6xoULsK5kTrPlGXGwAAAIBD9FFz5+dPhioq2trpEhDfA17WxqTU5P+udvLsvO+yfkoPSt1OuSFgP2p8sXBigqBKkte8fqjGsMRW1AwEo6UumDfiiTJP5tecp9EoVQi1SvlNF+4G0zWokVumeuFlfo7aES5eu9lFbjlSj3WOWyG/AdMBfIU30m02gXlFhXnjxAAAAIAMKYAU/QVAkE6hYoZMcXU1lNocFDwnq2olz0kr2Aq6biXGxE/tgkpfq35fJD5xteaxVWNuv0y+w8+Ny5l5D6NTHAC+Rro0W8riTforrWjVYwdNCZCguf/CwWe1M/RtjbHh5WnCDLRwwG16k/zlJfWuewwbxwfsvh5uaK1ZCVg1fw== uninth@@caliban.ssi.uni-c.dk
+EOF
+else
+logit "overskriver ikke den eksisterende ssh konnfiguration"
+fi
+
+chmod -R 700 $HOME/.ssh $HOME/.ssh/*
+
+grep -q 130.225.245.210 /etc/hosts
+case $? in
+	0) logit "found 130.225.245.210 in /etc/hosts"
+	;;
+	*) clish -sc "add host name fwgui ipv4-address 130.225.245.210"
+	   logit "added 130.225.245.210 to /etc/hosts"
+	;;
+esac
+
+logit "done. access w/o password granted from SSI"
+
+################################################################################
+#
+# NGX -- enable scheduled backup
+# 0 0 * * 1,2,3,4,5,6,7 backup_util sched
+
+logit "Enabeling scheduled backup of Check Point firewall-1 ... "
+
+if [ -d /etc/cron.d ]; then
+
+	cat << EOF > /etc/cron.d/UNItools_backup
+# periodic firewall backup
+40 7 * * * root /var/opt/UNItools/fwbu/bin/UNIcpfwbu.sh
+EOF
+	chmod 644 /etc/cron.d/UNItools_backup
+
+	/etc/init.d/crond restart
+
+else
+
+(
+crontab -u root -l |
+egrep -v 'backup_util.*sched|^# DO NOT EDIT THIS FILE|^# \(Cron version|^# \(/tmp/|backup_util sched|/bin/backup -p 10|UNIcpfwbu'
+cat << EOF
+# 0 0 * * 1,2,3,4,5,6,7 backup_util sched
+# 0 1 * * 1,2,3,4,5,6,7 /bin/echo y | /bin/backup -p 10
+0 0 * * 1,2,3,4,5,6,7 /var/opt/UNItools/fwbu/bin/UNIcpfwbu.sh
+EOF
+) > /tmp/cron.tmp
+
+	crontab -u root /tmp/cron.tmp
+
+	/bin/rm -f /tmp/cron.tmp
+
+	logit "Done. Installed in crontab for root"
+	crontab -u root -l | logit 
+fi
+            
+################################################################################
+##
+## All scripts (perl, bash, sh) in /var/opt/UNItools uses interpreters here.
+## (Why ? Well, perl and bash are not installed on e.g. IPSO, and may/may not
+## be installed in /bin /usr/bin or /usr/local/bin. And on IPSO you do not have
+## write access to anything in /bin and /usr, so to use the same scripts on
+## all platforms, link / install the interpreter here).
+##
+
+logit "setting up softlinks ... "
+(
+	cd /var/opt/UNItools/bin
+	for FILE in tar gunzip gzip bash domainname hostname md5sum
+	do
+		/bin/rm -f ${FILE}
+		ln -s `type ${FILE} | awk '{ print $NF }'` ${FILE}
+		logit "${FILE} ... "
+	done
+)
+
+find /var/opt/UNItools/bin -type l -exec ls -l {} \; | logit
+
+################################################################################
+##
+##
+logit "compatability mode for backup storage between NGX and NG R5X" 
+
+NGX_BACKUPDIR=/var/CPbackup
+NGX_SNAPSHUTDIR=/var/CPsnapshot
+for LINK in /opt/CPbackups /var/opt/CPbackups
+do
+	if [ ! -h $LINK ]; then
+		ln -sf ${NGX_BACKUPDIR} ${LINK}
+		logit "ln -sf ${NGX_BACKUPDIR} ${LINK} ... "
+	else
+		logit "link made "
+	fi
+done
+
+################################################################################
+##
+## NTP
+##
+
+case $INSTALL_NTP in
+	TRUE)	logit "Installing Open BSD NTP ... "
+		# sh /var/opt/UNItools/etc/UNIntpd install
+		:
+	;;
+	*)	logit "will *NOT* install Open BSD ntpd ... "
+	;;
+esac
+
+case $INSTALL_RC_LOCAL in
+	TRUE)
+		echo oops
+	;;
+	FALSE)
+		logit not installing rc.local stuff on R76
+	;;
+
+esac
+
+exit 0
+
+#
+# Documentation and  standard disclaimar
+#
+# Copyright (C) 2001 Niels Thomas Haugård
+# UNI-C
+# http://www.uni-c.dk/
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the 
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License 
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+#
+#++
+# NAME
+#	setup.sh 1
+# SUMMARY
+#	Installation / configuration of SPLAT OS
+# PACKAGE
+#	UNItools
+# SYNOPSIS
+#	setup.sh
+# BESKRIVELSE
+#	\fCsetup.sh(1)\fR anvendes til at hente system status,
+#	firewall og operativsystems konfigurationsfiler tilbage til
+#	sikkerhedsafdelingen, til brug ved en katastrofe reetablering.
+#
+#	Systemet forudsætter, at pakken \fBUNItools\fR er installeret
+#	på firewall'en.
+#
+#	\fCUNIfwbu.sh(1)\fR udføres periodisk via \fCcron(1)\fR, og
+#	startes af \fCUNIrun_fwbu.sh(1)\fR.
+#
+#	\fCUNIfwbu.sh(1)\fR bruger \fCrsync(1)\fR over \fCssh(1)\fR
+#	til at lave dels
+# .IP o
+#	et dokument med den øjeblikkelige \fIsystem status\fR,
+# .IP o
+#	en sikkerhedskopi af de øjeblikkelige konfigurationsfiler
+#	for firewall og operativsystem,
+# .IP o
+#	en lokal sikkerhedskopi af den daglige backup af
+#	firewall'ens konfigurationsfiler.
+#
+#	Det er planlagt senere automatisk at flytte dokumenterne ind i
+#	et CVS træ, samt at lave versionskontrol og automatisk 
+#	opdatering af kundens dokumentation på baggrund af opdagede
+#	ændringer.
+#
+#	Der anvendes et operativsystem specifikt script til at
+#	lave system status. Disse scripts ligger i \fC/var/opt/UNIfwbu/etc\fR,
+#	og kopieres ud på firewall'en, udføres og slettes. De
+#	efterlader fire dokumenter i hjemmekataloget for den bruger
+#	der anvendes ved login, og dokumenterne flyttes efterfølgende til
+#	log kataloget og de gemmes i én generation:
+# .RS
+# .TP
+#	\fC$HOME/current_system_status\fR
+#	System status information (output fra bl.a. \fCnetstat\fR, \fCifconfig\fR,
+#	\fCfw stat\fR, osv.)
+# .TP
+#	\fC$HOME/current_statistical_information\fR
+#	Volatil system statistisk information.
+#	\fCfw stat\fR, osv.)
+# .TP
+#	\fC$HOME/.all_files\fR
+#	Alle dokumenter der skal tages backup af. Links er resolverede, og 
+#	\fC$FWDIR\fR er fundet (ændres med hver opgradering/patching).
+#	Dokumentet skal senere danne udgangspunkt for \fCCVS\fR \fCadd\fR og
+#	\fCremove\fR kommandoer.
+# .TP
+#	\fC$HOME/.backup_files\fR
+#	Alle dokumenter på et format hensigtsmæssig som argument til \fRrsync(1)\fR.
+#	Dette format gør, at filnavne med mellemrum ikke er tilladte.
+#
+# .RE
+#	
+# OPTIONS
+# .TP
+#	\fC-v\fR
+#	Verbose; skriv til stdout samt til logfil.
+# .TP
+#	\fIkonfigurationsfil\fR
+#	En kunde kan have mange maskiner der skal tages backup af.
+#	Firewall(s), reservemaskiner, snortlogs osv. og der er derfor
+#	nødvendigt at kunne håndtere en én kunde til mange maskiner
+#	relation.
+#	
+#	Konfigurationsfil og dokunenter til en specifik kundes
+#	maskine(r) ligger under \fC/lan/ssi/\fIkundenavn\fC/hosts\fR.
+#	Her er for hver maskine et katalog (maskinens navn) samt
+#	et konfigurationsdokument, der skal hedde det samme med
+#	extension \fC.conf\fR, f.eks. \fCdefgw.conf\fR.
+#
+# KONFIGURATIONSFIL
+#	Syntaksen er \fIvariabel\fC = \fIværdi\fR. Dokumentet
+#	processeres af \fCawk(1)\fR og resultatet sources af
+#	\fCbash(1)\fR - så pas på med syntaksen!
+#
+#	Dokumentet skal indeholde følgende:
+# .nf
+#	\fC
+    1	# Kundens domænenavn -- katalog i /lan/ssi
+    2	DOMAIN_NAME = ssi.uni-c.dk
+    3	
+    4	# navn på maskinen -- det bliver også et katalognavn
+    5	HOST_NAME   = defgw
+    6	
+    7	# maskinens IP -- hertil laves ssh forbindelsen
+    8	IP      = 172.16.0.1
+    9	
+   10	# Hvilken port ssh er bundet til
+   11	SSH_PORT    = 22
+   12	
+   13	# Login på maskinen (som root) med denne bruger
+   14	LOGIN_USER  = admin
+   15	
+   16	# OS version (SunOS IPSO Linux ... )
+   17	UNAME_MAJOR = SunOS
+   18	
+   19	# OS version version (2.6 3.7 6.3 ... )
+   20	UNAME_MINOR = 2.6
+   21	
+   22	# Hvilken firewall type (FW1  OSFW)
+   23	FW_TYPE     = FW1
+   24	
+   25	# Hvilken firewall version (4.0 4.1 NG ... )
+   26	FW_VER      = 4.1
+   27	
+   28	# belast denne RCPT med fejlpost
+   29	RCPT        = fwsupport@@uni-c.dk
+   30	
+   31	# Er deslogin instaleret - og på hvilken port (NONE 22 30 ... )
+   32	DESLOGIN_PORT   = 30
+   33	
+   34	# Nick names (til ssh /td) for denne host ud over HOST_NAME
+   35	NICK_NAMES  = ssi
+   36	
+   37	# Ekstra kundespecifikke filer
+   38	EXTRA_FILES = 
+# .fi
+#	\fR
+#	Alle variable er obligatoriske, med undtagelse af \fCEXTRA_FILES\fR,
+#	\fCNICK_NAMES\fR samt \fCDESLOGIN_PORT\fR.
+#
+#	Har kunden nogle specielle ekstra dokumenter der skal med på en
+#	backup, anføres de i \fCEXTRA_FILES\fR, f.eks. \fC/var/ace\fR.
+#
+#	Hvis kunden har noget installeret (f.eks. en ACE server) der kræver
+#	en bestemt kommando udført, for at danne et dokument der skal på
+#	backup, skal det ske på maskinen selv, f.eks. i forbindelse med
+#	den daglige backup. Husk i den forbindelse at angive dette specielle
+#	script i \fCEXTRA_FILES\fR, så det kommer med på backup'en :-)
+# COMMANDS
+#	\fCsh(1)\fR, \fCssh(1)\fR, \fCrsync(1)\fR, \fCsed(1)\fR og \fCawk(1)\fR.
+# SE OGSÅ
+#	Dokumentationen for UNIbackup.
+# DIAGNOSTICS
+#	Fejler programmet sendes en e-mail til den i konfigurationsfilen
+#	anførte adresse.
+# BUGS
+#	Det er der sikkert. Der er bl.a. en fejl omkring etablering af
+#	ssh forbindelsen, hvis firewall'ens nøgler er blevet ændret kræver
+#	det en operatør indgriben; jeg gætter på, at processen vil hænge
+#	for tid og evighed.
+#
+#	\fCrsync(1)\fR får alle filnavne på kommandolinien som argumentet
+#	\fC`cat .all_files`\fR. Det betyder, at der ikke må findes filnavne
+#	med blank-tegn, samt at der er en operativsystem specifik grænse for,
+#	hvor stort dette argument må være.
+# VERSION
+#	$Date: 2013/07/18 08:39:06 $
+# .br
+#	$Revision: 1.2 $
+# .br
+#	$Source: /root/personal/nth/pkgs/setup/setup-1.0/RCS/unitools-setup-R76.sh,v $
+# .br
+#	$State: Exp $
+# HISTORY
+#	Se \fCrlog\fR $Id: unitools-setup-R76.sh,v 1.2 2013/07/18 08:39:06 root Exp $
+# AUTHOR(S)
+#	Niels Thomas Haugård
+# .br
+#	E-mail: thomas@@haugaard.net
+# .br
+#	UNI\(buC
+# .br
+#	DTU, Building 304
+# .br
+#	DK-2800 Kgs. Lyngby
+#--
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d3 1
+a3 1
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/setup/setup-1.0/RCS/unitools-setup-R76.sh,v 1.1 2013/06/18 15:17:29 root Exp root $
+d61 4
+a64 2
+	*)	case `fw ver | egrep 'R75|R76'|sed 's/.*R/R/; s/ -.*//'` in
+			R75)	echo "fw1 version R75 ok ... "
+d67 2
+d73 2
+d76 1
+a76 1
+			*)	echo "Unknown firewall version bye"
+d476 1
+a476 1
+#	$Date: 2013/06/18 15:17:29 $
+d478 1
+a478 1
+#	$Revision: 1.1 $
+d480 1
+a480 1
+#	$Source: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/setup/setup-1.0/RCS/unitools-setup-R76.sh,v $
+d484 1
+a484 1
+#	Se \fCrlog\fR $Id: unitools-setup-R76.sh,v 1.1 2013/06/18 15:17:29 root Exp root $
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d3 1
+a3 1
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/setup/setup-1.0/RCS/setup.sh,v 1.17 2013/05/03 05:31:02 root Exp $
+d129 1
+d470 1
+a470 1
+#	$Date: 2013/05/03 05:31:02 $
+d472 1
+a472 1
+#	$Revision: 1.17 $
+d474 1
+a474 1
+#	$Source: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/setup/setup-1.0/RCS/setup.sh,v $
+d478 1
+a478 1
+#	Se \fCrlog\fR $Id: setup.sh,v 1.17 2013/05/03 05:31:02 root Exp $
+@

@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../tocTab.js"></script>
+<title>ExtUtils::MM_MacOS - methods to override UN*X behaviour in ExtUtils::MakeMaker</title>
+<link rel="stylesheet" href="../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',3);</script>
+<h1><a>ExtUtils::MM_MacOS - methods to override UN*X behaviour in ExtUtils::MakeMaker</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>ExtUtils::MM_MacOS - methods to override UN*X behaviour in ExtUtils::MakeMaker</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ use ExtUtils::MM_MacOS; # Done internally by ExtUtils::MakeMaker if needed</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>MM_MacOS currently only produces an approximation to the correct Makefile.</p>
+<dl>
+<dt><strong><a name="item_maybe_command">maybe_command</a></strong>
+
+<dd>
+<p>Returns true, if the argument is likely to be a command.</p>
+</dd>
+</li>
+<dt><strong><a name="item_guess_name">guess_name</a></strong>
+
+<dd>
+<p>Guess the name of this package by examining the working directory's
+name. MakeMaker calls this only if the developer has not supplied a
+NAME attribute.</p>
+</dd>
+</li>
+<dt><strong><a name="item_macify">macify</a></strong>
+
+<dd>
+<p>Translate relative Unix filepaths into Mac names.</p>
+</dd>
+</li>
+<dt><strong><a name="item_patternify">patternify</a></strong>
+
+<dd>
+<p>Translate Unix filepaths and shell globs to Mac style.</p>
+</dd>
+</li>
+<dt><strong><a name="item_init_main">init_main</a></strong>
+
+<dd>
+<p>Initializes some of NAME, FULLEXT, BASEEXT, DLBASE, PERL_SRC,
+PERL_LIB, PERL_ARCHLIB, PERL_INC, INSTALLDIRS, INST_*, INSTALL*,
+PREFIX, CONFIG, AR, AR_STATIC_ARGS, LD, OBJ_EXT, LIB_EXT, MAP_TARGET,
+LIBPERL_A, VERSION_FROM, VERSION, DISTNAME, VERSION_SYM.</p>
+</dd>
+</li>
+<dt><strong><a name="item_init_others">init_others</a></strong>
+
+<dd>
+<p>Initializes LDLOADLIBS, LIBS</p>
+</dd>
+</li>
+<dt><strong><a name="item_init_platform">init_platform</a></strong>
+
+<dd>
+<p>Add MACPERL_SRC MACPERL_LIB</p>
+</dd>
+</li>
+<dt><strong><a name="item_platform_constants">platform_constants</a></strong>
+
+<dd>
+<p>Add MACPERL_SRC MACPERL_LIB MACLIBS_68K MACLIBS_PPC MACLIBS_SC MACLIBS_MRC
+MACLIBS_ALL_68K MACLIBS_ALL_PPC MACLIBS_SHARED</p>
+</dd>
+<dd>
+<p>XXX Few are initialized.  How many of these are ever used?</p>
+</dd>
+</li>
+<dt><strong><a name="item_init_dirscan">init_dirscan</a></strong>
+
+<dd>
+<p>Initializes DIR, XS, PM, C, O_FILES, H, PL_FILES, MAN*PODS, EXE_FILES.</p>
+</dd>
+</li>
+<dt><strong><a name="item_init_version">init_VERSION (o)</a></strong>
+
+<dd>
+<p>Change DEFINE_VERSION and XS_DEFINE_VERSION</p>
+</dd>
+</li>
+<dt><strong><a name="item_special_targets">special_targets (o)</a></strong>
+
+<dd>
+<p>Add .INCLUDE</p>
+</dd>
+</li>
+<dt><strong><a name="item_static">static (o)</a></strong>
+
+<dd>
+<p>Defines the static target.</p>
+</dd>
+</li>
+<dt><strong><a name="item_dlsyms">dlsyms (o)</a></strong>
+
+<dd>
+<p>Used by MacOS to define DL_FUNCS and DL_VARS and write the *.exp
+files.</p>
+</dd>
+</li>
+<dt><strong><a name="item_dynamic">dynamic (o)</a></strong>
+
+<dd>
+<p>Defines the dynamic target.</p>
+</dd>
+</li>
+<dt><strong><a name="item_clean">clean (o)</a></strong>
+
+<dd>
+<p>Defines the clean target.</p>
+</dd>
+</li>
+<dt><strong><a name="item_clean_subdirs_target">clean_subdirs_target</a></strong>
+
+<dd>
+<p>MacOS semantics for changing directories and checking for existence
+very different than everyone else.</p>
+</dd>
+</li>
+<dt><strong><a name="item_realclean">realclean (o)</a></strong>
+
+<dd>
+<p>Defines the realclean target.</p>
+</dd>
+</li>
+<dt><strong><a name="item_realclean_subdirs_target">realclean_subdirs_target</a></strong>
+
+<dd>
+<p>MacOS semantics for changing directories and checking for existence
+very different than everyone else.</p>
+</dd>
+</li>
+<dt><strong><a name="item_rulez">rulez (o)</a></strong>
+
+<dt><strong><a name="item_processpl">processPL (o)</a></strong>
+
+<dd>
+<p>Defines targets to run *.PL files.</p>
+</dd>
+</li>
+<dt><strong><a name="item_os_flavor">os_flavor</a></strong>
+
+<dd>
+<p>MacOS Classic is MacOS and MacOS Classic.</p>
+</dd>
+</li>
+</dl>
+
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+head	1.3;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.3
+date	2014.03.19.12.02.43;	author root;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2003.02.19.14.43.52;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2003.02.18.19.26.12;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@# i2 .bash_profile
+
+PATH=/var/opt/UNItools/bin:$PATH:$HOME/bin:/var/opt/UNIfw1lr/bin
+
+export PATH
+unset USERNAME
+
+PS1='[\!]\h.`/bin/set_domain`:\W# '	# List hostname.domainname in prompt
+
+alias   h='history 20'          	# Show last 20 lines.
+alias   l='ls -aCF'             	# List files in columns with filetype
+					# markers.
+alias   pp='pr -t -e4 -n'		# Print with line numbers
+
+alias   rm='/bin/rm -i'			# Inquire before removal for security,
+alias   mv='/bin/mv -i'			# and for moving and
+alias   cp='/bin/cp -i'			# copy'ing.
+
+alias   to='pushd'			# Dir stack
+alias   ot='popd'			#
+alias   flipd='pushd'			#
+
+alias	df='df -k'
+alias	l='ls -aCF'
+alias	ll='/bin/ls -la'
+
+lt() { /bin/ls -lat $* | head -20; }	# list the 20 newest files
+lo() { /bin/ls -lat $* | tail -20; }	# list the 20 oldest files
+
+VIM=`type vim 2>/dev/null | awk '{print $NF}'`	# vi or vim as default editor
+
+if [ -x "$VIM" ]; then
+
+	alias vi=vim
+
+	if [ ! -f ~/.vimrc  ]; then
+
+		EXINIT="set autoindent number showmode redraw showmatch ts=8 sw=8 report=2 nowrapscan history=1000 nocompatible backup backupext=.bak wildmenu"
+		export EXINIT
+	else
+		# we have a .vimrc, let the user setup everything there
+		:
+	fi
+
+	EDITOR=vim
+	export EDITOR
+	unset VIM
+
+else
+	EDITOR=vi
+	EXINIT="set autoindent number showmode redraw showmatch ts=8 sw=8 report=2 nowrapscan
+	map F !}fmt"
+	export EDITOR EXINIT
+fi
+
+set -o vi				# use vi editing
+
+LESS="-cefMnrqs"
+export LESS
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d1 1
+a1 1
+# UNIC .bash_profile
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@a1 1
+# $Header$
+@

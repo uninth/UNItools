@@ -1,0 +1,34 @@
+# Copyright (c) 1993-1999 Microsoft Corp.
+#
+# This is a sample HOSTS file used by Microsoft TCP/IP for Windows.
+#
+# This file contains the mappings of IP addresses to host names. Each
+# entry should be kept on an individual line. The IP address should
+# be placed in the first column followed by the corresponding host name.
+# The IP address and the host name should be separated by at least one
+# space.
+#
+# Additionally, comments (such as these) may be inserted on individual
+# lines or following the machine name denoted by a '#' symbol.
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+#
+# Do not remove the following line, or various programs
+# that require network functionality will fail.
+127.0.0.1	localhost.localdomain	localhost
+   192.168.76.149     mhozcave
+   200.34.113.32	     www.citi.com.mx
+148.234.30.90       	gama.fime.uanl.mx gama
+     216.239.53.104                 www.google.com    google
+216.200.241.66  www.checkpoint.com webchkp
+148.234.5.22    www.uanl.mx
+131.178.53.76   www.itesm.mx
+132.247.12.14   www.unam.mx
+
+132.248.124.130 www.seguridad.unam.mx seguridad 
+  1.2.3.4         patito
+1.2.3.99  patote
+

@@ -1,0 +1,1219 @@
+
+rcsclean.c,192
+struct top *top;top37,1092
+static struct fro *workptr;workptr39,1110
+static int exitstatus;40,1138
+cleanup 43,1174
+exiterr 55,1385
+unlock 64,1494
+get_directory 80,1794
+main 137,3586
+
+rcsfcmp.c,39
+discardkeyval 29,976
+rcsfcmp 44,1196
+
+rcsfnms.c,577
+#define rcsdir 35,1078
+#define rcsdirlen 36,1103
+struct compair38,1143
+  char const *suffix,suffix40,1160
+  char const *suffix, *comlead;comlead40,1160
+static struct compair const comtable[comtable45,1345
+InitAdmin 88,3103
+basefilename 113,3728
+suffixlen 130,4014
+rcssuffix 150,4301
+rcsreadopen 179,4941
+finopen 188,5261
+fin2open 213,6129
+#define ACC(225,6761
+#define OK(226,6838
+#undef OK249,7313
+#undef ACC250,7323
+pairnames 254,7341
+#define DOUBLE_SLASH_IS_DISTINCT_ROOT 409,12036
+dir_useful_len 413,12098
+getfullRCSname 432,12671
+isSLASH 490,14331
+
+rcsmerge.c,86
+struct top *top;top33,1041
+exiterr 36,1079
+#define quietarg 60,1806
+main 63,1834
+
+b-peer.c,53
+struct symdef peer_co 28,909
+find_peer_prog 31,991
+
+merge.c,58
+struct top *top;top29,933
+exiterr 32,971
+main 52,1535
+
+rcsrev.c,847
+split 31,993
+countnumflds 55,1462
+accumulate_branchno 75,1826
+take 87,2054
+cmpnum 108,2626
+cmpnumfld 157,3821
+normalizeyear 189,4617
+cmpdate 205,4907
+cantfindbranch 228,5446
+absent 244,5950
+compartial 251,6086
+store1 301,7072
+#define STORE_MAYBE(315,7467
+#define CLEAR_MAYBE(316,7521
+genbranch 319,7593
+genrevs 447,11204
+#undef CLEAR_MAYBE569,14389
+#undef STORE_MAYBE570,14408
+gr_revno 573,14443
+delta_from_ref 581,14667
+rev_from_symbol 589,14908
+lookupsym 605,15383
+branchtip 620,15754
+fully_numeric 629,15874
+#define ACCF(642,16448
+#define FRESH(644,16495
+#define ACCB(645,16547
+#define ACCS(646,16594
+#define ACCR(647,16630
+#define OK(648,16681
+#undef OK778,19536
+#undef ACCR779,19546
+#undef ACCS780,19558
+#undef ACCB781,19570
+#undef FRESH782,19582
+#undef ACCF783,19595
+namedrev 787,19623
+tiprev 820,20315
+
+b-peer.h,24
+#define PEER_CO(26,880
+
+co.c,1098
+struct top *top;top39,1187
+static char const quietarg[quietarg41,1205
+static char const *expandarg,expandarg43,1243
+static char const *expandarg, *suffixarg,suffixarg43,1243
+static char const *expandarg, *suffixarg, *versionarg,versionarg43,1243
+static char const *expandarg, *suffixarg, *versionarg, *zonearg;zonearg43,1243
+static char const **joinlist;joinlist45,1339
+static FILE *neworkptr;neworkptr46,1369
+static int exitstatus;47,1393
+static bool forceflag;48,1416
+static int lastjoin;50,1483
+struct jstuff53,1526
+  struct divvy *jstuff;jstuff55,1542
+  struct link head,56,1566
+  struct link head, *tp;tp56,1566
+  struct symdef *merge;merge57,1591
+static struct jstuff jstuff;59,1618
+static int lockflag;62,1697
+static bool mtimeflag;63,1718
+static struct delta *targetdelta;targetdelta65,1777
+static struct stat workstat;66,1811
+cleanup 69,1853
+exiterr 88,2239
+rmworkfile 97,2348
+rmlock 125,3313
+jpush 151,4048
+addjoin 158,4159
+getancestor 200,4933
+preparejoin 239,6116
+buildjoin 316,7996
+#define ACCF(354,8949
+#undef ACCF388,10007
+main 435,11745
+
+rcs.c,1930
+struct top *top;top35,1081
+struct u_log37,1099
+  char const *revno;revno39,1114
+  struct cbuf message;40,1135
+struct u_state43,1162
+  char const *revno;revno45,1179
+  char const *status;status46,1200
+enum changeaccess49,1226
+{ append,50,1244
+{ append, erase 50,1244
+struct chaccess51,1263
+  char const *login;login53,1281
+  enum changeaccess command;54,1302
+struct delrevpair57,1335
+  char const *strt;strt59,1355
+  char const *end;end60,1375
+  int code;61,1394
+static struct cbuf numrev;64,1410
+static char const *headstate;headstate65,1437
+static bool chgheadstate,66,1467
+static bool chgheadstate, lockhead,66,1467
+static bool chgheadstate, lockhead, unlockcaller,66,1467
+static bool chgheadstate, lockhead, unlockcaller, suppress_mail;66,1467
+static int exitstatus;67,1532
+static struct link *newlocklst,newlocklst68,1555
+static struct link *newlocklst, *rmvlocklst;rmvlocklst68,1555
+static struct link messagelst;69,1600
+static struct link statelst;70,1631
+static struct link assoclst;71,1660
+static struct link chaccess;72,1689
+static struct delrevpair delrev;73,1718
+static struct delta *cuthead,cuthead74,1751
+static struct delta *cuthead, *cuttail,cuttail74,1751
+static struct delta *cuthead, *cuttail, *delstrt;delstrt74,1751
+cleanup 77,1814
+exiterr 88,2000
+getassoclst 97,2109
+#define SKIPWS(107,2338
+#undef SKIPWS137,2987
+getchaccess 141,3016
+getaccessor 152,3258
+getmessage 185,4028
+getstates 207,4453
+putdelrev 247,5363
+scanlogtext 285,6061
+rmnewlocklst 351,8101
+doaccess 366,8394
+sendmail 417,9691
+breaklock 480,11476
+searchcutpt 510,12260
+branchpoint 528,12749
+removerevs 555,13464
+#define GENREV(566,13855
+#define SEARCH(567,13894
+#undef SEARCH726,17944
+#undef GENREV727,17958
+doassoc 731,17987
+setlock 780,19357
+dolocks 812,20228
+domessages 895,22570
+rcs_setstate 917,23141
+buildeltatext 943,23874
+buildtree 1005,25444
+main 1097,28639
+
+b-complain.c,356
+char *program_name;program_name26,879
+unbuffer_standard_error 29,905
+vcomplain 35,1003
+complain 50,1267
+#define COMPLAIN_PLUS_NEWLINE(59,1387
+diagnose 71,1855
+whoami 78,1954
+#define ERRONEOUS_X(85,2060
+syserror 88,2114
+generic_warn 97,2222
+generic_error 108,2398
+die 116,2531
+generic_fatal 123,2621
+fatal_syntax 132,2757
+fatal_sys 143,2967
+
+rcskeep.c,221
+sorry 32,1039
+badly_terminated 48,1288
+get0val 54,1395
+keepid 109,2713
+getval 128,3080
+keepdate 139,3424
+keeprev 183,4643
+getoldkeys 223,5378
+#define KEEPID(253,6346
+#define PRUNE(377,9697
+#undef PRUNE385,9903
+
+b-excwho.c,456
+#undef seteuid35,1103
+#define seteuid 36,1118
+#define PEBKAC(43,1314
+#define PEBKAC(47,1503
+#define cacheid(50,1544
+ruid 59,1874
+stat_mine_p 68,1976
+euid 79,2128
+currently_setuid_p 89,2265
+set_uid_to 100,2437
+nosetid 132,3448
+seteid 141,3588
+setrid 151,3723
+getusername 161,3861
+#define JAM(167,4020
+#undef JAM195,4922
+getcaller 201,4979
+caller_login_p 208,5088
+lock_memq 214,5183
+lock_on 234,5767
+lock_drop 248,6075
+addlock 258,6264
+
+b-divvy.c,548
+struct divvy *plexus;plexus29,905
+struct divvy *single;single30,927
+oom 33,955
+allocate 39,1013
+#define TMALLOC(50,1172
+#define TCALLOC(51,1227
+xmalloc 54,1296
+#define obstack_chunk_alloc 59,1356
+#define obstack_chunk_free 60,1392
+make_space 63,1440
+#define USED_FOR_DEBUG91,2124
+#define USED_FOR_DEBUG 93,2153
+alloc 97,2203
+zlloc 109,2526
+intern 115,2648
+brush_off 128,2984
+forget 138,3190
+accf 150,3468
+accumulate_byte 160,3630
+accumulate_range 166,3720
+finish_string 175,3893
+pointer_array 190,4202
+close_space 204,4493
+
+b-complain.h,274
+extern void complain 26,948
+#define syserror_errno(45,1672
+#define PWARN(47,1724
+#define MWARN(48,1780
+#define RWARN(49,1847
+#define PERR(51,1915
+#define MERR(52,1972
+#define RERR(53,2040
+#define PFATAL(55,2109
+#define RFATAL(56,2166
+#define SYNTAX_ERROR(58,2235
+
+rcstime.c,191
+#define proper_dot_2(30,975
+time2date 33,1037
+str2time_checked 45,1617
+str2date 56,1901
+date2time 70,2430
+zone_set 79,2639
+date2str 95,2987
+#define MORE(118,3654
+#undef MORE134,4163
+
+ident.c,93
+struct top *top;top29,973
+exiterr 32,1011
+match 38,1066
+scanfile 95,2272
+main 146,3504
+
+b-excwho.h,66
+#define lock_login_memq(38,1442
+#define lock_delta_memq(39,1506
+
+b-divvy.h,353
+struct divvy21,759
+  char const *name;name23,774
+  struct obstack *space;space24,794
+  void *first;first25,819
+  size_t count;26,834
+#define PLEXUS 49,1736
+#define SINGLE 50,1759
+#define ZLLOC(52,1783
+#define FALLOC(53,1857
+#define FZLLOC(54,1927
+#define accs(55,1997
+#define SHACCR(57,2056
+#define SHSTR(58,2113
+#define SHSNIP(59,2166
+
+b-fb.c,216
+change_mode 31,995
+Ierror 41,1113
+testIerror 47,1166
+Oerror 54,1230
+testOerror 63,1355
+fopen_safer 70,1421
+Ozclose 106,2163
+aflush 114,2252
+oflush 121,2319
+afputc 133,2515
+aputs 140,2657
+aprintf 148,2805
+
+b-fb.h,27
+extern void Ierror 24,909
+
+b-isr.c,767
+maybe_reset_sigchld 41,1284
+#define SIGCHLD 45,1361
+werr 54,1550
+complain_signal 66,1708
+struct isr_scratch74,1830
+  sig_atomic_t volatile held,76,1851
+  sig_atomic_t volatile held, level;76,1851
+  siginfo_t bufinfo;77,1888
+  siginfo_t *volatile held_info;78,1909
+  char const *access_name;access_name79,1942
+    bool regular;82,1982
+    bool memory_map;83,2000
+  } catching;84,2021
+  bool *be_quiet;be_quiet85,2035
+#define ISR(88,2057
+access_page 91,2092
+ignore 102,2291
+#define psiginfo(108,2377
+catchsigaction 112,2464
+#define SA_ONSTACK 166,3760
+setup_catchsig 170,3802
+#define MUST(174,3877
+#undef MUST199,4496
+#define ISR_STACK_SIZE 203,4560
+#define ISR_STACK_SIZE 205,4606
+isr_init 209,4661
+#define COUNT(230,5084
+isr_do 233,5153
+
+b-merger.h,44
+#define LABEL(22,767
+#define FNAME(23,822
+
+b-anchor.c,557
+char const ks_revno[ks_revno24,810
+char const prog_diff[prog_diff26,854
+char const prog_diff3[prog_diff327,885
+char const diff_flags[diff_flags28,918
+char const equal_line[equal_line30,956
+#define EXPLICIT_NUL 34,1101
+#define EXPLICIT_NUL36,1133
+#define TINY_INIT(39,1162
+#define TINYK(40,1235
+looking_at 67,1735
+static const uint8_t kwsub_pool[kwsub_pool72,1847
+static const uint8_t keyword_pool[keyword_pool83,2003
+pool_lookup 100,2416
+recognize_kwsub 121,2859
+str2expmode 133,3161
+kwsub_string 147,3444
+recognize_keyword 164,3704
+
+b-isr.h,278
+enum isr_actions29,982
+    ISR_CATCHINTS,31,1003
+    ISR_IGNOREINTS,32,1022
+    ISR_RESTOREINTS,33,1042
+    ISR_CATCHMMAPINTS,34,1063
+#define ISR_DISABLE(46,1400
+#define ISR_DO(47,1443
+#define IGNOREINTS(49,1505
+#define RESTOREINTS(50,1548
+#define ISR_SCRATCH 52,1593
+
+maketime.c,399
+#define MAKETIMESTUFF(27,887
+local_tm 30,951
+#define TM_YEAR_ORIGIN 44,1403
+isleap 47,1444
+static int const month_yday[month_yday52,1521
+month_days 58,1682
+time2tm 68,1907
+difftm 85,2449
+adjzone 104,3244
+ISO_day_of_week 162,5186
+tm2time 184,5872
+#define BUMP_YEAR(219,7382
+#undef BUMP_YEAR255,8582
+#define ADJUST(258,8606
+#undef ADJUST274,9026
+maketime 306,9986
+str2time 375,11929
+
+b-fro.c,567
+mmap_deallocate 44,1281
+fro_open 52,1432
+fro_close 168,4311
+fro_zclose 194,4742
+fro_tello 201,4812
+fro_move 219,5047
+#define GETBYTE_BODY(238,5528
+fro_try_getbyte 263,6640
+#define DONE(267,6777
+#undef DONE269,6824
+fro_must_getbyte 274,6860
+#define DONE(278,7018
+#undef DONE280,7093
+#define USED_IF_HAVE_MADVISE284,7128
+#define USED_IF_HAVE_MADVISE 286,7163
+fro_trundling 290,7217
+fro_spew_partial 309,7664
+#define MEMBUFSIZ 322,7989
+#undef MEMBUFSIZ342,8611
+fro_spew 349,8663
+string_from_atat 363,8915
+atat_put 416,10155
+atat_display 428,10350
+
+maketime.h,194
+struct maketimestuff22,832
+  bool tzset_called_p;24,855
+  char const *TZ;TZ28,949
+  struct tm time2tm_stash;33,1070
+  time_t t_cache[t_cache37,1161
+  struct tm tm_cache[tm_cache38,1182
+
+rcsutil.c,650
+exit_failurefully 43,1220
+exit_diff_trouble 49,1279
+gnurcs_init 55,1338
+gnurcs_goodbye 91,2249
+bad_option 100,2438
+redefined 106,2519
+minus_p 112,2597
+parse_revpairs 124,2849
+#define SKIPWS(146,3659
+#define NOMORE 147,3731
+#define TRUNDLE(148,3806
+#undef TRUNDLE187,5103
+#undef NOMORE188,5118
+#undef SKIPWS189,5132
+set_empty_log_message 194,5160
+ffree 201,5271
+str_save 208,5365
+cgetenv 215,5497
+awrite 224,5689
+movefd 242,6076
+fdreopen 251,6242
+accumulate_arg_quoted 263,6453
+#define EXECV 275,6794
+#define EXECV 277,6821
+runv 281,6855
+#define CARGSMAX 369,9459
+run 371,9483
+setRCSversion 390,10012
+getRCSINIT 419,10616
+
+b-fro.h,1025
+struct range23,857
+  off_t beg;25,872
+  off_t end;26,885
+enum readmethod29,902
+    RM_MMAP,31,922
+    RM_MEM,32,935
+    RM_STDIO33,947
+struct fro36,966
+  int fd;38,979
+  off_t end;39,989
+  enum readmethod rm;40,1002
+  char *ptr,ptr41,1024
+  char *ptr, *lim,lim41,1024
+  char *ptr, *lim, *base;base41,1024
+  void (*deallocate)deallocate42,1050
+  FILE *stream;stream43,1088
+  off_t verbatim;44,1104
+struct atat47,1126
+  size_t count;49,1140
+  size_t lno;50,1156
+  size_t line_count;51,1170
+  struct fro *from;from52,1191
+  size_t needexp_count;54,1228
+  bool (*ineedexp)ineedexp55,1252
+  union needexp56,1302
+    uint64_t  direct;58,1322
+    uint64_t *bitset;bitset59,1344
+  } needexp;60,1366
+  off_t beg;65,1597
+  off_t holes[holes66,1610
+#define fro_bob(87,2482
+#define STDIO_P(89,2519
+#define GETCHAR_OR(92,2643
+#define GETCHAR(98,2860
+#define ATAT_END(101,2987
+#define ATAT_TEXT_END(102,3051
+#define VERBATIM(105,3177
+#define IGNORE_REST(106,3227
+#define SAME_AFTER(107,3280
+
+b-esds.c,178
+#define STRUCTALLOC(25,830
+#define NEWPAIR(26,893
+#define EXTEND_BODY(28,948
+extend 37,1277
+wextend 43,1377
+#define PREPEND_BODY(48,1459
+prepend 56,1738
+wprepend 62,1840
+
+rcsmap.c,137
+enum tokens const ctab[ctab27,935
+checkidentifier 64,3148
+checkid 114,4505
+checksym 120,4611
+checksid 126,4713
+checkssym 133,4827
+
+b-esds.h,168
+struct link21,770
+  void const *entry;entry23,784
+  struct link *next;next24,805
+struct wlink27,830
+  void *entry;entry29,845
+  struct wlink *next;next30,860
+
+b-feph.c,412
+#define SFF_COUNT 34,1082
+#define TEMPNAMES 38,1220
+struct ephemstuff40,1242
+  char const *standard;standard42,1262
+  struct sff *tpnames;tpnames43,1286
+#define EPH(46,1313
+init_ephemstuff 49,1357
+jam_sff 57,1540
+#define TRY(75,2103
+#undef TRY81,2431
+#define JAM_SFF(123,3706
+maketemp 126,3772
+makedirtemp 138,4110
+keepdirtemp 155,4666
+reap 171,5029
+tempunlink 193,5462
+dirtempunlink 200,5606
+
+gnu-h-v.c,123
+#define COMMAND_VERSION 26,848
+#define BUGME 37,1511
+#define EXACTLY(39,1574
+display_version 43,1706
+check_hv 49,1809
+
+gnu-h-v.h,26
+#define CHECK_HV(38,1407
+
+b-kwxout.c,197
+escape_string 32,1028
+keyreplace 69,1757
+#define GET_PREV_BYTE(184,5177
+#undef GET_PREV_BYTE209,6018
+expandline 300,8593
+#define GETCHAR_ELSE_GOTO(332,9626
+#undef GETCHAR_ELSE_GOTO434,13076
+
+rlog.c,1232
+struct top *top;top36,1257
+struct revrange38,1275
+  char const *beg;beg40,1293
+  char const *end;end41,1312
+  int nfield;42,1331
+struct daterange45,1349
+  char beg[beg47,1368
+  char end[end48,1390
+  bool oep;49,1412
+static char const *insDelFormat;insDelFormat53,1513
+static bool branchflag;55,1574
+static bool lockflag;57,1626
+static struct link *datelist,datelist60,1687
+static struct link *datelist, *duelst;duelst60,1687
+static struct link *revlist,revlist65,1912
+static struct link *revlist, *Revlst;Revlst65,1912
+static struct link *authorlist;authorlist68,1988
+static struct link *lockerlist;lockerlist71,2054
+static struct link *statelist;statelist74,2121
+static int exitstatus;76,2153
+cleanup 79,2189
+exiterr 87,2314
+getlocker 93,2370
+read_positive_integer 134,3332
+count_a_d 149,3579
+putadelta 178,4284
+putrunk 235,5857
+putree 247,6117
+putabranch 258,6343
+putforest 268,6523
+extractdelta 279,6785
+exttree 316,7869
+getauthor 331,8176
+getstate 368,9005
+trunclocks 405,9842
+recentdate 436,10600
+extdate 460,11303
+#define PUSH(514,12848
+getdatepair 517,12910
+checkrevpair 604,15290
+#define KSTRCPY(620,15783
+getnumericrev 623,15854
+putrevpairs 722,18492
+main 772,20544
+
+b-kwxout.h,346
+struct expctx22,841
+  FILE *to,to24,857
+  FILE *to, *rewr;rewr24,857
+  struct fro *from;from25,876
+  struct delta const *delta;delta26,896
+  const bool delimstuffed,27,925
+  const bool delimstuffed, dolog;27,925
+  struct divvy *lparts;lparts31,1079
+#define EXPCTX(36,1167
+#define EXPCTX_1OUT(46,1638
+#define FINISH_EXPCTX(49,1736
+
+ci.c,1185
+#undef ftruncate47,1591
+#define ftruncate(48,1608
+struct top *top;top51,1650
+static FILE *exfile;exfile53,1668
+static struct fro *workptr;workptr55,1718
+static struct cbuf newdelnum;57,1774
+static struct cbuf msg;58,1804
+static int exitstatus;59,1828
+static bool forceciflag;61,1875
+static bool keepflag,62,1900
+static bool keepflag, keepworkingfile,62,1900
+static bool keepflag, keepworkingfile, rcsinitflag;62,1900
+static struct delta *targetdelta;targetdelta64,1986
+static struct delta newdelta;66,2053
+static struct stat workstat;67,2083
+static struct link assoclst;68,2112
+cleanup 71,2154
+exiterr 84,2386
+#define ACCF(92,2483
+#define OK(94,2530
+#define JAM(95,2599
+#define ADD(96,2658
+incnum 99,2744
+removelock 134,3466
+static struct wlink newbranch;166,4449
+addbranch 169,4533
+prune 269,7586
+addelta 313,8731
+addsyms 455,13131
+static char getcurdate_buffer[getcurdate_buffer470,13392
+getcurdate 473,13454
+fixwork 482,13635
+xpandfile 497,14033
+#define FIRST 538,15093
+static struct cbuf logmsg;540,15128
+getlogmsg 543,15175
+first_meaningful_symbolic_name 595,16589
+static char const default_state[default_state648,19077
+main 651,19132
+
+rcsedit.c,1653
+#define _POSIX_SYMLOOP_MAX 54,1684
+struct editstuff57,1721
+  struct fro *fedit;fedit59,1740
+  char const *filename;filename60,1761
+  size_t script_lno;63,1826
+  long lcount;66,1919
+  long corr;68,1984
+  char **line;line72,2134
+  size_t gap,73,2149
+  size_t gap, gapsize,73,2149
+  size_t gap, gapsize, lim;73,2149
+  struct sff *sff;sff82,2602
+#define lockname 85,2625
+#define newRCSname 86,2679
+make_editstuff 89,2752
+unmake_editstuff 95,2822
+okalloc 102,2945
+testalloc 110,3017
+testrealloc 117,3158
+nfs_NOENT_p 124,3318
+un_link 130,3383
+#undef SYNTAX_ERROR160,4076
+#define SYNTAX_ERROR(161,4096
+#define EDIT_SCRIPT_SHORT(163,4167
+#define EDIT_SCRIPT_OVERFLOW(166,4247
+#define movelines(169,4345
+insertline 172,4428
+deletelines 197,5153
+snapshotline 218,5704
+snapshotedit_fast 231,5913
+struct finctx242,6221
+  struct expctx ctx;244,6237
+  size_t script_lno;245,6258
+finisheditline 249,6295
+finishedit_fast 260,6587
+fopen_update_truncate 294,7630
+openfcopy 308,7979
+swapeditfiles 320,8217
+finishedit_slow 349,8966
+snapshotedit_slow 382,9757
+finishedit 391,9965
+snapshotedit 400,10171
+copylines 408,10315
+copystring 459,11701
+enterstring 473,12275
+editstring 541,13881
+naturalize 672,17866
+rcswriteopen 733,19446
+#define create(861,24042
+chnamemod 918,25432
+setmtime 997,27641
+findlock 1011,27966
+addsymbol 1037,28678
+#define MAKEDEF(1046,29062
+checkaccesslist 1082,29949
+dorewrite 1101,30447
+donerewrite 1160,31832
+ORCSclose 1218,33268
+ORCSerror 1232,33492
+unexpected_EOF 1252,34252
+initdiffcmd 1258,34328
+badDiffOutput 1266,34482
+diffLineNumberTooLarge 1272,34575
+getdiffcmd 1278,34675
+
+base.h,8341
+#define RCS_UNUSED 45,1225
+#define exiting 48,1317
+#define printf_string(49,1377
+#define exiting51,1456
+#define printf_string(52,1472
+enum kwsub56,1588
+    kwsub_kv,58,1603
+    kwsub_kvl,59,1667
+    kwsub_k,60,1738
+    kwsub_v,61,1794
+    kwsub_o,62,1846
+    kwsub_b 63,1905
+#define FOPEN_RB 71,2134
+#define FOPEN_R_WORK 72,2156
+#define FOPEN_WB 73,2212
+#define FOPEN_W_WORK 74,2234
+#define FOPEN_WPLUS_WORK 75,2290
+#define OPEN_O_BINARY 76,2352
+#define FOPEN_RB 80,2485
+#define FOPEN_R_WORK 81,2506
+#define FOPEN_WB 82,2531
+#define FOPEN_W_WORK 83,2552
+#define FOPEN_WPLUS_WORK 84,2577
+#define OPEN_O_BINARY 85,2607
+#define OPEN_CREAT_READONLY 89,2662
+#define OPEN_O_LOCK 92,2765
+#define OPEN_O_WRONLY 95,2836
+#define bad_NFS_rename 98,2923
+#define has_NFS 101,2975
+#define RCS_SHELL 104,3031
+#define TMPDIR 114,3432
+#define SLASH 115,3454
+#define SLASHes 116,3472
+#define ABSFNAME(117,3492
+#define X_DEFAULT 118,3532
+#define TMPDIR 120,3571
+#define SLASH 121,3594
+#define SLASHes 122,3615
+#define ABSFNAME(123,3656
+#define X_DEFAULT 124,3723
+#define TZ_must_be_set 128,3806
+#undef vfork131,3893
+#define vfork 132,3906
+#define SIZEABLE_FILENAME_LEN 138,3999
+#define SIZEABLE_FILENAME_LEN 141,4103
+#define VERSION_min 147,4247
+#define VERSION_max 149,4311
+#define VERSION_DEFAULT 152,4391
+#define VERSION(155,4471
+#define STRICT_LOCKING 164,4731
+#define yearlength 168,4822
+#define datesize 170,4912
+#define KDELIM 172,5006
+#define VDELIM 174,5094
+#define DEFAULTSTATE 176,5178
+#define MIN_UNEXPAND 179,5277
+#define MIN_UNCHANGED_EXPAND 181,5371
+#define WITH_NEEDEXP 185,5544
+struct diffcmd187,5568
+  long line1;190,5616
+  long nlines;192,5665
+  long adprev;194,5724
+  long dafter;196,5799
+#undef HAVE_MMAP202,5945
+#undef HAVE_MADVISE203,5962
+#define aputc(207,6037
+#define WORKMODE(214,6319
+enum tokens219,6511
+  DELIM,222,6543
+  DELIM, DIGIT,222,6543
+  DELIM, DIGIT, IDCHAR,222,6543
+  DELIM, DIGIT, IDCHAR, NEWLN,222,6543
+  DELIM, DIGIT, IDCHAR, NEWLN, LETTER,222,6543
+  DELIM, DIGIT, IDCHAR, NEWLN, LETTER, Letter,222,6543
+  PERIOD,223,6590
+  PERIOD, SBEGIN,223,6590
+  PERIOD, SBEGIN, SPACE,223,6590
+  PERIOD, SBEGIN, SPACE, UNKN,223,6590
+  COLON,225,6638
+  COLON, ID,225,6638
+  COLON, ID, NUM,225,6638
+  COLON, ID, NUM, SEMI,225,6638
+  COLON, ID, NUM, SEMI, STRING225,6638
+#define SDELIM 231,6903
+struct cbuf 235,6970
+  char const *string;string237,7028
+  size_t size;238,7050
+struct delta242,7088
+  char const *num;num245,7148
+  char const *date;date248,7237
+  char const *author;author249,7257
+  char const *lockedby;lockedby250,7279
+  char const *state;state253,7357
+  struct atat *log,log256,7425
+  struct atat *log, *text;text256,7425
+  char const *name;name259,7496
+  struct cbuf pretty_log;262,7560
+  struct wlink *branches;branches265,7654
+  char const *commitid;commitid268,7746
+  struct delta *ilk;ilk272,7880
+  bool selector;275,7947
+  off_t neck;282,8297
+struct rcslock286,8346
+  char const *login;login288,8363
+  struct delta *delta;delta289,8384
+struct symdef295,8532
+  char const *meaningful;meaningful297,8548
+  char const *underlying;underlying298,8574
+struct u_symdef303,8703
+  struct symdef u;305,8721
+  bool override;306,8740
+struct tinysym310,8793
+  uint8_t len;312,8810
+  uint8_t bytes[bytes313,8825
+struct pool_found315,8847
+  int i;317,8867
+  struct tinysym const *sym;sym318,8876
+#define TINY(321,8909
+#define TINY_DECL(322,8944
+#define keylength 325,9049
+enum markers328,9134
+  Author,330,9149
+  Author, Date,330,9149
+  Author, Date, Header,330,9149
+  Author, Date, Header, Id,330,9149
+  Locker,331,9177
+  Locker, Log,331,9177
+  Locker, Log, Name,331,9177
+  Locker, Log, Name, RCSfile,331,9177
+  Locker, Log, Name, RCSfile, Revision,331,9177
+  Locker, Log, Name, RCSfile, Revision, Source,331,9177
+  Locker, Log, Name, RCSfile, Revision, Source, State331,9177
+#define EMPTYLOG 335,9271
+#define zonelenmax 338,9379
+typedef struct fro * (open_rcsfile_fn)343,9481
+struct maybe353,10085
+  open_rcsfile_fn *open;open356,10137
+  bool mustread;357,10162
+  struct cbuf tentative;360,10215
+  struct divvy *space;space363,10259
+  struct cbuf bestfit;366,10311
+  struct stat *status;status367,10334
+  int eno;368,10357
+struct program383,10741
+  char const *invoke;invoke386,10827
+  char const *name;name388,10911
+  char const *help;help390,10957
+  void (*exiterr)exiterr392,11003
+enum maker 396,11075
+enum maker { notmade,396,11075
+enum maker { notmade, real,396,11075
+enum maker { notmade, real, effective 396,11075
+struct sff398,11117
+  char const *filename;filename400,11130
+  enum maker disposition;402,11186
+struct behavior408,11386
+  char const *invdir;invdir410,11404
+  bool unbufferedp;414,11508
+  bool quiet;419,11650
+  bool interactive_valid;430,12137
+  bool interactive;431,12195
+  bool inclusive_of_Locker_in_Id_val;438,12544
+  bool strictly_locking;441,12655
+  bool version_set;450,12970
+  int version;451,12990
+  bool stick_with_euid;458,13316
+  int ruid,462,13417
+  int ruid, euid;462,13417
+  bool ruid_cached,463,13435
+  bool ruid_cached, euid_cached;463,13435
+  bool already_setuid;468,13603
+  int kws;472,13699
+  char const *pe;pe477,13874
+  struct zone_offset485,14187
+    bool valid;487,14212
+    long seconds;492,14378
+  } zone_offset;495,14471
+  char *username;username497,14489
+  time_t now;501,14571
+  bool fixed_SIGCHLD;505,14636
+  bool Oerrloop;510,14803
+  char *cwd;cwd514,14889
+  off_t mem_limit;518,14966
+  struct sff *sff;sff525,15256
+  struct isr_scratch *isr;isr531,15426
+  struct ephemstuff *ephemstuff;ephemstuff532,15453
+  struct maketimestuff *maketimestuff;maketimestuff533,15486
+struct manifestation537,15598
+  char *filename;filename542,15727
+  FILE *standard_output;standard_output545,15791
+    bool valid;550,15902
+    char *author;author551,15918
+    char *date;date552,15936
+    char *name;name553,15952
+    char *rev;rev554,15968
+    char *state;state555,15983
+  } prev;556,16000
+struct repo564,16335
+  char const *head;head566,16349
+  char const *branch;branch569,16438
+  size_t access_count;572,16502
+  struct link *access;access573,16525
+  size_t symbols_count;576,16604
+  struct link *symbols;symbols577,16628
+  size_t locks_count;580,16713
+  struct link *locks;locks581,16735
+  bool strict;584,16799
+  struct atat *integrity;integrity587,16862
+  struct atat *comment;comment590,16942
+  int expand;593,17014
+  size_t deltas_count;596,17089
+  struct wlink *deltas;deltas597,17112
+  struct atat *desc;desc600,17177
+  off_t neck;603,17237
+  struct lockdef *lockdefs;lockdefs612,17693
+  struct hash *ht;ht613,17721
+struct repository617,17770
+  char const *filename;filename619,17790
+  int fd_lock;623,17868
+  struct stat stat;627,17989
+  struct repo *r;r631,18109
+  struct delta *tip;tip635,18193
+  struct cbuf log_lead;639,18317
+struct flow645,18513
+  struct fro *from;from647,18527
+  FILE *rewr;rewr651,18618
+  FILE *to;to655,18699
+  FILE *res;res660,18856
+  char const *result;result664,18939
+  bool erroneousp;668,19025
+struct top675,19266
+  struct program const *program;program677,19279
+  struct behavior behavior;678,19312
+  struct manifestation manifestation;679,19340
+  struct repository repository;680,19378
+  struct flow flow;681,19410
+#define PROGRAM(688,19586
+#define BE(689,19627
+#define MANI(690,19674
+#define PREV(691,19725
+#define REPO(692,19768
+#define GROK(693,19816
+#define FLOW(694,19858
+void unexpected_EOF 753,21906
+#define SFFI_LOCKDIR 851,25708
+#define SFFI_NEWDIR 852,25732
+#define PROB(857,25815
+#define clear_buf(859,25843
+#define STR_DIFF(861,25904
+#define STR_SAME(862,25947
+#define TEECHAR(865,26067
+#define TAKE(873,26380
+#define BRANCHNO(875,26433
+#define fully_numeric_no_k(877,26473
+#define TINYS(879,26546
+#define TINYKS(881,26592
+#define GENERIC_COMPARE(883,26630
+#define GENERIC_LT(884,26689
+#define GENERIC_EQ(885,26763
+#define GENERIC_GT(886,26837
+#define NUM_LT(888,26912
+#define NUM_EQ(889,26956
+#define NUM_GT(890,27000
+#define DATE_LT(892,27045
+#define DATE_EQ(893,27091
+#define DATE_GT(894,27137
+#define NUMF_LT(896,27184
+#define NUMF_EQ(897,27239
+#define MEM_SAME(899,27295
+#define MEM_DIFF(900,27350
+
+rcsdiff.c,470
+struct top *top;top33,1039
+struct unique44,1577
+  bool eqval_p;47,1660
+  size_t minlen;49,1743
+  char const full[full51,1809
+typedef struct unique s_unique;53,1833
+static const s_unique const minus_y 55,1866
+static const s_unique const minus_D 61,1981
+static int exitstatus;68,2089
+static struct fro *workptr;workptr69,2112
+static struct stat workstat;70,2140
+longopt_maybe_p 73,2189
+cleanup 87,2475
+exiterr 96,2625
+setup_label 104,2717
+main 143,4012
+
+partime.c,787
+#define NAME_LENGTH_MAXIMUM 29,975
+struct name_val31,1006
+  char name[name33,1024
+  int val;34,1058
+static const struct name_val const month_names[month_names37,1073
+static const struct name_val const weekday_names[weekday_names43,1301
+#define hr60nonnegative(48,1467
+#define hr60(49,1522
+#define zs(50,1593
+#define zd(51,1623
+static const struct name_val const zone_names[zone_names53,1669
+lookup 148,6099
+undefine 172,6668
+static char const *const patterns[patterns185,7216
+parse_fixed 208,8014
+parse_ranged 229,8493
+parse_decimal 239,8923
+parzone 275,10226
+parse_pattern_letter 367,12514
+parse_prefix 583,18545
+merge_partime 630,19641
+#define conflict(634,19847
+#undef conflict649,20516
+#define merge_(650,20532
+#undef merge_661,20973
+partime 668,21073
+
+b-grok.c,2241
+#define CONTEXTUAL 35,1041
+struct lockdef37,1063
+  char const *login;login39,1080
+  char const *revno;revno40,1101
+struct notyet43,1126
+  char const *revno;revno45,1142
+  char const *next;next46,1163
+  struct link *branches;branches47,1183
+  struct delta *d;d48,1256
+struct grok51,1279
+  int c;53,1293
+  struct fro *from;from54,1302
+  struct divvy *to;to55,1322
+  struct divvy *systolic;systolic56,1379
+  struct divvy *tranquil;tranquil57,1434
+  struct link *context;context59,1504
+  size_t depth;60,1528
+  struct cbuf xrep;62,1569
+  size_t lno;63,1589
+  size_t head_lno;64,1603
+  struct cbuf bor_no;65,1622
+#define STRUCTALLOC(68,1691
+push_context 72,1782
+pop_context 79,1926
+#define CBEG(88,2076
+#define CEND(89,2125
+#define CBEG(93,2191
+#define CEND(94,2213
+ignoble 99,2249
+#define BUMMER(125,2861
+eof_too_soon 128,2920
+#define MORE(133,2992
+#define XREP(134,3054
+skip_whitespace 137,3096
+must_read_keyword 150,3270
+#define SYNCH(165,3603
+probe_keyword 168,3671
+accb 198,4221
+maybe_read_num 205,4305
+must_read_num 246,5248
+#define MUST_REVNO(252,5381
+#define MAYBE_REVNO(253,5433
+maybe_read_snippet 256,5495
+must_read_snippet 280,5921
+#define MUST_SNIPPET(286,6044
+#define MASK_OFFMSB 288,6108
+start_atat 291,6177
+finish_atat 303,6470
+#define BITPOSMOD64(314,6702
+atat_ineedexp_many 319,6776
+atat_ineedexp_few 325,6899
+#define SETBIT(332,7029
+#define MANYP(334,7078
+maybe_read_atat 337,7159
+#define POS(344,7293
+must_read_atat 415,9333
+#define MUST_ATAT(421,9474
+must_colon_revno 424,9553
+must_semi 438,9823
+#define SEMI(449,10013
+struct hash452,10063
+  size_t sz;454,10077
+  struct wlink **a;a455,10090
+make_hash_table 459,10135
+hash 469,10371
+puthash 475,10461
+gethash 498,10919
+struct fwref513,11187
+  char const *revno;revno515,11202
+  size_t lno;516,11223
+empty_repo 520,11303
+#define NSLOTS 531,11538
+static const char ks_ner[ks_ner533,11559
+#define FIND_NY(535,11614
+full 538,11686
+#define STASH(559,12214
+#define PREP(560,12258
+#define HANG(561,12324
+#define DONE(562,12369
+#undef EXTEND786,18646
+#undef PREP787,18660
+#undef STASH788,18672
+#define FIND_D(873,21211
+#undef FIND_D890,21671
+grok_all 901,21850
+grok_resynch 910,21978
+
+partime.h,232
+#define TM_UNDEFINED 22,833
+#define TM_DEFINED(23,861
+#define TM_UNDEFINED_ZONE 25,896
+#define TM_LOCAL_ZONE 26,946
+struct partime28,998
+  struct tm tm;36,1337
+  int ymodulus;40,1460
+  int yweek;45,1635
+  long zone;48,1730
+
+merger.c,38
+normalize_arg 33,1011
+merge 46,1240
+
+rcsgen.c,719
+enum stringwork35,1076
+{ enter,36,1092
+{ enter, copy,36,1092
+{ enter, copy, edit,36,1092
+{ enter, copy, edit, expand,36,1092
+{ enter, copy, edit, expand, edit_expand 36,1092
+scandeltatext 39,1149
+buildrevision 112,3405
+cleanlogmsg 164,5453
+#define WHITESPACEP(168,5511
+#undef WHITESPACEP173,5665
+ttystdin 181,5735
+getcstdin 193,5946
+yesorno 212,6219
+write_desc_maybe 235,6702
+putdesc 244,6811
+getsstdin 308,8761
+#define prompt 316,8986
+#undef prompt344,9710
+format_assocs 349,9784
+format_locks 360,10008
+static char const *semi_lf semi_lf370,10223
+#define SEMI_LF(371,10259
+putadmin 374,10314
+putdelta 432,11973
+puttree 457,12717
+putdtext 473,13058
+putstring 494,13712
+putdftext 517,14294
+
+b-grok.h,0
+
+b-feph.h,0

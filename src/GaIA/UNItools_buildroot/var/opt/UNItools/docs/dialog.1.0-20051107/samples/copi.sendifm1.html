@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./copifuncs/copi.sendifm1</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir">#! /bin/sh</span>
+<span class="line">    1 </span><span class="dir">##  $Revision: 1.1 $</span>
+<span class="line">    2 </span><span class="dir">##  SH script to send UUCP batches out.</span>
+<span class="line">    3 </span>
+<span class="line">    4 </span><span class="dir">##  =()&lt;. &#64;&lt;_PATH_SHELLVARS&gt;&#64;&gt;()=</span>
+<span class="line">    5 </span><span class="sym">. ~</span>news<span class="sym">/</span>innshellvars
+<span class="line">    6 </span>
+<span class="line">    7 </span>PROGNAME<span class="sym">=</span>`basename $<span class="num">0</span>`
+<span class="line">    8 </span>LOCK<span class="sym">=</span>$<span class="sym">{</span>LOCKS<span class="sym">}/</span>LOCK<span class="sym">.</span>$<span class="sym">{</span>PROGNAME<span class="sym">}</span>
+<span class="line">    9 </span>LOG<span class="sym">=</span>$<span class="sym">{</span>MOST_LOGS<span class="sym">}/</span>$<span class="sym">{</span>PROGNAME<span class="sym">}.</span>log
+<span class="line">   10 </span>
+<span class="line">   11 </span>MAXJOBS<span class="sym">=</span><span class="num">200</span>
+<span class="line">   12 </span>UUXFLAGS<span class="sym">=</span><span class="str">&quot;- -r -gd&quot;</span>
+<span class="line">   13 </span>
+<span class="line">   14 </span><span class="dir">##  Start logging.</span>
+<span class="line">   15 </span>test <span class="sym">! -</span>f $<span class="sym">{</span>LOG<span class="sym">} &amp;&amp;</span> touch $<span class="sym">{</span>LOG<span class="sym">}</span>
+<span class="line">   16 </span>chmod <span class="num">0660</span> $<span class="sym">{</span>LOG<span class="sym">}</span>
+<span class="line">   17 </span>exec <span class="sym">&gt;&gt;</span>$<span class="sym">{</span>LOG<span class="sym">}</span> <span class="num">2</span><span class="sym">&gt;&amp;</span><span class="num">1</span>
+<span class="line">   18 </span>echo <span class="str">&quot;${PROGNAME}: [$$] begin `date`&quot;</span>
+<span class="line">   19 </span>cd $<span class="sym">{</span>BATCH<span class="sym">}</span>
+<span class="line">   20 </span>
+<span class="line">   21 </span><span class="dir">##  Anyone else there?</span>
+<span class="line">   22 </span>trap <span class="str">'rm -f ${LOCK} ; exit 1'</span> <span class="num">1 2 3 15</span>
+<span class="line">   23 </span>shlock <span class="sym">-</span>p $$ <span class="sym">-</span>f $<span class="sym">{</span>LOCK<span class="sym">} || {</span>
+<span class="line">   24 </span>    echo <span class="str">&quot;${PROGNAME}: [$$] locked by [`cat ${LOCK}`]&quot;</span>
+<span class="line">   25 </span>    exit <span class="num">0</span>
+<span class="line">   26 </span><span class="sym">}</span>
+<span class="line">   27 </span>
+<span class="line">   28 </span><span class="dir">##  Who are we sending to?</span>
+<span class="line">   29 </span><span class="kwa">if</span> <span class="sym">[ -</span>n <span class="str">&quot;$1&quot;</span> <span class="sym">] ;</span> then
+<span class="line">   30 </span>    LIST<span class="sym">=</span><span class="str">&quot;$*&quot;</span>
+<span class="line">   31 </span><span class="kwa">else</span>
+<span class="line">   32 </span>    LIST<span class="sym">=</span>`ls <span class="sym">/</span>usr<span class="sym">/</span>spool<span class="sym">/</span>news<span class="sym">/</span>out<span class="sym">.</span>going<span class="sym">|</span>egrep <span class="str">&quot;f[0-9]*.n[0-9]*$&quot;</span>`
+<span class="line">   33 </span>fi
+<span class="line">   34 </span>
+<span class="line">   35 </span><span class="kwa">case</span> $<span class="sym">{</span>HAVE_UUSTAT<span class="sym">}</span> in
+<span class="line">   36 </span>DONT<span class="sym">)</span>
+<span class="line">   37 </span>    TEMP<span class="sym">=</span>$<span class="sym">{</span>TMPDIR<span class="sym">}/</span>uuq$$
+<span class="line">   38 </span>    uuq <span class="sym">-</span>h <span class="sym">|</span>tr <span class="sym">-</span>d <span class="sym">: &gt;</span>$<span class="sym">{</span>TEMP<span class="sym">}</span>
+<span class="line">   39 </span>    <span class="sym">;;</span>
+<span class="line">   40 </span>esac
+<span class="line">   41 </span>
+<span class="line">   42 </span><span class="dir">##  Do the work...</span>
+<span class="line">   43 </span>
+<span class="line">   44 </span><span class="kwa">for</span> SITE in $<span class="sym">{</span>LIST<span class="sym">};</span> <span class="kwa">do</span>
+<span class="line">   45 </span>
+<span class="line">   46 </span>    <span class="dir">##  See if any data is ready for host.</span>
+<span class="line">   47 </span>    BATCHFILE<span class="sym">=</span>$<span class="sym">{</span>SITE<span class="sym">}.</span>uucp
+<span class="line">   48 </span>    <span class="kwa">if</span> <span class="sym">[ -</span>f $<span class="sym">{</span>SITE<span class="sym">}.</span>work <span class="sym">] ;</span> then
+<span class="line">   49 </span>	cat $<span class="sym">{</span>SITE<span class="sym">}.</span>work <span class="sym">&gt;&gt;</span>$<span class="sym">{</span>BATCHFILE<span class="sym">}</span>
+<span class="line">   50 </span>	rm <span class="sym">-</span>f $<span class="sym">{</span>SITE<span class="sym">}.</span>work
+<span class="line">   51 </span>    fi
+<span class="line">   52 </span>    mv $<span class="sym">{</span>SITE<span class="sym">}</span> $<span class="sym">{</span>SITE<span class="sym">}.</span>work
+<span class="line">   53 </span>    ctlinnd <span class="sym">-</span>s <span class="sym">-</span>t30 flush $<span class="sym">{</span>SITE<span class="sym">} ||</span> <span class="kwa">continue</span>
+<span class="line">   54 </span>    cat $<span class="sym">{</span>SITE<span class="sym">}.</span>work <span class="sym">&gt;&gt;</span>$<span class="sym">{</span>BATCHFILE<span class="sym">}</span>
+<span class="line">   55 </span>    rm <span class="sym">-</span>f $<span class="sym">{</span>SITE<span class="sym">}.</span>work
+<span class="line">   56 </span>    <span class="kwa">if</span> <span class="sym">[ ! -</span>s $<span class="sym">{</span>BATCHFILE<span class="sym">} ] ;</span> then
+<span class="line">   57 </span>	echo <span class="str">&quot;${PROGNAME}: [$$] no articles for ${SITE}&quot;</span>
+<span class="line">   58 </span>	rm <span class="sym">-</span>f $<span class="sym">{</span>BATCHFILE<span class="sym">}</span>
+<span class="line">   59 </span>	<span class="kwa">continue</span>
+<span class="line">   60 </span>    fi
+<span class="line">   61 </span>
+<span class="line">   62 </span>    <span class="dir">##  Get the compression flags.</span>
+<span class="line">   63 </span>    echo <span class="str">&quot;${PROGNAME}: [$$] begin ${SITE}&quot;</span>
+<span class="line">   64 </span>    <span class="kwa">case</span> <span class="str">&quot;${SITE}&quot;</span> in
+<span class="line">   65 </span>    phreak<span class="sym">)</span>
+<span class="line">   66 </span>	COMPRESS<span class="sym">=</span><span class="str">&quot;compress&quot;</span>
+<span class="line">   67 </span>	<span class="sym">;;</span>
+<span class="line">   68 </span>    <span class="sym">*)</span>
+<span class="line">   69 </span>	COMPRESS<span class="sym">=</span><span class="str">&quot;gzip&quot;</span>
+<span class="line">   70 </span>	<span class="sym">;;</span>
+<span class="line">   71 </span>    esac
+<span class="line">   72 </span>
+<span class="line">   73 </span>    time batcher \
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

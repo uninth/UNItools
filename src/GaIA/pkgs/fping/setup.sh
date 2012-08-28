@@ -1,0 +1,1 @@
+/lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/fping/setup.fping.3.9.sh

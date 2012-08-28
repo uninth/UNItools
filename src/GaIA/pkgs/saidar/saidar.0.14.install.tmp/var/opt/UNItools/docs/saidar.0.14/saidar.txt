@@ -1,0 +1,58 @@
+saidar(1)							     saidar(1)
+
+
+
+NAME
+       saidar - a curses-based tool for viewing system statistics
+
+SYNOPSIS
+       saidar [-d delay] [-c] [-v] [-h]
+
+DESCRIPTION
+       saidar  is a curses-based tool for viewing the system statistics avail-
+       able through libstatgrab. Statistics include CPU, processes, load, mem-
+       ory, swap, network I/O, disk I/O, and file system information.
+
+OPTIONS
+       The following options are supported.
+
+       -d DELAY
+	      Wait DELAY seconds between updates (default 3)
+
+       -c     Enables coloured output
+
+       -v     Prints the version number
+
+       -h     Display help and exits
+
+COLOURED OUTPUT
+       When  the  -c  option  is used saidar uses colours to display the data.
+       Each area has a different colour to  distinguish	 it  from  the	nearby
+       fields.	Bold  and  reverse  video  effects are used to emphasis fields
+       where necessary.
+
+       The load average figures are displayed in  bold	when  they’re  notably
+       (greater	 that  1)  different  to  each other. This purely shows that a
+       change in the load is occuring.
+
+       When CPU usage goes over 60% it will be displayed in bold.  At 90%  the
+       field  is  displayed using reverse video. Likewise for memory, swap and
+       disk usage at 75% and 90%. Zombie processes are also highlighted.
+
+       Other values (paging, disk I/O and network I/O) are not highlighted due
+       to the nature of the values; it’s not easy to determine what thresholds
+       are significant.
+
+SEE ALSO
+       statgrab(1) statgrab(3)
+
+AUTHORS
+       This man page was derived from the man page written by  Bartosz	Fenski
+       for the Debian GNU/Linux distribution.
+
+WEBSITE
+       http://www.i-scream.org/libstatgrab/
+
+
+
+i-scream		 $Date: 2006/11/30 23:42:42 $		     saidar(1)

@@ -1,0 +1,68 @@
+sg_get_network_iface_stats(3)			 sg_get_network_iface_stats(3)
+
+
+
+NAME
+       sg_get_network_iface_stats - get network interface statistics
+
+SYNOPSIS
+       #include <statgrab.h>
+
+
+       sg_network_iface_stats *sg_get_network_iface_stats(int *entries);
+
+DESCRIPTION
+       The  sg_get_network_iface_stats	function  takes	 a  pointer to an int,
+       entries, which is filled with the  number  of  network  interfaces  the
+       machine	has.  This  is	needed to know how many sg_network_iface_stats
+       structures have been returned. A	 pointer  is  returned	to  the	 first
+       sg_network_iface_stats.
+
+       sg_get_network_iface_stats  returns statistics about the network inter-
+       faces in the machine. Specifically, it returns the speed of the	inter-
+       face, the duplex state, and whether it is currently up.
+
+RETURN VALUES
+       The sg_get_network_iface_stats returns a pointer to a structure of type
+       sg_network_iface_stats.
+
+
+       typedef enum{
+	       SG_IFACE_DUPLEX_FULL,
+	       SG_IFACE_DUPLEX_HALF,
+	       SG_IFACE_DUPLEX_UNKNOWN
+       }sg_iface_duplex;
+
+
+       Note: The SG_IFACE_DUPLEX_UNKNOWN value could mean that	duplex	hasn’t
+       been negotiated yet.
+
+
+       typedef struct{
+	       char *interface_name;
+	       int speed;
+	       sg_iface_duplex duplex;
+	       int up;
+       }sg_network_iface_stats;
+
+
+       interface_name
+	      The  name known to the operating system.	(eg. on linux it might
+	      be eth0)
+
+       speed  The speed of the interface, in megabits/sec.
+
+       duplex The duplex state the interface is in.  See  sg_iface_duplex  for
+	      permitted values.
+
+       up     Whether the interface is up.
+
+SEE ALSO
+       statgrab(3)
+
+WEBSITE
+       http://www.i-scream.org/libstatgrab/
+
+
+
+i-scream		 $Date: 2005/07/13 09:31:sg_get_network_iface_stats(3)

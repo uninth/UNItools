@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./copifuncs/ifpatch</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="sym">---</span> ifgate<span class="sym">/</span>message<span class="sym">.</span>c<span class="sym">.</span>orig	Mon Jul <span class="num">24 15</span><span class="sym">:</span><span class="num">17</span><span class="sym">:</span><span class="num">47 1995</span>
+<span class="line">    1 </span><span class="sym">+++</span> ifgate<span class="sym">/</span>message<span class="sym">.</span>c	Mon Jul <span class="num">24 15</span><span class="sym">:</span><span class="num">18</span><span class="sym">:</span><span class="num">00 1995</span>
+<span class="line">    2 </span>&#64;&#64; <span class="sym">-</span><span class="num">48</span><span class="sym">,</span><span class="num">12</span> <span class="sym">+</span><span class="num">48</span><span class="sym">,</span><span class="num">26</span> &#64;&#64;
+<span class="line">    3 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;X-UUCP-From&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">    4 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;X-Body-Start&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">    5 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strncasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;X-FTN-&quot;</span><span class="sym">,</span><span class="num">6</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">    6 </span><span class="sym">-</span>	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Path&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="kwd">isftnpath</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>val<span class="sym">)</span>?<span class="num">0</span><span class="sym">:</span><span class="num">1</span><span class="sym">;</span>
+<span class="line">    7 </span><span class="sym">+</span>        <span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Path&quot;</span><span class="sym">))</span>
+<span class="line">    8 </span><span class="sym">+</span>
+<span class="line">    9 </span><span class="sym">+</span><span class="dir">#ifdef LESS_RFC_KLUDGES</span>
+<span class="line">   10 </span><span class="sym">+</span>		<span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   11 </span><span class="sym">+</span><span class="dir">#else</span>
+<span class="line">   12 </span><span class="sym">+</span>		<span class="kwa">return</span> <span class="kwd">isftnpath</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>val<span class="sym">)</span>?<span class="num">0</span><span class="sym">:</span><span class="num">1</span><span class="sym">;</span>
+<span class="line">   13 </span><span class="sym">+</span><span class="dir">#endif</span>
+<span class="line">   14 </span><span class="sym">+</span>
+<span class="line">   15 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Newsgroups&quot;</span><span class="sym">))</span> <span class="kwa">return</span> newsmode?<span class="num">0</span><span class="sym">:</span><span class="num">2</span><span class="sym">;</span>
+<span class="line">   16 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Xref&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   17 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Return-Receipt-To&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">1</span><span class="sym">;</span>
+<span class="line">   18 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Received&quot;</span><span class="sym">))</span> <span class="kwa">return</span> newsmode?<span class="num">0</span><span class="sym">:</span><span class="num">2</span><span class="sym">;</span>
+<span class="line">   19 </span><span class="sym">-</span>	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;From&quot;</span><span class="sym">))</span> <span class="kwa">return</span> ftnorigin?<span class="num">0</span><span class="sym">:</span><span class="num">2</span><span class="sym">;</span>
+<span class="line">   20 </span><span class="sym">+</span>	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;From&quot;</span><span class="sym">))</span>
+<span class="line">   21 </span><span class="sym">+</span>
+<span class="line">   22 </span><span class="sym">+</span><span class="dir">#ifdef LESS_RFC_KLUDGES</span>
+<span class="line">   23 </span><span class="sym">+</span>		<span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   24 </span><span class="sym">+</span><span class="dir">#else</span>
+<span class="line">   25 </span><span class="sym">+</span>		<span class="kwa">return</span> ftnorigin?<span class="num">0</span><span class="sym">:</span><span class="num">2</span><span class="sym">;</span>
+<span class="line">   26 </span><span class="sym">+</span><span class="dir">#endif</span>
+<span class="line">   27 </span><span class="sym">+</span>
+<span class="line">   28 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;To&quot;</span><span class="sym">))</span>
+<span class="line">   29 </span> 	<span class="sym">{</span>
+<span class="line">   30 </span> 		<span class="kwa">if</span> <span class="sym">(</span>newsmode<span class="sym">)</span> <span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   31 </span>&#64;&#64; <span class="sym">-</span><span class="num">66</span><span class="sym">,</span><span class="num">7</span> <span class="sym">+</span><span class="num">80</span><span class="sym">,</span><span class="num">14</span> &#64;&#64;
+<span class="line">   32 </span> 	<span class="sym">}</span>
+<span class="line">   33 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Cc&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">2</span><span class="sym">;</span>
+<span class="line">   34 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Bcc&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">2</span><span class="sym">;</span>
+<span class="line">   35 </span><span class="sym">-</span>	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Reply-To&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">2</span><span class="sym">;</span>
+<span class="line">   36 </span><span class="sym">+</span>	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Reply-To&quot;</span><span class="sym">))</span>
+<span class="line">   37 </span><span class="sym">+</span>
+<span class="line">   38 </span><span class="sym">+</span><span class="dir">#ifdef LESS_RFC_KLUDGES</span>
+<span class="line">   39 </span><span class="sym">+</span>		<span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   40 </span><span class="sym">+</span><span class="dir">#else</span>
+<span class="line">   41 </span><span class="sym">+</span>		<span class="kwa">return</span> <span class="num">2</span><span class="sym">;</span>
+<span class="line">   42 </span><span class="sym">+</span><span class="dir">#endif</span>
+<span class="line">   43 </span><span class="sym">+</span>
+<span class="line">   44 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Lines&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   45 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Date&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   46 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Subject&quot;</span><span class="sym">))</span>
+<span class="line">   47 </span>&#64;&#64; <span class="sym">-</span><span class="num">77</span><span class="sym">,</span><span class="num">8</span> <span class="sym">+</span><span class="num">98</span><span class="sym">,</span><span class="num">22</span> &#64;&#64;
+<span class="line">   48 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Organization&quot;</span><span class="sym">))</span> <span class="kwa">return</span> removeorg?<span class="num">0</span><span class="sym">:</span><span class="num">1</span><span class="sym">;</span>
+<span class="line">   49 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Comment-To&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   50 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;X-Comment-To&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   51 </span><span class="sym">-</span>	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Keywords&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">2</span><span class="sym">;</span>
+<span class="line">   52 </span><span class="sym">-</span>	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Summary&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">2</span><span class="sym">;</span>
+<span class="line">   53 </span><span class="sym">+</span>	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Keywords&quot;</span><span class="sym">))</span>
+<span class="line">   54 </span><span class="sym">+</span>
+<span class="line">   55 </span><span class="sym">+</span><span class="dir">#ifdef LESS_RFC_KLUDGES</span>
+<span class="line">   56 </span><span class="sym">+</span>		<span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   57 </span><span class="sym">+</span><span class="dir">#else</span>
+<span class="line">   58 </span><span class="sym">+</span>		<span class="kwa">return</span> <span class="num">2</span><span class="sym">;</span>
+<span class="line">   59 </span><span class="sym">+</span><span class="dir">#endif</span>
+<span class="line">   60 </span><span class="sym">+</span>
+<span class="line">   61 </span><span class="sym">+</span>	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Summary&quot;</span><span class="sym">))</span>
+<span class="line">   62 </span><span class="sym">+</span>
+<span class="line">   63 </span><span class="sym">+</span><span class="dir">#ifdef LESS_RFC_KLUDGES</span>
+<span class="line">   64 </span><span class="sym">+</span>		<span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   65 </span><span class="sym">+</span><span class="dir">#else</span>
+<span class="line">   66 </span><span class="sym">+</span>		<span class="kwa">return</span> <span class="num">2</span><span class="sym">;</span>
+<span class="line">   67 </span><span class="sym">+</span><span class="dir">#endif</span>
+<span class="line">   68 </span><span class="sym">+</span>
+<span class="line">   69 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;MIME-Version&quot;</span><span class="sym">))</span> <span class="kwa">return</span> removemime?<span class="num">0</span><span class="sym">:</span><span class="num">1</span><span class="sym">;</span>
+<span class="line">   70 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Content-Type&quot;</span><span class="sym">))</span> <span class="kwa">return</span> removemime?<span class="num">0</span><span class="sym">:</span><span class="num">1</span><span class="sym">;</span>
+<span class="line">   71 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Content-Length&quot;</span><span class="sym">))</span> <span class="kwa">return</span> removemime?<span class="num">0</span><span class="sym">:</span><span class="num">1</span><span class="sym">;</span>
+<span class="line">   72 </span>&#64;&#64; <span class="sym">-</span><span class="num">86</span><span class="sym">,</span><span class="num">8</span> <span class="sym">+</span><span class="num">121</span><span class="sym">,</span><span class="num">26</span> &#64;&#64;
+<span class="line">   73 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Content-Name&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">2</span><span class="sym">;</span>
+<span class="line">   74 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Content-Description&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">2</span><span class="sym">;</span>
+<span class="line">   75 </span> 	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Message-ID&quot;</span><span class="sym">))</span> <span class="kwa">return</span> ftnorigin?<span class="num">0</span><span class="sym">:</span><span class="num">1</span><span class="sym">;</span>
+<span class="line">   76 </span><span class="sym">-</span>	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;References&quot;</span><span class="sym">))</span> <span class="kwa">return</span> removeref?<span class="num">0</span><span class="sym">:</span><span class="num">1</span><span class="sym">;</span>
+<span class="line">   77 </span><span class="sym">-</span>	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Distribution&quot;</span><span class="sym">))</span> <span class="kwa">return</span> ftnorigin?<span class="num">0</span><span class="sym">:</span><span class="num">1</span><span class="sym">;</span>
+<span class="line">   78 </span><span class="sym">+</span>	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;References&quot;</span><span class="sym">))</span>
+<span class="line">   79 </span><span class="sym">+</span>
+<span class="line">   80 </span><span class="sym">+</span><span class="dir">#ifdef LESS_RFC_KLUDGES</span>
+<span class="line">   81 </span><span class="sym">+</span>		<span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   82 </span><span class="sym">+</span><span class="dir">#else</span>
+<span class="line">   83 </span><span class="sym">+</span>		<span class="kwa">return</span> removeref?<span class="num">0</span><span class="sym">:</span><span class="num">1</span><span class="sym">;</span>
+<span class="line">   84 </span><span class="sym">+</span><span class="dir">#endif</span>
+<span class="line">   85 </span><span class="sym">+</span>
+<span class="line">   86 </span><span class="sym">+</span>	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;Distribution&quot;</span><span class="sym">))</span>
+<span class="line">   87 </span><span class="sym">+</span>
+<span class="line">   88 </span><span class="sym">+</span><span class="dir">#ifdef LESS_RFC_KLUDGES</span>
+<span class="line">   89 </span><span class="sym">+</span>		<span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   90 </span><span class="sym">+</span><span class="dir">#else</span>
+<span class="line">   91 </span><span class="sym">+</span>		<span class="kwa">return</span> ftnorigin?<span class="num">0</span><span class="sym">:</span><span class="num">1</span><span class="sym">;</span>
+<span class="line">   92 </span><span class="sym">+</span><span class="dir">#endif</span>
+<span class="line">   93 </span><span class="sym">+</span>
+<span class="line">   94 </span><span class="sym">+</span><span class="dir">#ifdef LESS_RFC_KLUDGES</span>
+<span class="line">   95 </span><span class="sym">+</span>	<span class="kwa">if</span> <span class="sym">(!</span><span class="kwd">strcasecmp</span><span class="sym">(</span>msg<span class="sym">-&gt;</span>key<span class="sym">,</span><span class="str">&quot;NNTP-Posting-Host&quot;</span><span class="sym">))</span> <span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   96 </span><span class="sym">+</span><span class="dir">#endif</span>
+<span class="line">   97 </span><span class="sym">+</span>
+<span class="line">   98 </span> 	<span class="com">/*if (!strcasecmp(msg-&gt;key,&quot;&quot;)) return ;*/</span>
+<span class="line">   99 </span> 	<span class="kwa">return</span> <span class="num">1</span><span class="sym">;</span>
+<span class="line">  100 </span> <span class="sym">}</span>
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

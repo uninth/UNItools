@@ -1,0 +1,14 @@
+/var/opt/UNItools/lib/site_perl/5.8.7/Font/AFM.pm
+/var/opt/UNItools/lib/site_perl/5.8.7/Font/Metrics/Courier.pm
+/var/opt/UNItools/lib/site_perl/5.8.7/Font/Metrics/CourierBold.pm
+/var/opt/UNItools/lib/site_perl/5.8.7/Font/Metrics/CourierBoldOblique.pm
+/var/opt/UNItools/lib/site_perl/5.8.7/Font/Metrics/CourierOblique.pm
+/var/opt/UNItools/lib/site_perl/5.8.7/Font/Metrics/Helvetica.pm
+/var/opt/UNItools/lib/site_perl/5.8.7/Font/Metrics/HelveticaBold.pm
+/var/opt/UNItools/lib/site_perl/5.8.7/Font/Metrics/HelveticaBoldOblique.pm
+/var/opt/UNItools/lib/site_perl/5.8.7/Font/Metrics/HelveticaOblique.pm
+/var/opt/UNItools/lib/site_perl/5.8.7/Font/Metrics/TimesBold.pm
+/var/opt/UNItools/lib/site_perl/5.8.7/Font/Metrics/TimesBoldItalic.pm
+/var/opt/UNItools/lib/site_perl/5.8.7/Font/Metrics/TimesItalic.pm
+/var/opt/UNItools/lib/site_perl/5.8.7/Font/Metrics/TimesRoman.pm
+/var/opt/UNItools/man/man3/Font::AFM.3

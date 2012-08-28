@@ -1,0 +1,51 @@
+PRINTIPROUTE.SH(1)					    PRINTIPROUTE.SH(1)
+
+
+
+NAME
+       printiproute.sh - print statisk rute pr. interface
+
+PACKAGE
+       UNItools
+
+SYNOPSIS
+       printiproute
+
+BESKRIVELSE
+       printiproute(1)	anvendes  til  dokumentation af rute udtryk pr. inter-
+       face.
+
+       Programmet er ad-hoc.
+
+OPTIONS
+       html. Udskriv i html til stdout.
+
+SE OGSÅ
+       Dokumentationen for UNItools.
+
+DIAGNOSTICS
+       Programmet  er  Linux  -	 centrisk  og  kræver	pakken	 UNItools   er
+       installeret.
+
+BUGS
+       Det er der sikkert. Ret dem og send mig en opdatering.
+
+VERSION
+       $Date: 2012/12/10 14:05:01 $
+       $Revision: 1.9 $
+       $Source: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/scripts/scripts-1.0/RCS/printiproute,v $
+       $State: Exp $
+
+HISTORY
+       Se rlog $Id: printiproute,v 1.9 2012/12/10 14:05:01 root Exp $
+
+AUTHOR(S)
+       Niels Thomas Haugård
+       E-mail: thomas@haugaard.net
+       UNI·C
+       DTU, Building 304
+       DK-2800 Kgs. Lyngby
+
+
+
+							    PRINTIPROUTE.SH(1)

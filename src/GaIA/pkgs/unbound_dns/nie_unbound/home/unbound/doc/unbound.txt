@@ -1,0 +1,43 @@
+unbound(8)                      unbound 1.4.20                      unbound(8)
+
+
+
+NAME
+       unbound - Unbound DNS validating resolver 1.4.20.
+
+SYNOPSIS
+       unbound [-h] [-d] [-v] [-c cfgfile]
+
+DESCRIPTION
+       Unbound  is  an implementation of a DNS resolver, that does caching and
+       DNSSEC validation.
+
+       The available options are:
+
+       -h     Show the version and commandline option help.
+
+       -c cfgfile
+              Set the config file with settings for unbound to read instead of
+              reading     the     file     at     the     default    location,
+              /home/unbound/etc/unbound/unbound.conf. The syntax is  described
+              in unbound.conf(5).
+
+       -d     Debug  flag,  do not fork into the background, but stay attached
+              to the console. This flag will also delay writing to the logfile
+              until  the  thread-spawn  time.  So  that  most config and setup
+              errors appear on stderr.
+
+       -v     Increase verbosity. If given multiple times, more information is
+              logged.   This is in addition to the verbosity (if any) from the
+              config file.
+
+SEE ALSO
+       unbound.conf(5), unbound-checkconf(8).
+
+AUTHORS
+       Unbound developers are mentioned in the CREDITS file in  the  distribu-
+       tion.
+
+
+
+NLnet Labs                       Mar 21, 2013                       unbound(8)

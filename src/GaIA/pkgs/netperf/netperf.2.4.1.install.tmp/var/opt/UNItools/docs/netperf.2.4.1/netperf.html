@@ -1,0 +1,254 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of netperf</TITLE>
+</HEAD><BODY>
+<H1>netperf</H1>
+Section: User Commands  (1)<BR>Updated: <BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+<P>
+netperf - a network performance benchmark
+<P>
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<P>
+<B>netperf</B>
+
+[global options] -- [test specific options]
+<P>
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<B>Netperf</B>
+
+is a benchmark that can be used to measure various aspects of
+networking performance.
+Currently, its focus is on bulk data transfer and request/response
+performance using either TCP or UDP, and the Berkeley Sockets
+interface. In addition, tests for DLPI, and Unix Domain
+Sockets, tests for IPv6 may be conditionally compiled-in.
+<P>
+<A NAME="lbAE">&nbsp;</A>
+<H3>GLOBAL OPTIONS</H3>
+
+<P>
+<DL COMPACT>
+<DT><B>-a sizespec</B>
+
+<DD>
+Alter the send and receive buffer alignments on the local system.
+This defaults to 8 bytes.
+<DT><B>-A sizespec</B>
+
+<DD>
+As -a, but for the remote system.
+<DT><B>-c [rate]</B>
+
+<DD>
+Request CPU utilization and service demand calculations for the
+local system. If the optional rate parameter is specified,
+<B>netperf</B>
+
+will use that instead of calculating the rate itself.
+<DT><B>-C [rate]</B>
+
+<DD>
+As -c, but for the remote system.
+<DT><B>-d</B>
+
+<DD>
+Increase the quantity of debugging output displayed during
+a test (possibly at the expense of performance).
+<DT><B>-f GMKgmk</B>
+
+<DD>
+Change the units of measure for *_STREAM tests. Capital letters are
+powers of two, lowercase are powers of ten.
+<DT><B>-F fill_file</B>
+
+<DD>
+Pre-fill the send buffers with data from the named file. This is
+intended to provide a means for avoiding buffers that are filled with
+data which is trivially easy to compress. A good choice for a file
+that should be present on any system is this manpage - netperf.man.
+Other files may be provided as part of the distribution.
+<DT><B>-h</B>
+
+<DD>
+Display a usage string, and exit.
+<DT><B>-H remote_host,local_host</B>
+
+<DD>
+Set the hostname (or IP address) of the remote system. Passing a
+single name with no comma will only set remote_host and will leave
+selection of local IP address for the control connection to the stack.
+Specifying &quot;,local_host&quot; will only set local_host and will leave
+remote_host at the default. 
+<DT><B>-i max,min</B>
+
+<DD>
+Set the maximum and minimum number of iterations when trying to reach
+certain confidence levels.
+<DT><B>-I lvl,[,intvl]</B>
+
+<DD>
+Specify the confidence level (either 95 or 99 - 99 is the default) and
+the width of the confidence interval as a percentage (default 10)
+<DT><B>-l testlen</B>
+
+<DD>
+Specify the length of the test (default 10 seconds).
+A negative value sets the number of request/response transactions,
+or the number of bytes for a stream test.
+<DT><B>-n numcpus</B>
+
+<DD>
+Specify the number of CPU's in the system on those systems for which
+netperf has no way to find the number of CPU's programatically. 
+<DT><B>-o sizespec</B>
+
+<DD>
+Set an offset from the alignment specified with -a.
+<DT><B>-O sizespec</B>
+
+<DD>
+As -o, but for the remote system.
+<DT><B>-p portnum,locport</B>
+
+<DD>
+Connect to a
+
+listening on the specified port, rather than using /etc/services. If
+&quot;,locport&quot; is specified the control connection will be established
+from that local port number.  Specifying a single port number with no
+comma will specify only the remote
+
+port number and will leave local port number selection to the stack.
+<DT><B>-P 0|1</B>
+
+<DD>
+Show (1) or suppress (0) the test banner.
+<DT><B>-t testname</B>
+
+<DD>
+Specify the test to perform.
+Valid testnames are (but not always compiled-in):
+<DL COMPACT><DT><DD>
+<DL COMPACT><DT><DD>
+<PRE>
+<I>TCP_STREAM</I>
+<I>TCP_MAERTS</I>
+<I>TCP_RR</I>
+<I>TCP_CRR</I>
+<I>UDP_STREAM</I>
+<I>UDP_RR</I>
+<I>TCPIPV6_STREAM</I>
+<I>TCPIPV6_RR</I>
+<I>TCPIPV6_CRR</I>
+<I>UDPIPV6_STREAM</I>
+<I>UDPIPV6_RR</I>
+<I>DLCO_STREAM</I>
+<I>DLCO_RR</I>
+<I>DLCL_STREAM</I>
+<I>DLCL_RR</I>
+<I>STREAM_STREAM</I>
+<I>STREAM_RR</I>
+<I>DG_STREAM</I>
+<I>DG_RR</I>
+<I>LOC_CPU</I>
+<I>REM_CPU</I>
+</PRE>
+
+</DL>
+
+</DL>
+
+<DT><B>-v verbosity</B>
+
+<DD>
+Set the verbosity level for the test (only with -P).
+<DT><B>-V</B>
+
+<DD>
+Enable the copy-avoidance features (HP-UX 9.0 and later only).
+<P>
+</DL>
+<A NAME="lbAF">&nbsp;</A>
+<H3>TEST SPECIFIC OPTIONS</H3>
+
+<P>
+<DL COMPACT>
+<DT><B>-h</B>
+
+<DD>
+Display a usage string based on the test name set with -t, and exit.
+<P>
+Please consult the netperf manual
+<I>Netperf: A Network Performance Benchmark </I>
+
+(netperf.ps) for more information. Or you can join and mail to 
+<A HREF="mailto:netperf-talk@netperf.org">netperf-talk@netperf.org</A>.
+<P>
+</DL>
+<A NAME="lbAG">&nbsp;</A>
+<H2>BUGS </H2>
+
+There is a fairly large list of known defects and misfeatures in the
+manual. If you think you have found a bug, please send email to Rick
+Jones &lt;<A HREF="mailto:raj@cup.hp.com">raj@cup.hp.com</A>&gt;.
+<P>
+<A NAME="lbAH">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+
+<BR>
+
+<I>Netperf: A Network Performance Benchmark</I>
+
+<BR>
+
+<A HREF="http://www.netperf.org/">http://www.netperf.org/</A>
+<P>
+<A NAME="lbAI">&nbsp;</A>
+<H2>AUTHORS</H2>
+
+HP Information Networks Division - Networking Performance Team.
+<BR>
+
+Rick Jones<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>&lt;<A HREF="mailto:raj@cup.hp.com">raj@cup.hp.com</A>&gt;<BR>
+<BR>
+
+Karen Choy<TT>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</TT>HP IND<BR>
+<BR>
+
+Dave Shield<TT>&nbsp;&nbsp;&nbsp;&nbsp;</TT>&lt;<A HREF="mailto:daves@csc.liv.ac.uk">daves@csc.liv.ac.uk</A>&gt;<TT>&nbsp;&nbsp;&nbsp;</TT>(man pages)<BR>
+<BR>
+
+Others too numerous to mention here - see the ACKNWLDGMNTS file
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DL>
+<DT><A HREF="#lbAE">GLOBAL OPTIONS</A><DD>
+<DT><A HREF="#lbAF">TEST SPECIFIC OPTIONS</A><DD>
+</DL>
+<DT><A HREF="#lbAG">BUGS </A><DD>
+<DT><A HREF="#lbAH">SEE ALSO</A><DD>
+<DT><A HREF="#lbAI">AUTHORS</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 22:33:58 GMT, March 26, 2014
+</BODY>
+</HTML>

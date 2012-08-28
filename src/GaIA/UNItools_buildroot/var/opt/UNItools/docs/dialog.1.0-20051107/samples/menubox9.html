@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./menubox9</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir">#!/bin/sh</span>
+<span class="line">    1 </span><span class="dir"># $Id: menubox9,v 1.1 2003/09/23 23:02:08 tom Exp $</span>
+<span class="line">    2 </span><span class="sym">:</span> $<span class="sym">{</span>DIALOG<span class="sym">=</span>dialog<span class="sym">}</span>
+<span class="line">    3 </span>
+<span class="line">    4 </span>exec <span class="num">3</span><span class="sym">&gt;&amp;</span><span class="num">1</span>
+<span class="line">    5 </span>value<span class="sym">=</span>`$DIALOG <span class="sym">--</span>help<span class="sym">-</span>button \
+<span class="line">    6 </span>	<span class="sym">--</span>clear \
+<span class="line">    7 </span>	<span class="sym">--</span>title <span class="str">&quot;Select Linux installation partition:&quot;</span> \
+<span class="line">    8 </span>	<span class="sym">--</span>menu \
+<span class="line">    9 </span><span class="str">&quot;Please select a partition from the following list to use for your</span> <span class="esc">\</span>
+<span class="line">   10 </span><span class="str">root (/) Linux partition.&quot;</span> <span class="num">13 70 5</span> \
+<span class="line">   11 </span><span class="str">&quot;/dev/hda2&quot;</span> <span class="str">&quot;Linux native 30724312K&quot;</span> \
+<span class="line">   12 </span><span class="str">&quot;/dev/hda4&quot;</span> <span class="str">&quot;Linux native 506047K&quot;</span> \
+<span class="line">   13 </span><span class="str">&quot;/dev/hdb1&quot;</span> <span class="str">&quot;Linux native 4096543K&quot;</span> \
+<span class="line">   14 </span><span class="str">&quot;/dev/hdb2&quot;</span> <span class="str">&quot;Linux native 2586465K&quot;</span> \
+<span class="line">   15 </span><span class="str">&quot;---&quot;</span> <span class="str">&quot;(add none, continue with setup)&quot;</span> \
+<span class="line">   16 </span><span class="str">&quot;---&quot;</span> <span class="str">&quot;(add none, continue with setup)&quot;</span> \
+<span class="line">   17 </span><span class="str">&quot;---&quot;</span> <span class="str">&quot;(add none, continue with setup)&quot;</span> \
+<span class="line">   18 </span><span class="str">&quot;---&quot;</span> <span class="str">&quot;(add none, continue with setup)&quot;</span> \
+<span class="line">   19 </span><span class="str">&quot;---&quot;</span> <span class="str">&quot;(add none, continue with setup)&quot;</span> \
+<span class="line">   20 </span><span class="num">2</span><span class="sym">&gt;&amp;</span><span class="num">1 1</span><span class="sym">&gt;&amp;</span><span class="num">3</span>`
+<span class="line">   21 </span>retval<span class="sym">=</span>$?
+<span class="line">   22 </span>exec <span class="num">3</span><span class="sym">&gt;&amp;-</span>
+<span class="line">   23 </span>
+<span class="line">   24 </span><span class="kwa">case</span> $retval in
+<span class="line">   25 </span>  <span class="num">0</span><span class="sym">)</span>
+<span class="line">   26 </span>    echo <span class="str">&quot;$value chosen.&quot;</span><span class="sym">;;</span>
+<span class="line">   27 </span>  <span class="num">1</span><span class="sym">)</span>
+<span class="line">   28 </span>    echo <span class="str">&quot;Cancel pressed.&quot;</span><span class="sym">;;</span>
+<span class="line">   29 </span>  <span class="num">2</span><span class="sym">)</span>
+<span class="line">   30 </span>    echo <span class="str">&quot;Help pressed ($value)&quot;</span><span class="sym">;;</span>
+<span class="line">   31 </span>  <span class="num">255</span><span class="sym">)</span>
+<span class="line">   32 </span>    <span class="kwa">if</span> test <span class="sym">-</span>n <span class="str">&quot;$value&quot;</span> <span class="sym">;</span> then
+<span class="line">   33 </span>      echo <span class="str">&quot;$value&quot;</span>
+<span class="line">   34 </span>    <span class="kwa">else</span>
+<span class="line">   35 </span>      echo <span class="str">&quot;ESC pressed.&quot;</span>
+<span class="line">   36 </span>    fi
+<span class="line">   37 </span>    <span class="sym">;;</span>
+<span class="line">   38 </span>esac
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

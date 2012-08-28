@@ -1,0 +1,230 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./copifuncs/admin.funcs</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir">#!/bin/bash</span>
+<span class="line">    1 </span><span class="dir"># $Id: admin.funcs,v 1.2 2001/01/15 22:20:11 tom Exp $</span>
+<span class="line">    2 </span><span class="dir">#</span>
+<span class="line">    3 </span><span class="dir">#  ComeOn Point Functions! v0.9.2</span>
+<span class="line">    4 </span><span class="dir">#  - usate da vari altri moduli ComeOn Point...</span>
+<span class="line">    5 </span><span class="dir">#</span>
+<span class="line">    6 </span><span class="dir">#  AUTHOR: Beppe (beppe.dem&#64;nsm.it)</span>
+<span class="line">    7 </span><span class="dir">#</span>
+<span class="line">    8 </span><span class="dir">#  This program is free software; you can redistribute it and/or</span>
+<span class="line">    9 </span><span class="dir">#  modify it under the terms of the GNU General Public License</span>
+<span class="line">   10 </span><span class="dir">#  as published by the Free Software Foundation; either version 2</span>
+<span class="line">   11 </span><span class="dir">#  of the License, or (at your option) any later version.</span>
+<span class="line">   12 </span><span class="dir">#</span>
+<span class="line">   13 </span><span class="dir">#  This program is distributed in the hope that it will be useful,</span>
+<span class="line">   14 </span><span class="dir">#  but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+<span class="line">   15 </span><span class="dir">#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+<span class="line">   16 </span><span class="dir">#  GNU General Public License for more details.</span>
+<span class="line">   17 </span><span class="dir">#</span>
+<span class="line">   18 </span><span class="dir">#  You should have received a copy of the GNU General Public License</span>
+<span class="line">   19 </span><span class="dir">#  along with this program; if not, write to the Free Software</span>
+<span class="line">   20 </span><span class="dir">#  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.</span>
+<span class="line">   21 </span><span class="dir">#</span>
+<span class="line">   22 </span>
+<span class="line">   23 </span><span class="dir"># Args: source_file, domain, nldir</span>
+<span class="line">   24 </span><span class="kwd">install_nodelist</span><span class="sym">() {</span>
+<span class="line">   25 </span>
+<span class="line">   26 </span>  NODELIST<span class="sym">=</span><span class="str">&quot;$1&quot;</span>
+<span class="line">   27 </span>  FOR_DOMAIN<span class="sym">=</span><span class="str">&quot;$2&quot;</span>
+<span class="line">   28 </span>  NODEDIR<span class="sym">=</span><span class="str">&quot;$3&quot;</span>
+<span class="line">   29 </span>
+<span class="line">   30 </span>  dialog <span class="sym">--</span>backtitle <span class="str">&quot;$TITLE&quot;</span> <span class="sym">--</span>infobox <span class="str">&quot;Installo la nodelist '$NODELIST' per il domain $FOR_DOMAIN, attendere prego...&quot;</span> <span class="num">0 0</span>
+<span class="line">   31 </span>
+<span class="line">   32 </span>  cp <span class="str">&quot;$NODELIST&quot;</span> $NODEDIR<span class="sym">/</span>$FOR_DOMAIN<span class="sym">.</span>ndl
+<span class="line">   33 </span>  chown fnet<span class="sym">.</span>uucp $NODEDIR<span class="sym">/</span>$FOR_DOMAIN<span class="sym">.</span>ndl
+<span class="line">   34 </span>
+<span class="line">   35 </span>  echo <span class="str">&quot;y&quot;</span> <span class="sym">|</span> su <span class="sym">-</span>l fnet <span class="sym">-</span>c <span class="str">&quot;ifindex&quot;</span> <span class="sym">&gt;/</span>dev<span class="sym">/</span>null
+<span class="line">   36 </span><span class="sym">}</span>
+<span class="line">   37 </span>
+<span class="line">   38 </span><span class="dir"># Args: source, dest</span>
+<span class="line">   39 </span><span class="kwd">add_alias</span><span class="sym">() {</span>
+<span class="line">   40 </span>
+<span class="line">   41 </span>  SOURCE<span class="sym">=</span>$<span class="num">1</span>
+<span class="line">   42 </span>  DEST<span class="sym">=</span>$<span class="num">2</span>
+<span class="line">   43 </span>  ALIASES<span class="sym">=/</span>etc<span class="sym">/</span>aliases
+<span class="line">   44 </span>  ENTRY<span class="sym">=</span><span class="str">&quot;`grep $SOURCE: $ALIASES`&quot;</span>
+<span class="line">   45 </span>
+<span class="line">   46 </span>  dialog <span class="sym">--</span>backtitle <span class="str">&quot;$TITLE&quot;</span> <span class="sym">--</span>infobox <span class="str">&quot;Creo un alias per redirigere le mail per $SOURCE a $DEST ...&quot;</span> <span class="num">0 0</span>
+<span class="line">   47 </span>
+<span class="line">   48 </span>  <span class="kwa">if</span> <span class="sym">[ !</span> <span class="str">&quot;$ENTRY&quot;</span> <span class="sym">]</span>
+<span class="line">   49 </span>  then
+<span class="line">   50 </span>    echo <span class="str">&quot;$SOURCE: $DEST&quot;</span> <span class="sym">&gt;&gt;</span>$ALIASES
+<span class="line">   51 </span>  <span class="kwa">else</span>
+<span class="line">   52 </span>    OLDDEST<span class="sym">=</span><span class="str">&quot;`echo $ENTRY | cut -f2 -d:`&quot;</span>
+<span class="line">   53 </span>    mkstemp alias
+<span class="line">   54 </span>    sed <span class="sym">/</span><span class="str">&quot;$SOURCE:&quot;</span><span class="sym">/</span>s<span class="sym">/</span><span class="str">&quot;$OLDDEST&quot;</span><span class="sym">/</span><span class="str">&quot; $DEST&quot;</span><span class="sym">/</span> $ALIASES <span class="sym">&gt;</span>$tmp_alias
+<span class="line">   55 </span>    cat $tmp_alias <span class="sym">&gt;</span>$ALIASES
+<span class="line">   56 </span>    rm $tmp_alias
+<span class="line">   57 </span>  fi
+<span class="line">   58 </span>  mkaliases <span class="sym">&gt;/</span>dev<span class="sym">/</span>null
+<span class="line">   59 </span><span class="sym">}</span>
+<span class="line">   60 </span>
+<span class="line">   61 </span><span class="dir"># Args: Areas_pathname, newsgroup, area_ftn, description [, expire_days]</span>
+<span class="line">   62 </span><span class="dir"># Returns: 1 - innd not running</span>
+<span class="line">   63 </span><span class="dir">#          2 - already existing newsgroup</span>
+<span class="line">   64 </span><span class="dir">#          3 - already existing ftn_area</span>
+<span class="line">   65 </span><span class="kwd">create_newsgroup</span><span class="sym">() {</span>
+<span class="line">   66 </span>
+<span class="line">   67 </span>  AREAS<span class="sym">=</span><span class="str">&quot;$1&quot;</span>
+<span class="line">   68 </span>  NEWSGROUP<span class="sym">=</span><span class="str">&quot;$2&quot;</span>
+<span class="line">   69 </span>  AREA<span class="sym">=</span><span class="str">&quot;$3&quot;</span>
+<span class="line">   70 </span>  DESCRIPTION<span class="sym">=</span><span class="str">&quot;$4&quot;</span>
+<span class="line">   71 </span>  EXPIRE_DAYS<span class="sym">=</span><span class="str">&quot;$5&quot;</span>
+<span class="line">   72 </span>
+<span class="line">   73 </span>  NEWSGROUPS<span class="sym">=~</span>news<span class="sym">/</span>newsgroups
+<span class="line">   74 </span>  EXPIRECTL<span class="sym">=~</span>news<span class="sym">/</span>expire<span class="sym">.</span>ctl
+<span class="line">   75 </span>
+<span class="line">   76 </span>  dialog <span class="sym">--</span>backtitle <span class="str">&quot;$TITLE&quot;</span> <span class="sym">--</span>infobox <span class="str">&quot;Creo il newsgroup $NEWSGROUP per contenere i messaggi dell'area $AREA...&quot;</span> <span class="num">0 0</span>
+<span class="line">   77 </span>
+<span class="line">   78 </span>  <span class="kwa">if</span> <span class="sym">[ !</span> <span class="str">&quot;`ps ax | grep ~news/etc/innd`&quot;</span> <span class="sym">]</span>
+<span class="line">   79 </span>  then
+<span class="line">   80 </span>    <span class="kwa">return</span> <span class="num">1</span>
+<span class="line">   81 </span>  fi
+<span class="line">   82 </span>
+<span class="line">   83 </span>  <span class="kwa">if</span> <span class="sym">[</span> <span class="str">&quot;`cut $NEWSGROUPS -f1 | cut -f1 -d</span><span class="esc">\ </span> <span class="str">| grep -x $NEWSGROUP`&quot;</span> <span class="sym">]</span>
+<span class="line">   84 </span>  then
+<span class="line">   85 </span>    <span class="kwa">return</span> <span class="num">2</span>
+<span class="line">   86 </span>  fi
+<span class="line">   87 </span>
+<span class="line">   88 </span>  <span class="kwa">if</span> <span class="sym">[</span> <span class="str">&quot;`cut $AREAS -f1 | cut -f1 -d</span><span class="esc">\ </span> <span class="str">| grep -x $AREA`&quot;</span> <span class="sym">]</span>
+<span class="line">   89 </span>  then
+<span class="line">   90 </span>    <span class="kwa">return</span> <span class="num">3</span>
+<span class="line">   91 </span>  fi
+<span class="line">   92 </span>
+<span class="line">   93 </span>  su <span class="sym">-</span>l news <span class="sym">-</span>c <span class="str">&quot;bin/ctlinnd newgroup $NEWSGROUP&quot;</span> <span class="sym">&gt;/</span>dev<span class="sym">/</span>null
+<span class="line">   94 </span>  echo <span class="sym">-</span>e <span class="str">&quot;$NEWSGROUP</span><span class="esc">\t</span><span class="str">$DESCRIPTION&quot;</span> <span class="sym">&gt;&gt;</span> $NEWSGROUPS
+<span class="line">   95 </span>  echo <span class="sym">-</span>e <span class="str">&quot;$AREA</span><span class="esc">\t</span><span class="str">$NEWSGROUP</span><span class="esc">\t</span><span class="str">`echo $NEWSGROUP | cut -f1 -d.`&quot;</span> <span class="sym">&gt;&gt;</span> $AREAS
+<span class="line">   96 </span>
+<span class="line">   97 </span>  <span class="kwa">if</span> <span class="sym">[</span> <span class="str">&quot;$EXPIRE_DAYS&quot;</span> <span class="sym">];</span> then
+<span class="line">   98 </span>    echo <span class="str">&quot;$NEWSGROUP:A:2:$EXPIRE_DAYS:$EXPIRE_DAYS&quot;</span> <span class="sym">&gt;&gt;</span> $EXPIRECTL
+<span class="line">   99 </span>  fi
+<span class="line">  100 </span>
+<span class="line">  101 </span>  chown news<span class="sym">.</span>news $NEWSGROUPS $EXPIRECTL
+<span class="line">  102 </span>  chmod <span class="num">440</span> $EXPIRECTL
+<span class="line">  103 </span>  chown fnet<span class="sym">.</span>uucp $AREAS
+<span class="line">  104 </span><span class="sym">}</span>
+<span class="line">  105 </span>
+<span class="line">  106 </span><span class="dir"># Returns: 0 if ok, 1 if (innd not running), 2 if (no that newsgroup)</span>
+<span class="line">  107 </span><span class="dir"># Args: Areas_pathname, newsgroup</span>
+<span class="line">  108 </span><span class="kwd">rmgroup</span><span class="sym">() {</span>
+<span class="line">  109 </span>
+<span class="line">  110 </span>  AREAS<span class="sym">=</span>$<span class="num">1</span>
+<span class="line">  111 </span>  NEWSGR<span class="sym">=</span>$<span class="num">2</span>
+<span class="line">  112 </span>  NEWSGROUPS<span class="sym">=~</span>news<span class="sym">/</span>newsgroups
+<span class="line">  113 </span>  EXPIRE<span class="sym">=~</span>news<span class="sym">/</span>expire<span class="sym">.</span>ctl
+<span class="line">  114 </span>
+<span class="line">  115 </span>  dialog <span class="sym">--</span>backtitle <span class="str">&quot;$TITLE&quot;</span> <span class="sym">--</span>infobox <span class="str">&quot;Elimino il newsgroup $NEWSGR ed i messaggi in esso contenuti, attendere prego. Questa operazione potrebbe durare alcuni minuti.&quot;</span> <span class="num">0 0</span>
+<span class="line">  116 </span>
+<span class="line">  117 </span>  <span class="kwa">if</span> <span class="sym">[ !</span> <span class="str">&quot;`ps x | grep ~news/etc/innd`&quot;</span> <span class="sym">]</span>
+<span class="line">  118 </span>  then
+<span class="line">  119 </span>    <span class="kwa">return</span> <span class="num">1</span>
+<span class="line">  120 </span>  fi
+<span class="line">  121 </span>
+<span class="line">  122 </span>  <span class="kwa">if</span> <span class="sym">[ !</span> <span class="str">&quot;`cut -f1 $NEWSGROUPS | cut -f1 -d</span><span class="esc">\ </span> <span class="str">| grep -x $NEWSGR`&quot;</span> <span class="sym">]</span>
+<span class="line">  123 </span>  then
+<span class="line">  124 </span>    <span class="kwa">return</span> <span class="num">2</span>
+<span class="line">  125 </span>  <span class="kwa">else</span>
+<span class="line">  126 </span>
+<span class="line">  127 </span><span class="dir"># Updating newsgroups file</span>
+<span class="line">  128 </span>    <span class="kwa">if</span> <span class="sym">[ -</span>f $NEWSGROUPS <span class="sym">]</span>
+<span class="line">  129 </span>    then
+<span class="line">  130 </span>      mkstemp groups
+<span class="line">  131 </span>      mv $NEWSGROUPS $NEWSGROUPS<span class="sym">~</span>
+<span class="line">  132 </span>      grep <span class="sym">-</span>v $NEWSGR $NEWSGROUPS<span class="sym">~ &gt;</span>$tmp_groups
+<span class="line">  133 </span>      mv $tmp_groups $NEWSGROUPS
+<span class="line">  134 </span>    <span class="kwa">else</span>
+<span class="line">  135 </span>      <span class="sym">:&gt;</span> $NEWSGROUPS
+<span class="line">  136 </span>    fi
+<span class="line">  137 </span>    chown news<span class="sym">.</span>news $NEWSGROUPS
+<span class="line">  138 </span>
+<span class="line">  139 </span><span class="dir"># Updating Areas file</span>
+<span class="line">  140 </span>    <span class="kwa">if</span> <span class="sym">[ -</span>f $AREAS <span class="sym">]</span>
+<span class="line">  141 </span>    then
+<span class="line">  142 </span>      mkstemp areas
+<span class="line">  143 </span>      mv $AREAS $AREAS<span class="sym">~</span>
+<span class="line">  144 </span>      grep <span class="sym">-</span>v $NEWSGR $AREAS<span class="sym">~ &gt;</span>$tmp_areas
+<span class="line">  145 </span>      mv $tmp_areas $AREAS
+<span class="line">  146 </span>    <span class="kwa">else</span>
+<span class="line">  147 </span>      <span class="sym">:&gt;</span> $AREAS
+<span class="line">  148 </span>    fi
+<span class="line">  149 </span>    chown fnet<span class="sym">.</span>uucp $AREAS
+<span class="line">  150 </span>
+<span class="line">  151 </span><span class="dir"># Updating expire.ctl file</span>
+<span class="line">  152 </span>    <span class="kwa">if</span> <span class="sym">[ -</span>f $EXPIRE <span class="sym">]</span>
+<span class="line">  153 </span>    then
+<span class="line">  154 </span>      mkstemp expire
+<span class="line">  155 </span>      mv $EXPIRE $EXPIRE<span class="sym">~</span>
+<span class="line">  156 </span>      grep <span class="sym">-</span>v <span class="str">&quot;$NEWSGR:&quot;</span> $EXPIRE<span class="sym">~ &gt;</span>$tmp_expire
+<span class="line">  157 </span>      mv $tmp_expire $EXPIRE
+<span class="line">  158 </span>    <span class="kwa">else</span>
+<span class="line">  159 </span>      <span class="sym">:&gt;</span> $EXPIRE
+<span class="line">  160 </span>    fi
+<span class="line">  161 </span>    chown news<span class="sym">.</span>news $EXPIRE
+<span class="line">  162 </span>    chmod <span class="num">444</span> $EXPIRE
+<span class="line">  163 </span><span class="dir"># Remove pending articles</span>
+<span class="line">  164 </span>    echo <span class="sym">-</span>e <span class="str">&quot;</span><span class="esc">\n</span><span class="str">$NEWSGR:A:0:0:0&quot;</span> <span class="sym">&gt;&gt;</span>$EXPIRE
+<span class="line">  165 </span>    su <span class="sym">-</span>l news <span class="sym">-</span>c <span class="str">&quot;bin/news.daily&quot;</span> <span class="sym">&gt;/</span>dev<span class="sym">/</span>null
+<span class="line">  166 </span>    mkstemp expire
+<span class="line">  167 </span>    grep <span class="sym">-</span>v $NEWSGR $EXPIRE <span class="sym">&gt;</span>$tmp_expire
+<span class="line">  168 </span>    mv $tmp_expire $EXPIRE
+<span class="line">  169 </span>    chown news<span class="sym">.</span>news $EXPIRE
+<span class="line">  170 </span>    chmod <span class="num">444</span> $EXPIRE
+<span class="line">  171 </span>
+<span class="line">  172 </span><span class="dir"># Updating active file</span>
+<span class="line">  173 </span>    su <span class="sym">-</span>l news <span class="sym">-</span>c <span class="str">&quot;bin/ctlinnd rmgroup $NEWSGR&quot;</span> <span class="sym">&gt;/</span>dev<span class="sym">/</span>null
+<span class="line">  174 </span>  fi
+<span class="line">  175 </span><span class="sym">}</span>
+<span class="line">  176 </span>
+<span class="line">  177 </span><span class="dir"># Args: newsgroups_wildmat, days_to_keep</span>
+<span class="line">  178 </span><span class="kwd">set_expire_time</span><span class="sym">() {</span>
+<span class="line">  179 </span>
+<span class="line">  180 </span>	NEWSGROUP<span class="sym">=</span><span class="str">&quot;$1&quot;</span>
+<span class="line">  181 </span>	KEEPDAYS<span class="sym">=</span><span class="str">&quot;$2&quot;</span>
+<span class="line">  182 </span>	EXPIRE<span class="sym">=~</span>news<span class="sym">/</span>expire<span class="sym">.</span>ctl
+<span class="line">  183 </span>
+<span class="line">  184 </span>        dialog <span class="sym">--</span>backtitle <span class="str">&quot;$TITLE&quot;</span> <span class="sym">--</span>infobox <span class="str">&quot;Imposto a $KEEPDAYS il numero di giorni di mantenimento dei messaggi del newsgroup $NEWSGROUP...&quot;</span> <span class="num">0 0</span>
+<span class="line">  185 </span>
+<span class="line">  186 </span>	<span class="kwa">if</span> <span class="sym">[ ! -</span>f $EXPIRE <span class="sym">]</span>
+<span class="line">  187 </span>	then
+<span class="line">  188 </span>		<span class="sym">:&gt;</span> $EXPIRE
+<span class="line">  189 </span>
+<span class="line">  190 </span>	elif <span class="sym">[</span> <span class="str">&quot;`cut $EXPIRE -s -f1 -d: | grep -x $NEWSGROUP`&quot;</span> <span class="sym">]</span>
+<span class="line">  191 </span>	then
+<span class="line">  192 </span>		mkstemp expire
+<span class="line">  193 </span>		grep <span class="sym">-</span>v <span class="str">&quot;$NEWSGROUP:&quot;</span> $EXPIRE <span class="sym">&gt;</span>$tmp_expire
+<span class="line">  194 </span>		mv $tmp_expire $EXPIRE
+<span class="line">  195 </span>	fi
+<span class="line">  196 </span>	echo <span class="sym">-</span>e <span class="str">&quot;</span><span class="esc">\n</span><span class="str">$NEWSGROUP:A:2:$KEEPDAYS:$KEEPDAYS&quot;</span> <span class="sym">&gt;&gt;</span>$EXPIRE
+<span class="line">  197 </span>	chown news<span class="sym">.</span>news $EXPIRE
+<span class="line">  198 </span>	chmod <span class="num">444</span> $EXPIRE
+<span class="line">  199 </span><span class="sym">}</span>
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

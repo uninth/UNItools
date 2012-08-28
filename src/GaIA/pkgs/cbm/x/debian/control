@@ -1,0 +1,13 @@
+Source: cbm
+Section: utils
+Priority: optional
+Maintainer: Aaron Isotton <aaron@isotton.com>
+Build-Depends: debhelper (>= 4.0.0), autotools-dev, xmlto, libncurses-dev
+Standards-Version: 3.6.2
+
+Package: cbm
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Display the current network traffic
+ The Color Bandwidth Meter displays the current traffic on all network devices
+ in a simple, curses-based GUI.

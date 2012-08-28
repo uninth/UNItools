@@ -1,0 +1,8 @@
+2012-08-08 - Oliver Cordes <ocordes@astro.uni-bonn.de>
+	* 0.99.1 finished
+		- add some configure checks
+		- fix getopt BUG for MacOS/Linux glibc
+
+2012-08-03  -  Oliver Cordes <ocordes@astro.uni-bonn.de>
+
+	* 0.99 first version finished

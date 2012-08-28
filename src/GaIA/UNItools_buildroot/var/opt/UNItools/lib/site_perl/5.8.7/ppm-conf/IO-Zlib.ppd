@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOFTPKG NAME="IO-Zlib" VERSION="1,4,0,0">
+  <TITLE>IO-Zlib</TITLE>
+  <ABSTRACT>IO:: style interface to Compress::Zlib</ABSTRACT>
+  <AUTHOR>Tom Hughes &lt;tom@compton.nu></AUTHOR>
+  <IMPLEMENTATION>
+    <DEPENDENCY NAME="Compress-Zlib" VERSION="1,41,0,0"/>
+    <CODEBASE HREF="http://ppm.ActiveState.com/PPMPackages/5.8-linux/i686-linux-thread-multi-5.8/IO-Zlib.tar.gz"/>
+  </IMPLEMENTATION>
+</SOFTPKG>

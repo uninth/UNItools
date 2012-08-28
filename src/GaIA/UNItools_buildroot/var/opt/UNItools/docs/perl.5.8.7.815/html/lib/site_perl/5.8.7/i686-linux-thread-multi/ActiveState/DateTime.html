@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>ActiveState::DateTime - Date and Time utilities</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>ActiveState::DateTime - Date and Time utilities</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>ActiveState::DateTime - Date and Time utilities</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ use ActiveState::DateTime qw(is_leap_year days_in_month check_date month_name_short month_name_long gmt_offset);</pre>
+<pre>
+ if (is_leap_year($year)) {
+    ... do stuff ...
+ }</pre>
+<pre>
+ my $max_days = days_in_month($year, $month);</pre>
+<pre>
+ if (check_date($year, $month, $day)) {
+    ... do stuff ...
+ }</pre>
+<pre>
+ my $short_month_name = month_name_short($month);</pre>
+<pre>
+ my $long_month_name = month_name_long($month);</pre>
+<pre>
+ my $offset = gmt_offset();</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The ActiveState::DateTime module provide functions that can be used
+for convenient data and time checks.</p>
+<dl>
+<dt><strong><a name="item_is_leap_year"><code>is_leap_year($year)</code></a></strong>
+
+<dd>
+<p>This function takes a numerical argument of a year.  It returns true if
+the year is a leap year, otherwise it returns false.</p>
+</dd>
+</li>
+<dt><strong><a name="item_days_in_month">$days = days_in_month($year, $month)</a></strong>
+
+<dd>
+<p>This function returns the number of days in a month and takes into
+account leap years.  The year is a numerical argument.  The month is
+a numerical argument from 1 to 12.</p>
+</dd>
+</li>
+<dt><strong><a name="item_check_date">check_date($year, $month, $day)</a></strong>
+
+<dd>
+<p>This function takes numerical arguments for year, month and day and
+checks to make sure the date is valid.  For example:</p>
+</dd>
+<dd>
+<p>Is February 29, 2005 a valid date?</p>
+</dd>
+<dd>
+<p>Is February 29, 2008 a valid date?</p>
+</dd>
+<dd>
+<p>The month is a numerical argument that ranges from 1 to 12.</p>
+</dd>
+</li>
+<dt><strong><a name="item_month_name_short">$month_name = month_name_short($month);</a></strong>
+
+<dd>
+<p>This function returns the English three letter abbreviation of the month
+name.</p>
+</dd>
+</li>
+<dt><strong><a name="item_month_name_long">$month_name = month_name_long($month);</a></strong>
+
+<dd>
+<p>This function returns the full English month name.</p>
+</dd>
+</li>
+<dt><strong><a name="item_gmt_offset">$gmt_offset = gmt_offset();</a></strong>
+
+<dd>
+<p>This function returns the GMT offset.</p>
+</dd>
+</li>
+</dl>
+<p>No functions are exported by default.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2003 ActiveState Corp.  All rights reserved.</p>
+
+</body>
+
+</html>

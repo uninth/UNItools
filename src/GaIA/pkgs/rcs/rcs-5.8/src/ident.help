@@ -1,0 +1,9 @@
+#include "gnu-h-v.h"
+static char const help[] = ""
+"[options] [file ...]\n"
+"Options:\n"
+"  -q            Suppress warnings if no patterns are found.\n"
+"  -V            Like --version.\n"
+"\n"
+"If no FILE is specified, scan standard input.\n"
+;

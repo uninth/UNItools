@@ -1,0 +1,166 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of EDGE_BACKUP.SH</TITLE>
+</HEAD><BODY>
+<H1>EDGE_BACKUP.SH</H1>
+Section: User Commands  (1)<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+edge_backup.sh
+-
+create RCS based archives for edge configurations
+<A NAME="lbAC">&nbsp;</A>
+<H2>PACKAGE</H2>
+
+
+<PRE>
+UNItools
+</PRE><A NAME="lbAD">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+
+<PRE>
+edge_backup.sh [-v]
+</PRE><A NAME="lbAE">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+
+
+<A HREF="../man1/edge_backup.sh.1.html">edge_backup.sh</A>(1) is a poor mans backup program for SofaWare edge
+Appliances managed through a service centre.
+<P>
+<A HREF="../man1/edge_backup.sh.1.html">edge_backup.sh</A>(1) is intented to run periodically from <A HREF="../man1/cron.1.html">cron</A>(1)
+on the <I>service centre</I> which also might host the <I>managemet
+center</I>. The <I>internal IP address</I> of the edge is reachable
+through the VPN tunnel.
+<P>
+The script is intented to run from <A HREF="../man1/cron.1.html">cron</A>(1) as the user admin
+on the <I>service center</I>.
+<P>
+The recommended <A HREF="../man5/crontab.5.html">crontab</A>(5) is shown below:
+<PRE>
+minutes  hours  day-of-month  month  day-of-week command
+00 7-23 * * * /var/opt/UNItools/bin/edge_backup.sh &gt;/dev/null 2&gt;&amp;
+</PRE>
+
+<P>
+<A NAME="lbAF">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+
+<PRE>
+<DL COMPACT>
+<DT>-v<DD>Print diagnostic output to STDOUT.
+</DL>
+</PRE><A NAME="lbAG">&nbsp;</A>
+<H2>FILES</H2>
+
+
+<PRE>
+The config file should be located in $HOME/etc/edge_backup.cfg.
+The config file is a shell script containing one variable:
+
+ LIST_OF_INSIDE_IPADDRS=&quot;
+ #
+ # carefull here be dragons
+ #
+ # ipv4addr     login_user      login_passwd    edge_admin_port
+ #
+ 172.28.11.1    admin           1qazxsw2        981
+ &quot;
+
+</PRE>
+
+The format is shown above. Blank lines and linies beginning with
+# are ignored.
+<A NAME="lbAH">&nbsp;</A>
+<H2>COMMANDS</H2>
+
+
+<PRE>
+<A HREF="../man1/bash.1.html">bash</A>(1), <A HREF="../man1/sed.1.html">sed</A>(1), <A HREF="../man1/wget.1.html">wget</A>(1), etc.
+</PRE><A NAME="lbAI">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+
+<PRE>
+The Wiki at <A HREF="http://info.ssi.uni-c.dk.">http://info.ssi.uni-c.dk.</A>
+</PRE><A NAME="lbAJ">&nbsp;</A>
+<H2>DIAGNOSTICS</H2>
+
+
+
+Diagnostic putput is written to syslog. No further information
+is provided in case of error(s).
+<A NAME="lbAK">&nbsp;</A>
+<H2>KNOWN BUGS AND LIMITATIONS</H2>
+
+
+<PRE>
+IP addresses for edge appliances must be maintained both in the
+object database and the configuration file.
+</PRE><A NAME="lbAL">&nbsp;</A>
+<H2>VERSION</H2>
+
+
+<PRE>
+$Date: 2011/09/07 11:27:54 $
+<BR>
+$Revision: 1.2 $
+<BR>
+$Source: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/edge_backup/edge_backup-1.0/edge_backup.sh,v $
+<BR>
+$State: Exp $
+</PRE><A NAME="lbAM">&nbsp;</A>
+<H2>HISTORY</H2>
+
+
+<PRE>
+See rlog $Source: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/edge_backup/edge_backup-1.0/edge_backup.sh,v $
+</PRE><A NAME="lbAN">&nbsp;</A>
+<H2>AUTHOR(S)</H2>
+
+
+<PRE>
+Niels Thomas Haugård
+<BR>
+E-mail: <A HREF="mailto:niels.thomas.haugaard@uni-c.dk">niels.thomas.haugaard@uni-c.dk</A>
+<BR>
+UNI*C
+<BR>
+Professional Security and Service
+<BR>
+Danish Technical University, bldg 304
+<BR>
+DK-2800 Lyngby, Denmark
+
+</PRE>
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">PACKAGE</A><DD>
+<DT><A HREF="#lbAD">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAE">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAF">OPTIONS</A><DD>
+<DT><A HREF="#lbAG">FILES</A><DD>
+<DT><A HREF="#lbAH">COMMANDS</A><DD>
+<DT><A HREF="#lbAI">SEE ALSO</A><DD>
+<DT><A HREF="#lbAJ">DIAGNOSTICS</A><DD>
+<DT><A HREF="#lbAK">KNOWN BUGS AND LIMITATIONS</A><DD>
+<DT><A HREF="#lbAL">VERSION</A><DD>
+<DT><A HREF="#lbAM">HISTORY</A><DD>
+<DT><A HREF="#lbAN">AUTHOR(S)</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 18:58:41 GMT, August 22, 2012
+</BODY>
+</HTML>

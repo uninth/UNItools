@@ -1,0 +1,95 @@
+#COLUMN NUMBERS,,,,,,,,
+1,2,3,4,5,6,7,8,9
+#OBJECTS PROCESSING,,,,,,,,
+duck,cpgw,1.2.3.4,255.255.255.0,blue, , , ,This is duck1
+duckula,net,1.2.30.0,255.255.255.0,green,,,,This is anotther object
+superduck,ss,1.2.3.5,255.255.255.0,red,,,,
+batduck,host,1.2.3.6,255.255.255.0,pink,,,,
+duckser,range,1.2.3.100,1.2.3.200,gold,,,,
+speedyduck,cpgw,10.20.30.40,255.255.255.128,black,,,,
+sportyduck,net,10.20.30.0,255.255.255.128,brown,  ,,,
+bigduck,ss,10.20.30.50,255.255.255.128,yellow,  ,,,
+dukemall,range,10.20.30.220,10.20.40.100,gray,10.10.10.1,,  ,
+lillteduck,host,10.20.30.60,255.255.255.128,blue,200.50.100.1,,Static,Object with Static Nat
+castleduck,cpgw,5.6.7.8,255.255.255.0,green,192.168.10.1,,,
+playduck,net,5.6.70.0,255.255.255.0,red,192.168.10.1,,,
+turtleduck,ss,5.6.7.20,255.255.255.0,pink,192.168.10.1,,,
+duckybig,range,5.6.7.130,5.6.7.210,orange,192.168.10.1,,,An orange hide natted object
+duckcity,host,5.6.7.40,255.255.255.0,black,192.168.10.1,,,
+duckyland,cpgw,50.60.70.80,255.255.255.128,brown,10.10.10.1,duck,,
+duckstar,net,50.60.70.0,255.255.255.128,yellow,10.10.10.1,duck,,
+ducknorris,ss,50.60.70.6,255.255.255.128,blue,10.10.10.1,duck,,
+duckzeneeger,idevice,50.60.70.100,255.255.255.128,green,10.10.10.1,duck,Static,This is another static NATted Object
+duckzilla,range,50.60.70.120,50.60.70.200,magenta,10.10.10.1,duck,Static,The last Static NATted Object
+testng1,host,100.128.64.32,255.255.255.255,magenta,10.10.10.1,All,Static,The last Static NATted Object
+testng2,plaingw,100.128.64.62,255.255.255.255,magenta,10.10.10.1,All,Static,The last Static NATted Object
+testng3,ose,100.128.64.128,255.255.255.255,magenta,10.10.10.1,All,Static,The last Static NATted Object
+patote1,member,10.2.99.1,255.255.255.255,black,,,,
+patote2,member,10.2.99.2,255.255.255.255,black,,,,
+clpatote,cluster,10.1.2.33,patote1,black,,,,
+clpatote,cluster,10.1.2.33,patote2,black,,,,
+dyn_obj,dynamic,0.0.0.19,255.255.255.255,blue,,,,Comments
+profile,lprofile,0.0.0.18,255.255.255.255,blue,,,,Comments
+edge_gw,ledge,0.0.0.20,profile,obj_dinamico,192.168.10.40,vpn,password,Comments
+edge_gw2,lip40,0.0.0.21,profile,obj_dinamico,192.168.20.10-192.168.20.40,novpn,password,Comments
+ofiller.org,domain,black,,,,,,
+mydomain.com.mx,domain,black,,,,,,
+group1 ,group,duck,,,,,,
+group1        ,group,duckula,,,,,,
+   group1,group,superduck,,,,,,
+   group1     ,group,batduck,,,,,,
+group1,group,duckser,,,,,,
+group2,group   ,duckyland,,,,,,
+group2,   group,duckstar,,,,,,
+group2,   group   ,ducknorris,,,,,,
+group2,group,duckzeneeger,,,,,,
+group2,group,duckzilla,,,,,,
+pato1,host,1.5.10.15,255.255.255.255,magenta,10.9.8.7,All,Static,Just a test for rename
+pato2,host,2.4.6.8,255.255.255.255,magenta,10.12.14.16,All,Static,Just a test for rename
+pato1,rename,duck_01,
+duck_01,rename,duck_02,
+pato1,delete,,
+tcp_81,tcp,81,default
+tcp_bigger_82,tcp,>82,200
+tcp_lower_83,tcp,<81,default
+tcp_range_84-85,tcp,84-85,400
+udp_81,udp,81,default
+udp_bigger_82,udp,>82,600
+udp_lower_83,udp,<81,default
+udp_range_84-85,udp,84-85,800
+group_tcp,srvgroup,tcp_81,
+group_tcp,srvgroup,tcp_bigger_82,
+group_tcp,srvgroup,tcp_lower_83,
+group_tcp,srvgroup,tcp_range_84-85,
+group_udp,srvgroup,udp_81,
+group_udp,srvgroup,udp_bigger_82,,,,,,,,
+group_udp,srvgroup,udp_lower_83,,,,,,,,
+group_udp,srvgroup,udp_range_84-85,,,,,,,,
+mi_red1,net,8.8.9.0,255.255.255.0,blue,,,,Demo for Object Filler 2.0,,
+Red_1.2.3.4,net,1.2.3.0,255.255.255.0,red,,,,Demo for Object Filler 2.0,,
+Red_5.6.7.8,net,5.6.7.0,255.255.255.0,red,,,,Demo for Object Filler 2.0,,
+Red_7.8.9.0,net,7.8.9.0,255.255.255.0,red,,,,Demo for Object Filler 2.0,,
+idevice_01,idevice,50.60.70.102,255.255.255.255,green,,,,com1,encdomain,Red_1.2.3.4
+extid01,interface,50.60.70.102,255.255.255.0,idevice_01,external,local,,External Interface for Interoperable Device 01,,
+intid01,interface,8.8.9.1,255.255.255.240,idevice_01,internal,mi_red1,,Internal Interface for Interoperable Device 01,,
+dyngw02,dynamicgw,0.0.0.3,255.255.255.255,red,,,,Demo for Object Filler 2.0,encdomain,Red_5.6.7.8
+ext_dg02,interface,dynamic,255.255.255.128,dyngw02,external,,,External Interface for Dynamic Gateway 02,,
+int_dg02,interface,3.3.4.5,255.255.255.0,dyngw02,internal,local,,Internal Interface for Dynamic Gateway 02,,
+cpgw03,cpgw,50.60.90.25,255.255.255.255,green,,,,Demo for Object Filler 2.0,encdomain,Red_7.8.9.0
+ext,interface,50.60.90.25,255.255.255.128,cpgw03,external,,,,,
+int,interface,5.6.7.99,255.255.255.0,cpgw03,internal,undefined,,,,
+WebSrvr1,host,172.16.10.11,255.255.255.255,black,,,,Web Server 1,web,All
+WebSrvr2,host,172.16.15.87,255.255.255.255,blue,10.20.30.8,,Static,Web Server 2,web,duck
+WebSrvr3,host,123.234.34.56,255.255.255.255,green,10.20.30.56,,Hide,Web Server 3,web,All
+sample_dcerpc,dcerpc,12345678-90ab-cdef-0123-4567890abcde,,red,,,,Ofiller sample for service type dce-rpc,,
+sample_other,other,87,default,red,replies,rip_cmd=RIPCMD_RESPONSE,,Ofiller sample for Service type other,,
+sample_rpc,rpc,100006,,red,,,,Ofiller sample for service type rpc,,
+sample_icmp,icmp,6,,red,,,,Ofiller sample for service type icmp,,
+#RULES PROCESSING,,,,,,,,,,
+# RULE TYPE ,SOURCE ,DESTINATION ,VPN ,SERVICE ,ACTION ,TRACK ,INSTALL ON ,TIME ," 	COMMENT  ",
+security_rule,duck,duckula,Any ,tcp_81,accept ,log ,Any ,Any ,,
+security_rule,batduck;sportyduck,Any ,Any ,http ,accept ,log ,Any ,Any ,XYZ,
+security_rule,duckser,dukemall;castleduck,Any ,group_udp;tcp_bigger_82,accept ,log ,Any ,Any ,Comment,
+security_rule,LocalMachine ,Any,Any ,icmp-proto ,accept ,Log ,duckyland,Any ,,
+security_rule,InternalNet ,Any ,Any ,tcp_81;udp_81,accept ,Log ,speedyduck;duckyland,Any ,,
+security_rule,Any ,Any ,Any ,Any ,drop ,log ,Any ,Any ,,

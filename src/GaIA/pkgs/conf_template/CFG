@@ -1,0 +1,14 @@
+# Dummy
+URL="http://cppkg.haugaard.net/conf_template.1.0"
+PKG="conf_template"
+VER="1.0"
+NAME="SPLAT dot-profiles and config files for the smtp client"
+VENDOR="I2"
+SRC="conf_template.1.0"
+ROOT="/var/opt/UNItools"
+CONFIGURE="/bin/echo done"
+BUILD="make"
+INSTALL="make install"
+INSTALL_MORE=install_more.sh
+MAKECLEAN="make distclean"
+DELEFILES="*.bak"

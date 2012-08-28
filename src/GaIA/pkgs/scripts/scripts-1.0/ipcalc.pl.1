@@ -1,0 +1,113 @@
+.TH IPCALC.PL 1 
+.ad
+.fi
+.SH NAME
+ipcalc.pl
+\-
+IP Calculator
+.SH PACKAGE
+.ad
+.fi
+UNItools
+.SH SYNOPSIS
+.ad
+.fi
+\fCipcalc [-n|-h|-v|-help]\fR \fIADDRESS\fC[[/]\fINETMASK\fC] [\fINETMASK\fC]\fR
+.SH DESCRIPTION
+.ad
+.fi
+ipcalc takes an IP address and netmask and calculates the resulting
+broadcast, network, Cisco wildcard mask, and host range. By giving a
+second netmask, you can design sub- and supernetworks. It is also intended
+to be a teaching tool and presents the results as easy-to-understand
+binary values.
+
+Enter your netmask(s) in CIDR notation (/25) or dotted decimals
+(255.255.255.0).  Inverse netmask are recognized. If you mmit the netmask,
+ipcalc uses the default netmask for the class of your network.
+
+Look at the space between the bits of the addresses: The bits before it are
+the network part of the address, the bits after it are the host part. You can
+see two simple facts: In a network address all host bits are zero, in a
+broadcast address they are all set.
+
+The class of your network is determined by its first bits.
+
+If your network is a private internet according to RFC 1918 this is remarked.
+When displaying subnets the new bits in the network part of the netmask are
+marked in a different color.
+
+The wildcard is the inverse netmask as used for access control lists in Cisco
+routers. You can also enter netmasks in wildcard notation.
+
+Do you want to split your network into subnets? Enter the address and netmask
+of your original network and play with the second netmask until the result
+matches your needs.
+.SH OPTIONS
+.ad
+.fi
+.TP
+\fC-n\fR
+Don't display ANSI color codes
+.TP
+\fC-b\fR
+Suppress the bitwise output
+.TP
+\fC-c\fR
+Just print bit-count-mask of given address
+.TP
+\fC-h\fR
+Display results as HTML
+.TP
+\fC-help\fR
+Longer help text
+.TP
+\fC-v\fR
+Print Version
+.SH EXAMPLES
+.ad
+.fi
+.nf
+\fC
+        ipcalc 192.168.0.1/24
+        ipcalc 192.168.0.1/255.255.128.0
+        ipcalc 192.168.0.1 255.255.128.0 255.255.192.0
+        ipcalc 192.168.0.1 0.0.63.255
+.fi
+\fR
+.SH COMMANDS
+.ad
+.fi
+perl(1)
+.SH SEE ALSO
+.ad
+.fi
+
+.SH DIAGNOSTICS
+.ad
+.fi
+Errors printed to stdout/stderr.
+.SH BUGS
+.ad
+.fi
+Probably. Please report them to the author.
+.SH VERSION
+.na
+.nf
+$Date: 2005/11/21 11:35:04 $
+.br
+$Revision: 1.2 $
+.br
+$Source: /lan/ssi/projects/UNItools/src/Linux/2.4.21-20cpsmp/pkgs/scripts/scripts-1.0/RCS/ipcalc.pl,v $
+.br
+$State: Exp $
+.SH HISTORY
+.ad
+.fi
+See top of script. This version is based on 0.35.2.
+.SH AUTHOR(S)
+.ad
+.fi
+krischan at jodies.cx
+.br
+Manpage assembled by nth.

@@ -1,0 +1,113 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./form2</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir">#! /bin/sh</span>
+<span class="line">    1 </span><span class="dir"># $Id: form2,v 1.5 2004/09/12 22:37:31 tom Exp $</span>
+<span class="line">    2 </span><span class="sym">:</span> $<span class="sym">{</span>DIALOG<span class="sym">=</span>dialog<span class="sym">}</span>
+<span class="line">    3 </span>
+<span class="line">    4 </span>backtitle<span class="sym">=</span><span class="str">&quot;An Example for the use of --form:&quot;</span>
+<span class="line">    5 </span>
+<span class="line">    6 </span>ids<span class="sym">=</span>`id<span class="sym">|</span>sed <span class="sym">-</span>e <span class="str">'s/([^)]*)//g'</span>`
+<span class="line">    7 </span>uid<span class="sym">=</span>`echo <span class="str">&quot;$ids&quot;</span> <span class="sym">|</span> sed <span class="sym">-</span>e <span class="str">'s/^uid=//'</span> <span class="sym">-</span>e <span class="str">'s/ .*//'</span>`
+<span class="line">    8 </span>gid<span class="sym">=</span>`echo <span class="str">&quot;$ids&quot;</span> <span class="sym">|</span> sed <span class="sym">-</span>e <span class="str">'s/^.* gid=//'</span> <span class="sym">-</span>e <span class="str">'s/ .*//'</span>`
+<span class="line">    9 </span>
+<span class="line">   10 </span>user<span class="sym">=</span><span class="str">&quot;$USER&quot;</span>
+<span class="line">   11 </span>home<span class="sym">=</span><span class="str">&quot;$HOME&quot;</span>
+<span class="line">   12 </span>
+<span class="line">   13 </span>returncode<span class="sym">=</span><span class="num">0</span>
+<span class="line">   14 </span><span class="kwa">while</span> test $returncode <span class="sym">!=</span> <span class="num">1</span> <span class="sym">&amp;&amp;</span> test $returncode <span class="sym">!=</span> <span class="num">250</span>
+<span class="line">   15 </span><span class="kwa">do</span>
+<span class="line">   16 </span>exec <span class="num">3</span><span class="sym">&gt;&amp;</span><span class="num">1</span>
+<span class="line">   17 </span>value<span class="sym">=</span>`$DIALOG <span class="sym">--</span>ok<span class="sym">-</span>label <span class="str">&quot;Submit&quot;</span> \
+<span class="line">   18 </span>	  <span class="sym">--</span>backtitle <span class="str">&quot;$backtitle&quot;</span> \
+<span class="line">   19 </span>	  <span class="sym">--</span>form <span class="str">&quot;Here is a possible piece of a configuration program.&quot;</span> \
+<span class="line">   20 </span><span class="num">0 0 10</span> \
+<span class="line">   21 </span>	<span class="str">&quot;1 Username:&quot;</span>  <span class="num">1 1</span>	<span class="str">&quot;$user&quot;</span> <span class="num">1  12 10 10</span> \
+<span class="line">   22 </span>	<span class="str">&quot;1 UID:&quot;</span>       <span class="num">2 1</span>	<span class="str">&quot;$uid&quot;</span>  <span class="num">2  12 10 10</span> \
+<span class="line">   23 </span>	<span class="str">&quot;1 GID:&quot;</span>       <span class="num">3 1</span>	<span class="str">&quot;$gid&quot;</span>  <span class="num">3  12 10 10</span> \
+<span class="line">   24 </span>	<span class="str">&quot;1 HOME:&quot;</span>      <span class="num">4 1</span>	<span class="str">&quot;$home&quot;</span> <span class="num">4  12 10 10</span> \
+<span class="line">   25 </span>	<span class="str">&quot;2 Username:&quot;</span>  <span class="num">5 1</span>	<span class="str">&quot;$user&quot;</span> <span class="num">5  12 10 10</span> \
+<span class="line">   26 </span>	<span class="str">&quot;2 UID:&quot;</span>       <span class="num">6 1</span>	<span class="str">&quot;$uid&quot;</span>  <span class="num">6  12 10 10</span> \
+<span class="line">   27 </span>	<span class="str">&quot;2 GID:&quot;</span>       <span class="num">7 1</span>	<span class="str">&quot;$gid&quot;</span>  <span class="num">7  12 10 10</span> \
+<span class="line">   28 </span>	<span class="str">&quot;2 HOME:&quot;</span>      <span class="num">8 1</span>	<span class="str">&quot;$home&quot;</span> <span class="num">8  12 10 10</span> \
+<span class="line">   29 </span>	<span class="str">&quot;3 Username:&quot;</span>  <span class="num">9 1</span>	<span class="str">&quot;$user&quot;</span> <span class="num">9  12 10 10</span> \
+<span class="line">   30 </span>	<span class="str">&quot;3 UID:&quot;</span>      <span class="num">10 1</span>	<span class="str">&quot;$uid&quot;</span>  <span class="num">10 12 10 10</span> \
+<span class="line">   31 </span>	<span class="str">&quot;3 GID:&quot;</span>      <span class="num">11 1</span>	<span class="str">&quot;$gid&quot;</span>  <span class="num">11 12 10 10</span> \
+<span class="line">   32 </span>	<span class="str">&quot;3 HOME:&quot;</span>     <span class="num">12 1</span>	<span class="str">&quot;$home&quot;</span> <span class="num">12 12 10 10</span> \
+<span class="line">   33 </span>	<span class="str">&quot;4 Username:&quot;</span> <span class="num">13 1</span>	<span class="str">&quot;$user&quot;</span> <span class="num">13 12 10 10</span> \
+<span class="line">   34 </span>	<span class="str">&quot;4 UID:&quot;</span>      <span class="num">14 1</span>	<span class="str">&quot;$uid&quot;</span>  <span class="num">14 12 10 10</span> \
+<span class="line">   35 </span>	<span class="str">&quot;4 GID:&quot;</span>      <span class="num">15 1</span>	<span class="str">&quot;$gid&quot;</span>  <span class="num">15 12 10 10</span> \
+<span class="line">   36 </span>	<span class="str">&quot;4 HOME:&quot;</span>     <span class="num">16 1</span>	<span class="str">&quot;$home&quot;</span> <span class="num">16 12 10 10</span> \
+<span class="line">   37 </span>	<span class="str">&quot;5 Username:&quot;</span> <span class="num">17 1</span>	<span class="str">&quot;$user&quot;</span> <span class="num">17 12 10 10</span> \
+<span class="line">   38 </span>	<span class="str">&quot;5 UID:&quot;</span>      <span class="num">18 1</span>	<span class="str">&quot;$uid&quot;</span>  <span class="num">18 12 10 10</span> \
+<span class="line">   39 </span>	<span class="str">&quot;5 GID:&quot;</span>      <span class="num">19 1</span>	<span class="str">&quot;$gid&quot;</span>  <span class="num">19 12 10 10</span> \
+<span class="line">   40 </span>	<span class="str">&quot;5 HOME:&quot;</span>     <span class="num">20 1</span>	<span class="str">&quot;$home&quot;</span> <span class="num">20 12 10 10</span> \
+<span class="line">   41 </span>	<span class="str">&quot;6 Username:&quot;</span> <span class="num">21 1</span>	<span class="str">&quot;$user&quot;</span> <span class="num">21 12 10 10</span> \
+<span class="line">   42 </span>	<span class="str">&quot;6 UID:&quot;</span>      <span class="num">22 1</span>	<span class="str">&quot;$uid&quot;</span>  <span class="num">22 12 10 10</span> \
+<span class="line">   43 </span>	<span class="str">&quot;6 GID:&quot;</span>      <span class="num">23 1</span>	<span class="str">&quot;$gid&quot;</span>  <span class="num">23 12 10 10</span> \
+<span class="line">   44 </span>	<span class="str">&quot;6 HOME:&quot;</span>     <span class="num">24 1</span>	<span class="str">&quot;$home&quot;</span> <span class="num">24 12 10 10</span> \
+<span class="line">   45 </span>	<span class="str">&quot;7 Username:&quot;</span> <span class="num">25 1</span>	<span class="str">&quot;$user&quot;</span> <span class="num">25 12 10 10</span> \
+<span class="line">   46 </span>	<span class="str">&quot;7 UID:&quot;</span>      <span class="num">26 1</span>	<span class="str">&quot;$uid&quot;</span>  <span class="num">26 12 10 10</span> \
+<span class="line">   47 </span>	<span class="str">&quot;7 GID:&quot;</span>      <span class="num">27 1</span>	<span class="str">&quot;$gid&quot;</span>  <span class="num">27 12 10 10</span> \
+<span class="line">   48 </span>	<span class="str">&quot;7 HOME:&quot;</span>     <span class="num">28 1</span>	<span class="str">&quot;$home&quot;</span> <span class="num">28 12 10 10</span> \
+<span class="line">   49 </span><span class="num">2</span><span class="sym">&gt;&amp;</span><span class="num">1 1</span><span class="sym">&gt;&amp;</span><span class="num">3</span>`
+<span class="line">   50 </span>returncode<span class="sym">=</span>$?
+<span class="line">   51 </span>exec <span class="num">3</span><span class="sym">&gt;&amp;-</span>
+<span class="line">   52 </span>
+<span class="line">   53 </span>show<span class="sym">=</span>`echo <span class="str">&quot;$value&quot;</span> <span class="sym">|</span>sed <span class="sym">-</span>e <span class="str">'s/^/	/'</span>`
+<span class="line">   54 </span>
+<span class="line">   55 </span>	<span class="kwa">case</span> $returncode in
+<span class="line">   56 </span>	<span class="num">1</span><span class="sym">)</span>
+<span class="line">   57 </span>		<span class="str">&quot;$DIALOG&quot;</span> \
+<span class="line">   58 </span>		<span class="sym">--</span>clear \
+<span class="line">   59 </span>		<span class="sym">--</span>backtitle <span class="str">&quot;$backtitle&quot;</span> \
+<span class="line">   60 </span>		<span class="sym">--</span>yesno <span class="str">&quot;Really quit?&quot;</span> <span class="num">10 30</span>
+<span class="line">   61 </span>		<span class="kwa">case</span> $? in
+<span class="line">   62 </span>		<span class="num">0</span><span class="sym">)</span>
+<span class="line">   63 </span>			<span class="kwa">break</span>
+<span class="line">   64 </span>			<span class="sym">;;</span>
+<span class="line">   65 </span>		<span class="num">1</span><span class="sym">)</span>
+<span class="line">   66 </span>			returncode<span class="sym">=</span><span class="num">99</span>
+<span class="line">   67 </span>			<span class="sym">;;</span>
+<span class="line">   68 </span>		esac
+<span class="line">   69 </span>		<span class="sym">;;</span>
+<span class="line">   70 </span>	<span class="num">0</span><span class="sym">)</span>
+<span class="line">   71 </span>		<span class="str">&quot;$DIALOG&quot;</span> \
+<span class="line">   72 </span>		<span class="sym">--</span>clear \
+<span class="line">   73 </span>		<span class="sym">--</span>backtitle <span class="str">&quot;$backtitle&quot;</span> <span class="sym">--</span>no<span class="sym">-</span>collapse <span class="sym">--</span>cr<span class="sym">-</span>wrap \
+<span class="line">   74 </span>		<span class="sym">--</span>msgbox <span class="str">&quot;Resulting data:</span><span class="esc">\n\</span>
+<span class="line">   75 </span><span class="str">$show&quot;</span> <span class="num">0 0</span>
+<span class="line">   76 </span>		<span class="sym">;;</span>
+<span class="line">   77 </span>	<span class="sym">*)</span>
+<span class="line">   78 </span>		echo <span class="str">&quot;Return code was $returncode&quot;</span>
+<span class="line">   79 </span>		exit
+<span class="line">   80 </span>		<span class="sym">;;</span>
+<span class="line">   81 </span>	esac
+<span class="line">   82 </span>done
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOFTPKG NAME="ActivePerl-Config" VERSION="0,1,0,0">
+  <TITLE>ActivePerl-Config</TITLE>
+  <ABSTRACT>Override the ActivePerl configuration</ABSTRACT>
+  <AUTHOR>ActiveState &lt;support@activestate.com></AUTHOR>
+  <IMPLEMENTATION>
+    <DEPENDENCY NAME="ActiveState-Utils" VERSION="1,23,0,0"/>
+    <CODEBASE HREF="http://ppm.ActiveState.com/PPMPackages/5.8-linux/i686-linux-thread-multi-5.8/ActivePerl-Config.tar.gz"/>
+  </IMPLEMENTATION>
+</SOFTPKG>

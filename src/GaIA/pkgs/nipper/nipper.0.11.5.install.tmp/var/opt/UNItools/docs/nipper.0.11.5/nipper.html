@@ -1,0 +1,106 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of nipper</TITLE>
+</HEAD><BODY>
+<H1>nipper</H1>
+Section: Misc. Reference Manual Pages (1)<BR>Updated: January 2008<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+nipper - Network Infrastructure Parser. Produces reports based of network device configuration file settings.
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>nipper</B>
+
+[<I>OPTIONS</I>]
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+Nipper processes network infrastructure device configuration files, performs a security audit and produces a report based on the findings. The default report will contain sections on the security related issues identified, the configuration of the device and an appendicies with additional information. Nipper currently supports the following device types:
+
+* Cisco Switches (IOS)                  * Juniper NetScreen Firewall
+<BR>
+
+* Cisco Routers (IOS)                   * CheckPointer Firewall-1
+<BR>
+
+* Cisco Catalyst (IOS)                  * Nortel Passport
+<BR>
+
+* Cisco Firewall (PIX)                  * Sonicwall Firewall
+<BR>
+
+* Cisco Firewall (ASA)
+<BR>
+
+* Cisco Firewall (FWSM)
+<BR>
+
+* Cisco Catalyst (CatOS)
+<BR>
+
+* Cisco Catalyst (NMP)
+<BR>
+
+* Cisco Content Service Switches
+<A NAME="lbAE">&nbsp;</A>
+<H2>OPTIONS</H2>
+
+<B>--help</B>
+For help on all the options.
+<A NAME="lbAF">&nbsp;</A>
+<H2>EXAMPLES</H2>
+
+To produce an HTML formatted report for a Juniper NetScreen device:
+
+nipper --screenos --input=config.txt --output=report.html
+
+To produce an XML formatted report for a Cisco PIX firewall:
+
+nipper --pix --xml --input=pix-config.txt --output=report.xml
+
+To produce an HTML formatted report for a CheckPoint Firewall-1:
+
+nipper --fw1 --input=/root/config-backups/fw1/conf/ --output=report.html
+
+To produce an HTML formatted report for a Cisco IOS-based router using an external configuration file:
+
+nipper --config=nipper.conf --input=router.txt --output=report.html
+<A NAME="lbAG">&nbsp;</A>
+<H2>AUTHOR</H2>
+
+Nipper was developed by Ian Ventura-Whiting (Fizz).
+<A NAME="lbAH">&nbsp;</A>
+<H2>COPYRIGHT</H2>
+
+Copyright &#169; 2006-2008 Ian Ventura-Whiting.
+<BR>
+
+This is free software.  You may redistribute copies of it under the terms of the GNU General Public License v3 or above &lt;<A HREF="http://www.gnu.org/licenses/gpl.html">http://www.gnu.org/licenses/gpl.html</A>&gt;. There is NO WARRANTY, to the extent permitted by law.
+<A NAME="lbAI">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<A HREF="../man5/nipper.conf.5.html">nipper.conf</A>(5)
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">OPTIONS</A><DD>
+<DT><A HREF="#lbAF">EXAMPLES</A><DD>
+<DT><A HREF="#lbAG">AUTHOR</A><DD>
+<DT><A HREF="#lbAH">COPYRIGHT</A><DD>
+<DT><A HREF="#lbAI">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 18:56:40 GMT, August 22, 2012
+</BODY>
+</HTML>

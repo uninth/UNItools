@@ -1,0 +1,349 @@
+#
+# $Id: di.iffe,v 1.28 2006-10-05 00:51:01-07 bll Exp $
+# $Source: /export/home/bll/DI/features.base/RCS/di.iffe,v $
+# Copyright 2001-2002 Brad Lanam, Walnut Creek, California USA
+#
+
+iff config
+
+# required headers
+
+sys types
+hdr stdio
+hdr stdlib
+sys param
+
+# void available?
+
+key void
+
+# prototypes
+
+proto   stdc note{ Standard-C prototypes ok }end compile{
+        extern int foo(int, int);
+        bar()
+        {       foo(1, 1);
+        }
+}end
+
+# commands
+
+command msgfmt note{ Is msgfmt available? }end run{
+    p=`echo $PATH | sed 's/:/ /g'`
+    set $p
+    for i in $*
+    do
+        if [ -x $i/msgfmt ]
+        then
+            exit 0
+        fi
+    done
+    exit 1
+}end pass{ }end
+
+command gmsgfmt note{ Is gmsgfmt available? }end run{
+    p=`echo $PATH | sed 's/:/ /g'`
+    set $p
+    for i in $*
+    do
+        if [ -x $i/gmsgfmt ]
+        then
+            exit 0
+        fi
+    done
+    exit 1
+}end pass{ }end
+
+# headers
+
+hdr ctype
+hdr errno
+hdr fshelp
+hdr getopt
+hdr kernel/fs_info
+hdr limits
+hdr libintl
+hdr locale
+# for FreeBSD...malloc.h acts differently w/STDC.
+hdr malloc stdio.h stdlib.h
+hdr math
+hdr memory
+hdr mntent
+hdr mnttab
+hdr storage/Directory
+hdr storage/Entry
+hdr storage/Path
+hdr string
+hdr strings
+hdr time
+hdr unistd
+hdr windows
+hdr zone
+sys fs_types
+sys fstyp
+sys fstypes
+sys mntctl
+sys mntent
+sys mnttab
+# mount.h on FreeBSD is broken...
+sys mount sys/param.h
+sys stat
+sys statfs
+sys statvfs
+sys time
+sys vfs
+sys vfstab
+sys vmount
+
+# do this so we know whether it's safe to include malloc.h
+# in addition to standard libraries.
+# this is not set properly if malloc.h is not a valid header.
+include malloc stdio.h stdlib.h malloc.h note{ Is it safe to include malloc.h? }end compile{
+    main ()
+    {
+        char *x; x = malloc (20);
+    }
+}end
+
+# do this so we know whether it's safe to include both string.h and strings.h
+include string stdio.h stdlib.h string.h strings.h note{ Is it safe to include both string.h and strings.h? }end compile{
+    main ()
+    {
+        char *a; char *b; strcpy (a, b);
+    }
+}end
+
+# need to define prototype?
+
+npt getenv stdio.h stdlib.h
+npt statfs stdio.h stdlib.h sys/types.h sys/param.h sys/mount.h sys/statfs.h sys/vfs.h
+
+# types: statvfs_t, size_t: defined?
+
+typ statvfs_t stdio.h stdlib.h sys/statfs.h sys/statvfs.h sys/vfs.h
+typ size_t stdio.h stdlib.h sys/types.h
+typ uint_t stdio.h stdlib.h sys/types.h
+typ uid_t stdio.h stdlib.h sys/types.h
+
+# system calls
+
+lib bcopy
+lib bindtextdomain libintl.h -lintl -liconv
+lib bzero
+lib endmntent
+lib fmod
+lib fs_stat_dev storage/Directory.h storage/Entry.h storage/Path.h
+lib fshelp
+lib GetDiskFreeSpace windows.h
+lib GetDiskFreeSpaceEx windows.h
+lib GetDriveType windows.h
+lib GetLogicalDriveStrings windows.h
+lib GetVolumeInformation windows.h
+lib getfsstat
+lib getmnt
+lib getmntent
+lib getmntinfo
+lib getopt stdlib.h unistd.h getopt.h
+lib gettext libintl.h  -lintl -liconv
+lib getvfsstat
+lib getzoneid zone.h
+lib hasmntopt
+lib memcpy
+lib memset
+lib mntctl
+lib setlocale libintl.h  -lintl -liconv
+lib setmntent
+lib snprintf
+lib statfs
+lib statvfs
+lib sysfs
+lib textdomain libintl.h  -lintl -liconv
+lib zone_getattr zone.h
+lib zone_list zone.h
+mth fmod
+
+# How many args?
+# Doesn't work if there's no prototype/old compiler.
+# We link, so that it gets set to no if the function
+# doesn't exist at all.
+
+setmntent 1arg stdio.h stdlib.h sys/types.h sys/param.h mntent.h mnttab.h sys/mntent.h sys/mnttab.h sys/mount.h note{ does setmntent take one arg? }end link{
+    main ()
+    {
+        setmntent ("/etc/mnttab");
+    }
+}end
+
+setmntent 2arg stdio.h stdlib.h sys/types.h sys/param.h mntent.h mnttab.h sys/mntent.h sys/mnttab.h sys/mount.h note{ does setmntent take two args? }end link{
+    main ()
+    {
+        setmntent ("/etc/mnttab", "r");
+    }
+}end
+
+statfs 2arg stdio.h stdlib.h sys/types.h sys/param.h sys/mount.h sys/statfs.h sys/vfs.h note{ does statfs take 2 args? }end link{
+    main ()
+    {
+        struct statfs   statBuf;
+        char *name;
+        name = "/";
+        statfs (name, &statBuf);
+    }
+}end
+
+statfs 3arg stdio.h stdlib.h sys/types.h sys/param.h sys/mount.h sys/statfs.h sys/vfs.h note{ does statfs take 3 args? }end link{
+    main ()
+    {
+        struct statfs   statBuf;
+        char *name;
+        name = "/";
+        statfs (name, &statBuf, sizeof (statBuf));
+    }
+}end
+
+statfs 4arg stdio.h stdlib.h sys/types.h sys/param.h sys/mount.h sys/statfs.h sys/vfs.h note{ does statfs take 4 args? }end link{
+    main ()
+    {
+        struct statfs   statBuf;
+        char *name;
+        name = "/";
+        statfs (name, &statBuf, sizeof (statBuf), 0);
+    }
+}end
+
+user prompt stdio.h stdlib.h note{ ask user for args in setmntent/statfs }end output{
+    #include <stdlib.h>
+    main ()
+    {
+        char in[80];
+        FILE *si;
+        FILE *so;
+        si = fopen ("/dev/tty", "r");
+        so = fopen ("/dev/tty", "w");
+    #if _lib_setmntent && \
+        ((! defined (_setmntent_1arg) && \
+          ! defined (_setmntent_2arg)) || \
+         (_setmntent_1arg && \
+          _setmntent_2arg))
+        fprintf (so, "\n");
+        fprintf (so, "Enter number of argument to pass to setmntent(): ");
+        fgets (in, 80, si);
+        printf ("#undef _setmntent_1arg\n");
+        printf ("#undef _setmntent_2arg\n");
+        printf ("#define _setmntent_%darg 1\n", atoi (in));
+    #endif
+    /* we don't care how many args if we use one of the other disk */
+    /* space functions...                                          */
+    #if _lib_statfs && \
+        ! defined (_lib_statvfs) && \
+        ! defined (_lib_getfsstat) && \
+        ((! defined (_statfs_2arg) && \
+          ! defined (_statfs_3arg) && \
+          ! defined (_statfs_4arg)) || \
+         (_npt_statfs))
+        fprintf (so, "\n");
+        fprintf (so, "Enter number of argument to pass to statfs(): ");
+        fgets (in, 80, si);
+        printf ("#undef _statfs_2arg\n");
+        printf ("#undef _statfs_3arg\n");
+        printf ("#undef _statfs_4arg\n");
+        printf ("#define _statfs_%darg 1\n", atoi (in));
+    #endif
+        return 0;
+    }
+}end
+
+# data symbols
+
+# "dat optind stdlib.h" simply checks whether the symbol is
+# present in the library; not if it is declared.
+
+dcl errno stdlib.h unistd.h errno.h note{ is errno declared? }end compile{
+    main () { int i; i = errno; }
+}end
+dcl optind stdlib.h unistd.h getopt.h note{ is optind declared? }end compile{
+    main () { int i; i = optind; }
+}end
+
+dcl optarg stdlib.h unistd.h getopt.h note{ is optarg declared? }end compile{
+    main () { char *x; x = optarg; }
+}end
+
+# structure entries
+
+mem statfs.f_bsize stdio.h stdlib.h sys/types.h sys/param.h sys/mount.h sys/statfs.h sys/vfs.h
+mem statfs.f_fsize stdio.h stdlib.h sys/types.h sys/param.h sys/mount.h sys/statfs.h sys/vfs.h
+mem statfs.f_iosize stdio.h stdlib.h sys/types.h sys/param.h sys/mount.h sys/statfs.h sys/vfs.h
+mem statfs.f_frsize stdio.h stdlib.h sys/types.h sys/param.h sys/mount.h sys/statfs.h sys/vfs.h
+mem statfs.f_fstypename stdio.h stdlib.h sys/types.h sys/param.h sys/mount.h sys/statfs.h sys/vfs.h
+mem statfs.mount_info stdio.h stdlib.h sys/types.h sys/param.h sys/mount.h sys/statfs.h sys/vfs.h
+mem statfs.f_type stdio.h stdlib.h sys/types.h sys/param.h sys/mount.h sys/statfs.h sys/vfs.h
+mem mnttab.mnt_time stdio.h sys/types.h mnttab.h sys/mnttab.h
+mem vmount.vmt_time stdio.h sys/types.h sys/vmount.h
+
+# what size?
+
+siz long.long
+
+# output standard stuff...
+note{ output standard macros }end cat{
+
+#if ! _key_void || ! _proto_stdc
+# define void int
+#endif
+
+#ifndef _
+# if _proto_stdc
+#  define _(args) args
+# else
+#  define _(args) ()
+# endif
+#endif
+
+#if _lib_bindtextdomain && \
+	_lib_gettext && \
+	_lib_setlocale && \
+	_lib_textdomain && \
+	_hdr_libintl && \
+	_hdr_locale && \
+	(_command_msgfmt || _command_gmsgfmt)
+# define _enable_nls 1
+#else
+# define _enable_nls 0
+#endif
+
+#if _typ_statvfs_t
+# define Statvfs_t statvfs_t
+#else
+# define Statvfs_t struct statvfs
+#endif
+
+#if _typ_size_t
+# define Size_t size_t
+#else
+# define Size_t unsigned int
+#endif
+
+#if _typ_uint_t
+# define Uint_t uint_t
+#else
+# define Uint_t unsigned int
+#endif
+
+#if _typ_uid_t
+# define Uid_t uid_t
+#else
+# define Uid_t int
+#endif
+
+#if _lib_snprintf
+# define Snprintf snprintf
+# define SPF(a1,a2,a3)      a1,a2,a3
+#else
+# define Snprintf sprintf
+# define SPF(a1,a2,a3)      a1,a3
+#endif
+
+#define _config_by_iffe_ 1
+#define _config_by_mkconfig_pl_ 0
+}end

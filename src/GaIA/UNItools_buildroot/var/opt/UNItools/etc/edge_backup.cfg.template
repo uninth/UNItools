@@ -1,0 +1,30 @@
+#
+# Ad-hoc edge backup configuration template
+#
+# The edge box'es are located behind NAT devices, but the inside address is accessible
+# through the VPN tunnel, as it is part of the encryption domain.
+#
+# The list of edge which will be backed up by the script is maintained here:
+
+LIST_OF_INSIDE_IPADDRS="
+#
+# carefull here be dragons
+#
+# ipv4addr	login_user	login_passwd	edge_admin_port
+#
+172.28.11.1	admin		1qazxsw2	981
+172.28.5.1	admin		1qazxsw2	981
+172.28.13.1	admin		1qazxsw2	981
+172.28.14.1	admin		1qazxsw2	981
+172.28.9.1	admin		1qazxsw2	981
+172.28.12.1	admin		1qazxsw2	981
+172.28.7.1	admin		1qazxsw2	981
+172.28.6.1	admin		1qazxsw2	981
+172.28.10.1	admin		1qazxsw2	981
+172.28.8.1	admin		1qazxsw2	981
+172.28.4.1	admin		1qazxsw2	981
+"
+
+#
+# Notify anyone in case of errors ?
+#

@@ -1,0 +1,294 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of IDENT</TITLE>
+</HEAD><BODY>
+<H1>IDENT</H1>
+Section: User Commands  (1)<BR>Updated: 2011-08-30<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+ident - identify RCS keyword strings in files
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+<B>ident</B>
+
+[
+<B>-q</B>
+
+] [
+<B>-V</B>
+
+] [
+<I>file</I>
+
+... ]
+<A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+<B>ident</B>
+
+searches for all instances of the pattern
+<B>$</B><I>keyword</I><B>:</B><I>&nbsp;text&nbsp;</I><B>$</B>
+
+in the named files or, if no files are named, the standard input.
+<P>
+
+These patterns are normally inserted automatically by the <FONT SIZE="-1">RCS</FONT> command
+<B><A HREF="../man1/co.1.html">co</A></B>(1),
+
+but can also be inserted manually.
+The option
+<B>-q</B>
+
+suppresses
+the warning given if there are no patterns in a file.
+The option
+<B>-V</B>
+
+prints <FONT SIZE="-1">RCS</FONT>'s version number.
+<P>
+
+<B>ident</B>
+
+works on text files as well as object files and dumps.
+For example, if the C program in
+<B>f.c</B>
+
+contains
+<DL COMPACT>
+<DT><DD>
+<B>
+#include &lt;<A HREF="file:/usr/include/stdio.h">stdio.h</A>&gt;
+<BR>
+
+static char const rcsid[] =
+<BR>
+
+<BR>&nbsp;&nbsp;&quot;$Id:&nbsp;f.c,v&nbsp;5.4 1993/11/09 17:40:15 eggert Exp&nbsp;$&quot;;
+<BR>
+
+int main() { return printf(&quot;%s\n&quot;, rcsid) == EOF; }
+</B>
+</DL>
+<P>
+
+and
+<B>f.c</B>
+
+is compiled into
+<B>f.o</B>,
+
+then the command
+<DL COMPACT>
+<DT><DD>
+<B>ident  f.c  f.o</B>
+
+</DL>
+<P>
+
+will output
+<PRE>
+<DL COMPACT>
+<DT><DD><B>f.c:
+    $Id: f.c,v 5.4 1993/11/09 17:40:15 eggert Exp $
+f.o:
+    $Id: f.c,v 5.4 1993/11/09 17:40:15 eggert Exp $
+</B></PRE>
+
+</DL>
+<P>
+
+If a C program defines a string like
+<B>rcsid</B>
+
+above but does not use it,
+<B><A HREF="../man1/lint.1.html">lint</A></B>(1)
+
+may complain, and some C compilers will optimize away the string.
+The most reliable solution is to have the program use the
+<B>rcsid</B>
+
+string, as shown in the example above.
+<P>
+
+<B>ident</B>
+
+finds all instances of the
+<B>$</B><I>keyword</I><B>:</B><I>&nbsp;text&nbsp;</I><B>$</B>
+
+pattern, even if
+<I>keyword</I>
+
+is not actually an <FONT SIZE="-1">RCS</FONT>-supported keyword.
+This gives you information about nonstandard keywords like
+<B>$XConsortium$</B>.
+
+<A NAME="lbAE">&nbsp;</A>
+<H2>KEYWORDS</H2>
+
+Here is the list of keywords currently maintained by
+<B><A HREF="../man1/co.1.html">co</A></B>(1).
+
+All times are given in Coordinated Universal Time (<FONT SIZE="-1">UTC</FONT>,
+sometimes called <FONT SIZE="-1">GMT</FONT>) by default, but if the files
+were checked out with
+<B>co</B>'s
+
+<B>-z</B><I>zone</I>
+
+option, times are given with a numeric time zone indication appended.
+<DL COMPACT>
+<DT><B>$Author$</B>
+
+<DD>
+The login name of the user who checked in the revision.
+<DT><B>$Date$</B>
+
+<DD>
+The date and time the revision was checked in.
+<DT><B>$Header$</B>
+
+<DD>
+A standard header containing the full <FONT SIZE="-1">RCS</FONT> file name, the
+revision number, the date and time, the author, the state,
+and the locker (if locked).
+<DT><B>$Id$</B>
+
+<DD>
+Same as
+<B>$Header$</B>,
+
+except that the <FONT SIZE="-1">RCS</FONT> file name is without directory components.
+<DT><B>$Locker$</B>
+
+<DD>
+The login name of the user who locked the revision (empty if not locked).
+<DT><B>$Log$</B>
+
+<DD>
+The log message supplied during checkin.
+For
+<B>ident</B>'s
+
+purposes, this is equivalent to
+<B>$RCSfile$</B>.
+
+<DT><B>$Name$</B>
+
+<DD>
+The symbolic name used to check out the revision, if any.
+<DT><B>$RCSfile$</B>
+
+<DD>
+The <FONT SIZE="-1">RCS</FONT> file name without directory components.
+<DT><B>$Revision$</B>
+
+<DD>
+The revision number assigned to the revision.
+<DT><B>$Source$</B>
+
+<DD>
+The full <FONT SIZE="-1">RCS</FONT> file name.
+<DT><B>$State$</B>
+
+<DD>
+The state assigned to the revision with the
+<B>-s</B>
+
+option of
+<B><A HREF="../man1/rcs.1.html">rcs</A></B>(1)
+
+or
+<B><A HREF="../man1/ci.1.html">ci</A></B>(1).
+
+</DL>
+<P>
+
+<B><A HREF="../man1/co.1.html">co</A></B>(1)
+
+represents the following characters in keyword values by escape sequences
+to keep keyword strings well-formed.
+<P>
+
+<DL COMPACT><DT><DD>
+<PRE>
+
+<I>char     escape sequence</I>
+tab      <B>\t</B>
+newline  <B>\n</B>
+space    <B>\040
+$        \044
+\        \\</B>
+</PRE>
+
+</DL>
+
+
+<A NAME="lbAF">&nbsp;</A>
+<H2>IDENTIFICATION</H2>
+
+Author: Walter F. Tichy.
+<BR>
+
+Manual Page Revision: 5.8; Release Date: 2011-08-30.
+<BR>
+
+Copyright &#169; 2010, 2011 Thien-Thi Nguyen.
+<BR>
+
+Copyright &#169; 1990, 1992, 1993 Paul Eggert.
+<BR>
+
+Copyright &#169; 1982, 1988, 1989 Walter F. Tichy.
+<BR>
+
+<A NAME="lbAG">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+<B><A HREF="../man1/ci.1.html">ci</A></B>(1),
+
+<B><A HREF="../man1/co.1.html">co</A></B>(1),
+
+<B><A HREF="../man1/rcs.1.html">rcs</A></B>(1),
+
+<B><A HREF="../man1/rcsdiff.1.html">rcsdiff</A></B>(1),
+
+<B><A HREF="../man1/rcsintro.1.html">rcsintro</A></B>(1),
+
+<B><A HREF="../man1/rcsmerge.1.html">rcsmerge</A></B>(1),
+
+<B><A HREF="../man1/rlog.1.html">rlog</A></B>(1),
+
+<B><A HREF="../man5/rcsfile.5.html">rcsfile</A></B>(5).
+
+<P>
+
+Walter F. Tichy,
+<FONT SIZE="-1">RCS</FONT>--A System for Version Control,
+<I>Software--Practice &amp; Experience</I>
+
+<B>15</B>,
+
+7 (July 1985), 637-654.
+<P>
+
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">KEYWORDS</A><DD>
+<DT><A HREF="#lbAF">IDENTIFICATION</A><DD>
+<DT><A HREF="#lbAG">SEE ALSO</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 18:55:31 GMT, August 22, 2012
+</BODY>
+</HTML>

@@ -1,0 +1,5 @@
+type "cd src/"
+"make"
+"make install" (as root!)
+
+now you can start the program with "itop"

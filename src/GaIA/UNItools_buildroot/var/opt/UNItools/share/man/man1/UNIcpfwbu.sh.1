@@ -1,0 +1,84 @@
+.TH UNIFWBU.SH 1 
+.ad
+.fi
+.SH NAME
+UNIfwbu.sh
+\-
+Wrapper for Check Point backup
+.SH "PACKAGE"
+.na
+.nf
+UNItools
+.SH "SYNOPSIS"
+.na
+.nf
+UNIfwbu.sh [-v]
+.SH DESCRIPTION
+.ad
+.fi
+Simple wrapper for Check Point backup on Secure Platform R65
+and beyond. Tested on R75.
+
+Creates /var/CPbackup/RESTORE_INFORMATION with a number of
+documents describing the hardware, installed software and
+version(s) and builds a restore procedure (README file).
+
+The script add a number of files to the Check Point backup
+procedure.
+
+The script \fCUNIfwbu.sh(1)\fR preserves the backup procedure
+configuration file as \fCsystem_configuration.cpbak.org\fR
+in the same directory as the current configuration file.
+
+\fCUNIfwbu.sh(1)\fR is installed as part of the package
+\fBUNItools\fR.
+
+.SH "OPTIONS"
+.na
+.nf
+.TP
+\fC-v\fR
+Verbose - print diagnostic output to the screen.
+.SH "COMMANDS"
+.na
+.nf
+\fCbash(1)\fR, \fCsed(1)\fR, \fCawk(1)\fR and \fCbackup<fR.
+.SH "SEE ALSO"
+.na
+.nf
+Documentation for UNItools and Check Point backup
+.SH DIAGNOSTICS
+.ad
+.fi
+None.
+.SH BUGS
+.ad
+.fi
+The Check Point backup fails if it detects that the CPMI process
+is running.  Please close all GUI clients before backup.
+.SH "VERSION"
+.na
+.nf
+$Date: 2013/06/27 10:39:40 $
+.br
+$Revision: 1.4 $
+.br
+$Source: /root/personal/nth/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.sh,v $
+.br
+$State: Exp $
+.SH "HISTORY"
+.na
+.nf
+See \fCrlog\fR $Id: UNIcpfwbu.sh,v 1.4 2013/06/27 10:39:40 root Exp $
+.SH "AUTHOR(S)"
+.na
+.nf
+Niels Thomas Haugård
+.br
+E-mail: thomas@haugaard.net
+.br
+UNI\(buC
+.br
+DTU, Building 304
+.br
+DK-2800 Kgs. Lyngby

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOFTPKG NAME="ActivePerl-DocTools" VERSION="1,0,0,0">
+  <TITLE>ActivePerl-DocTools</TITLE>
+  <ABSTRACT>Maintain HTML documentation</ABSTRACT>
+  <AUTHOR>ActiveState &lt;support@activestate.com></AUTHOR>
+  <IMPLEMENTATION>
+    <CODEBASE HREF="http://ppm.ActiveState.com/PPMPackages/5.8-linux/i686-linux-thread-multi-5.8/ActivePerl-DocTools.tar.gz"/>
+  </IMPLEMENTATION>
+</SOFTPKG>

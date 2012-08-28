@@ -1,0 +1,179 @@
+#!/bin/sh
+#
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/setup/setup-1.0/RCS/fw1mungle,v 1.4 2009/09/08 21:46:15 root Exp $
+#
+# Now part of UNItools. COPY $0 to /etc/init.d/fw1mungle, and
+# run /etc/init.d/fw1mungle install
+#
+# Se http://www.google.dk/search?q=cache:2j5hfACo6NoJ:www.fw-1.de/aerasec/ng/http-resource-01.html+message_info:+CONNECT+command+found+in+HTTP+request&hl=da&ie=UTF-8
+#
+# +--------------------------------------------------------------+
+# | Platform:       | Any platform for an Enforcement Point of   |
+# |                 | Next Generation                            |
+# |-----------------+--------------------------------------------|
+# | Product:        | Check Point Next Generation FP3 (and       |
+# |                 | above?)                                    |
+# |-----------------+--------------------------------------------|
+# | Problem:        | When using a Proxy like Squid for SSL      |
+# |                 | (HTTPS), the connection is refused. In the |
+# |                 | log (INFO comumn) the following entry can  |
+# |                 | be found:                                  |
+# |                 |                                            |
+# |                 | message_info: CONNECT command found in     |
+# |                 | HTTP request                               |
+# |-----------------+--------------------------------------------|
+# | Workaround/Fix: | This is not necessarily reasoned by        |
+# |                 | SmartDefense, but by "internal properties" |
+# |                 | of FireWall-1. To avoid this problem, you  |
+# |                 | should test the parameter                  |
+# |                 | asm_http_allow_connect first:              |
+# |                 |                                            |
+# |                 | #> fw ctl get int asm_http_allow_connect   |
+# |                 | asm_http_allow_connect = 0                 |
+# |                 |                                            |
+# |                 | If the result looks like this, you can     |
+# |                 | modify this parameter by typing            |
+# |                 |                                            |
+# |                 | #> fw ctl set int asm_http_allow_connect 1 |
+# |                 |                                            |
+# |                 | With this command, the Kernel variable is  |
+# |                 | modified, the message should disappear and |
+# |                 | the connection allowed. This command will  |
+# |                 | not survive a reboot of the machine.       |
+# |                 | Remember, if you do this modification, the |
+# |                 | security given by Next Generation might be |
+# |                 | decreased.                                 |
+# |                 |                                            |
+# |                 | For a permanent change of this parameter,  |
+# |                 | please contact your local support partner. |
+# +--------------------------------------------------------------+
+
+# get info about user 'admin'
+
+# Find / setup FWDIR, and other firewall-1 specific
+# things.
+
+AH=`awk -F: '$1 == "admin" { print $6 }' /etc/passwd`
+
+# Fake/forcing interactive source
+# PS1="# "
+# export PS1
+
+if [ ! -d "${AH}" ]; then
+	logger -t `basename $0` "problem determining home for user 'admin'"
+	exit 1
+fi
+
+case `uname` in
+	Linux|Solaris)
+		RC_FILES="/etc/bashrc ${AH}/.bash_profile ${AH}/.bashrc"
+	;;
+	*)	RC_FILES="${AH}/.profile"
+	;;
+esac
+logger -t `basename $0` "rc-files: ${RC_FILES}"
+
+for FILE in ${RC_FILES}
+do
+	if [ -f "${FILE}" ]; then
+		. ${FILE}	2>&1 > /dev/null
+		logger -t `basename $0` "sourced ${FILE} - FWDIR = ${FWDIR}"
+	else
+		logger -t `basename $0` "RC file ${FILE} NOT sourced !"
+	fi
+done
+
+cat << EOF | logger -t `basename $0`
+Running $0 $*
+FWDIR     = $FWDIR
+CPDIR     = $CPDIR
+fw ver    = `fw ver -k`
+Status:    `fw ctl get int asm_http_allow_connect`
+EOF
+
+#
+# FW1 mungles
+#
+
+# When using a Proxy like Squid for SSL (HTTPS), the connection is refused.
+# In the log (INFO comumn) the following entry can be found: 
+# 
+# message_info: CONNECT command found in HTTP request
+
+# Error in the logs: "Message_info: unexpected post SYN packet"
+# Se sk17418
+#
+# The solution for legitimate connection failures to certain sites related to
+# the Unexpected SYN response logs in SmartView Tracker is to configure the
+# fw_allow_out_of_state_syn_resp kernel variable. The Unexpected SYN response log
+# is generated because FireWall-1 restricts the response to a new TCP connection
+# attempt (a SYN packet) only to a SYN+ACK or a RST packets by default. This
+# restriction was introduced in NG FP3 in order to increase security. See
+# SecureKnowledge for examples of legitimate cases where connections may fail.
+# Hotfix-1 allows an unexpected SYN response connection recovery as follows:
+# 
+# a.	When the TCP sequence verifier is enabled (default): When FireWall-1
+#       receives the unexpected ACK response from the server, instead of dropping it,
+#       FireWall-1 sends a RST packet back on behalf of the client. As a result, when
+#       the client retransmits its SYN, the server is ready to establish the connection
+#       as expected.
+# b.	When the TCP sequence verifier is disabled: FireWall-1
+#       reverts to the pre-FP3 behavior and accepts unexpected SYN responses.
+# 
+# Configuration:
+# This behavior can be configured using the fw_allow_out_of_state_syn_resp kernel
+# variable.
+# The possible values for this variable are:
+# 0 - disallow unexpected SYN responses
+# 1 - allow unexpected SYN responses
+# 2 - allow unexpected SYN responses according to TCP sequence verifier (default).
+# When the TCP sequence verifier is enabled, a RST will be sent to the server.
+# When it is disabled, unexpected SYN responses are allowed.
+
+case $1 in
+	start)	fw ctl set int asm_http_allow_connect 1
+		fw ctl set int fw_allow_out_of_state_syn_resp 1
+	;;
+	stop)	fw ctl set int asm_http_allow_connect 0
+		fw ctl set int fw_allow_out_of_state_syn_resp 0
+	;;
+	status)	fw ctl get int asm_http_allow_connect
+		fw ctl get int fw_allow_out_of_state_syn_resp
+		exit 0
+	;;
+	install)
+		FILES_NR=`find /etc/rc.d/rc?.d -name '*fw1mungle*' ! -type l |
+			wc -l | tr -d ' '`
+		case ${FILES_NR}
+		in
+			0)	for DIR in /etc/rc.d/rc?.d
+				do
+					rm -f ${DIR}/S*fw1mungle*
+					ln -s /etc/init.d/fw1mungle ${DIR}/S9fw1mungle
+				done
+			;;
+			*)	echo "install aborted: file(s) exists !"
+			;;
+		esac
+		exit 0
+	;;
+	uninstall)
+		FILES_NR=`find /etc/rc.d/rc?.d -name '*fw1mungle*' ! -type l |
+			wc -l | tr -d ' '`
+		case ${FILES_NR}
+		in
+			0)	for DIR in /etc/rc.d/rc?.d
+				do
+					rm -f ${DIR}/S*fw1mungle*
+				done
+			;;
+			*)	echo "uninstall aborted: file(s) not links !"
+			;;
+		esac
+		exit 0
+	;;
+esac
+
+logger -t `basename $0` "Switched to `fw ctl get int asm_http_allow_connect`"
+
+exit 0

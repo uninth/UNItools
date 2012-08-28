@@ -1,0 +1,401 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./install/setup.c</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="com">/* Copyright (C) 1995 Florian La Roche */</span>
+<span class="line">    1 </span><span class="com">/* Who wants to help coding? I don't like doing this... */</span>
+<span class="line">    2 </span>
+<span class="line">    3 </span><span class="com">/* You can just start setup as normal user and see how far it is coded</span>
+<span class="line">    4 </span><span class="com">   right now. This will do a fake installation and won't actually chnage</span>
+<span class="line">    5 </span><span class="com">   any data on your computer. */</span>
+<span class="line">    6 </span>
+<span class="line">    7 </span><span class="com">/* TODO: write a good package selection code</span>
+<span class="line">    8 </span><span class="com">         change functions to return better error code</span>
+<span class="line">    9 </span><span class="com"> */</span>
+<span class="line">   10 </span>
+<span class="line">   11 </span><span class="com">/* Show an extra text-box with the contents of all external commands,</span>
+<span class="line">   12 </span><span class="com">   before they are executed. So you can abort the installation, if any</span>
+<span class="line">   13 </span><span class="com">   wrong commands are to be executed. (So don't format wrong partition.) */</span>
+<span class="line">   14 </span><span class="dir">#define VERBOSE 1</span>
+<span class="line">   15 </span>
+<span class="line">   16 </span><span class="com">/* If defined, don't actually execute any comands and don't actually modify</span>
+<span class="line">   17 </span><span class="com">   any files. So you can test any possible installation without doing any</span>
+<span class="line">   18 </span><span class="com">   damage to your computer.</span>
+<span class="line">   19 </span><span class="com">   The file FDISK.TEST is used instead of real &quot;fdisk -l&quot; output, so that</span>
+<span class="line">   20 </span><span class="com">   it can be started as normal user. */</span>
+<span class="line">   21 </span><span class="dir">#define DEBUG_THIS 1</span>
+<span class="line">   22 </span>
+<span class="line">   23 </span><span class="dir">#include &lt;dialog.h&gt;</span>
+<span class="line">   24 </span>
+<span class="line">   25 </span><span class="com">/* max length of a partition name like e.g. '/dev/hda1' */</span>
+<span class="line">   26 </span><span class="dir">#define MAX_DEV_NAME 25</span>
+<span class="line">   27 </span>
+<span class="line">   28 </span><span class="com">/* max number of possible Linux/Swap/MsDos partitions */</span>
+<span class="line">   29 </span><span class="dir">#define MAX_PARTS 20</span>
+<span class="line">   30 </span>
+<span class="line">   31 </span><span class="kwb">char</span> <span class="sym">*</span>progname <span class="sym">=</span> NULL<span class="sym">;</span>
+<span class="line">   32 </span>
+<span class="line">   33 </span><span class="kwb">static void</span>
+<span class="line">   34 </span><span class="kwd">error</span><span class="sym">(</span><span class="kwb">const char</span> <span class="sym">*</span>s<span class="sym">)</span>
+<span class="line">   35 </span><span class="sym">{</span>
+<span class="line">   36 </span>    <span class="kwd">fprintf</span><span class="sym">(</span>stderr<span class="sym">,</span> <span class="str">&quot;%s: %s</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">,</span> progname<span class="sym">,</span> s<span class="sym">);</span>
+<span class="line">   37 </span>    <span class="kwd">exit</span><span class="sym">(</span><span class="num">1</span><span class="sym">);</span>
+<span class="line">   38 </span><span class="sym">}</span>
+<span class="line">   39 </span>
+<span class="line">   40 </span><span class="kwb">static int</span>
+<span class="line">   41 </span><span class="kwd">my_system</span><span class="sym">(</span><span class="kwb">const char</span> <span class="sym">*</span>s<span class="sym">,...)</span>
+<span class="line">   42 </span><span class="sym">{</span>
+<span class="line">   43 </span>    <span class="kwb">int</span> ret<span class="sym">,</span> i<span class="sym">;</span>
+<span class="line">   44 </span>    <span class="kwb">va_list</span> ap<span class="sym">;</span>
+<span class="line">   45 </span>    <span class="kwb">char</span> sh<span class="sym">[</span><span class="num">200</span><span class="sym">];</span>
+<span class="line">   46 </span>
+<span class="line">   47 </span>    <span class="kwd">va_start</span><span class="sym">(</span>ap<span class="sym">,</span> s<span class="sym">);</span>
+<span class="line">   48 </span>    <span class="kwd">vsprintf</span><span class="sym">(</span>sh<span class="sym">,</span> s<span class="sym">,</span> ap<span class="sym">);</span>
+<span class="line">   49 </span>    <span class="kwd">va_end</span><span class="sym">(</span>ap<span class="sym">);</span>
+<span class="line">   50 </span>
+<span class="line">   51 </span><span class="dir">#ifdef	VERBOSE</span>
+<span class="line">   52 </span>    i <span class="sym">=</span> <span class="kwd">dialog_msgbox</span><span class="sym">(</span><span class="str">&quot;I will run the following command:&quot;</span><span class="sym">,</span> sh<span class="sym">,</span> <span class="num">10</span><span class="sym">,</span> <span class="num">65</span><span class="sym">,</span> <span class="num">1</span><span class="sym">);</span>
+<span class="line">   53 </span>    <span class="kwd">dialog_clear</span><span class="sym">();</span>
+<span class="line">   54 </span><span class="dir">#ifdef DEBUG_THIS</span>
+<span class="line">   55 </span>    <span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   56 </span><span class="dir">#endif</span>
+<span class="line">   57 </span><span class="dir">#endif</span>
+<span class="line">   58 </span>    ret <span class="sym">=</span> <span class="kwd">system</span><span class="sym">(</span>sh<span class="sym">);</span>
+<span class="line">   59 </span>    <span class="kwa">if</span> <span class="sym">(!(</span>ret <span class="sym">&gt;&gt;</span> <span class="num">8</span><span class="sym">))</span>
+<span class="line">   60 </span>	<span class="kwa">return</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   61 </span>    i <span class="sym">=</span> <span class="kwd">dialog_msgbox</span><span class="sym">(</span><span class="str">&quot;Error-Exit on the following command:&quot;</span><span class="sym">,</span>
+<span class="line">   62 </span>		      sh<span class="sym">,</span> <span class="num">12</span><span class="sym">,</span> <span class="num">73</span><span class="sym">,</span> <span class="num">1</span><span class="sym">);</span>
+<span class="line">   63 </span>    <span class="kwd">dialog_clear</span><span class="sym">();</span>
+<span class="line">   64 </span>    <span class="kwa">return</span> <span class="num">1</span><span class="sym">;</span>
+<span class="line">   65 </span><span class="sym">}</span>
+<span class="line">   66 </span>
+<span class="line">   67 </span><span class="com">/* We support to install from DOS/Linux-partitions. */</span>
+<span class="line">   68 </span><span class="kwb">enum</span> partition_type <span class="sym">{</span>
+<span class="line">   69 </span>    MsDos<span class="sym">,</span>
+<span class="line">   70 </span>    Linux<span class="sym">,</span>
+<span class="line">   71 </span>    Swap
+<span class="line">   72 </span><span class="sym">};</span>
+<span class="line">   73 </span>
+<span class="line">   74 </span><span class="kwb">struct</span> partition <span class="sym">{</span>
+<span class="line">   75 </span>    <span class="kwb">enum</span> partition_type type<span class="sym">;</span>
+<span class="line">   76 </span>    <span class="kwb">char</span> name<span class="sym">[</span>MAX_DEV_NAME<span class="sym">];</span>
+<span class="line">   77 </span>    <span class="kwb">int</span> blocks<span class="sym">;</span>
+<span class="line">   78 </span>    <span class="kwb">int</span> flag<span class="sym">;</span>
+<span class="line">   79 </span><span class="sym">}</span> partitions<span class="sym">[</span>MAX_PARTS<span class="sym">];</span>
+<span class="line">   80 </span><span class="kwb">int</span> num_partition <span class="sym">=</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   81 </span><span class="kwb">int</span> num_linux <span class="sym">=</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   82 </span><span class="kwb">int</span> num_swap <span class="sym">=</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   83 </span><span class="kwb">int</span> num_msdos <span class="sym">=</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">   84 </span>
+<span class="line">   85 </span><span class="kwb">static int</span>
+<span class="line">   86 </span><span class="kwd">get_line</span><span class="sym">(</span><span class="kwb">char</span> <span class="sym">*</span>line<span class="sym">,</span> <span class="kwb">int</span> size<span class="sym">,</span> <span class="kwb">FILE</span> <span class="sym">*</span> f<span class="sym">)</span>
+<span class="line">   87 </span><span class="sym">{</span>
+<span class="line">   88 </span>    <span class="kwb">char</span> <span class="sym">*</span>ptr <span class="sym">=</span> line<span class="sym">;</span>
+<span class="line">   89 </span>    <span class="kwb">int</span> c<span class="sym">;</span>
+<span class="line">   90 </span>
+<span class="line">   91 </span>    <span class="kwa">if</span> <span class="sym">(</span><span class="kwd">feof</span><span class="sym">(</span>f<span class="sym">))</span>
+<span class="line">   92 </span>	<span class="kwa">return</span> <span class="sym">-</span><span class="num">1</span><span class="sym">;</span>
+<span class="line">   93 </span>    <span class="kwa">while</span> <span class="sym">(</span>size<span class="sym">-- &amp;&amp; ((</span>c <span class="sym">=</span> <span class="kwd">getc</span><span class="sym">(</span>f<span class="sym">)) !=</span> EOF<span class="sym">) &amp;&amp; (</span>c <span class="sym">!=</span> <span class="str">'</span><span class="esc">\n</span><span class="str">'</span><span class="sym">))</span>
+<span class="line">   94 </span>	<span class="sym">*</span>ptr<span class="sym">++ =</span> c<span class="sym">;</span>
+<span class="line">   95 </span>    <span class="sym">*</span>ptr<span class="sym">++ =</span> <span class="str">'</span><span class="esc">\0</span><span class="str">'</span><span class="sym">;</span>
+<span class="line">   96 </span>    <span class="kwa">return</span> <span class="sym">(</span><span class="kwb">int</span><span class="sym">) (</span>ptr <span class="sym">-</span> line<span class="sym">);</span>
+<span class="line">   97 </span><span class="sym">}</span>
+<span class="line">   98 </span>
+<span class="line">   99 </span><span class="kwb">static void</span>
+<span class="line">  100 </span><span class="kwd">read_partitions</span><span class="sym">(</span><span class="kwb">void</span><span class="sym">)</span>
+<span class="line">  101 </span><span class="sym">{</span>
+<span class="line">  102 </span>    <span class="kwb">FILE</span> <span class="sym">*</span>f<span class="sym">;</span>
+<span class="line">  103 </span>    <span class="kwb">char</span> line<span class="sym">[</span><span class="num">200</span><span class="sym">];</span>
+<span class="line">  104 </span>    <span class="kwb">int</span> length<span class="sym">;</span>
+<span class="line">  105 </span><span class="dir">#ifndef DEBUG_THIS</span>
+<span class="line">  106 </span>    <span class="kwb">int</span> ret <span class="sym">=</span> <span class="kwd">system</span><span class="sym">(</span><span class="str">&quot;fdisk -l 2&gt;/dev/null 1&gt;/tmp/fdisk.output&quot;</span><span class="sym">);</span>
+<span class="line">  107 </span>    <span class="kwa">if</span> <span class="sym">((</span>ret <span class="sym">&gt;&gt;</span> <span class="num">8</span><span class="sym">) !=</span> <span class="num">0</span><span class="sym">) {</span>
+<span class="line">  108 </span>	<span class="kwd">error</span><span class="sym">(</span><span class="str">&quot;fdisk didn't run&quot;</span><span class="sym">);</span>
+<span class="line">  109 </span>    <span class="sym">}</span>
+<span class="line">  110 </span>    <span class="kwa">if</span> <span class="sym">((</span>f <span class="sym">=</span> <span class="kwd">fopen</span><span class="sym">(</span><span class="str">&quot;/tmp/fdisk.output&quot;</span><span class="sym">,</span> <span class="str">&quot;r&quot;</span><span class="sym">)) ==</span> NULL<span class="sym">)</span>
+<span class="line">  111 </span><span class="dir">#else</span>
+<span class="line">  112 </span>    <span class="kwa">if</span> <span class="sym">((</span>f <span class="sym">=</span> <span class="kwd">fopen</span><span class="sym">(</span><span class="str">&quot;FDISK.TEST&quot;</span><span class="sym">,</span> <span class="str">&quot;r&quot;</span><span class="sym">)) ==</span> NULL<span class="sym">)</span>
+<span class="line">  113 </span><span class="dir">#endif</span>
+<span class="line">  114 </span>	<span class="kwd">error</span><span class="sym">(</span><span class="str">&quot;cannot read fdisk output&quot;</span><span class="sym">);</span>
+<span class="line">  115 </span>
+<span class="line">  116 </span>    <span class="kwa">while</span> <span class="sym">(</span>num_partition <span class="sym">&lt;=</span> MAX_PARTS
+<span class="line">  117 </span>	   <span class="sym">&amp;&amp; (</span>length <span class="sym">=</span> <span class="kwd">get_line</span><span class="sym">(</span>line<span class="sym">,</span> <span class="num">200</span><span class="sym">,</span> f<span class="sym">)) &gt;=</span> <span class="num">0</span><span class="sym">) {</span>
+<span class="line">  118 </span>	<span class="kwa">if</span> <span class="sym">(</span><span class="kwd">strncmp</span><span class="sym">(</span>line<span class="sym">,</span> <span class="str">&quot;/dev/&quot;</span><span class="sym">,</span> <span class="num">5</span><span class="sym">) ==</span> <span class="num">0</span><span class="sym">) {</span>
+<span class="line">  119 </span>	    <span class="kwb">int</span> n <span class="sym">=</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">  120 </span>	    <span class="kwb">char</span> <span class="sym">*</span>s <span class="sym">=</span> line <span class="sym">+</span> <span class="num">5</span><span class="sym">;</span>
+<span class="line">  121 </span>	    <span class="kwb">char</span> <span class="sym">*</span>t <span class="sym">=</span> partitions<span class="sym">[</span>num_partition<span class="sym">].</span>name<span class="sym">;</span>
+<span class="line">  122 </span>	    <span class="kwd">strcpy</span><span class="sym">(</span>t<span class="sym">,</span> <span class="str">&quot;/dev/&quot;</span><span class="sym">);</span>
+<span class="line">  123 </span>	    t <span class="sym">+=</span> <span class="num">5</span><span class="sym">;</span>
+<span class="line">  124 </span>	    <span class="kwa">while</span> <span class="sym">(</span>n <span class="sym">&lt;</span> MAX_DEV_NAME <span class="sym">&amp;&amp; *</span>s <span class="sym">!=</span> <span class="str">'</span><span class="esc">\0</span><span class="str">'</span>
+<span class="line">  125 </span>		   <span class="sym">&amp;&amp; !</span><span class="kwd">isspace</span><span class="sym">((</span><span class="kwb">unsigned char</span><span class="sym">) *</span>s<span class="sym">)) {</span>
+<span class="line">  126 </span>		<span class="sym">*</span>t<span class="sym">++ = *</span>s<span class="sym">++;</span>
+<span class="line">  127 </span>		n<span class="sym">++;</span>
+<span class="line">  128 </span>	    <span class="sym">}</span>
+<span class="line">  129 </span>	    <span class="sym">*</span>t <span class="sym">=</span> <span class="str">'</span><span class="esc">\0</span><span class="str">'</span><span class="sym">;</span>
+<span class="line">  130 </span>	    <span class="com">/* Read the size of the partition. */</span>
+<span class="line">  131 </span>	    t <span class="sym">=</span> line <span class="sym">+</span> <span class="num">37</span><span class="sym">;</span>
+<span class="line">  132 </span>	    <span class="kwa">while</span> <span class="sym">(</span><span class="kwd">isspace</span><span class="sym">((</span><span class="kwb">unsigned char</span><span class="sym">) *</span>t<span class="sym">))</span>
+<span class="line">  133 </span>		t<span class="sym">++;</span>
+<span class="line">  134 </span>	    partitions<span class="sym">[</span>num_partition<span class="sym">].</span>blocks <span class="sym">=</span> <span class="kwd">atoi</span><span class="sym">(</span>t<span class="sym">);</span>
+<span class="line">  135 </span>	    <span class="kwa">if</span> <span class="sym">(</span><span class="kwd">strstr</span><span class="sym">(</span>line<span class="sym">,</span> <span class="str">&quot;Linux native&quot;</span><span class="sym">)) {</span>
+<span class="line">  136 </span>		partitions<span class="sym">[</span>num_partition<span class="sym">].</span>type <span class="sym">=</span> Linux<span class="sym">;</span>
+<span class="line">  137 </span>		num_partition<span class="sym">++;</span>
+<span class="line">  138 </span>		num_linux<span class="sym">++;</span>
+<span class="line">  139 </span>	    <span class="sym">}</span> <span class="kwa">else if</span> <span class="sym">(</span><span class="kwd">strstr</span><span class="sym">(</span>line<span class="sym">,</span> <span class="str">&quot;Linux swap&quot;</span><span class="sym">)) {</span>
+<span class="line">  140 </span>		partitions<span class="sym">[</span>num_partition<span class="sym">].</span>type <span class="sym">=</span> Swap<span class="sym">;</span>
+<span class="line">  141 </span>		num_partition<span class="sym">++;</span>
+<span class="line">  142 </span>		num_swap<span class="sym">++;</span>
+<span class="line">  143 </span>	    <span class="sym">}</span> <span class="kwa">else if</span> <span class="sym">(</span><span class="kwd">strstr</span><span class="sym">(</span>line<span class="sym">,</span> <span class="str">&quot;DOS&quot;</span><span class="sym">)) {</span>
+<span class="line">  144 </span>		partitions<span class="sym">[</span>num_partition<span class="sym">].</span>type <span class="sym">=</span> MsDos<span class="sym">;</span>
+<span class="line">  145 </span>		num_partition<span class="sym">++;</span>
+<span class="line">  146 </span>		num_msdos<span class="sym">++;</span>
+<span class="line">  147 </span>	    <span class="sym">}</span>
+<span class="line">  148 </span>	<span class="sym">}</span>
+<span class="line">  149 </span>    <span class="sym">}</span>
+<span class="line">  150 </span>    <span class="kwd">fclose</span><span class="sym">(</span>f<span class="sym">);</span>
+<span class="line">  151 </span><span class="dir">#ifndef DEBUG_THIS</span>
+<span class="line">  152 </span>    <span class="kwd">unlink</span><span class="sym">(</span><span class="str">&quot;/tmp/fdisk.output&quot;</span><span class="sym">);</span>
+<span class="line">  153 </span><span class="dir">#endif</span>
+<span class="line">  154 </span><span class="sym">}</span>
+<span class="line">  155 </span>
+<span class="line">  156 </span><span class="kwb">static int</span>
+<span class="line">  157 </span><span class="kwd">select_partition</span><span class="sym">(</span><span class="kwb">const char</span> <span class="sym">*</span>title<span class="sym">,</span> <span class="kwb">const char</span> <span class="sym">*</span>prompt<span class="sym">,</span> <span class="kwb">int</span> y<span class="sym">,</span> <span class="kwb">int</span> x<span class="sym">)</span>
+<span class="line">  158 </span><span class="sym">{</span>
+<span class="line">  159 </span>    <span class="kwb">int</span> i<span class="sym">,</span> num<span class="sym">,</span> ret<span class="sym">;</span>
+<span class="line">  160 </span>    <span class="kwb">char</span> info<span class="sym">[</span>MAX_PARTS<span class="sym">][</span><span class="num">40</span><span class="sym">];</span>
+<span class="line">  161 </span>    <span class="kwb">char</span> <span class="sym">*</span>items<span class="sym">[</span>MAX_PARTS <span class="sym">*</span> <span class="num">2</span><span class="sym">];</span>
+<span class="line">  162 </span>    <span class="kwb">int</span> num_pa<span class="sym">[</span>MAX_PARTS<span class="sym">];</span>
+<span class="line">  163 </span>
+<span class="line">  164 </span>    num <span class="sym">=</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">  165 </span>    <span class="kwa">for</span> <span class="sym">(</span>i <span class="sym">=</span> <span class="num">0</span><span class="sym">;</span> i <span class="sym">&lt;</span> num_partition<span class="sym">;</span> i<span class="sym">++) {</span>
+<span class="line">  166 </span>	<span class="kwa">if</span> <span class="sym">(</span>partitions<span class="sym">[</span>i<span class="sym">].</span>type <span class="sym">==</span> Linux<span class="sym">) {</span>
+<span class="line">  167 </span>	    items<span class="sym">[</span>num <span class="sym">*</span> <span class="num">2</span><span class="sym">] =</span> partitions<span class="sym">[</span>i<span class="sym">].</span>name<span class="sym">;</span>
+<span class="line">  168 </span>	    <span class="kwd">sprintf</span><span class="sym">(</span>info<span class="sym">[</span>num<span class="sym">],</span> <span class="str">&quot;Linux partition with %d blocks&quot;</span><span class="sym">,</span>
+<span class="line">  169 </span>		    partitions<span class="sym">[</span>i<span class="sym">].</span>blocks<span class="sym">);</span>
+<span class="line">  170 </span>	    items<span class="sym">[</span>num <span class="sym">*</span> <span class="num">2</span> <span class="sym">+</span> <span class="num">1</span><span class="sym">] =</span> info<span class="sym">[</span>num<span class="sym">];</span>
+<span class="line">  171 </span>	    num_pa<span class="sym">[</span>num<span class="sym">] =</span> i<span class="sym">;</span>
+<span class="line">  172 </span>	    num<span class="sym">++;</span>
+<span class="line">  173 </span>	<span class="sym">}</span>
+<span class="line">  174 </span>    <span class="sym">}</span>
+<span class="line">  175 </span>    ret <span class="sym">=</span> <span class="kwd">dialog_menu</span><span class="sym">(</span>title<span class="sym">,</span> prompt<span class="sym">,</span> y <span class="sym">+</span> num<span class="sym">,</span> x<span class="sym">,</span> num<span class="sym">,</span> num<span class="sym">,</span> items<span class="sym">);</span>
+<span class="line">  176 </span>    <span class="kwd">dialog_clear</span><span class="sym">();</span>
+<span class="line">  177 </span>    <span class="kwa">if</span> <span class="sym">(</span>ret <span class="sym">&gt;=</span> <span class="num">0</span><span class="sym">)</span>		<span class="com">/* item selected */</span>
+<span class="line">  178 </span>	ret <span class="sym">=</span> num_pa<span class="sym">[</span>ret<span class="sym">];</span>
+<span class="line">  179 </span>    <span class="kwa">return</span> ret<span class="sym">;</span>
+<span class="line">  180 </span><span class="sym">}</span>
+<span class="line">  181 </span>
+<span class="line">  182 </span><span class="kwb">static int</span>
+<span class="line">  183 </span><span class="kwd">select_install_partition</span><span class="sym">(</span><span class="kwb">void</span><span class="sym">)</span>
+<span class="line">  184 </span><span class="sym">{</span>
+<span class="line">  185 </span>    <span class="kwa">return</span> <span class="kwd">select_partition</span><span class="sym">(</span><span class="str">&quot;Select Install Partition&quot;</span><span class="sym">,</span>
+<span class="line">  186 </span>			    <span class="str">&quot;</span><span class="esc">\\</span><span class="str">nWhere do you want to install Linux?</span><span class="esc">\\</span><span class="str">n&quot;</span><span class="sym">,</span> <span class="num">9</span><span class="sym">,</span> <span class="num">60</span><span class="sym">);</span>
+<span class="line">  187 </span><span class="sym">}</span>
+<span class="line">  188 </span>
+<span class="line">  189 </span><span class="kwb">static int</span>
+<span class="line">  190 </span><span class="kwd">select_source_partition</span><span class="sym">(</span><span class="kwb">void</span><span class="sym">)</span>
+<span class="line">  191 </span><span class="sym">{</span>
+<span class="line">  192 </span>    <span class="kwa">return</span> <span class="kwd">select_partition</span><span class="sym">(</span><span class="str">&quot;Select Source Partition&quot;</span><span class="sym">,</span>
+<span class="line">  193 </span>			    <span class="str">&quot;</span><span class="esc">\\</span><span class="str">nOn which partition is the source?</span><span class="esc">\\</span><span class="str">n&quot;</span><span class="sym">,</span> <span class="num">9</span><span class="sym">,</span> <span class="num">60</span><span class="sym">);</span>
+<span class="line">  194 </span><span class="sym">}</span>
+<span class="line">  195 </span>
+<span class="line">  196 </span><span class="kwb">const char</span> <span class="sym">*</span>null <span class="sym">=</span> <span class="str">&quot;&gt;/dev/null 2&gt;/dev/null&quot;</span><span class="sym">;</span>
+<span class="line">  197 </span><span class="kwb">const char</span> <span class="sym">*</span>install_partition <span class="sym">=</span> NULL<span class="sym">;</span>
+<span class="line">  198 </span>
+<span class="line">  199 </span><span class="kwb">static void</span>
+<span class="line">  200 </span><span class="kwd">extract_packages</span><span class="sym">(</span><span class="kwb">const char</span> <span class="sym">*</span>source_path<span class="sym">)</span>
+<span class="line">  201 </span><span class="sym">{</span>
+<span class="line">  202 </span><span class="dir">#ifndef	DEBUG_THIS</span>
+<span class="line">  203 </span>    <span class="kwb">FILE</span> <span class="sym">*</span>f<span class="sym">;</span>
+<span class="line">  204 </span><span class="dir">#endif</span>
+<span class="line">  205 </span>
+<span class="line">  206 </span>    <span class="kwa">if</span> <span class="sym">(</span><span class="kwd">my_system</span><span class="sym">(</span><span class="str">&quot;mkdir -p /install/var/installed/packages %s&quot;</span><span class="sym">,</span> null<span class="sym">))</span>
+<span class="line">  207 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  208 </span>    <span class="kwa">if</span> <span class="sym">(</span><span class="kwd">my_system</span><span class="sym">(</span><span class="str">&quot;cd /install; for i in /source%s/*.tgz; do &quot;</span>
+<span class="line">  209 </span>		  <span class="str">&quot;tar xzplvvkf $i &gt;&gt; var/installed/packages/base &quot;</span>
+<span class="line">  210 </span>		  <span class="str">&quot;2&gt;&gt;var/installed/packages/ERROR; done&quot;</span><span class="sym">,</span> source_path<span class="sym">))</span>
+<span class="line">  211 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  212 </span><span class="dir">#ifndef	DEBUG_THIS</span>
+<span class="line">  213 </span>    <span class="kwa">if</span> <span class="sym">((</span>f <span class="sym">=</span> <span class="kwd">fopen</span><span class="sym">(</span><span class="str">&quot;/install/etc/fstab&quot;</span><span class="sym">,</span> <span class="str">&quot;w&quot;</span><span class="sym">)) ==</span> NULL<span class="sym">) {</span>
+<span class="line">  214 </span>	<span class="com">/* i = */</span> <span class="kwd">dialog_msgbox</span><span class="sym">(</span><span class="str">&quot;Error&quot;</span><span class="sym">,</span> <span class="str">&quot;Cannot write /etc/fstab&quot;</span><span class="sym">,</span>
+<span class="line">  215 </span>				<span class="num">12</span><span class="sym">,</span> <span class="num">40</span><span class="sym">,</span> <span class="num">1</span><span class="sym">);</span>
+<span class="line">  216 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  217 </span>    <span class="sym">}</span>
+<span class="line">  218 </span>    <span class="kwd">fprintf</span><span class="sym">(</span>f<span class="sym">,</span> <span class="str">&quot;%s / ext2 defaults 1 1</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">,</span> install_partition<span class="sym">);</span>
+<span class="line">  219 </span>    <span class="kwd">fprintf</span><span class="sym">(</span>f<span class="sym">,</span> <span class="str">&quot;none /proc proc defaults 0 2</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">);</span>
+<span class="line">  220 </span>    <span class="com">/* XXX write swap-partitions */</span>
+<span class="line">  221 </span>    <span class="kwd">fclose</span><span class="sym">(</span>f<span class="sym">);</span>
+<span class="line">  222 </span><span class="dir">#endif</span>
+<span class="line">  223 </span><span class="sym">}</span>
+<span class="line">  224 </span>
+<span class="line">  225 </span><span class="kwb">static void</span>
+<span class="line">  226 </span><span class="kwd">install_premounted</span><span class="sym">(</span><span class="kwb">void</span><span class="sym">)</span>
+<span class="line">  227 </span><span class="sym">{</span>
+<span class="line">  228 </span>    <span class="kwd">extract_packages</span><span class="sym">(</span><span class="str">&quot;&quot;</span><span class="sym">);</span>
+<span class="line">  229 </span><span class="sym">}</span>
+<span class="line">  230 </span>
+<span class="line">  231 </span><span class="kwb">static void</span>
+<span class="line">  232 </span><span class="kwd">install_harddisk</span><span class="sym">(</span><span class="kwb">void</span><span class="sym">)</span>
+<span class="line">  233 </span><span class="sym">{</span>
+<span class="line">  234 </span>    <span class="kwb">const char</span> <span class="sym">*</span>name<span class="sym">;</span>
+<span class="line">  235 </span>    <span class="kwb">int</span> part<span class="sym">,</span> ret<span class="sym">;</span>
+<span class="line">  236 </span>
+<span class="line">  237 </span>    <span class="kwa">if</span> <span class="sym">((</span>part <span class="sym">=</span> <span class="kwd">select_source_partition</span><span class="sym">()) &lt;= -</span><span class="num">1</span><span class="sym">)</span>
+<span class="line">  238 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  239 </span>    name <span class="sym">=</span> partitions<span class="sym">[</span>part<span class="sym">].</span>name<span class="sym">;</span>
+<span class="line">  240 </span>
+<span class="line">  241 </span>    <span class="kwa">if</span> <span class="sym">(</span><span class="kwd">my_system</span><span class="sym">(</span><span class="str">&quot;mount -t ext2 %s /source %s&quot;</span><span class="sym">,</span> name<span class="sym">,</span> null<span class="sym">))</span>
+<span class="line">  242 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  243 </span>    ret <span class="sym">=</span> <span class="kwd">dialog_inputbox</span><span class="sym">(</span><span class="str">&quot;Path in partition&quot;</span><span class="sym">,</span>
+<span class="line">  244 </span>			  <span class="str">&quot;Please enter the directory in which the &quot;</span>
+<span class="line">  245 </span>			  <span class="str">&quot;source files are.&quot;</span><span class="sym">,</span> <span class="num">13</span><span class="sym">,</span> <span class="num">50</span><span class="sym">,</span> <span class="str">&quot;&quot;</span><span class="sym">,</span> FALSE<span class="sym">);</span>
+<span class="line">  246 </span>    <span class="kwd">dialog_clear</span><span class="sym">();</span>
+<span class="line">  247 </span>    <span class="kwa">if</span> <span class="sym">(</span>ret <span class="sym">!=</span> <span class="num">0</span><span class="sym">)</span>
+<span class="line">  248 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  249 </span>    <span class="com">/* XXX strdup */</span>
+<span class="line">  250 </span>    <span class="kwd">extract_packages</span><span class="sym">(</span><span class="kwd">strdup</span><span class="sym">(</span>dialog_input_result<span class="sym">));</span>
+<span class="line">  251 </span>    <span class="kwa">if</span> <span class="sym">(</span><span class="kwd">my_system</span><span class="sym">(</span><span class="str">&quot;umount /source %s&quot;</span><span class="sym">,</span> null<span class="sym">))</span>
+<span class="line">  252 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  253 </span><span class="sym">}</span>
+<span class="line">  254 </span>
+<span class="line">  255 </span><span class="kwb">static void</span>
+<span class="line">  256 </span><span class="kwd">install_nfs</span><span class="sym">(</span><span class="kwb">void</span><span class="sym">)</span>
+<span class="line">  257 </span><span class="sym">{</span>
+<span class="line">  258 </span>    <span class="kwa">if</span> <span class="sym">(</span><span class="kwd">my_system</span><span class="sym">(</span><span class="str">&quot;ifconfig eth0 134.96.81.36 netmask 255.255.255.224 &quot;</span>
+<span class="line">  259 </span>		  <span class="str">&quot;broadcast 134.96.81.63 %s&quot;</span><span class="sym">,</span> null<span class="sym">))</span>
+<span class="line">  260 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  261 </span>    <span class="kwa">if</span> <span class="sym">(</span><span class="kwd">my_system</span><span class="sym">(</span><span class="str">&quot;route add -net 134.96.81.32 %s&quot;</span><span class="sym">,</span> null<span class="sym">))</span>
+<span class="line">  262 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  263 </span>    <span class="kwa">if</span> <span class="sym">(</span><span class="kwd">my_system</span><span class="sym">(</span><span class="str">&quot;mount -t nfs 134.96.81.38:&quot;</span>
+<span class="line">  264 </span>		  <span class="str">&quot;/local/ftp/pub/linux/ELF.binary/tar /source %s&quot;</span><span class="sym">,</span> null<span class="sym">))</span>
+<span class="line">  265 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  266 </span>    <span class="kwd">extract_packages</span><span class="sym">(</span><span class="str">&quot;/base&quot;</span><span class="sym">);</span>
+<span class="line">  267 </span>    <span class="kwa">if</span> <span class="sym">(</span><span class="kwd">my_system</span><span class="sym">(</span><span class="str">&quot;umount /source %s&quot;</span><span class="sym">,</span> null<span class="sym">))</span>
+<span class="line">  268 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  269 </span>    <span class="kwa">if</span> <span class="sym">(</span><span class="kwd">my_system</span><span class="sym">(</span><span class="str">&quot;ifconfig eth0 down %s&quot;</span><span class="sym">,</span> null<span class="sym">))</span>
+<span class="line">  270 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  271 </span><span class="sym">}</span>
+<span class="line">  272 </span>
+<span class="line">  273 </span><span class="kwb">static void</span>
+<span class="line">  274 </span><span class="kwd">main_install</span><span class="sym">(</span><span class="kwb">void</span><span class="sym">)</span>
+<span class="line">  275 </span><span class="sym">{</span>
+<span class="line">  276 </span>    <span class="kwb">int</span> part<span class="sym">,</span> ret<span class="sym">;</span>
+<span class="line">  277 </span>    <span class="kwb">const char</span> <span class="sym">*</span>name<span class="sym">;</span>
+<span class="line">  278 </span>    <span class="kwb">char</span> <span class="sym">*</span>items1<span class="sym">[] =</span>
+<span class="line">  279 </span>    <span class="sym">{</span>
+<span class="line">  280 </span>	<span class="str">&quot;1&quot;</span><span class="sym">,</span> <span class="str">&quot;Harddisk Install&quot;</span><span class="sym">,</span>
+<span class="line">  281 </span>	<span class="str">&quot;2&quot;</span><span class="sym">,</span> <span class="str">&quot;Network Install(NFS)&quot;</span><span class="sym">,</span>
+<span class="line">  282 </span>	<span class="str">&quot;3&quot;</span><span class="sym">,</span> <span class="str">&quot;Premounted on /source&quot;</span>
+<span class="line">  283 </span>    <span class="sym">};</span>
+<span class="line">  284 </span>
+<span class="line">  285 </span>    <span class="kwa">if</span> <span class="sym">(</span>num_linux <span class="sym">==</span> <span class="num">0</span><span class="sym">) {</span>
+<span class="line">  286 </span>	<span class="com">/* XXX */</span>
+<span class="line">  287 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  288 </span>    <span class="sym">}</span>
+<span class="line">  289 </span>    <span class="kwa">if</span> <span class="sym">((</span>part <span class="sym">=</span> <span class="kwd">select_install_partition</span><span class="sym">()) &lt;= -</span><span class="num">1</span><span class="sym">)</span>
+<span class="line">  290 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  291 </span>    install_partition <span class="sym">=</span> name <span class="sym">=</span> partitions<span class="sym">[</span>part<span class="sym">].</span>name<span class="sym">;</span>
+<span class="line">  292 </span>    <span class="kwa">if</span> <span class="sym">(</span><span class="kwd">my_system</span><span class="sym">(</span><span class="str">&quot;mke2fs %s %s&quot;</span><span class="sym">,</span> name<span class="sym">,</span> null<span class="sym">))</span>
+<span class="line">  293 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  294 </span>    <span class="kwa">if</span> <span class="sym">(</span><span class="kwd">my_system</span><span class="sym">(</span><span class="str">&quot;mount -t ext2 %s /install %s&quot;</span><span class="sym">,</span> name<span class="sym">,</span> null<span class="sym">))</span>
+<span class="line">  295 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  296 </span>    ret <span class="sym">=</span> <span class="kwd">dialog_menu</span><span class="sym">(</span><span class="str">&quot;Choose install medium&quot;</span><span class="sym">,</span>
+<span class="line">  297 </span>		      <span class="str">&quot;</span><span class="esc">\\</span><span class="str">nPlease say from where you want to install.</span><span class="esc">\\</span><span class="str">n&quot;</span><span class="sym">,</span>
+<span class="line">  298 </span>		      <span class="num">12</span><span class="sym">,</span> <span class="num">62</span><span class="sym">,</span> <span class="num">3</span><span class="sym">,</span> <span class="num">3</span><span class="sym">,</span> items1<span class="sym">);</span>
+<span class="line">  299 </span>    <span class="kwd">dialog_clear</span><span class="sym">();</span>
+<span class="line">  300 </span>    <span class="kwa">switch</span> <span class="sym">(</span>ret<span class="sym">) {</span>
+<span class="line">  301 </span>    <span class="kwa">case</span> <span class="num">0</span><span class="sym">:</span>
+<span class="line">  302 </span>	<span class="kwd">install_harddisk</span><span class="sym">();</span>
+<span class="line">  303 </span>	<span class="kwa">break</span><span class="sym">;</span>
+<span class="line">  304 </span>    <span class="kwa">case</span> <span class="num">1</span><span class="sym">:</span>
+<span class="line">  305 </span>	<span class="kwd">install_nfs</span><span class="sym">();</span>
+<span class="line">  306 </span>	<span class="kwa">break</span><span class="sym">;</span>
+<span class="line">  307 </span>    <span class="kwa">case</span> <span class="num">2</span><span class="sym">:</span>
+<span class="line">  308 </span>	<span class="kwd">install_premounted</span><span class="sym">();</span>
+<span class="line">  309 </span>	<span class="kwa">break</span><span class="sym">;</span>
+<span class="line">  310 </span>    <span class="kwa">case</span> <span class="sym">-</span><span class="num">2</span><span class="sym">:</span>			<span class="com">/* cancel */</span>
+<span class="line">  311 </span>    <span class="kwa">case</span> <span class="sym">-</span><span class="num">1</span><span class="sym">:</span>
+<span class="line">  312 </span>	<span class="kwa">break</span><span class="sym">;</span>			<span class="com">/* esc */</span>
+<span class="line">  313 </span>    <span class="sym">}</span>
+<span class="line">  314 </span>    <span class="kwa">if</span> <span class="sym">(</span><span class="kwd">my_system</span><span class="sym">(</span><span class="str">&quot;umount /install %s&quot;</span><span class="sym">,</span> null<span class="sym">))</span>
+<span class="line">  315 </span>	<span class="kwa">return</span><span class="sym">;</span>
+<span class="line">  316 </span><span class="sym">}</span>
+<span class="line">  317 </span>
+<span class="line">  318 </span><span class="kwb">int</span>
+<span class="line">  319 </span><span class="kwd">main</span><span class="sym">(</span><span class="kwb">int</span> argc<span class="sym">,</span> <span class="kwb">char</span> <span class="sym">**</span>argv<span class="sym">)</span>
+<span class="line">  320 </span><span class="sym">{</span>
+<span class="line">  321 </span>    <span class="kwb">int</span> stop <span class="sym">=</span> <span class="num">0</span><span class="sym">;</span>
+<span class="line">  322 </span>    <span class="kwb">int</span> ret<span class="sym">;</span>
+<span class="line">  323 </span>    <span class="kwb">char</span> <span class="sym">*</span>items1<span class="sym">[] =</span>
+<span class="line">  324 </span>    <span class="sym">{</span>
+<span class="line">  325 </span>	<span class="str">&quot;1&quot;</span><span class="sym">,</span> <span class="str">&quot;Display a help text&quot;</span><span class="sym">,</span>
+<span class="line">  326 </span>	<span class="str">&quot;2&quot;</span><span class="sym">,</span> <span class="str">&quot;Start an installation&quot;</span><span class="sym">,</span>
+<span class="line">  327 </span>	<span class="str">&quot;3&quot;</span><span class="sym">,</span> <span class="str">&quot;Exit to the shell&quot;</span>
+<span class="line">  328 </span>    <span class="sym">};</span>
+<span class="line">  329 </span>
+<span class="line">  330 </span>    progname <span class="sym">=</span> argv<span class="sym">[</span><span class="num">0</span><span class="sym">];</span>
+<span class="line">  331 </span>
+<span class="line">  332 </span>    <span class="kwd">read_partitions</span><span class="sym">();</span>
+<span class="line">  333 </span>    <span class="kwa">if</span> <span class="sym">(</span>num_linux <span class="sym">==</span> <span class="num">0</span><span class="sym">) {</span>
+<span class="line">  334 </span>	<span class="kwd">printf</span><span class="sym">(</span><span class="str">&quot;</span><span class="esc">\n\n</span><span class="str">Please start</span> <span class="esc">\&quot;</span><span class="str">fdisk</span><span class="esc">\&quot;</span> <span class="str">or</span> <span class="esc">\&quot;</span><span class="str">cfdisk</span><span class="esc">\&quot;</span> <span class="str">and create a&quot;</span>
+<span class="line">  335 </span>	       <span class="str">&quot;</span><span class="esc">\n</span><span class="str">native Linux-partition to install Linux on.</span><span class="esc">\n\n</span><span class="str">&quot;</span><span class="sym">);</span>
+<span class="line">  336 </span>	<span class="kwd">exit</span><span class="sym">(</span><span class="num">1</span><span class="sym">);</span>
+<span class="line">  337 </span>    <span class="sym">}</span>
+<span class="line">  338 </span>
+<span class="line">  339 </span>    <span class="kwd">init_dialog</span><span class="sym">();</span>
+<span class="line">  340 </span>
+<span class="line">  341 </span>    <span class="kwa">while</span> <span class="sym">(!</span>stop<span class="sym">) {</span>
+<span class="line">  342 </span>	ret <span class="sym">=</span> <span class="kwd">dialog_menu</span><span class="sym">(</span><span class="str">&quot;Linux Install Utility&quot;</span><span class="sym">,</span>
+<span class="line">  343 </span>			  <span class="str">&quot;</span><span class="esc">\\</span><span class="str">nCopyright (C) 1995 Florian La Roche</span><span class="esc">\\</span><span class="str">n&quot;</span>
+<span class="line">  344 </span>			  <span class="str">&quot;</span><span class="esc">\\</span><span class="str">nPre-Alpha version, be careful, read the doc!!!&quot;</span>
+<span class="line">  345 </span>			  <span class="str">&quot;</span><span class="esc">\\</span><span class="str">nemail: florian&#64;jurix.jura.uni-sb.de, &quot;</span>
+<span class="line">  346 </span>			  <span class="str">&quot;flla&#64;stud.uni-sb.de</span><span class="esc">\\</span><span class="str">n&quot;</span><span class="sym">,</span>
+<span class="line">  347 </span>			  <span class="num">15</span><span class="sym">,</span> <span class="num">64</span><span class="sym">,</span> <span class="num">3</span><span class="sym">,</span> <span class="num">3</span><span class="sym">,</span> items1<span class="sym">);</span>
+<span class="line">  348 </span>	<span class="kwd">dialog_clear</span><span class="sym">();</span>
+<span class="line">  349 </span>	<span class="kwa">switch</span> <span class="sym">(</span>ret<span class="sym">) {</span>
+<span class="line">  350 </span>	<span class="kwa">case</span> <span class="num">0</span><span class="sym">:</span>
+<span class="line">  351 </span>	    ret <span class="sym">=</span> <span class="kwd">dialog_textbox</span><span class="sym">(</span><span class="str">&quot;Help Text&quot;</span><span class="sym">,</span>
+<span class="line">  352 </span>				 <span class="str">&quot;setup.help&quot;</span><span class="sym">,</span> <span class="num">20</span><span class="sym">,</span> <span class="num">70</span><span class="sym">);</span>
+<span class="line">  353 </span>	    <span class="kwd">dialog_clear</span><span class="sym">();</span>
+<span class="line">  354 </span>	    <span class="kwa">break</span><span class="sym">;</span>
+<span class="line">  355 </span>	<span class="kwa">case</span> <span class="num">1</span><span class="sym">:</span>
+<span class="line">  356 </span>	    <span class="kwd">main_install</span><span class="sym">();</span>
+<span class="line">  357 </span>	    <span class="kwa">break</span><span class="sym">;</span>
+<span class="line">  358 </span>	<span class="kwa">case</span> <span class="num">2</span><span class="sym">:</span>
+<span class="line">  359 </span>	    stop <span class="sym">=</span> <span class="num">1</span><span class="sym">;</span>
+<span class="line">  360 </span>	    <span class="kwa">break</span><span class="sym">;</span>
+<span class="line">  361 </span>	<span class="kwa">case</span> <span class="sym">-</span><span class="num">2</span><span class="sym">:</span>		<span class="com">/* cancel */</span>
+<span class="line">  362 </span>	<span class="kwa">case</span> <span class="sym">-</span><span class="num">1</span><span class="sym">:</span>
+<span class="line">  363 </span>	    stop <span class="sym">=</span> <span class="num">1</span><span class="sym">;</span>		<span class="com">/* esc */</span>
+<span class="line">  364 </span>	<span class="sym">}</span>
+<span class="line">  365 </span>    <span class="sym">}</span>
+<span class="line">  366 </span>    <span class="kwd">end_dialog</span><span class="sym">();</span>
+<span class="line">  367 </span>    <span class="kwd">printf</span><span class="sym">(</span><span class="str">&quot;</span><span class="esc">\n</span><span class="str">Execute</span> <span class="esc">\&quot;</span><span class="str">reboot</span><span class="esc">\&quot;</span> <span class="str">to restart your computer...</span><span class="esc">\n</span><span class="str">&quot;</span><span class="sym">);</span>
+<span class="line">  368 </span>
+<span class="line">  369 </span>    <span class="kwd">exit</span><span class="sym">(</span><span class="num">0</span><span class="sym">);</span>
+<span class="line">  370 </span><span class="sym">}</span>
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

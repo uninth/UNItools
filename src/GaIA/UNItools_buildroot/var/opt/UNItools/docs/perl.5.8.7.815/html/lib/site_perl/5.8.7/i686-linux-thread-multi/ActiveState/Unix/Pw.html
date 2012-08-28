@@ -1,0 +1,255 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../../tocTab.js"></script>
+<title>ActiveState::Unix::Pw - Portable manipulation of user accounts</title>
+<link rel="stylesheet" href="../../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',6);</script>
+<h1><a>ActiveState::Unix::Pw - Portable manipulation of user accounts</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>ActiveState::Unix::Pw - Portable manipulation of user accounts</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ use ActiveState::Unix::Pw qw(useradd userdel groupadd groupdel su);</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The <code>ActiveState::Unix::Pw</code> module provide functions to add and
+remove user accounts from the system.  It is a portable interface to
+the system utility commands that manipulate the passwd and group
+databases.</p>
+<p>All functions provided take key/value pairs as arguments.  The
+following special arguments are recognized by all functions:</p>
+<dl>
+<dt><strong><a name="item__norun">_norun</a></strong>
+
+<dd>
+<p>Instead of feeding commands to the <code>run()</code> function (see
+<a href="../../../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/ActiveState/Run.html">the ActiveState::Run manpage</a>) the commands to run are returned as a string.</p>
+</dd>
+</li>
+<dt><strong><a name="item__nocroak">_nocroak</a></strong>
+
+<dd>
+<p>Tell the <code>run()</code> not to ignore errors.  By default it will croak if the
+command signals an error.</p>
+</dd>
+</li>
+</dl>
+<p>The following functions are provided by this module.  None of them are
+exported by default:</p>
+<dl>
+<dt><strong><a name="item_useradd">useradd( %opts )</a></strong>
+
+<dd>
+<p>The following options are recognized:</p>
+</dd>
+<dl>
+<dt><strong><a name="item_user">user</a></strong>
+
+<dd>
+<p>The username to use.  Mandatory.</p>
+</dd>
+</li>
+<dt><strong><a name="item_comment">comment</a></strong>
+
+<dd>
+<p>The password comment field.  Usually the full name of the user.</p>
+</dd>
+</li>
+<dt><strong><a name="item_home">home</a></strong>
+
+<dd>
+<p>The home directory to use.</p>
+</dd>
+</li>
+<dt><strong><a name="item_create_home">create_home</a></strong>
+
+<dd>
+<p>Boolean; if TRUE create the home directory and set it up.  If FALSE
+only the password database is updated.</p>
+</dd>
+</li>
+<dt><strong><a name="item_group">group</a></strong>
+
+<dd>
+<p>What group or group should this user be part of.  The value can either
+be a plain scalar or an array reference if multiple groups are to be
+specified.  When multiple groups are specified, then the first group
+will be the primary group.  The first group can be specified as
+<a href="../../../../../../lib/5.8.7/pod/perlfunc.html#item_undef"><code>undef</code></a> to let the system select a default primary group.</p>
+</dd>
+</li>
+</dl>
+<dt><strong><a name="item_userdel">userdel( %opts )</a></strong>
+
+<dd>
+<p>The following options are recognized:</p>
+</dd>
+<dl>
+<dt><strong>user</strong>
+
+<dd>
+<p>The username to delete.  Mandatory.</p>
+</dd>
+</li>
+<dt><strong><a name="item_remove_home">remove_home</a></strong>
+
+<dd>
+<p>Boolean; if TRUE then the home directory will be deleted as well as
+the user information.</p>
+</dd>
+</li>
+</dl>
+<dt><strong><a name="item_usermod">usermod( %opts )</a></strong>
+
+<dd>
+<p>The following options are recognized:</p>
+</dd>
+<dl>
+<dt><strong>user</strong>
+
+<dd>
+<p>The username to modify.  Mandatory.</p>
+</dd>
+</li>
+<dt><strong>home</strong>
+
+<dd>
+<p>The new home directory of the user.</p>
+</dd>
+</li>
+<dt><strong><a name="item_login">login</a></strong>
+
+<dd>
+<p>The new login name of the user.</p>
+</dd>
+</li>
+</dl>
+<dt><strong><a name="item_groupadd">groupadd( %opts )</a></strong>
+
+<dd>
+<p>The following options are recognized:</p>
+</dd>
+<dl>
+<dt><strong>group</strong>
+
+<dd>
+<p>The group name to add.  Mandatory.</p>
+</dd>
+</li>
+<dt><strong><a name="item_gid">gid</a></strong>
+
+<dd>
+<p>A group identifier.  If left unspecified a free one will be
+assigned.</p>
+</dd>
+</li>
+<dt><strong><a name="item_unique">unique</a></strong>
+
+<dd>
+<p>Boolean; if TRUE non-unique gids are allowed.  Does not work everywhere.</p>
+</dd>
+</li>
+<dt><strong><a name="item_system">system</a></strong>
+
+<dd>
+<p>Make a system account.  Only available on Linux.</p>
+</dd>
+</li>
+<dt><strong><a name="item_force">force</a></strong>
+
+<dd>
+<p>Boolean; this will cause failure if the group already exists.  Only
+available on Linux.</p>
+</dd>
+</li>
+</dl>
+<dt><strong><a name="item_groupdel">groupdel( %opts )</a></strong>
+
+<dd>
+<p>The following extra option is recognized:</p>
+</dd>
+<dl>
+<dt><strong>group</strong>
+
+<dd>
+<p>The value is the name of the group to delete.  Mandatory.</p>
+</dd>
+</li>
+</dl>
+<dt><strong><a name="item_su">su( %opts )</a></strong>
+
+<dd>
+<p>The following options are recognized:</p>
+</dd>
+<dl>
+<dt><strong>user</strong>
+
+<dd>
+<p>The username to su to.  Mandatory.</p>
+</dd>
+</li>
+<dt><strong><a name="item_command">command</a></strong>
+
+<dd>
+<p>The command to execute as the specified user.</p>
+</dd>
+</li>
+<dt><strong>login</strong>
+
+<dd>
+<p>If true, makes the shell a login shell.</p>
+</dd>
+</li>
+<dt><strong><a name="item_silent">silent</a></strong>
+
+<dd>
+<p>If true, suppresses the command echo.</p>
+</dd>
+</li>
+</dl>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2003 ActiveState Corp.  All rights reserved.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/ActiveState/Run.html">the ActiveState::Run manpage</a></p>
+
+</body>
+
+</html>

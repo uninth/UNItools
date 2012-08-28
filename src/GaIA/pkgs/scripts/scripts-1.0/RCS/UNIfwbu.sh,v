@@ -1,0 +1,748 @@
+head	1.7;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.7
+date	2005.09.27.12.36.44;	author root;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2005.02.16.15.12.38;	author admin;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2003.08.13.11.01.09;	author root;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2003.08.13.10.50.27;	author root;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2003.04.02.08.37.06;	author root;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2003.04.01.07.39.18;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2003.02.21.14.41.28;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@#!/bin/sh
+#
+# $Header: /var/opt/UNItools/src/scripts/RCS/UNIfwbu.sh,v 1.5 2003/08/13 11:01:09 root Exp $
+#
+# Linux and NG only !
+#
+
+#
+# Gem dette antal backup arkiver ad gangen. Antallet
+# svarer til et arkiv pr. dag. Hvert arkiv fylder ca
+# 1Mb.
+#
+BACKLOG=10
+
+# Tidsstempel, hostnavn og domænenavn til logfil
+TIMESTAMP=`/bin/date +%Y%m%d-%H%M%S`
+HOSTNAME=`/bin/hostname`
+DOMAINNAME=`/bin/domainname`
+
+# Navn på backup arkivet 
+ARCHIVE="${HOSTNAME}.${DOMAINNAME}.${TIMESTAMP}"
+
+# Scriptnavn og lokation
+ME="`/bin/basename $0 .sh`"
+MYDIR=/var/opt/UNItools/
+
+# Den egentlige backup kommando; en modifikation
+# af check points script, hvor der ikke afbrydes
+# hvis firewall-1 kører.
+BACKUP_CMD="${MYDIR}/bin/backup_start_UNIC"
+BACKUP_ARGS="all "
+ARCHIVE_LIST=archive_list
+
+# Scriptets logfil; den overskrives hver gang, men
+# skrives til syslog med logger ved afslutning.
+MY_LOGFILE=/var/log/backup.log
+
+# Flag til indikation af eventuelle fejl (variable overlever ikke () )
+ERRORS=/tmp/.err.$$
+
+/bin/rm -f $ERRORS
+
+#
+# Funktioner
+#
+logit() {
+# purpose     : Timestamp output
+# arguments   : Line og stream
+# return value: None
+# see also    :
+	LOGIT_NOW="`date '+%H:%M:%S (%d/%m)'`"
+	STRING="$*"
+
+	if [ -n "${STRING}" ]; then
+		$echo "${LOGIT_NOW} ${STRING}" >> ${MY_LOGFILE}
+		if [ "${VERBOSE}" = "TRUE" ]; then
+			$echo "${LOGIT_NOW} ${STRING}"
+		fi
+	else
+		while read LINE
+		do
+			if [ -n "${LINE}" ]; then
+				$echo "${LOGIT_NOW} ${LINE}" >> ${MY_LOGFILE}
+				if [ "${VERBOSE}" = "TRUE" ]; then
+					$echo "${LOGIT_NOW} ${LINE}"
+				fi
+			else
+				$echo "" >> ${MY_LOGFILE}
+			fi
+		done
+	fi
+}
+
+
+#
+# MAIN
+#
+
+if [ "${1}" = "-v" ]; then
+	VERBOSE="TRUE"
+else
+	VERBOSE="FALSE"
+fi
+
+echo=/bin/echo
+case ${N}$C in
+        "") if $echo "\c" | grep c >/dev/null 2>&1; then
+                N='-n'
+        else
+                C='\c'
+        fi ;;
+esac
+
+#
+# Slet logfilen
+#
+/bin/rm -f ${MY_LOGFILE}
+
+#
+# Fortæl fortæl
+#
+logger -p mail.crit "exec $0 $*"
+
+logit "Påbegynder daglig backup af ${HOSTNAME}.${DOMAINNAME}"
+logit "Beholder maksimalt ${BACKLOG} gamle sikkerhedskopier"
+
+logit "Sætter environment - sourcer ~/.profile | ~/.bash_profile og ~/.bashrc "
+logit "\$HOME = $HOME - "
+case `uname` in
+        IPSO)   logit "$0 virker ikke under IPSO"
+		logit "Konfigurer istedet backup fra Voyager"
+		exit 1
+        ;;
+        Linux|Solaris) logit "Linux/Solaris: sourcer $HOME/.profile ... "
+		. $HOME/.bash_profile 2>&1	| logit
+		. $HOME/.bashrc 2>&1		| logit
+        ;;
+        *)	logit "Andet: sourcer $HOME/.profile ... "
+		. $HOME/.profile 2>&1		| logit
+        ;;
+esac
+
+# i tilfælde af fejl ...
+SMTPCLIENT=/var/opt/UNItools/bin/smtpclient
+if [ ! -x $SMTPCLIENT ]; then
+	STR="smtp client '$SMTPCLIENT' kan ikke udføres"
+	logit "$STR"
+	logger -p mail.crit "$STR"
+	exit 1
+fi
+
+SMTPCFG="/var/opt/UNItools/conf/smtpclient.SH"
+if [ -f $SMTPCFG ]; then
+	.	$SMTPCFG
+	logit "I tilfælde af fejl, sendes en e-mail på denne måde:"
+	logit "smtp client: '$SMTPCLIENT'"
+	logit "Argumenter:  '$OPTIONS'"
+else
+	STR="Konfigurationsdokumentet '$SMTPCFG' findes ikke"
+	logit "$STR"
+	logger -p mail.crit "$STR"
+	exit 1
+
+fi
+
+if [ -x "${BACKUP_CMD}" ];
+then
+	(
+		echo "starter ${BACKUP_CMD} ${BACKUP_ARGS} ${ARCHIVE} "
+		${BACKUP_CMD} ${BACKUP_ARGS} ${ARCHIVE}
+		echo "exit status $?"
+		echo "afsluttet backup"
+
+	) 2>&1 | logit
+
+	logit "Validering af backup. Firewall-1 blev ikke stoppet før kopieringen startede"
+
+	TMPDIR=/opt/CPbackups/tmp.${TIMESTAMP}.$$
+
+	ARCHIVE=${ARCHIVE}.tgz
+
+	mkdir ${TMPDIR}
+
+	cd ${TMPDIR}
+	
+	gunzip=/bin/gunzip
+	$gunzip -c ../${ARCHIVE} | tar xfp - | logit
+
+	logit "Sammenligner filer i / med ${TMPDIR}"
+
+	/usr/bin/find . -follow -type f | while read FILE
+	do
+		if [ -n "${FILE}" -a -f "/${FILE}" ]; then
+			#
+			# Filen må ikke være tom, men kan godt være rettet
+			#
+			ORG=`/usr/bin/sum -r 	"${FILE}" | awk '{ print $1 }'`
+			CPY=`/usr/bin/sum -r	"/${FILE}" | awk '{ print $1 }'`
+			if [ "${ORG}" -ne "${CPY}" ]; then
+				STR="Advarsel: størrelsen ændret i ${FILE} (fra '${ORG}' til '${CPY}'"
+				echo $STR | logit
+				/bin/ls -l ${FILE} /${FILE} | logit 
+				echo $STR >> $ERRORS
+				/bin/ls -l ${FILE} /${FILE} >> $ERRORS
+			fi
+		else
+			if [ "${FILE}" != "./opt/CPbackups/signature" ]; then
+				STR="Filen ${FILE} findes på arkivet, men ikke i filsystemet"
+				logit $STR
+				echo		>> $ERRORS
+				echo $STR	>> $ERRORS
+			fi
+		fi
+	done
+
+	logit "Backup indeholder disse filer mv.:"
+	/usr/bin/find . -follow 2>&1 | logit
+
+	cd ..
+
+	logit "Sammenligning færdig. Sletter det temporære katalog ${TMPDIR}"
+	/bin/rm -fr ${TMPDIR}
+
+	logit "Roterer gamle sikkerhedskopier ... "
+	/usr/bin/md5sum ${ARCHIVE} >> ${ARCHIVE_LIST}
+
+	while :;
+	do
+		LINES=`/usr/bin/wc -l < ${ARCHIVE_LIST} | /usr/bin/tr -d ' '`
+
+		if [ ${LINES} -gt ${BACKLOG} ]; then
+			DELE=`/bin/sed "s/.* //g; q" ${ARCHIVE_LIST}`
+			logit "Sletter den gamle sikkerhedskopi '${DELE}'"
+			/bin/rm -f ${DELE}
+			/bin/grep -v "${DELE}" ${ARCHIVE_LIST} > ${ARCHIVE_LIST}.tmp
+			/bin/mv ${ARCHIVE_LIST}.tmp ${ARCHIVE_LIST}
+		else
+			break
+		fi
+	done
+
+else
+	# Nope -- backupscriptet kan ikke udføres
+	STR="backup scriptet '${BACKUP_CMD}' kan ikke udføres:"
+	echo $STR logit 
+	echo $STR >> $ERRORS
+fi
+
+cat ${MY_LOGFILE} | /usr/bin/logger -t ${ME} -p mail.crit
+
+#
+# Any errors ?
+#
+if [ ! -f ${ERRORS} ]; then
+	logit "Daglig sikkerhedskopiering afsluttet korrekt"
+	exit
+else
+	logit "Daglig sikkerhedskopiering indeholdt fejl"
+fi
+
+#
+# Nope. Send mail to someone
+#
+. /var/opt/UNItools/conf/smtpclient.SH
+
+/usr/bin/logger -t ${ME} -p mail.crit "sender mail til ${DEF_RCPT} om problemet"
+(
+date | awk '{ printf("\n%80s\n\n"), $0 }'
+
+cat << EOF
+Til ${DEF_RCPT}
+
+Daglig backup gik galt på dette system:
+
+Hostname:	${HOSTNAME}
+Domainname:	${DOMAINNAME}
+
+Fejl:
+EOF
+
+cat $ERRORS
+
+cat << EOF
+
+Fuld log følger herunder.
+
+EOF
+
+cat ${MY_LOGFILE}
+
+echo
+echo "Der findes følgende backup arkiver på maskinen:"
+echo "Dokumenterne ligger i `pwd`."
+echo
+
+ls -l 
+
+echo
+echo "Backup systemet kender følgende af disse arkiver:"
+echo
+
+cat ${ARCHIVE_LIST}
+
+cat << EOF
+
+Jeg håber du hurtigt finder fejlen.
+
+Venligst, $ME
+--
+EOF
+echo '$Header: /var/opt/UNItools/src/scripts/RCS/UNIfwbu.sh,v 1.5 2003/08/13 11:01:09 root Exp $'
+
+
+) | ${SMTPCLIENT} ${OPTIONS} -s "Fejl ved daglig backup af ${FQDN}"
+
+/bin/rm -f $ERRORS
+
+exit 0
+
+################################################################################
+#
+# Documentation and  standard disclaimar
+#
+# Copyright (C) ECMWF
+# http://www.ecmwf.int/
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License 
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+#
+
+# Det huer mig ikke, at check points backup procedure insisterer på
+# at firewal-1 skal være stoppet for at lave backup'en.
+#
+# I stedet for har jeg en svagt modificeret version af scriptet, der
+# laver en identisk backup - uden check for, om firewall-1 er nede,
+# og pakker efterfølgende tar arkivet ud og sammenligner (med diff)
+# med de dokumenter, der skulle være taget en backup af.
+#
+# Tag backup. Kontroller den er identisk med de dokumenter, der ligger
+# i filsystemet.
+# send en mail til fwsupport, hvis det ikke er tilfældet.
+#
+# Slet gamle backup filer.
+
+# I stedet for har jeg en svagt modificeret version af scriptet, der
+# laver en identisk backup - uden check for, om firewall-1 er nede,
+# og pakker efterfølgende tar arkivet ud og sammenligner (med diff)
+# med de dokumenter, der skulle være taget en backup af.
+#
+# Tag backup. Kontroller den er identisk med de dokumenter, der ligger
+# i filsystemet.
+# send en mail til fwsupport, hvis det ikke er tilfældet.
+#
+# Slet gamle backup filer.
+#
+#
+#++
+# NAME
+#	UNIfwbu.sh 1
+# SUMMARY
+#	Sikkerhedskopiering af en VPN / Appliance firewall-1
+# PACKAGE
+#	UNItools
+# SYNOPSIS
+#	\fBUNIfwbu.sh\fR 
+# DESCRIPTION
+#	\fCUNIfwbu.sh\fR kalder en svagt modificeret version af 
+#	Check Points backup script, \fC/bin/backup_start\fR, der
+#	laver en sikkerhedskopiering af system konfiguration og
+#	firewall, til senere re-etablering med \fC/bin/restore_start\fR.
+#
+#	\fC/bin/backup_start\fR er rettet, så det kan udføres 
+#	på trods af, at firewall-1 kører.
+#
+#	Den rettede udgave af scriptet (\fCbackup_start_UNIC\fR)
+#	afvikles og skriver output til \fC/var/log/backup.log\fR.
+#	Logfilen overskrives hver gang scriptet udføres.
+#	
+#	Efter backup, pakkes sikkerhedskopien (et \fCtar(1) arkiv\fR)
+#	ud i et temporært katalog,
+#	og dokumenterne sammenlignes med de oprindelige. Hvis der
+#	er en forskel adviseres den ansvarlige senere via smtp.
+#
+#	Gamle arkiver slettes, så der kun er 10 arkiver	ad gangen.
+#
+#	SMTP adressen på den ansvarlige fås fra
+#	\fC/var/opt/UNItools/conf/smtpclient.SH\fR.
+#
+#	Scriptet startes fra \fCcron(1)\fR en gang i døgnet.
+#
+# OPTIONS
+#	Ingen.
+# FILES
+#	Der anvendes et konfigurationsdokument for at finde
+#	den ansvarliges postadresse. Dokumentet er
+#	\fC/var/opt/UNItools/conf/smtpclient.SH\fR.
+# COMMANDS
+#	\fCshell(1)\fR, \fCtar(1)\fR, \fCcron(1)\fR, og
+#	\fC/bin/backup_start\fR.
+# DIAGNOSTICS
+#	I tilfælde af, at \fCdiff(1)\fR finder forskel mellem
+#	dokumenter i sikkerhedskopien og i filsystemet, adviseres
+#	den systemansvarlige via smtp.
+# BUGS
+#	Ingen kendte, men der undersøges ikke for, om firewall-1
+#	konfigurationsfilerne er åbne via GUI'en; kun at de ikke
+#	er rettede under backup.
+# VERSION
+#      $Date: 2003/08/13 11:01:09 $
+# .br
+#      $Revision: 1.5 $
+# .br
+#      $Source: /var/opt/UNItools/src/scripts/RCS/UNIfwbu.sh,v $
+# .br
+#      $State: Exp $
+# HISTORY
+#	Se \fCrlog UNIfwbu.sh\fR.
+# AUTHOR(S)
+#       Niels Thomas Haugård
+# .br
+#       E-mail: thomas@@haugaard.net
+# .br
+#       UNI\(buC
+# .br
+#       DTU, Building 304
+# .br
+#       DK-2800 Kgs. Lyngby
+#--
+@
+
+
+1.6
+log
+@rettet sum til md5sum
+@
+text
+@d177 3
+a179 4
+			# /var/opt/UNItools/bin/md5sum
+			ORG=`/var/opt/UNItools/bin/md5sum "${FILE}" | awk '{ print $1 }'`
+			CPY=`/var/opt/UNItools/bin/md5sum "/${FILE}" | awk '{ print $1 }'`
+			if [ "${ORG}" != "${CPY}" ]; then
+d294 1
+a294 1
+) | ${SMTPCLIENT} ${OPTIONS} -s "Fejl ved daglig backup af ${HOSTNAME}.${DOMAINNAME}"
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d3 1
+a3 1
+# $Header: /var/opt/UNItools/src/scripts/RCS/UNIfwbu.sh,v 1.4 2003/08/13 10:50:27 root Exp root $
+d177 4
+a180 3
+			ORG=`/usr/bin/sum -r 	"${FILE}" | awk '{ print $1 }'`
+			CPY=`/usr/bin/sum -r	"/${FILE}" | awk '{ print $1 }'`
+			if [ "${ORG}" -ne "${CPY}" ]; then
+d292 1
+a292 1
+echo '$Header: /var/opt/UNItools/src/scripts/RCS/UNIfwbu.sh,v 1.4 2003/08/13 10:50:27 root Exp root $'
+d401 1
+a401 1
+#      $Date: 2003/08/13 10:50:27 $
+d403 1
+a403 1
+#      $Revision: 1.4 $
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d3 1
+a3 1
+# $Header: /var/opt/UNItools/src/scripts/RCS/UNIfwbu.sh,v 1.3 2003/04/02 08:37:06 root Exp $
+d5 1
+a5 1
+# Solaris 2.6 og CP FW1 4.1 only !
+d291 1
+a291 1
+echo '$Header: /var/opt/UNItools/src/scripts/RCS/UNIfwbu.sh,v 1.3 2003/04/02 08:37:06 root Exp $'
+d400 1
+a400 1
+#      $Date: 2003/04/02 08:37:06 $
+d402 1
+a402 1
+#      $Revision: 1.3 $
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d3 3
+a5 1
+# $Header: /var/opt/UNItools/src/scripts/RCS/UNIfwbu.sh,v 1.2 2003/04/01 07:39:18 root Exp $
+d38 4
+a41 2
+# Flag til indikation af eventuelle fejl
+ERRORS=0
+d47 26
+a72 1
+        STRING="$*"
+a73 11
+	(
+        if [ -n "$STRING" ]; then
+		$echo "`date '+%H:%M:%S (%d/%m)'` $STRING"
+        else
+                while read LINE
+                do
+			$echo "`date '+%H:%M:%S (%d/%m)'` $LINE"
+                done
+        fi
+	) >> ${MY_LOGFILE}
+}
+d78 7
+d123 23
+d165 3
+a167 2
+
+	/bin/tar -zxps --same-owner -f ../${ARCHIVE}
+d171 1
+a171 1
+	/usr/bin/find . -type f | while read FILE
+d173 13
+a185 2
+		if [ -f "/${FILE}" ]; then
+			/usr/bin/diff --brief "${FILE}" "/${FILE}"
+d188 4
+a191 2
+				logit "Filen ${FILE} findes på arkivet, men ikke i filsystemet"
+				ERRORS=1
+d197 1
+a197 1
+	/usr/bin/find . 2>&1 | logit
+a221 2
+	logit "Daglig sikkerhedskopiering afsluttet"
+
+d224 3
+a226 5
+	(
+		echo "backup scriptet '${BACKUP_CMD}' kan ikke udføres:"
+		/bin/ls -l ${BACKUP_CMD}
+		ERRORS=1
+	) 2>&1 | logit 
+d234 2
+a235 1
+if [ ${ERRORS} -eq 0 ]; then
+d237 2
+d258 8
+a265 1
+Log følger herunder.
+d291 1
+a291 1
+echo '$Header: /var/opt/UNItools/src/scripts/RCS/UNIfwbu.sh,v 1.2 2003/04/01 07:39:18 root Exp $'
+d294 1
+a294 1
+) | ${SMTPCLIENT} -v ${OPTIONS} -s "Fejl på daglig backup"
+d296 1
+d400 1
+a400 1
+#      $Date: 2003/04/01 07:39:18 $
+d402 1
+a402 1
+#      $Revision: 1.2 $
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d3 1
+a3 1
+# $Header: /var/opt/UNItools/src/scripts/RCS/UNIfwbu.sh,v 1.1 2003/02/21 14:41:28 root Exp $
+d98 7
+a104 5
+(
+	echo "starter ${BACKUP_CMD} ${BACKUP_ARGS} ${ARCHIVE} "
+	${BACKUP_CMD} ${BACKUP_ARGS} ${ARCHIVE}
+	echo "exit status $?"
+	echo "afsluttet backup"
+d106 1
+a106 1
+) 2>&1 | logit
+d108 1
+a108 1
+logit "Validering af backup. Firewall-1 blev ikke stoppet før kopieringen startede"
+d110 1
+a110 1
+TMPDIR=/opt/CPbackups/tmp.${TIMESTAMP}.$$
+d112 1
+a112 1
+ARCHIVE=${ARCHIVE}.tgz
+d114 1
+a114 1
+mkdir ${TMPDIR}
+d116 1
+a116 1
+cd ${TMPDIR}
+d118 1
+a118 1
+/bin/tar -zxps --same-owner -f ../${ARCHIVE}
+d120 1
+a120 1
+logit "Sammenligner filer i / med ${TMPDIR}"
+d122 9
+a130 8
+/usr/bin/find . -type f | while read FILE
+do
+	if [ -f "/${FILE}" ]; then
+		/usr/bin/diff --brief "${FILE}" "/${FILE}"
+	else
+		if [ "${FILE}" != "./opt/CPbackups/signature" ]; then
+			echo "Filen ${FILE} findes på arkivet, men ikke i filsystemet"
+			ERRORS=1
+d132 4
+a135 2
+	fi
+done
+d137 1
+a137 2
+logit "Backup indeholder disse filer mv.:"
+/usr/bin/find . 2>&1 | logit
+d139 20
+a158 1
+cd ..
+d160 1
+a160 20
+logit "Sammenligning færdig. Sletter det temporære katalog ${TMPDIR}"
+/bin/rm -fr ${TMPDIR}
+
+logit "Roterer gamle sikkerhedskopier ... "
+/usr/bin/md5sum ${ARCHIVE} >> ${ARCHIVE_LIST}
+
+while :;
+do
+	LINES=`/usr/bin/wc -l < ${ARCHIVE_LIST} | /usr/bin/tr -d ' '`
+
+	if [ ${LINES} -gt ${BACKLOG} ]; then
+		DELE=`/bin/sed "s/.* //g; q" ${ARCHIVE_LIST}`
+		logit "Sletter den gamle sikkerhedskopi '${DELE}'"
+		/bin/rm -f ${DELE}
+		/bin/grep -v "${DELE}" ${ARCHIVE_LIST} > ${ARCHIVE_LIST}.tmp
+		/bin/mv ${ARCHIVE_LIST}.tmp ${ARCHIVE_LIST}
+	else
+		break
+	fi
+done
+d162 8
+a169 1
+logit "Daglig sikkerhedskopiering afsluttet"
+d223 1
+a223 1
+echo '$Header: /var/opt/UNItools/src/scripts/RCS/UNIfwbu.sh,v 1.1 2003/02/21 14:41:28 root Exp $'
+d331 1
+a331 1
+#      $Date: 2003/02/21 14:41:28 $
+d333 1
+a333 1
+#      $Revision: 1.1 $
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d3 1
+a3 1
+# $Header$
+d75 1
+d77 2
+a78 1
+#
+d82 21
+a102 1
+${BACKUP_CMD} ${BACKUP_ARGS} ${ARCHIVE} | logit
+d104 1
+a104 1
+logit "afsluttet backup"
+d132 3
+d212 1
+a212 1
+echo '$Header$'
+d320 1
+a320 1
+#      $Date: 2003/02/11 09:32:49 $
+d322 1
+a322 1
+#      $Revision: 1.6 $
+d324 1
+a324 1
+#      $Source: /var/opt/UNItools/src/scripts/RCS/fmog.pl,v $
+@

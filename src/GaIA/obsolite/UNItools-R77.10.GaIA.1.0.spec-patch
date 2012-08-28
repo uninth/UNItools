@@ -1,0 +1,14 @@
+# post install script -- just before %files
+%post
+
+echo "Now configure the package with"
+echo "/var/opt/UNItools/bin/setup.sh"
+echo "Uninstall the package by removing it with rpm -e --nodeps ... "
+
+# pre uninstall script
+%preun
+echo "removing /etc/cron.d/UNItools_backup"
+/bin/rn -f /etc/cron.d/UNItools_backup
+echo "restarting crond .. "
+/etc/init.d/crond restart
+echo "You may have to remove everything below /var/opt/UNItools"

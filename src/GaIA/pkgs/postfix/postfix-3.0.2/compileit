@@ -1,0 +1,19 @@
+:
+
+
+
+make makefiles	install_root=/var/opt/UNItools/postfix meta_directory=/var/opt/UNItools/postfix/libexec/postfix \
+				command_directory=/var/opt/UNItools/postfix/usr/sbin		\
+				config_directory=/var/opt/UNItools/postfix/etc/postfix		\
+				daemon_directory=/var/opt/UNItools/postfix/usr/libexec/postfix		\
+				data_directory=/var/opt/UNItools/postfix/var/lib/postfix		\
+				mailq_path=/var/opt/UNItools/postfix/usr/bin/mailq		\
+				manpage_directory=/var/opt/UNItools/postfix/usr/local/man		\
+				newaliases_path=/var/opt/UNItools/postfix/usr/bin/newaliases		\
+				queue_directory=/var/opt/UNItools/postfix/var/spool/postfix		\
+				sendmail_path=/var/opt/UNItools/postfix/usr/sbin/sendmail
+
+
+mkdir -p /var/opt/UNItools/postfix/etc/postfix/
+
+make non-interactive-package install_root=/var/opt/UNItools/postfix

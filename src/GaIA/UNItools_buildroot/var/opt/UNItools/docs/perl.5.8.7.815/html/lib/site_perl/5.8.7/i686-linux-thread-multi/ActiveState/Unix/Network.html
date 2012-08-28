@@ -1,0 +1,103 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../../tocTab.js"></script>
+<title>ActiveState::Unix::Network - Portable way to determine host networking info</title>
+<link rel="stylesheet" href="../../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',6);</script>
+<h1><a>ActiveState::Unix::Network - Portable way to determine host networking info</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#notes">NOTES</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>ActiveState::Unix::Network - Portable way to determine host networking info</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+ use ActiveState::Unix::Network qw(interfaces);
+ my $interfaces = interfaces;
+ foreach my $i (@$interfaces) {
+     foreach (qw(ip netmask subnet)) {
+         print &quot;ip = $i-&gt;{$_}\n&quot;;
+     }
+     print &quot;\n&quot;;
+ }</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>This module provides a single function called <a href="#item_interfaces"><code>interfaces()</code></a> that will run ifconfig
+(and lanscan on HPUX) to examine the external network interfaces.  It will parse 
+the networking info and return an array of external interfaces.</p>
+<dl>
+<dt><strong><a name="item_interfaces"><code>interfaces()</code></a></strong>
+
+<dd>
+<p>This function will return an arrayref containing a hashref for each of the 
+interfaces discovered.  Each hashref will contain the following keys:</p>
+</dd>
+<dl>
+<dt><strong><a name="item_ip">ip</a></strong>
+
+<dt><strong><a name="item_netmask">netmask</a></strong>
+
+<dt><strong><a name="item_subnet">subnet</a></strong>
+
+<dt><strong><a name="item_network_bits">network_bits</a></strong>
+
+<dd>
+<p>Number of network bits in IP address (used for CIDR blocks).</p>
+</dd>
+</li>
+</dl>
+<dt><strong><a name="item_mask_off">mask_off( $ip, $mask )</a></strong>
+
+<dd>
+<p>Computes the subnet from an IP and netmask.</p>
+</dd>
+</li>
+<dt><strong><a name="item_num2ip">num2ip( $ip )</a></strong>
+
+<dd>
+<p>Converts an IP address from numeric to string form.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="notes">NOTES</a></h1>
+<p>These functions currently only support IPv4 addresses.</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2005 Sophos PLC.  All rights reserved.</p>
+
+</body>
+
+</html>

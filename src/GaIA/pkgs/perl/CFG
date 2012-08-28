@@ -1,0 +1,42 @@
+# Download URL, product name and version
+URL="http://ftp.activestate.com/ActivePerl/Linux/5.8/ActivePerl-5.8.7.815-i686-linux-2.2.17-gcc-211909.tar.gz"
+PKG="perl"
+VER="5.8.7.815"
+
+# Description used internally
+NAME="Practical Extraction and Report Language"
+
+# The creator/copyright holder
+VENDOR="Active State"
+
+# Local source location
+SRC="/lan/ssi/projects/UNItools/src/Linux/2.4.21-20cpsmp/pkgs/perl/ActivePerl-5.8.7.815-i686-linux-2.2.17-gcc-211909"
+
+# prefix for ''make install' Do not change
+ROOT="/var/opt/UNItools"
+
+# Arguments to configure, build command and installation command
+CONFIGURE="/bin/echo ok"
+BUILD="make"
+INSTALL="make install"
+# clean-up commands
+MAKECLEAN="make distclean"
+DELEFILES="*.bak"
+
+# Script to add information not added by make install
+INSTALL_MORE="/bin/sh install_more.sh"
+
+# Prototype rc start/stop script (absolute path or relative to CFG)
+RCPROTO=""
+# RCSTART="S88unizlib"
+RCSTART=""
+# RCSTOP="S88unizlib"
+RCSTOP=""
+# Run level /etc/rcX.d. Network: 3, hernel S, user space (databases etc): 3
+# netværksdaemoner: normalt 2, kerneting normalt S, databaser mv normalt 3
+# RCSTARTDIRS="3"
+RCSTARTDIRS=""
+# Same for stop scripts: S, 0 and 1 - multible doesn't make any difference
+# RCSTOPDIRS="S 0 1"
+RCSTOPDIRS=""
+

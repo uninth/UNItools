@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<title>ActivePerl::Config - Override the ActivePerl configuration</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',4);</script>
+<h1><a>ActivePerl::Config - Override the ActivePerl configuration</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#window_overrides">Window overrides</a></li>
+	</ul>
+
+	<li><a href="#environment">ENVIRONMENT</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>ActivePerl::Config - Override the ActivePerl configuration</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  use Config qw(%Config);</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The standard <code>Config</code> module provides the %Config hash containing
+information about how this perl was built.  These configuration values
+are used by modules and programs with the assumption that they still
+apply for the system where perl is deployed.  This assumption does not
+always hold.  The <code>ExtUtils::MakeMaker</code> module will for instance
+assume that it can use the compiler $Config{cc} for building new
+extensions, but another compiler might be the only one available.</p>
+<p>The <code>ActivePerl::Config</code> module provides a solution for this.  It
+overrides the values of %Config to better match the system where perl
+currently runs.  For example, on Windows allows you to build extensions
+with the free compiler <em>gcc</em> (see <a href="http://www.mingw.org/">http://www.mingw.org/</a>) even
+though ActivePerl for Windows itself is built with the commercial
+Microsoft Visual Studio 6 compiler.</p>
+<p>The <code>ActivePerl::Config</code> module is not used directly.  It is
+automatically loaded by <code>Config</code> if available and works behind the
+scenes, overriding the values that are found in the %Config hash.  The
+overriden values from <code>ActivePerl::Config</code> will also show when <code>perl
+-V:foo</code> is invoked from the command line.</p>
+<p>
+</p>
+<h2><a name="window_overrides">Window overrides</a></h2>
+<p>For ActivePerl on Windows the following %Config overrides are provided:</p>
+<dl>
+<dt><strong><a name="item__config_make_">$Config{make}</a></strong>
+
+<dd>
+<p>This will be <code>nmake</code> by default, but if no <em>nmake</em> program can be
+found and other compatible make programs are found, then this value
+will reflect that.  Currently <em>dmake</em> is the only other make
+implementation that is compatible enough to build perl extensions.</p>
+</dd>
+</li>
+<dt><strong><a name="item__config_cc__">$Config{cc}, $Config{ccflags},...</a></strong>
+
+<dd>
+<p>The value of $Config{cc} will be <code>cl</code> by default, but if no <code>cl</code>
+program can be found and <em>gcc</em> is found, then this value is <code>gcc</code>
+and other values related to the compiler environment is adjusted
+accordingly.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="environment">ENVIRONMENT</a></h1>
+<p>The following environment variables can influence the operation of the
+<code>ActivePerl::Config</code> module:</p>
+<dl>
+<dt><strong><a name="item_activeperl_config_disable">ACTIVEPERL_CONFIG_DISABLE</a></strong>
+
+<dd>
+<p>If set to a TRUE value (e.g. ``1''), prevent <code>ActivePerl::Config</code> from
+overriding any %Config value; the only values seen in %Config would be
+those determined at perl build time.  Another way to disable
+<code>ActivePerl::Config</code> permanently is to remove it using <a href="../../../../bin/ppm.html">ppm</a>
+(<code>ppm remove ActivePerl-Config</code>)</p>
+</dd>
+</li>
+<dt><strong><a name="item_activeperl_config_foo">ACTIVEPERL_CONFIG_<em>FOO</em></a></strong>
+
+<dd>
+<p>Override the $Config{<em>foo</em>} value.  For example if the
+ACTIVEPERL_CONFIG_MAKE environment variable has the value <code>dmake</code>,
+then so would $Config{make}.</p>
+</dd>
+<dd>
+<p>If the ACTIVEPERL_CONFIG_DISABLE variable is set, all other
+ACTIVEPERL_CONFIG_<em>FOO</em> variables are ignored.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../../lib/5.8.7/i686-linux-thread-multi/Config.html">the Config manpage</a></p>
+
+</body>
+
+</html>

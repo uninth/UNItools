@@ -1,0 +1,42 @@
+sg_get_user_stats(3)					  sg_get_user_stats(3)
+
+
+
+NAME
+       sg_get_user_stats - get the current logged in users
+
+SYNOPSIS
+       #include <statgrab.h>
+
+
+       sg_user_stats *sg_get_user_stats(void);
+
+DESCRIPTION
+       This call returns a pointer to a static buffer of sg_user_stats.
+
+RETURN VALUES
+       The structure returned is of type sg_user_stats.
+
+
+       typedef struct{
+	       char *name_list;
+	       int num_entries;
+       }sg_user_stats;
+
+
+       name_list
+	      A	 pointer  to a space seperated list of the currently logged in
+	      users.
+
+       num_entries
+	      The number of users currently logged in.
+
+SEE ALSO
+       statgrab(3)
+
+WEBSITE
+       http://www.i-scream.org/libstatgrab/
+
+
+
+i-scream		 $Date: 2005/04/25 11:25:45 $	  sg_get_user_stats(3)

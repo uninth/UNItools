@@ -1,0 +1,134 @@
+==== Mar 12, 2005 - tcptrack 1.1.5 released ================================
+
+tcptrack 1.1.5 is now availabe. This release fixes a bug that causes a
+floating point exception when handling packets with source or destination
+ports of 0.
+
+==== Nov 27, 2004 - NST 1.2.0 released with tcptrack 1.1.4  ================
+
+ A new version of NST, the Network Security Toolkit was released which
+ includes an updated version of tcptrack and a simple frontend. NST is a
+ bootable live linux CD with many network analysis and security tools. See
+ http://www.networksecuritytoolkit.org for details.
+
+==== Nov 07, 2004 - tcptrack now available in FreeBSD Ports ================
+
+tcptrack is now available as a FreeBSD Port
+(http://www.freshports.org/net-mgmt/tcptrack). Thanks to Tor Halvard
+Furulund.
+
+==== Oct 15, 2004 - 1.1.4 Slackware and Debian packages ====================
+
+Binary packages for tcptrack 1.1.4 for Debian and Slackware are now
+available.
+
+Debian:
+   unstable/testing: http://packages.debian.org/tcptrack
+
+Slackware:
+   9.0:  http://kaneda.bohater.net/slackware/packages/slackware-9.0
+   9.1:  http://kaneda.bohater.net/slackware/packages/slackware-9.1
+   10.0: http://kaneda.bohater.net/slackware/packages/slackware-10.0
+
+==== Oct 10, 2004 - 1.1.4 released =========================================
+
+tcptrack 1.1.4 is now available. This release fixes a memory leak.
+
+==== Oct 10, 2004 - Announcements list created =============================
+
+The tcptrack-announce mailing list
+(http://www.rhythm.cx/cgi-bin/mailman/listinfo/tcptrack-announce) has been
+created. This list is open to public membership. Information about new
+releases and other announcements will be sent here.
+
+==== Oct 7, 2004 - Late freshmeat announcement =============================
+
+My apologies to those of you just now receiving word of 1.1.3's release via
+freshmeat. I didn't get around to updating freshmeat right after 1.1.3 was
+released and it later slipped my mind.
+
+==== Sep 7, 2004 - Slackware packages back =================================
+
+ kanedaaa, producer of tcptrack slackware packages, is back online.
+ Slackware packages for tcptrack are now available at
+ http://kaneda.bohater.net/slackware/packages/.
+
+==== Aug 16, 2004 - 1.1.3 released =========================================
+
+ tcptrack 1.1.3 is now available. This release adds a total for the speed
+ column at the bottom of the display and fixes some user interface bugs.
+ Thanks to Leo Costela for the patch to add the total feature.
+
+==== Jul 23, 2004 - NST 1.0.5 released with tcptrack 1.1.2 =================
+
+ A new version of NST, the Network Security Toolkit was made available on
+ July 11th, 2004. NST is a bootable live linux CD with many network analysis
+ and security tools. tcptrack 1.1.2 is contained in NST v1.0.5. See
+ http://www.networksecuritytoolkit.org for details.
+
+
+==== Jun 23, 2004 - French translation of man page available ===============
+
+ A French translation of the tcptrack man page is now available. Thanks to
+ Stephane Milani for creating it.
+
+
+==== Jun 8, 2004 - RPMS for 1.1.2 available ================================
+
+ Binary RPMs for 1.1.2 for Redhat 7.2-9, Fedora Core 1, and SuSE 9.0 are now
+ available.
+
+
+==== Jun 5, 2004 - Debian & Slackware binaries for 1.1.2 available =========
+
+ * i386 binary packages for 1.1.2 are now available for Slackware 9.1  and
+   9.0  (thanks to kanedaaa).
+ * tcptrack 1.1.2 is available in Debian unstable. 1.1.1 is also available in
+   testing (thanks to Leo Costela).
+
+
+==== Jun 3, 2004 - 1.1.2 released ==========================================
+
+ tcptrack 1.1.2 is now available (source packages). The following changes
+ were made from 1.1.1 to 1.1.2:
+
+ * Fixed assertion an assertion failure (in IPv4Packet.cc) bug.
+ * tcptrack can now run on interfaces with no IPv4 addresses (ie, stealth
+   interfaces).
+ * Fixed a few crashes and assertion failures on Mac OSX and FreeBSD caused
+   by missing pthread_*_init calls. Thanks to Chuck Schied for the patch.
+ * Added a timeout for connections in the CLOSING state. Connections may get
+   stuck in that state due to dropped packets, timeouts by the peers, or
+   there may be a bug in the TCPConnection state machine code that I haven't
+   found yet.
+ * ChangeLog is now a regular ChangeLog, not a development log. The contents
+   of this file were previously in the NEWS file. NEWS will now contain the
+   same stuff that's on the web page. The development log was removed since
+   it was out of date (and as far as I know, not used by anyone).
+
+
+==== May 12, 2004 - 1.1.1 RPMS now available ===============================
+
+ RPMS for 1.1.1 are now available.
+
+
+==== May 11, 2004 - 1.1.1 Slackware & Debian binaries available ============
+
+ * i386 binary packages for 1.1.1 are now available for Slackware 9.1 and
+   9.0 (thanks to kanedaaa).
+ * tcptrack 1.1.1 is available in Debian unstable. 1.1.0 is also
+   available in testing.
+
+
+==== May 10, 2004 - 1.1.1 released =========================================
+
+ tcptrack 1.1.1 is now available (source packages). The following changes
+ were made from 1.1.0 to 1.1.1:
+
+ * Fixed problem where tcptrack would silently not work on certain ppp
+   connections (a.k.a. debian bug #245227)
+ * Added support for NULL and RAW pcap interface types. tcptrack should
+   now work on all linux PPP, ethernet, tun/tap and local loopback interfaces.
+ * tcptrack now compiles properly with gcc 3.4. Thanks to Jim Gifford.
+ * Added EXAMPLES section to man page and a few extra notes to man page
+   about guessing, pause/sort options.

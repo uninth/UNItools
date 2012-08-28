@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOFTPKG NAME="XML-Simple" VERSION="2,14,0,0">
+  <TITLE>XML-Simple</TITLE>
+  <ABSTRACT>Easy API to maintain XML (esp config files)</ABSTRACT>
+  <AUTHOR>Grant McLean &lt;grantm@cpan.org></AUTHOR>
+  <IMPLEMENTATION>
+    <DEPENDENCY NAME="XML-Parser" VERSION="2,34,0,1"/>
+    <CODEBASE HREF="http://ppm.ActiveState.com/PPMPackages/5.8-linux/i686-linux-thread-multi-5.8/XML-Simple.tar.gz"/>
+  </IMPLEMENTATION>
+</SOFTPKG>

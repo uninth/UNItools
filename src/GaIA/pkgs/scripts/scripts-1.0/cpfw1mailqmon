@@ -1,0 +1,284 @@
+#! /var/opt/UNItools/bin/perl -w
+#
+# $Header: /lan/ssi/projects/UNItools/src/Linux/2.4.21-20cpsmp/pkgs/scripts/scripts-1.0/RCS/cpfw1mailqmon,v 1.3 2006/01/05 11:45:18 root Exp $
+#
+my $VERSION = '$Id: cpfw1mailqmon,v 1.3 2006/01/05 11:45:18 root Exp $';
+
+#
+# Requirements
+#
+use POSIX qw(strftime);
+use Getopt::Long;
+use File::Basename;
+use Socket;
+use Sys::Hostname;
+my $host = hostname();
+my $addr = inet_ntoa(scalar gethostbyname($host || 'localhost'));
+
+my $MYNAME = basename($0);
+
+my $domainname;
+if (open(FD, "/etc/resolv.conf")) {
+	while (<FD>) {
+		chomp;
+		/^search|^domain\s+/	&& do {
+			s/search\s+//;
+			s/domain\s+//;
+			$domainname = $_;
+			last;
+		}
+	}
+	close(FD);
+	$domainname = $domainname ? $domainname : "search-or-domain-not-found-in-etc-resolv";
+} else {
+	$domainname = "etc-resolv.conf-not-found";
+}
+
+#use sigtrap qw(die normal-signals);
+
+my $tput_clear = "\x1B\x5B\x48\x1B\x5B\x4a"; # tput clear
+my $tput_ue = "[m";			# tput ue -- black on white
+my $tput_so = "[7m";			# tput so -- white on black 
+
+my $datestr = "";
+
+#
+# Global vars
+#
+my $usage = "
+	$MYNAME [-s seconds][-p][-t lines]					\
+										\
+	monitor Check Point FireWall-1 mailqueue				\
+										\
+        	-s seconds:  number of seconds between rescan			\
+		-p printlog: print the smtp logfile				\
+		-t truncate: truncate lines / don't display the full log	\
+										\
+Version: $VERSION	\
+(c) Niels Thomas Haugård							\
+\n";
+
+my $printlog = 0;
+my $max_lines = 24;
+my $sleep_time = 2;
+
+my $mails_in_queue;
+$spool = "$ENV{'FWDIR'}/spool";
+
+################################################################################
+#
+#  Main -s seconds] [-p printlog] [-t truncate-to-lines
+#
+################################################################################
+#
+# Parse and process options
+#
+if (!GetOptions('seconds|s=s'	=> \$sleep_time,
+		'printlog|p'	=> \$printlog,
+		'truncate|t=s'	=> \$max_lines,
+		)) {
+		die "$usage";
+}
+
+print "sleep_time = $sleep_time\n";
+print "printlog   = $printlog\n";
+print "max_lines  = $max_lines\n";
+print "hostname   = $host\n";
+print "domainname = $domainname\n";
+print "addr       = $addr\n";
+
+
+sleep 1;
+
+while() {
+	print "$tput_clear\n";
+	my $filename;
+	my $totalsize = 0;
+	my $from;
+	my $rcpt;
+
+	opendir(DIR, $spool) || die "opendir '$spool failled: $!";
+
+	my @files =  grep ( ! -d $_, readdir( DIR ) );
+	closedir( DIR );
+
+	my $dev = $ino = $mode = $nlink = $uid = $gid = $rdev = $size =
+			$atime = $mtime = $ctime = $blksize = $blocks = "";
+
+	$datestr = strftime "%Y/%m/%d %H:%M:%S", localtime(time());
+	print "$tput_so";
+	print '-' x 51;
+	print "[$datestr]";
+	print '-' x 8;
+	print "\n";
+	print "$tput_ue";
+
+	printf("%-16s %-16s %-16s %16s %-8s\n", "FROM", "RCPT", "last change time", "size   Mb", "filename") ;
+	print "$tput_so"; print '=' x 80; print "$tput_ue"; print "\n";
+
+	$mails_in_queue = 0;
+	foreach $filename (@files) {
+		chomp $filename;
+		if (-f "$spool/$filename") {
+			if (open (FILE, "$spool/$filename")) {
+				my $found = 0;
+
+				LOOP: while (<FILE>) {
+					last LOOP if ($found >= 2);
+
+					/^MAIL FROM:\s+\<(.*?)\>/	&& do {
+						$from = $1;
+						chomp $from;
+						$found = $found + 1;
+						next;
+					};
+					/^RCPT TO:\s+\<(.*?)\>/		&& do {
+						$rcpt = $1;
+						chomp $rcpt;
+						$found = $found + 1;
+						next;
+					};
+				}
+				if ( -l "$spool/$filename" ) {
+					($dev, $ino, $mode, $nlink, $uid, $gid, $rdev, $size,
+						$atime, $mtime, $ctime, $blksize, $blocks)
+							= lstat("$spool/$filename");
+				} else {
+					($dev, $ino, $mode, $nlink, $uid, $gid, $rdev, $size,
+						$atime, $mtime, $ctime, $blksize, $blocks)
+							= stat("$spool/$filename");
+				}
+				$from  = $from ? $from : "unknown";
+				$rcpt  = $rcpt ? $rcpt : "unknown";
+
+				$from  = substr($from, 0, 16);
+				$rcpt  = substr($rcpt, 0, 16);
+
+				$group = getgrgid($gid);        $group = $group ? $group : $gid;
+				$owner = getpwuid($uid);        $owner = $owner ? $owner : $uid;
+				$mode  = ($mode & 07777);
+
+				$datestr = strftime "%Y/%m/%d %H:%M:%S", localtime($ctime);
+
+				$filename =~ s/\s+$//;
+				$mails_in_queue ++; if ($mails_in_queue <= $max_lines) {
+					printf ("%-16s %-16s %-12s %10.4f Mb %-8s\n", "$from", "$rcpt", "$datestr", $size / 1048576, $filename);
+				}
+				$totalsize += $size;
+			} else {
+				#
+				# file was processed while we worked, ignore it
+				#
+			}
+		close (FILE);
+		} # not a file but a dir
+	}
+
+	print '-' x 80; print "\n";
+	printf("Total pending mail(s): %41.4f Mb, %d mail(s)\n", $totalsize / 1048576, $mails_in_queue);
+
+	print "\n";
+
+	if ($printlog) {
+		print '-' x 10;
+		print "[ FWDIR/log/asmtpd.elg ]";
+		print '-' x 46;
+		print "\n";
+		system("tail $ENV{'FWDIR'}/log/asmtpd.elg");
+
+		print '-' x 10;
+		print "[ FWDIR/log/mdq.elg ]";
+		print '-' x 50;
+		print "\n";
+		system("tail $ENV{'FWDIR'}/log/mdq.elg");
+	}
+
+	printf("\n----------[sleeping %d sec. press ctrl-c to cancel]--\n", $sleep_time);
+	sleep $sleep_time;
+}
+
+exit 0;
+
+__DATA__
+
+################################################################################
+#
+# Documentation and  standard disclaimar
+#
+# Copyright (C) Niels Thomas Haugård
+# http://www.haugaard.net
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License 
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+#
+#++
+# NAME
+#	cpfw1mailqmon 1
+# SUMMARY
+#	TOP like monitor for Check Point FireWall-1 mail queue
+# PACKAGE
+#	UNItools
+# SYNOPSIS
+#	\fCcpfw1mailqmon [-s \fIseconds\fP][\fC-p\fP][-t \fIlines\fC]\fR
+# DESCRIPTION
+#	\fCcpfw1mailqmon\fR monitor the Check Point FireWall-1 mailqueue
+#	in a tty window.
+#
+#	The queue is refreshed every \fIseconds\fR seconds and the
+#	queue display is truncated to \fIlines\fR for readability.
+# OPTIONS
+# .TP
+#	\fC-s \fIseconds\fR
+#	number of seconds between rescan of queue.
+# .TP
+#	\fC-p\fR
+#	Print the smtp logfile(s).
+# .TP
+#	\fC-t \fInumber\fR
+#	truncate lines to \fInumber\fR.
+# FILES
+# .TP
+#	\fC$FWDIR/log/mdq.elg\fR, \fC$FWDIR/log/asmtpd.elg\fR
+#	Check Point Firewall-1 smtp logfiles.
+# COMMANDS
+#	\fCperl(1)\fR (standard 5.x distribution).
+# DIAGNOSTICS
+#	Should be printed to \fCstdout\fR.
+# BUGS
+#	None known, but the spool dir is assumed to be in \fCFWDIR/spool\fR,
+#	but \fImay\fR have been set in \fC$FWDIR/conf/smtpd.conf\fR.
+# .pp
+#	The script has been tested on Check Point FireWall-1 version 4.0, 4.1,
+#	NG and NGX.
+# VERSION
+#      $Date: 2006/01/05 11:45:18 $
+# .br
+#      $Revision: 1.3 $
+# .br
+#      $Source: /lan/ssi/projects/UNItools/src/Linux/2.4.21-20cpsmp/pkgs/scripts/scripts-1.0/RCS/cpfw1mailqmon,v $
+# .br
+#      $State: Exp $
+# HISTORY
+#	Long. See \fCrlog cpfw1mailqmon\fR.
+# AUTHOR(S)
+#       Niels Thomas Haugård
+# .br
+#       E-mail: thomas@haugaard.net
+# .br
+#       UNI\(buC
+# .br
+#       DTU, Building 304
+# .br
+#       DK-2800 Kgs. Lyngby
+#--

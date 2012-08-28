@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./debian.rc</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir"># $Id: debian.rc,v 1.3 2003/08/30 16:27:42 tom Exp $</span>
+<span class="line">    1 </span><span class="dir"># Run-time configuration file for dialog, matches Debian color scheme.</span>
+<span class="line">    2 </span><span class="dir"># (these are the default values for dialog)</span>
+<span class="line">    3 </span>
+<span class="line">    4 </span><span class="dir"># Shadow dialog boxes? This also turns on color.</span>
+<span class="line">    5 </span>use_shadow <span class="sym">=</span> ON
+<span class="line">    6 </span>
+<span class="line">    7 </span><span class="dir"># Turn color support ON or OFF</span>
+<span class="line">    8 </span>use_colors <span class="sym">=</span> ON
+<span class="line">    9 </span>
+<span class="line">   10 </span><span class="dir"># Screen color</span>
+<span class="line">   11 </span>screen_color <span class="sym">= (</span>CYAN<span class="sym">,</span>BLUE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   12 </span>
+<span class="line">   13 </span><span class="dir"># Shadow color</span>
+<span class="line">   14 </span>shadow_color <span class="sym">= (</span>BLACK<span class="sym">,</span>BLACK<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   15 </span>
+<span class="line">   16 </span><span class="dir"># Dialog box color</span>
+<span class="line">   17 </span>dialog_color <span class="sym">= (</span>BLACK<span class="sym">,</span>WHITE<span class="sym">,</span>OFF<span class="sym">)</span>
+<span class="line">   18 </span>
+<span class="line">   19 </span><span class="dir"># Dialog box title color</span>
+<span class="line">   20 </span>title_color <span class="sym">= (</span>BLUE<span class="sym">,</span>WHITE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   21 </span>
+<span class="line">   22 </span><span class="dir"># Dialog box border color</span>
+<span class="line">   23 </span>border_color <span class="sym">= (</span>WHITE<span class="sym">,</span>WHITE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   24 </span>
+<span class="line">   25 </span><span class="dir"># Active button color</span>
+<span class="line">   26 </span>button_active_color <span class="sym">= (</span>WHITE<span class="sym">,</span>BLUE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   27 </span>
+<span class="line">   28 </span><span class="dir"># Inactive button color</span>
+<span class="line">   29 </span>button_inactive_color <span class="sym">= (</span>BLACK<span class="sym">,</span>WHITE<span class="sym">,</span>OFF<span class="sym">)</span>
+<span class="line">   30 </span>
+<span class="line">   31 </span><span class="dir"># Active button key color</span>
+<span class="line">   32 </span>button_key_active_color <span class="sym">= (</span>WHITE<span class="sym">,</span>BLUE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   33 </span>
+<span class="line">   34 </span><span class="dir"># Inactive button key color</span>
+<span class="line">   35 </span>button_key_inactive_color <span class="sym">= (</span>RED<span class="sym">,</span>WHITE<span class="sym">,</span>OFF<span class="sym">)</span>
+<span class="line">   36 </span>
+<span class="line">   37 </span><span class="dir"># Active button label color</span>
+<span class="line">   38 </span>button_label_active_color <span class="sym">= (</span>YELLOW<span class="sym">,</span>BLUE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   39 </span>
+<span class="line">   40 </span><span class="dir"># Inactive button label color</span>
+<span class="line">   41 </span>button_label_inactive_color <span class="sym">= (</span>BLACK<span class="sym">,</span>WHITE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   42 </span>
+<span class="line">   43 </span><span class="dir"># Input box color</span>
+<span class="line">   44 </span>inputbox_color <span class="sym">= (</span>BLACK<span class="sym">,</span>WHITE<span class="sym">,</span>OFF<span class="sym">)</span>
+<span class="line">   45 </span>
+<span class="line">   46 </span><span class="dir"># Input box border color</span>
+<span class="line">   47 </span>inputbox_border_color <span class="sym">= (</span>BLACK<span class="sym">,</span>WHITE<span class="sym">,</span>OFF<span class="sym">)</span>
+<span class="line">   48 </span>
+<span class="line">   49 </span><span class="dir"># Search box color</span>
+<span class="line">   50 </span>searchbox_color <span class="sym">= (</span>BLACK<span class="sym">,</span>WHITE<span class="sym">,</span>OFF<span class="sym">)</span>
+<span class="line">   51 </span>
+<span class="line">   52 </span><span class="dir"># Search box title color</span>
+<span class="line">   53 </span>searchbox_title_color <span class="sym">= (</span>BLUE<span class="sym">,</span>WHITE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   54 </span>
+<span class="line">   55 </span><span class="dir"># Search box border color</span>
+<span class="line">   56 </span>searchbox_border_color <span class="sym">= (</span>WHITE<span class="sym">,</span>WHITE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   57 </span>
+<span class="line">   58 </span><span class="dir"># File position indicator color</span>
+<span class="line">   59 </span>position_indicator_color <span class="sym">= (</span>BLUE<span class="sym">,</span>WHITE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   60 </span>
+<span class="line">   61 </span><span class="dir"># Menu box color</span>
+<span class="line">   62 </span>menubox_color <span class="sym">= (</span>BLACK<span class="sym">,</span>WHITE<span class="sym">,</span>OFF<span class="sym">)</span>
+<span class="line">   63 </span>
+<span class="line">   64 </span><span class="dir"># Menu box border color</span>
+<span class="line">   65 </span>menubox_border_color <span class="sym">= (</span>WHITE<span class="sym">,</span>WHITE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   66 </span>
+<span class="line">   67 </span><span class="dir"># Item color</span>
+<span class="line">   68 </span>item_color <span class="sym">= (</span>BLACK<span class="sym">,</span>WHITE<span class="sym">,</span>OFF<span class="sym">)</span>
+<span class="line">   69 </span>
+<span class="line">   70 </span><span class="dir"># Selected item color</span>
+<span class="line">   71 </span>item_selected_color <span class="sym">= (</span>WHITE<span class="sym">,</span>BLUE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   72 </span>
+<span class="line">   73 </span><span class="dir"># Tag color</span>
+<span class="line">   74 </span>tag_color <span class="sym">= (</span>BLUE<span class="sym">,</span>WHITE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   75 </span>
+<span class="line">   76 </span><span class="dir"># Selected tag color</span>
+<span class="line">   77 </span>tag_selected_color <span class="sym">= (</span>YELLOW<span class="sym">,</span>BLUE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   78 </span>
+<span class="line">   79 </span><span class="dir"># Tag key color</span>
+<span class="line">   80 </span>tag_key_color <span class="sym">= (</span>RED<span class="sym">,</span>WHITE<span class="sym">,</span>OFF<span class="sym">)</span>
+<span class="line">   81 </span>
+<span class="line">   82 </span><span class="dir"># Selected tag key color</span>
+<span class="line">   83 </span>tag_key_selected_color <span class="sym">= (</span>RED<span class="sym">,</span>BLUE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   84 </span>
+<span class="line">   85 </span><span class="dir"># Check box color</span>
+<span class="line">   86 </span>check_color <span class="sym">= (</span>BLACK<span class="sym">,</span>WHITE<span class="sym">,</span>OFF<span class="sym">)</span>
+<span class="line">   87 </span>
+<span class="line">   88 </span><span class="dir"># Selected check box color</span>
+<span class="line">   89 </span>check_selected_color <span class="sym">= (</span>WHITE<span class="sym">,</span>BLUE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   90 </span>
+<span class="line">   91 </span><span class="dir"># Up arrow color</span>
+<span class="line">   92 </span>uarrow_color <span class="sym">= (</span>GREEN<span class="sym">,</span>WHITE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   93 </span>
+<span class="line">   94 </span><span class="dir"># Down arrow color</span>
+<span class="line">   95 </span>darrow_color <span class="sym">= (</span>GREEN<span class="sym">,</span>WHITE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">   96 </span>
+<span class="line">   97 </span><span class="dir"># Item help-text color</span>
+<span class="line">   98 </span>itemhelp_color <span class="sym">= (</span>WHITE<span class="sym">,</span>BLACK<span class="sym">,</span>OFF<span class="sym">)</span>
+<span class="line">   99 </span>
+<span class="line">  100 </span><span class="dir"># Active form text color</span>
+<span class="line">  101 </span>form_active_text_color <span class="sym">= (</span>WHITE<span class="sym">,</span>BLUE<span class="sym">,</span>ON<span class="sym">)</span>
+<span class="line">  102 </span>
+<span class="line">  103 </span><span class="dir"># Form text color</span>
+<span class="line">  104 </span>form_text_color <span class="sym">= (</span>WHITE<span class="sym">,</span>CYAN<span class="sym">,</span>ON<span class="sym">)</span>
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

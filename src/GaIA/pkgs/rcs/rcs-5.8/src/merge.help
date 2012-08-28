@@ -1,0 +1,13 @@
+#include "gnu-h-v.h"
+static char const help[] = ""
+"[options] receiving-sibling parent other-sibling\n"
+"Options:\n"
+"  -A            Use `diff3 -A' style.\n"
+"  -E            Use `diff3 -E' style (default).\n"
+"  -e            Use `diff3 -e' style.\n"
+"  -p            Write to stdout instead of overwriting RECEIVING-SIBLING.\n"
+"  -q            Quiet mode; suppress conflict warnings.\n"
+"  -LLABEL       (up to three times) Specify the conflict labels for\n"
+"                RECEIVING-SIBLING, PARENT and OTHER-SIBLING, respectively.\n"
+"  -V            Like --version.\n"
+;

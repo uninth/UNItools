@@ -1,0 +1,46 @@
+#!/bin/sh
+#
+# Noget frygteligt grisseri fordi installationsproceduren fejler
+#
+
+. ./CFG
+
+# Preserve CWD
+SAVEDIR=`pwd`
+
+# Source
+SRC=$SRC
+
+BINDIR=$TMPROOT/var/opt/UNItools/bin
+mkdir -p $BINDIR	>/dev/null
+
+DOCDIR=$TMPROOT/var/opt/UNItools/docs//$PKG.$VER
+mkdir -p $DOCDIR		>/dev/null
+
+install -c -m 555 $SRC/supported-bins/output/assetTagS		$BINDIR/assetTag
+install -c -m 555 $SRC/supported-bins/output/getSystemIdS	$BINDIR/getSystemId
+install -c -m 555 $SRC/supported-bins/output/serviceTagS	$BINDIR/serviceTag
+
+rm -f /var/opt/UNItools/docs/libsmbios.0.10.6/old_news.txt
+rm -f /var/opt/UNItools/docs/libsmbios.0.10.6/old__news_8txt.html
+rm -f /var/opt/UNItools/docs/libsmbios.0.10.6/old_news_page.html
+rm -f /var/opt/UNItools/docs/libsmbios.0.10.6/old__news_8txt.tex
+rm -f /var/opt/UNItools/docs/libsmbios.0.10.6/old_news_page.tex
+
+cd $SRC
+
+# Make the documentation -> $SRC/doc/full/html/
+
+make -f doc/module.mk
+
+mkdir $DOCDIR/general_documentation
+cp -r $SRC/doc/full/html/* $DOCDIR/general_documentation
+
+mkdir $DOCDIR/man-pages
+
+install -c -m 444 $SRC/doc/interface/html/assetTag.html $DOCDIR/man-pages
+install -c -m 444 $SRC/doc/interface/html/getSystemId.html $DOCDIR/man-pages
+install -c -m 444 $SRC/doc/interface/html/serviceTag.html $DOCDIR/man-pages
+
+
+exit 0

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOFTPKG NAME="Compress-Zlib" VERSION="1,41,0,0">
+  <TITLE>Compress-Zlib</TITLE>
+  <ABSTRACT>Interface to zlib compression library</ABSTRACT>
+  <AUTHOR>Paul Marquess &lt;pmqs@cpan.org></AUTHOR>
+  <IMPLEMENTATION>
+    <CODEBASE HREF="http://ppm.ActiveState.com/PPMPackages/5.8-linux/i686-linux-thread-multi-5.8/Compress-Zlib.tar.gz"/>
+  </IMPLEMENTATION>
+</SOFTPKG>

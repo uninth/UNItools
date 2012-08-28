@@ -1,0 +1,135 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./inputmenu3</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir">#! /bin/sh</span>
+<span class="line">    1 </span><span class="dir"># $Id: inputmenu3,v 1.6 2004/12/19 23:18:53 tom Exp $</span>
+<span class="line">    2 </span><span class="dir">#</span>
+<span class="line">    3 </span><span class="dir">#</span> <span class="dstr">&quot;inputmenu1&quot;</span><span class="dir"> with defaultitem, help-button and item-help.</span>
+<span class="line">    4 </span><span class="sym">:</span> $<span class="sym">{</span>DIALOG<span class="sym">=</span>dialog<span class="sym">}</span>
+<span class="line">    5 </span>
+<span class="line">    6 </span>backtitle<span class="sym">=</span><span class="str">&quot;An Example for the use of --inputmenu:&quot;</span>
+<span class="line">    7 </span>
+<span class="line">    8 </span>ids<span class="sym">=</span>`id<span class="sym">|</span>sed <span class="sym">-</span>e <span class="str">'s/([^)]*)//g'</span>`
+<span class="line">    9 </span>uid<span class="sym">=</span>`echo <span class="str">&quot;$ids&quot;</span> <span class="sym">|</span> sed <span class="sym">-</span>e <span class="str">'s/^uid=//'</span> <span class="sym">-</span>e <span class="str">'s/ .*//'</span>`
+<span class="line">   10 </span>gid<span class="sym">=</span>`echo <span class="str">&quot;$ids&quot;</span> <span class="sym">|</span> sed <span class="sym">-</span>e <span class="str">'s/^.* gid=//'</span> <span class="sym">-</span>e <span class="str">'s/ .*//'</span>`
+<span class="line">   11 </span>
+<span class="line">   12 </span>user<span class="sym">=</span><span class="str">&quot;$USER&quot;</span>
+<span class="line">   13 </span>home<span class="sym">=</span><span class="str">&quot;$HOME&quot;</span>
+<span class="line">   14 </span>
+<span class="line">   15 </span>returncode<span class="sym">=</span><span class="num">0</span>
+<span class="line">   16 </span>defaultitem<span class="sym">=</span><span class="str">&quot;Username:&quot;</span>
+<span class="line">   17 </span><span class="kwa">while</span> test $returncode <span class="sym">!=</span> <span class="num">1</span> <span class="sym">&amp;&amp;</span> test $returncode <span class="sym">!=</span> <span class="num">250</span>
+<span class="line">   18 </span><span class="kwa">do</span>
+<span class="line">   19 </span>exec <span class="num">3</span><span class="sym">&gt;&amp;</span><span class="num">1</span>
+<span class="line">   20 </span>value<span class="sym">=</span>`$DIALOG <span class="sym">--</span>clear <span class="sym">--</span>ok<span class="sym">-</span>label <span class="str">&quot;Create&quot;</span> \
+<span class="line">   21 </span>	  <span class="sym">--</span>backtitle <span class="str">&quot;$backtitle&quot;</span> \
+<span class="line">   22 </span>	  <span class="sym">--</span>help<span class="sym">-</span>button \
+<span class="line">   23 </span>	  <span class="sym">--</span>help<span class="sym">-</span>label <span class="str">&quot;Script&quot;</span> \
+<span class="line">   24 </span>	  <span class="sym">--</span><span class="kwa">default</span><span class="sym">-</span>item <span class="str">&quot;$defaultitem&quot;</span> \
+<span class="line">   25 </span>	  <span class="sym">--</span>item<span class="sym">-</span>help \
+<span class="line">   26 </span>	  <span class="sym">--</span>inputmenu <span class="str">&quot;Originally I designed --inputmenu for a</span> <span class="esc">\</span>
+<span class="line">   27 </span><span class="str">configuration purpose. Here is a possible piece of a configuration program.&quot;</span> \
+<span class="line">   28 </span><span class="num">20 60 10</span> \
+<span class="line">   29 </span>	<span class="str">&quot;Username:&quot;</span>	<span class="str">&quot;$user&quot;</span> <span class="str">&quot;User login-name&quot;</span> \
+<span class="line">   30 </span>	<span class="str">&quot;UID:&quot;</span>		<span class="str">&quot;$uid&quot;</span>  <span class="str">&quot;User-ID (number)&quot;</span> \
+<span class="line">   31 </span>	<span class="str">&quot;GID:&quot;</span>		<span class="str">&quot;$gid&quot;</span>  <span class="str">&quot;Group-ID (number)&quot;</span> \
+<span class="line">   32 </span>	<span class="str">&quot;HOME:&quot;</span>		<span class="str">&quot;$home&quot;</span> <span class="str">&quot;User's home-directory&quot;</span> \
+<span class="line">   33 </span><span class="num">2</span><span class="sym">&gt;&amp;</span><span class="num">1 1</span><span class="sym">&gt;&amp;</span><span class="num">3</span>`
+<span class="line">   34 </span>returncode<span class="sym">=</span>$?
+<span class="line">   35 </span>exec <span class="num">3</span><span class="sym">&gt;&amp;-</span>
+<span class="line">   36 </span>
+<span class="line">   37 </span>	<span class="kwa">case</span> $returncode in
+<span class="line">   38 </span>	<span class="num">1</span><span class="sym">)</span>
+<span class="line">   39 </span>		<span class="str">&quot;$DIALOG&quot;</span> \
+<span class="line">   40 </span>		<span class="sym">--</span>clear \
+<span class="line">   41 </span>		<span class="sym">--</span>backtitle <span class="str">&quot;$backtitle&quot;</span> \
+<span class="line">   42 </span>		<span class="sym">--</span>yesno <span class="str">&quot;Really quit?&quot;</span> <span class="num">10 30</span>
+<span class="line">   43 </span>		<span class="kwa">case</span> $? in
+<span class="line">   44 </span>		<span class="num">0</span><span class="sym">)</span>
+<span class="line">   45 </span>			<span class="kwa">break</span>
+<span class="line">   46 </span>			<span class="sym">;;</span>
+<span class="line">   47 </span>		<span class="num">1</span><span class="sym">)</span>
+<span class="line">   48 </span>			returncode<span class="sym">=</span><span class="num">99</span>
+<span class="line">   49 </span>			<span class="sym">;;</span>
+<span class="line">   50 </span>		esac
+<span class="line">   51 </span>		<span class="sym">;;</span>
+<span class="line">   52 </span>	<span class="num">0</span><span class="sym">)</span>
+<span class="line">   53 </span>		<span class="kwa">case</span> $value in
+<span class="line">   54 </span>		HELP<span class="sym">*)</span>
+<span class="line">   55 </span>			<span class="str">&quot;$DIALOG&quot;</span> \
+<span class="line">   56 </span>			<span class="sym">--</span>textbox <span class="str">&quot;$0&quot;</span> <span class="num">0 0</span>
+<span class="line">   57 </span>			<span class="sym">;;</span>
+<span class="line">   58 </span>		<span class="sym">*)</span>
+<span class="line">   59 </span>			<span class="str">&quot;$DIALOG&quot;</span> \
+<span class="line">   60 </span>			<span class="sym">--</span>clear \
+<span class="line">   61 </span>			<span class="sym">--</span>backtitle <span class="str">&quot;$backtitle&quot;</span> \
+<span class="line">   62 </span>			<span class="sym">--</span>msgbox <span class="str">&quot;useradd</span> <span class="esc">\n\</span>
+<span class="line">   63 </span><span class="str">				-d $home</span> <span class="esc">\n\</span>
+<span class="line">   64 </span><span class="str">				-u $uid</span> <span class="esc">\n\</span>
+<span class="line">   65 </span><span class="str">				-g $gid</span> <span class="esc">\n\</span>
+<span class="line">   66 </span><span class="str">				$user&quot;</span> <span class="num">10 40</span>
+<span class="line">   67 </span>			<span class="sym">;;</span>
+<span class="line">   68 </span>		esac
+<span class="line">   69 </span>		<span class="sym">;;</span>
+<span class="line">   70 </span>	<span class="num">2</span><span class="sym">)</span>
+<span class="line">   71 </span>		<span class="str">&quot;$DIALOG&quot;</span> \
+<span class="line">   72 </span>		<span class="sym">--</span>textbox <span class="str">&quot;$0&quot;</span> <span class="num">0 0</span>
+<span class="line">   73 </span>		<span class="sym">;;</span>
+<span class="line">   74 </span>	<span class="num">3</span><span class="sym">)</span>
+<span class="line">   75 </span>		tag<span class="sym">=</span>`echo <span class="str">&quot;$value&quot;</span> <span class="sym">|</span>sed <span class="sym">-</span>e <span class="str">'s/^RENAMED //'</span> <span class="sym">-</span>e <span class="str">'s/:.*/:/'</span>`
+<span class="line">   76 </span>		item<span class="sym">=</span>`echo <span class="str">&quot;$value&quot;</span> <span class="sym">|</span>sed <span class="sym">-</span>e <span class="str">'s/^.*:[ ]*//'</span> <span class="sym">-</span>e <span class="str">'s/[ ]*$//'</span>`
+<span class="line">   77 </span>
+<span class="line">   78 </span>		<span class="kwa">case</span> <span class="str">&quot;$tag&quot;</span> in
+<span class="line">   79 </span>		Username<span class="sym">:)</span>
+<span class="line">   80 </span>			user<span class="sym">=</span><span class="str">&quot;$item&quot;</span>
+<span class="line">   81 </span>			<span class="sym">;;</span>
+<span class="line">   82 </span>		UID<span class="sym">:)</span>
+<span class="line">   83 </span>			uid<span class="sym">=</span><span class="str">&quot;$item&quot;</span>
+<span class="line">   84 </span>			<span class="sym">;;</span>
+<span class="line">   85 </span>		GID<span class="sym">:)</span>
+<span class="line">   86 </span>			gid<span class="sym">=</span><span class="str">&quot;$item&quot;</span>
+<span class="line">   87 </span>			<span class="sym">;;</span>
+<span class="line">   88 </span>		HOME<span class="sym">:)</span>
+<span class="line">   89 </span>			home<span class="sym">=</span><span class="str">&quot;$item&quot;</span>
+<span class="line">   90 </span>			<span class="sym">;;</span>
+<span class="line">   91 </span>		<span class="sym">*)</span>
+<span class="line">   92 </span>			tag<span class="sym">=</span>
+<span class="line">   93 </span>			<span class="sym">;;</span>
+<span class="line">   94 </span>		esac
+<span class="line">   95 </span>		test <span class="sym">-</span>n <span class="str">&quot;$tag&quot;</span> <span class="sym">&amp;&amp;</span> defaultitem<span class="sym">=</span><span class="str">&quot;$tag&quot;</span>
+<span class="line">   96 </span>		<span class="sym">;;</span>
+<span class="line">   97 </span>
+<span class="line">   98 </span>        <span class="num">255</span><span class="sym">)</span>
+<span class="line">   99 </span>                echo <span class="str">&quot;ESC pressed.&quot;</span>
+<span class="line">  100 </span>                <span class="kwa">break</span>
+<span class="line">  101 </span>                <span class="sym">;;</span>
+<span class="line">  102 </span>
+<span class="line">  103 </span>	esac
+<span class="line">  104 </span>done
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

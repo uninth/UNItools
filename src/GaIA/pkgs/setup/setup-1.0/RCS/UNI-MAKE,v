@@ -1,0 +1,33 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2014.03.29.06.18.19;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/sh
+#
+#
+#
+
+DIR=/var/opt/UNItools/setup
+
+/bin/cp -r CRON NTP fw1mungle setup.sh /var/opt/UNItools/setup
+chmod 555 /var/opt/UNItools/setup/setup.sh
+echo "setup: installationscripts for UNItools - and fw1mungle" > /tmp/index
+@

@@ -1,0 +1,74 @@
+==========================================================================
+INSTALLATION INSTRUCTIONS FOR IPTRAF 2.7
+--------------------------------------------------------------------------
+
+IMPORTANT: READ THE SYSTEM REQUIREMENTS SECTION IN THE README.  IPTRAF 2
+REQUIRES LINUX 2.2 OR LATER.
+
+The iptraf-2.7.0.tar.gz file no longer contains precompiled executable
+programs, only source code.  To compile and install, just change to the
+iptraf-2.7.0 top-level directory and type:
+
+	./Setup
+
+This will automatically compile and install the software.
+
+The traditional
+
+	cd src
+	make clean
+	make
+	make install
+
+can still be used.
+
+Precompiled binaries are available in the iptraf-2.7.0.i386.bin.tar.gz
+file.  This contains no source code and is expected to run on Intel x86
+Linux with the GNU C Library 2.1 or later.
+
+UPGRADING FROM 2.1 or 2.4
+
+There have been filter file format changes but no need to redefine existing
+filters.  IPTraf 2.5 will not use the saved filters from versions 2.1 to 2.4.
+so if you had some applied TCP and UDP filters, just reapply them.
+
+Also verify the settings for your ARP, RARP, and non-IP filter toggles,
+and define as appropriate your miscellaneous IP filters.
+
+UPGRADING FROM 2.0.x or 1.4.x
+
+IPTraf 1.4.x and 2.0.x had a filename parsing bug that caused the filter
+data files to be placed in the wrong directory with the wrong names.  This
+version corrects it.  If you're using TCP or UDP filters, perform a "make
+upgrade" before running the program.  This step will place the filter data
+files in the correct place with the right names.
+
+DEALING WITH "ERROR OPENING TERMINAL"
+
+The precompiled executable program comes linked with ncurses 4.2.  ncurses
+4.2 needs to determine your terminal capabilities from the terminfo
+database in /usr/share/terminfo.  If the supplied program fails with
+"Error opening terminal", check this directory.  If it doesn't exist, your
+terminfo database may be somewhere else.  To override the default terminfo
+search path, you can use the TERMINFO environment variable.  Supposing
+your terminfo is in /usr/lib/terminfo (typical for Slackware
+distributions)
+
+	TERMINFO=/usr/lib/terminfo
+	export TERMINFO
+
+You may want to place these commands in your login initialization files
+(/etc/profile or ~/.profile for sh/bash).
+
+You can also create a symbolic link /usr/share/terminfo to point to
+your existing terminfo database.  For example, given the same conditions
+above:
+
+	ln -s /usr/lib/terminfo /usr/share/terminfo
+
+Or, as an alternative, you can simply recompile your program to use your
+ncurses installation.  Be sure you have at least ncurses 1.9.9e.  See
+section on recompiling below.
+
+See the README file and the manual for more information.
+

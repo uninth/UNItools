@@ -1,0 +1,88 @@
+#
+# Konfigurationsfil til UNItools pakkefabrikken
+#
+# Det sources af sh - så pas på med "" !
+#
+# Pakken er ok, alt testet kan altid gen-oversættes
+# hvis PKG_STATUS=OK. Er PKG_STATUS noget andet vil
+# pakken ikke blive forsøgt installeret ved en opdagering
+# af alle pakkerne.
+PKG_STATUS=""
+
+# Toolbox kategori - vælg mellem SPM NPM NT SP og GT
+# Pakkerne indekseres i toolbox.sh (menu værktøj) efter
+# kategori (menu punkt) samt på hjemmesiden under hver
+# hategori. Definerede kategorier er:
+# SPM:	System Performance Monitors
+# NPM:	Network Performance Monitors
+# NT:	Network Tools
+# SP:	Special Purpose Monitors
+# GT:	General Tools installed by UNI-C
+TOOLBOX_CAT="SPM"
+
+# Download herfra med wget
+URL="http://unbound.net/downloads/unbound-1.4.20.tar.gz"
+
+#
+# Programpakke oplysninger (Varedeklaration)
+#
+# pakkenavn
+PKG="unbound_dns"
+# version
+VER="1.4.20"
+# En passende beskrivelse. URL sættes på til slut
+NAME="unbounddns"
+
+# Navn på producent (Person eller firma)
+VENDOR="NLnet Labs"
+
+#
+# Oversættelse og installation
+#
+# source her
+SRC="unbound-1.4.20"
+#
+# Alle programmer og dokumenter installeres herunder af 'make install'
+ROOT="/home/unbound"
+# Argumenter til configure -- de skal muligvis ændres
+CONFIGURE="configure --prefix=/home/unbound --mandir=/home/unbound/share/man --bindir=/home/unbound --sbindir=/home/unbound/bin --with-ldns=/home/unbound/"
+
+# Oversættelseskommando
+BUILD="make"
+# Installations kommando
+INSTALL="make install"
+
+# Andre ting man ønsker at lave umiddelbart efter, at programpakken er installeret
+# Det er *ikke* et post pkg installations script/kommando men f.eks. udpakning af
+# en installeret .gz manual
+INSTALL_MORE="/bin/sh install_more.sh"
+#
+# Start/stop scripts
+#
+# Prototype på start/stop script (Fuldt sti-navn, eller relativ til CFG)
+# RCPROTO="unizlib"
+RCPROTO=""
+# Navn på start script
+# RCSTART="S88unizlib"
+RCSTART=""
+# Navn på stop script
+# RCSTOP="S88unizlib"
+RCSTOP=""
+# I hvilket /etc/rcX.d skal start scriptet lægges -
+# netværksdaemoner: normalt 2, kerneting normalt S, databaser mv normalt 3
+# RCSTARTDIRS="3"
+RCSTARTDIRS=""
+# I hvilke /etc/rcX.d skal stop scriptet lægges -
+# kan ske både i S 0, og 1 - flere gør ingen forskel
+# RCSTOPDIRS="S 0 1"
+RCSTOPDIRS=""
+
+#
+# Oprydningskommandoer
+#
+# Kommando til at rydde op i SRC
+MAKECLEAN="make distclean"
+# Og disse filer kan altid slettes
+DELEFILES="*.bak"
+
+# slut

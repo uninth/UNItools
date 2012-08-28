@@ -1,0 +1,13 @@
+URL="http://switch.dl.sourceforge.net/sourceforge/strace/strace-4.5.12.tar.bz2"
+PKG="strace"
+VER="4.5.12"
+NAME="strace"
+VENDOR="http://switch.dl.sourceforge.net/sourceforge/strace/strace-4.5.12.tar.bz2"
+SRC="strace-4.5.12"
+ROOT=/var/opt/UNItools
+CONFIGURE="configure --prefix=$ROOT --mandir=$ROOT/share/man --bindir=$ROOT/bin --sbindir=$ROOT/bin"
+BUILD="make"
+INSTALL="make install"
+MAKECLEAN="make distclean"
+DELEFILES="*.bak"
+INSTALL_MORE="/bin/sh install_more.sh"

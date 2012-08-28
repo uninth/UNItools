@@ -1,0 +1,15 @@
+# This is a comment
+prefix=/var/opt/UNItools
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: libsmbios_c
+Description: C libraries for accessing dmi data
+Version: 2.2.19
+URL: http://linux.dell.com/libsmbios/main/
+Requires:
+Conflicts:
+Libs: -L${libdir} -lsmbios_c
+Libs.private:
+Cflags:

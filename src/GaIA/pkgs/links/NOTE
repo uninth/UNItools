@@ -1,0 +1,2 @@
+Mangler noget der sætter LDFLAGS=-static i den eneste Makefile der er efter configure er kørt
+men før make udføres

@@ -1,0 +1,4 @@
+/var/opt/UNItools/bin/decode-base64
+/var/opt/UNItools/bin/decode-qp
+/var/opt/UNItools/bin/encode-base64
+/var/opt/UNItools/bin/encode-qp

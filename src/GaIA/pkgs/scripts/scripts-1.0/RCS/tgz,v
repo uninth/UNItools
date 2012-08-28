@@ -1,0 +1,178 @@
+head	1.3;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.3
+date	2003.02.21.14.41.28;	author root;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2003.02.11.09.32.49;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2003.02.04.11.55.07;	author uninth;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@#! /bin/bash
+#
+# tgz [destination [source...] ]
+#
+# Make a gzip'd tar archive $1 (or stdout) out of specified files
+# (or, if not specified, from everything in the current directory)
+#
+# Requires gzip in the user's path.
+#
+# Requires gnu tar (or something close) in the user's path
+# due to use of --exclude, --totals and -S.
+#
+# 1994/02/19	DCN	Created
+# 1994/12/01	DCN	Cleanup and major improvements
+#
+# Copyright (C) 1994 David C. Niemi (niemidc@@erols.com)
+# The author requires that any copies or derived works include this
+# copyright notice; no other restrictions are placed on its use.
+#
+# $Header: /var/opt/UNItools/src/scripts/RCS/tgz,v 1.2 2003/02/11 09:32:49 root Exp $
+#
+
+# set -e
+# set -u
+
+Error ()
+{	echo "Error: $0: ${@@-}." >&2
+	exit 1
+}
+
+if [ $# = 0 ]; then
+	dest=
+	src=.
+	tar cvf - . | gzip -9v
+	exit 0
+elif [ $# = 1 ]; then
+	dest=$1
+	src=.
+else
+	dest=$1
+	shift
+	src="${@@-}"
+fi
+
+case $dest in
+"" | . | .. | */ | */. | */.. )
+	echo "Usage: $0: [destination [source...] ]" >&2
+	exit 1
+	;;
+*.t?z | *.?z | *.z | *.Z | *.tz | *.tz? )
+	;;
+*)
+	dest=${dest}.tgz	## Add on .tgz as default suffix
+esac
+
+if [ -h "$dest" ]; then
+	Error "Destination file \"$dest\" already exists as a symbolic link"
+elif [ -f "$dest" ]; then
+	Error "Destination \"$dest\" already exists as a file"
+elif [ -d "$dest" ]; then
+	Error "Destination \"$dest\" already exists as a directory"
+fi
+if [ -z "$dest" -o "X$dest" = 'X-' ]; then
+	echo "Writing gzipp'd tar archive to standard output." >&2
+	tar cvfS - -- $src | gzip -9v
+else
+	echo "Writing gzip'd tar archive to \"$dest\"." >&2
+	tar -cvS --totals --exclude "$dest" -f - -- $src | gzip -9v > "$dest" 
+	ls -l "$dest" >&2
+fi
+
+exit 0
+
+
+# 1994/02/19    DCN     Created
+# 1994/12/01    DCN     Cleanup and major improvements
+#
+# Copyright (C) 1994 David C. Niemi (niemidc@@erols.com)
+# The author requires that any copies or derived works include this
+# copyright notice; no other restrictions are placed on its use.
+
+#++
+# NAME
+#	tgz 1
+# SUMMARY
+#	Make a gzip'd tar archive
+# PACKAGE
+#	UNItools
+# SYNOPSIS
+#	tgz [destination [source...] ]
+# DESCRIPTION
+#	\fCtgz\fR makes a gzip'd tar archive $1 (or stdout) out of specified files
+#	(or, if not specified, from everything in the current directory).
+#	
+#	Requires gzip in the user's path.
+#
+#	Requires gnu tar (or something close) in the user's path
+#	due to use of --exclude, --totals and -S.
+# COMMANDS
+#	sh(1), tar(1), gzip(1)
+# SEE ALSO
+#	
+# BUGS
+#	Probably. Please report them to the call-desk or the author.
+# VERSION
+#	$Date$
+# .br
+#	$Revision$
+# .br
+#	$Source$
+# .br
+#	$State$
+# HISTORY
+#	$Log$
+# AUTHOR(S)
+#	David C. Niemi
+# .br
+#	E-mail: niemidc@@erols.com
+#--
+@
+
+
+1.2
+log
+@rettet path
+@
+text
+@d20 1
+a20 1
+# $Header: /var/opt/UNItools/src/scripts/RCS/tgz,v 1.1 2003/02/04 11:55:07 uninth Exp root $
+d73 47
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d1 1
+a1 1
+#! /opt/shells/bin/bash
+d20 1
+a20 1
+# $Header$
+@

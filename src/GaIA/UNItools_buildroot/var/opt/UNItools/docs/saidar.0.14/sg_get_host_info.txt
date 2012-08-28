@@ -1,0 +1,58 @@
+sg_get_host_info(3)					   sg_get_host_info(3)
+
+
+
+NAME
+       sg_get_host_info - get general operating system statistics
+
+SYNOPSIS
+       #include <statgrab.h>
+
+
+       sg_host_info *sg_get_host_info(void);
+
+DESCRIPTION
+       This call returns details on the operating system.
+
+       It returns a pointer to a static buffer of sg_host_info.
+
+RETURN VALUES
+       The structure returned is of type sg_host_info.
+
+
+       typedef struct{
+	       char *os_name;
+	       char *os_release;
+	       char *os_version;
+	       char *platform;
+	       char *hostname;
+	       time_t uptime;
+       }sg_host_info;
+
+
+       os_name
+	      the operating system name.  (eg. SunOS or Linux)
+
+       os_release
+	      the operating system release.  (eg. 5.8 or 5.9 or Solaris)
+
+       os_version
+	      the version level of the OS.
+
+       platform
+	      the hardware platform (architecture) the OS runs on.
+
+       hostname
+	      the name of the machine.
+
+       uptime the uptime of the machine in seconds.
+
+SEE ALSO
+       statgrab(3)
+
+WEBSITE
+       http://www.i-scream.org/libstatgrab/
+
+
+
+i-scream		 $Date: 2005/04/25 11:25:45 $	   sg_get_host_info(3)

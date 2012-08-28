@@ -1,0 +1,733 @@
+access-list acl_Out permit icmp host 10.20.8.1 any 
+access-list acl_Out permit ip host 10.20.8.1 host 10.20.221.21 
+access-list acl_Out permit tcp host 10.20.247.253 host 10.20.225.103 
+access-list acl_Out permit tcp host 10.20.247.253 host 10.20.225.102 
+access-list acl_Out permit tcp host 10.20.247.253 host 10.20.229.4 
+access-list acl_Out permit tcp host 10.20.247.253 host 10.20.229.3 
+access-list acl_Out permit tcp host 10.20.247.253 host 10.20.225.140 
+access-list acl_Out permit tcp host 10.20.247.253 host 10.20.225.143 
+access-list acl_Out permit tcp host 10.20.247.253 host 10.20.229.6 
+access-list acl_Out permit tcp host 10.20.247.253 host 10.20.229.5 
+access-list acl_Out permit tcp host 10.20.247.253 host 10.20.229.214 
+access-list acl_Out deny ip 200.66.0.0 255.255.224.0 any 
+access-list acl_Out deny ip 10.20.0.0 255.255.0.0 any 
+access-list acl_Out deny ip 172.16.0.0 255.255.0.0 any 
+access-list acl_Out deny ip 172.21.0.0 255.255.0.0 any 
+access-list acl_Out deny ip 172.22.0.0 255.255.0.0 any 
+access-list acl_Out deny ip 172.23.0.0 255.255.0.0 any 
+access-list acl_Out deny ip 172.24.0.0 255.255.0.0 any 
+access-list acl_Out deny tcp any any eq 69 
+access-list acl_Out deny tcp any any eq 135 
+access-list acl_Out deny tcp any any eq 139 
+access-list acl_Out deny tcp any any eq 445 
+access-list acl_Out deny tcp any any eq 593 
+access-list acl_Out deny tcp any any eq 8998 
+access-list acl_Out deny udp any any eq tftp 
+access-list acl_Out deny udp any any eq 135 
+access-list acl_Out deny udp any any eq netbios-ns 
+access-list acl_Out deny udp any any eq netbios-dgm 
+access-list acl_Out deny udp any any eq 445 
+access-list acl_Out deny udp any any eq 8998 
+access-list acl_Out permit udp any host 10.20.225.102 eq domain 
+access-list acl_Out permit tcp any host 10.20.225.102 eq domain 
+access-list acl_Out permit tcp any host 10.20.225.140 eq www 
+access-list acl_Out permit tcp any host 10.20.225.140 eq smtp 
+access-list acl_Out permit tcp any host 10.20.225.142 eq www 
+access-list acl_Out permit tcp any host 10.20.225.140 eq 8900 
+access-list acl_Out permit tcp any host 10.20.225.140 eq pop3 
+access-list acl_Out permit tcp any host 10.20.225.113 eq www 
+access-list acl_Out permit tcp any host 10.20.241.11 eq www 
+access-list acl_Out permit tcp any host 10.20.241.11 eq smtp 
+access-list acl_Out permit tcp any host 10.20.225.113 eq 4505 
+access-list acl_Out permit tcp any host 10.20.225.113 eq 6505 
+access-list acl_Out permit tcp any host 10.20.225.103 eq www 
+access-list acl_Out permit tcp any host 10.20.241.2 eq 4505 
+access-list acl_Out permit tcp any host 10.20.241.2 eq 6505 
+access-list acl_Out permit tcp any host 10.20.241.2 eq www 
+access-list acl_Out permit tcp host 200.53.52.52 host 10.20.241.2 eq telnet 
+access-list acl_Out permit tcp any host 10.20.236.5 eq www 
+access-list acl_Out permit tcp any host 10.20.236.5 eq domain 
+access-list acl_Out permit tcp any host 10.20.236.5 eq smtp 
+access-list acl_Out permit tcp any host 10.20.236.2 eq smtp 
+access-list acl_Out permit tcp any host 10.20.236.1 eq smtp 
+access-list acl_Out permit tcp any host 10.20.236.12 eq www 
+access-list acl_Out permit tcp any host 10.20.236.3 eq www 
+access-list acl_Out permit tcp any host 10.20.236.2 eq www 
+access-list acl_Out permit tcp any host 10.20.236.1 eq www 
+access-list acl_Out permit tcp any host 10.20.236.3 eq smtp 
+access-list acl_Out permit udp any host 10.20.236.5 eq domain 
+access-list acl_Out permit tcp any host 10.20.236.1 eq ftp 
+access-list acl_Out permit tcp any host 10.20.236.1 eq 443 
+access-list acl_Out permit tcp any host 10.20.236.3 eq 1494 
+access-list acl_Out permit tcp any host 10.20.229.3 eq www 
+access-list acl_Out permit tcp any host 10.20.225.140 eq 8080 
+access-list acl_Out permit tcp any host 10.20.225.140 eq 10080 
+access-list acl_Out permit tcp any host 10.20.225.112 eq smtp 
+access-list acl_Out permit tcp any host 10.20.225.112 eq www 
+access-list acl_Out permit tcp any host 10.20.227.100 lt 9000 
+access-list acl_Out permit tcp any host 10.20.227.180 lt 9000 
+access-list acl_Out permit tcp any host 10.20.227.181 lt 9000 
+access-list acl_Out permit tcp any host 10.20.227.182 lt 9000 
+access-list acl_Out permit tcp any host 10.20.227.183 lt 9000 
+access-list acl_Out permit tcp any host 10.20.236.45 eq ftp 
+access-list acl_Out permit tcp any host 10.20.236.45 eq 22 
+access-list acl_Out permit tcp any host 10.20.236.1 eq 22 
+access-list acl_Out permit tcp any host 10.20.225.112 eq 143 
+access-list acl_Out permit tcp any host 10.20.229.4 eq 8900 
+access-list acl_Out permit tcp any host 10.20.229.4 eq 4445 
+access-list acl_Out permit tcp any host 10.20.229.4 eq 4567 
+access-list acl_Out permit tcp any host 10.20.229.4 eq 4568 
+access-list acl_Out permit tcp any host 10.20.229.4 eq www 
+access-list acl_Out permit tcp any host 10.20.225.111 eq smtp 
+access-list acl_Out permit tcp any host 10.20.225.111 eq www 
+access-list acl_Out permit tcp any host 10.20.225.111 eq 143 
+access-list acl_Out permit tcp any host 10.20.222.30 eq www 
+access-list acl_Out permit icmp any host 10.20.221.21 
+access-list acl_Out permit icmp any any echo-reply 
+access-list acl_Out permit tcp any host 10.20.236.45 eq www 
+access-list acl_Out permit tcp any host 10.20.236.45 eq 4505 
+access-list acl_Out permit tcp any host 10.20.236.45 eq 4506 
+access-list acl_Out permit tcp any host 10.20.236.45 eq 4507 
+access-list acl_Out permit tcp any host 10.20.236.45 eq 4508 
+access-list acl_Out permit tcp any host 10.20.236.45 eq 4509 
+access-list acl_Out permit tcp any host 10.20.236.45 eq 4510 
+access-list acl_Out permit tcp any host 10.20.227.111 lt 9000 
+access-list acl_Out permit tcp any host 10.20.227.112 lt 9000 
+access-list acl_Out permit tcp any host 10.20.225.143 eq www 
+access-list acl_Out permit tcp any host 10.20.225.143 eq 22 
+access-list acl_Out permit tcp any host 10.20.225.103 eq 22 
+access-list acl_Out permit tcp any host 10.20.227.184 lt 9000 
+access-list acl_Out permit tcp any host 10.20.227.185 lt 9000 
+access-list acl_Out permit tcp any host 10.20.229.4 eq 8990 
+access-list acl_Out permit udp any host 10.20.229.4 eq domain 
+access-list acl_Out permit tcp any host 10.20.229.4 eq domain 
+access-list acl_Out permit tcp any host 10.20.225.180 eq smtp 
+access-list acl_Out permit tcp any host 10.20.225.180 eq www 
+access-list acl_Out permit tcp any host 10.20.225.180 eq 143 
+access-list acl_Out permit tcp any host 10.20.229.3 eq smtp 
+access-list acl_Out permit tcp any host 10.20.229.3 eq pop3 
+access-list acl_Out permit tcp any host 10.20.221.21 eq 41114 
+access-list acl_Out permit tcp any host 10.20.221.21 eq 41115 
+access-list acl_Out permit tcp any host 10.20.229.6 eq 81 
+access-list acl_Out permit tcp any host 10.20.225.103 eq 443 
+access-list acl_Out permit tcp any host 10.20.229.4 eq 554 
+access-list acl_Out permit tcp any host 10.20.229.4 eq 4040 
+access-list acl_Out permit tcp any host 10.20.229.4 eq 7070 
+access-list acl_Out permit tcp any host 10.20.229.4 eq 8080 
+access-list acl_Out permit tcp any host 10.20.229.5 eq www 
+access-list acl_Out permit tcp any host 10.20.236.11 eq www 
+access-list acl_Out permit tcp any host 10.20.225.113 eq 22 
+access-list acl_Out permit tcp host 65.61.153.150 host 10.20.225.140 range 1433 1434 
+access-list acl_Out permit udp host 65.61.153.150 host 10.20.225.140 range 1433 1434 
+access-list acl_Out permit tcp any host 10.20.241.14 eq www 
+access-list acl_Out permit udp any host 10.20.229.95 eq 4500 
+access-list acl_Out permit tcp any host 10.20.241.14 eq smtp 
+access-list acl_Out permit tcp any host 10.20.241.14 eq 443 
+access-list acl_Out permit tcp any host 10.20.241.14 eq pop3 
+access-list acl_Out permit icmp any any 
+access-list acl_Out permit tcp any host 10.20.236.2 eq ftp-data 
+access-list acl_Out permit tcp any host 10.20.236.2 eq ftp 
+access-list acl_Out permit tcp any host 10.20.229.214 eq www 
+access-list acl_Out permit tcp any host 10.20.229.214 eq smtp 
+access-list acl_Out permit tcp any host 10.20.229.214 eq 1461 
+access-list acl_Out permit tcp any host 10.20.229.214 eq 1468 
+access-list acl_Out permit tcp any host 10.20.229.214 eq 1473 
+access-list acl_Out permit tcp any host 10.20.229.95 eq 22 
+access-list acl_Out permit udp any host 10.20.229.95 eq isakmp 
+access-list acl_Out permit udp any host 10.20.229.95 eq 10000 
+access-list acl_Out permit tcp any host 10.20.225.134 eq 22 
+access-list acl_Out permit tcp any host 10.20.225.134 eq 4505 
+access-list acl_Out permit tcp any host 10.20.225.134 eq 6505 
+access-list acl_Out permit tcp any host 10.20.225.134 eq www 
+access-list acl_Out permit tcp any host 10.20.225.134 eq ftp 
+access-list acl_Out permit tcp any host 10.20.225.134 eq 115 
+access-list acl_Out permit tcp any host 10.20.229.4 eq 22 
+access-list acl_Out permit tcp any host 10.20.229.4 eq ftp-data 
+access-list acl_Out permit tcp any host 10.20.229.4 eq ftp 
+access-list acl_Out permit tcp any host 10.20.246.3 eq www 
+access-list acl_Out permit tcp any host 10.20.246.3 eq smtp 
+access-list acl_Out permit tcp any host 10.20.225.145 eq www 
+access-list acl_dmz permit icmp any any 
+access-list acl_dmz permit ip any host 192.168.11.33 
+access-list acl_dmz permit udp host 192.168.1.23 host 192.168.11.36 eq 88 
+access-list acl_dmz permit tcp host 192.168.1.23 host 192.168.11.36 eq 135 
+access-list acl_dmz permit udp host 192.168.1.23 host 192.168.11.36 eq 135 
+access-list acl_dmz permit udp host 192.168.1.23 host 192.168.11.36 eq netbios-ns 
+access-list acl_dmz permit udp host 192.168.1.23 host 192.168.11.36 eq netbios-dgm 
+access-list acl_dmz permit tcp host 192.168.1.23 host 192.168.11.36 eq 139 
+access-list acl_dmz permit tcp host 192.168.1.23 host 192.168.11.36 eq 445 
+access-list acl_dmz permit tcp host 192.168.1.23 host 192.168.11.36 eq 6101 
+access-list acl_dmz permit tcp host 192.168.1.23 host 192.168.11.36 range 24001 24050 
+access-list acl_dmz permit udp host 192.168.1.28 host 192.168.11.36 eq 88 
+access-list acl_dmz permit tcp host 192.168.1.28 host 192.168.11.36 eq 135 
+access-list acl_dmz permit udp host 192.168.1.28 host 192.168.11.36 eq 135 
+access-list acl_dmz permit udp host 192.168.1.28 host 192.168.11.36 eq netbios-ns 
+access-list acl_dmz permit udp host 192.168.1.28 host 192.168.11.36 eq netbios-dgm 
+access-list acl_dmz permit tcp host 192.168.1.28 host 192.168.11.36 eq 139 
+access-list acl_dmz permit tcp host 192.168.1.28 host 192.168.11.36 eq 445 
+access-list acl_dmz permit tcp host 192.168.1.28 host 192.168.11.36 eq 6101 
+access-list acl_dmz permit tcp host 192.168.1.28 host 192.168.11.36 range 24001 24050 
+access-list acl_dmz permit udp host 192.168.1.30 host 192.168.11.36 eq 88 
+access-list acl_dmz permit tcp host 192.168.1.30 host 192.168.11.36 eq 135 
+access-list acl_dmz permit udp host 192.168.1.30 host 192.168.11.36 eq 135 
+access-list acl_dmz permit udp host 192.168.1.30 host 192.168.11.36 eq netbios-ns 
+access-list acl_dmz permit udp host 192.168.1.30 host 192.168.11.36 eq netbios-dgm 
+access-list acl_dmz permit tcp host 192.168.1.30 host 192.168.11.36 eq 139 
+access-list acl_dmz permit tcp host 192.168.1.30 host 192.168.11.36 eq 445 
+access-list acl_dmz permit tcp host 192.168.1.30 host 192.168.11.36 eq 6101 
+access-list acl_dmz permit tcp host 192.168.1.30 host 192.168.11.36 range 24001 24050 
+access-list acl_dmz permit udp host 192.168.1.33 host 192.168.11.36 eq 88 
+access-list acl_dmz permit tcp host 192.168.1.33 host 192.168.11.36 eq 135 
+access-list acl_dmz permit udp host 192.168.1.33 host 192.168.11.36 eq 135 
+access-list acl_dmz permit udp host 192.168.1.33 host 192.168.11.36 eq netbios-ns 
+access-list acl_dmz permit udp host 192.168.1.33 host 192.168.11.36 eq netbios-dgm 
+access-list acl_dmz permit tcp host 192.168.1.33 host 192.168.11.36 eq 139 
+access-list acl_dmz permit tcp host 192.168.1.33 host 192.168.11.36 eq 445 
+access-list acl_dmz permit tcp host 192.168.1.33 host 192.168.11.36 eq 6101 
+access-list acl_dmz permit tcp host 192.168.1.33 host 192.168.11.36 range 24001 24050 
+access-list acl_dmz permit tcp host 192.168.1.30 host 192.168.11.23 eq sqlnet 
+access-list acl_dmz permit tcp host 192.168.1.30 host 192.168.11.28 eq smtp 
+access-list acl_dmz permit tcp host 192.168.1.32 host 192.168.11.28 eq smtp 
+access-list acl_dmz permit tcp host 192.168.1.32 host 192.168.11.34 eq smtp 
+access-list acl_dmz permit tcp host 192.168.1.32 host 192.168.11.35 eq smtp 
+access-list acl_dmz permit tcp host 192.168.1.32 host 192.168.11.30 eq smtp 
+access-list acl_dmz permit tcp host 192.168.1.32 host 192.168.11.31 eq smtp 
+access-list acl_dmz permit tcp host 192.168.1.23 host 192.168.11.23 eq sqlnet 
+access-list acl_dmz permit tcp host 192.168.1.23 host 192.168.11.23 eq 22 
+access-list acl_dmz permit tcp host 192.168.1.23 host 192.168.11.23 eq 1575 
+access-list acl_dmz permit tcp host 192.168.1.23 host 192.168.11.28 eq smtp 
+access-list acl_dmz permit tcp host 192.168.1.31 host 192.168.11.28 eq smtp 
+access-list acl_dmz permit tcp host 192.168.1.33 host 192.168.11.28 eq smtp 
+access-list acl_dmz permit tcp host 192.168.1.36 host 192.168.11.23 eq sqlnet 
+access-list acl_dmz permit tcp any any eq www 
+access-list acl_dmz deny ip any 192.168.0.0 255.255.0.0 
+access-list acl_dmz permit udp host 192.168.1.30 any eq domain 
+access-list acl_dmz permit tcp host 192.168.1.23 any eq smtp 
+access-list acl_dmz permit tcp host 192.168.1.30 any eq smtp 
+access-list acl_dmz permit tcp host 192.168.1.31 any eq smtp 
+access-list acl_dmz permit tcp host 192.168.1.32 any eq smtp 
+access-list acl_dmz permit tcp host 192.168.1.33 any eq smtp 
+access-list acl_dmz permit tcp host 192.168.1.37 any eq smtp 
+access-list acl_dmz permit tcp host 192.168.1.33 any eq ftp 
+access-list acl_dmz permit tcp host 192.168.1.33 any eq ftp-data 
+access-list acl_dmz deny ip any any 
+access-list acl_dmz2 permit icmp any 192.168.0.0 255.255.0.0 
+access-list acl_dmz2 permit udp any host 192.168.21.22 eq domain 
+access-list acl_dmz2 permit udp any host 192.168.21.30 eq domain 
+access-list acl_dmz2 permit tcp host 192.168.2.100 host 192.168.20.11 eq smtp 
+access-list acl_dmz2 permit tcp host 192.168.2.100 host 192.168.27.1 eq smtp 
+access-list acl_dmz2 permit tcp host 192.168.2.100 host 192.168.27.2 eq smtp 
+access-list acl_dmz2 permit tcp host 192.168.2.100 host 192.168.27.3 eq smtp 
+access-list acl_dmz2 permit tcp host 192.168.2.100 host 192.168.27.102 eq smtp 
+access-list acl_dmz2 permit tcp host 192.168.2.100 host 192.168.27.103 eq smtp 
+access-list acl_dmz2 deny ip any 192.168.0.0 255.255.0.0 
+access-list acl_dmz2 permit tcp any any lt 9000 
+access-list acl_dmz2 permit udp any any lt 9000 
+access-list acl_dmz2 deny ip any any 
+access-list acl_ln deny tcp any any eq 69 
+access-list acl_ln deny tcp any any eq 135 
+access-list acl_ln deny tcp any any eq 139 
+access-list acl_ln deny tcp any any eq 445 
+access-list acl_ln deny tcp any any eq 593 
+access-list acl_ln deny tcp any any eq 8998 
+access-list acl_ln deny udp any any eq tftp 
+access-list acl_ln deny udp any any eq 135 
+access-list acl_ln deny udp any any eq netbios-ns 
+access-list acl_ln deny udp any any eq netbios-dgm 
+access-list acl_ln deny udp any any eq 445 
+access-list acl_ln deny udp any any eq 8998 
+access-list acl_ln permit tcp any any eq www 
+access-list acl_ln permit tcp any any eq telnet 
+access-list acl_ln permit tcp any any eq 1863 
+access-list acl_ln permit tcp any any eq 443 
+access-list acl_ln permit tcp any any range 4500 4510 
+access-list acl_ln permit tcp host 172.16.20.27 host 148.244.240.165 
+access-list acl_ln permit udp host 172.16.20.27 host 148.244.240.165 
+access-list acl_ln permit tcp host 172.16.23.163 host 148.244.240.165 
+access-list acl_ln permit udp host 172.16.23.163 host 148.244.240.165 
+access-list acl_ln permit tcp any host 148.245.64.20 
+access-list acl_ln permit tcp any host 216.147.12.228 
+access-list acl_ln permit tcp any any eq ftp 
+access-list acl_ln permit tcp any any eq 1352 
+access-list acl_ln permit tcp any any eq 9003 
+access-list acl_ln permit tcp any any eq 1953 
+access-list acl_ln permit tcp any any eq ftp-data 
+access-list acl_ln permit tcp any host 200.38.75.78 
+access-list acl_ln permit tcp any host 148.207.1.4 
+access-list acl_ln permit tcp any 65.108.154.0 255.255.255.0 
+access-list acl_ln permit tcp any 216.147.2.0 255.255.255.0 
+access-list acl_ln permit tcp any 161.114.0.0 255.255.0.0 
+access-list acl_ln permit tcp any 64.176.159.0 255.255.255.0 
+access-list acl_ln permit tcp any 64.177.54.0 255.255.255.0 
+access-list acl_ln permit tcp any 65.61.153.0 255.255.255.0 
+access-list acl_ln permit tcp any 65.108.32.0 255.255.255.0 
+access-list acl_ln permit tcp any 65.108.50.0 255.255.255.0 
+access-list acl_ln permit tcp any 65.108.123.0 255.255.255.0 
+access-list acl_ln permit tcp any 207.249.90.0 255.255.255.0 
+access-list acl_ln permit tcp any 208.56.172.0 255.255.255.0 
+access-list acl_ln permit tcp any 208.56.152.0 255.255.255.0 
+access-list acl_ln permit tcp any 198.175.98.0 255.255.255.0 
+access-list acl_ln permit tcp any 208.56.112.0 255.255.255.0 
+access-list acl_ln permit tcp any 148.223.231.0 255.255.255.0 
+access-list acl_ln permit tcp any 148.233.150.0 255.255.255.0 
+access-list acl_ln permit tcp any 148.235.168.0 255.255.255.0 
+access-list acl_ln permit tcp any 192.6.234.0 255.255.255.0 
+access-list acl_ln permit tcp any host 148.235.128.215 
+access-list acl_ln permit tcp any host 216.118.107.69 
+access-list acl_ln permit tcp any host 64.7.210.131 range ftp-data telnet 
+access-list acl_ln permit tcp any host 148.244.73.4 
+access-list acl_ln permit tcp any host 161.114.1.254 range ftp-data telnet 
+access-list acl_ln permit tcp any host 137.187.166.250 eq 210 
+access-list acl_ln permit tcp any host 140.147.249.38 eq 7090 
+access-list acl_ln permit tcp any host 128.135.119.44 eq 210 
+access-list acl_ln permit tcp any host 128.227.70.40 eq 210 
+access-list acl_ln permit tcp any host 18.92.0.136 eq 9909 
+access-list acl_ln permit tcp any host 64.176.87.188 range ftp-data smtp 
+access-list acl_ln permit tcp any host 208.56.74.249 range ftp-data smtp 
+access-list acl_ln permit tcp any host 64.176.87.188 eq pop3 
+access-list acl_ln permit tcp any host 208.56.74.249 eq pop3 
+access-list acl_ln permit tcp any host 132.248.7.40 range ftp-data telnet 
+access-list acl_ln permit tcp any host 69.0.176.26 range ftp-data telnet 
+access-list acl_ln permit tcp any host 148.204.102.61 range ftp-data telnet 
+access-list acl_ln permit tcp any host 200.15.24.36 range ftp-data telnet 
+access-list acl_ln permit tcp any host 200.4.5.86 range ftp-data telnet 
+access-list acl_ln permit tcp any host 132.248.7.40 eq pop3 
+access-list acl_ln permit tcp any host 69.0.176.26 eq pop3 
+access-list acl_ln permit tcp any host 148.204.102.61 eq pop3 
+access-list acl_ln permit tcp any host 200.15.24.36 eq pop3 
+access-list acl_ln permit tcp any host 200.4.5.86 eq pop3 
+access-list acl_ln permit tcp any host 69.0.176.26 eq 8443 
+access-list acl_ln permit tcp any host 200.34.175.249 lt 65535 
+access-list acl_ln permit icmp host 172.16.14.18 any 
+access-list acl_ln permit tcp 172.16.14.0 255.255.255.0 any 
+access-list acl_ln permit udp 172.16.14.0 255.255.255.0 any 
+access-list acl_ln permit tcp 172.21.14.0 255.255.255.0 any 
+access-list acl_ln permit udp 172.21.14.0 255.255.255.0 any 
+access-list acl_ln permit tcp host 172.22.14.2 any 
+access-list acl_ln permit udp host 172.22.14.2 any 
+access-list acl_ln permit tcp host 172.22.16.2 any 
+access-list acl_ln permit udp host 172.22.16.2 any 
+access-list acl_ln permit tcp host 172.22.16.4 any 
+access-list acl_ln permit udp host 172.22.16.4 any 
+access-list acl_ln permit tcp 172.22.28.0 255.255.255.0 any 
+access-list acl_ln permit udp 172.22.28.0 255.255.255.0 any 
+access-list acl_ln permit tcp 172.24.0.0 255.255.0.0 any eq pop3 
+access-list acl_ln permit tcp 172.24.0.0 255.255.0.0 any eq smtp 
+access-list acl_ln permit ip any 192.168.2.0 255.255.255.0 
+access-list acl_ln permit ip any 192.168.1.0 255.255.255.0 
+access-list acl_ln permit icmp any any 
+access-list acl_ln permit ip host 172.16.15.10 any 
+access-list acl_ln permit ip host 172.16.15.22 any 
+access-list acl_ln permit tcp host 172.16.15.44 any 
+access-list acl_ln permit udp host 172.16.15.44 any 
+access-list acl_ln permit tcp 172.21.19.0 255.255.255.0 any eq 7000 
+access-list acl_ln permit tcp 172.21.20.0 255.255.255.0 any eq 7000 
+access-list acl_ln permit tcp 172.21.21.0 255.255.255.0 any eq 7000 
+access-list acl_ln permit tcp any host 148.244.73.3 
+access-list acl_ln permit tcp any host 137.56.12.42 eq 1011 
+access-list acl_ln permit tcp any host 137.56.0.224 eq 7779 
+access-list acl_ln permit tcp host 172.16.16.4 any range 5190 5193 
+access-list acl_ln permit tcp host 172.16.23.137 any range 5190 5193 
+access-list acl_ln permit tcp host 172.16.23.169 any range 5190 5193 
+access-list acl_ln permit tcp any host 69.56.144.137 eq 2082 
+access-list acl_ln permit tcp any host 69.56.144.137 eq 2086 
+access-list acl_ln permit tcp any host 69.56.144.137 eq 2095 
+access-list acl_ln permit tcp any host 148.238.48.5 eq 8901 
+access-list acl_ln permit tcp any host 200.34.175.21 
+access-list acl_ln permit tcp any host 200.57.147.1 
+access-list acl_ln permit tcp host 172.16.18.191 any eq 5432 
+access-list acl_ln permit tcp host 172.22.28.10 any 
+access-list acl_ln permit udp host 172.22.28.10 any 
+access-list acl_ln permit tcp host 172.16.29.122 any 
+access-list acl_ln permit udp host 172.16.29.122 any 
+access-list acl_ln permit tcp any host 69.10.146.205 range ftp telnet 
+access-list acl_ln permit tcp any host 69.10.146.205 eq 443 
+access-list acl_ln permit tcp any host 69.10.146.205 eq 8443 
+access-list nonat permit ip host 172.16.14.24 10.1.2.0 255.255.255.0 
+access-list nonat permit ip 172.16.0.0 255.255.0.0 10.1.1.0 255.255.255.0 
+access-list nonat permit ip host 172.16.14.30 10.1.2.0 255.255.255.0 
+access-list nonat permit ip host 172.16.14.8 10.1.2.0 255.255.255.0 
+access-list acl_1n deny ip any any 
+access-list acl_In deny tcp any any eq 69 
+access-list acl_In deny tcp any any eq 135 
+access-list acl_In deny tcp any any eq 139 
+access-list acl_In deny tcp any any eq 445 
+access-list acl_In deny tcp any any eq 593 
+access-list acl_In deny tcp any any eq 8998 
+access-list acl_In deny udp any any eq tftp 
+access-list acl_In deny udp any any eq 135 
+access-list acl_In deny udp any any eq netbios-ns 
+access-list acl_In deny udp any any eq netbios-dgm 
+access-list acl_In deny udp any any eq 445 
+access-list acl_In deny udp any any eq 8998 
+access-list acl_In deny ip host 172.16.27.7 any 
+access-list acl_In deny ip host 172.16.35.7 any 
+access-list acl_In deny ip host 172.16.35.26 any 
+access-list acl_In deny ip host 172.16.35.102 any 
+access-list acl_In deny ip host 172.16.35.138 any 
+access-list acl_In deny ip host 172.16.35.222 any 
+access-list acl_In deny ip host 172.16.36.88 any 
+access-list acl_In deny ip host 172.16.23.134 any 
+access-list acl_In permit tcp any any eq www 
+access-list acl_In permit tcp any any eq telnet 
+access-list acl_In permit tcp any any eq 1863 
+access-list acl_In permit tcp any any eq 443 
+access-list acl_In permit tcp any any range 4500 4510 
+access-list acl_In permit tcp any host 148.245.64.20 
+access-list acl_In permit tcp any host 216.147.12.228 
+access-list acl_In permit tcp any any eq ftp 
+access-list acl_In permit tcp any any eq 1352 
+access-list acl_In permit tcp any any eq 9003 
+access-list acl_In permit tcp any any eq 1953 
+access-list acl_In permit tcp any any eq ftp-data 
+access-list acl_In permit tcp any host 200.38.75.78 
+access-list acl_In permit tcp any host 148.207.1.4 
+access-list acl_In permit tcp any 65.108.154.0 255.255.255.0 
+access-list acl_In permit tcp any 216.147.2.0 255.255.255.0 
+access-list acl_In permit tcp any 161.114.0.0 255.255.0.0 
+access-list acl_In permit tcp any 64.176.159.0 255.255.255.0 
+access-list acl_In permit tcp any 64.177.54.0 255.255.255.0 
+access-list acl_In permit tcp any 65.61.153.0 255.255.255.0 
+access-list acl_In permit tcp any 65.108.32.0 255.255.255.0 
+access-list acl_In permit tcp any 65.108.50.0 255.255.255.0 
+access-list acl_In permit tcp any 65.108.123.0 255.255.255.0 
+access-list acl_In permit tcp any 207.249.90.0 255.255.255.0 
+access-list acl_In permit tcp any 208.56.172.0 255.255.255.0 
+access-list acl_In permit tcp any 208.56.152.0 255.255.255.0 
+access-list acl_In permit tcp any 198.175.98.0 255.255.255.0 
+access-list acl_In permit tcp any 208.56.112.0 255.255.255.0 
+access-list acl_In permit tcp any 148.223.231.0 255.255.255.0 
+access-list acl_In permit tcp any 148.233.150.0 255.255.255.0 
+access-list acl_In permit tcp any 148.235.168.0 255.255.255.0 
+access-list acl_In permit tcp any 192.6.234.0 255.255.255.0 
+access-list acl_In permit tcp any host 148.235.128.215 
+access-list acl_In permit tcp any host 216.118.107.69 
+access-list acl_In permit tcp any host 64.7.210.131 range ftp-data telnet 
+access-list acl_In permit tcp any host 148.244.73.4 
+access-list acl_In permit tcp any host 161.114.1.254 range ftp-data telnet 
+access-list acl_In permit tcp any host 137.187.166.250 eq 210 
+access-list acl_In permit tcp any host 140.147.249.38 eq 7090 
+access-list acl_In permit tcp any host 128.135.119.44 eq 210 
+access-list acl_In permit tcp any host 128.227.70.40 eq 210 
+access-list acl_In permit tcp any host 18.92.0.136 eq 9909 
+access-list acl_In permit tcp any host 64.176.87.188 range ftp-data smtp 
+access-list acl_In permit tcp any host 208.56.74.249 range ftp-data smtp 
+access-list acl_In permit tcp any host 64.176.87.188 eq pop3 
+access-list acl_In permit tcp any host 208.56.74.249 eq pop3 
+access-list acl_In permit tcp any host 132.248.7.40 range ftp-data telnet 
+access-list acl_In permit tcp any host 69.0.176.26 range ftp-data telnet 
+access-list acl_In permit tcp any host 148.204.102.61 range ftp-data telnet 
+access-list acl_In permit tcp any host 200.15.24.36 range ftp-data telnet 
+access-list acl_In permit tcp any host 200.4.5.86 range ftp-data telnet 
+access-list acl_In permit tcp any host 132.248.7.40 eq pop3 
+access-list acl_In permit tcp any host 69.0.176.26 eq pop3 
+access-list acl_In permit tcp any host 148.204.102.61 eq pop3 
+access-list acl_In permit tcp any host 200.15.24.36 eq pop3 
+access-list acl_In permit tcp any host 200.4.5.86 eq pop3 
+access-list acl_In permit tcp any host 69.0.176.26 eq 8443 
+access-list acl_In permit tcp any host 200.34.175.249 lt 65535 
+access-list acl_In permit icmp host 172.16.14.18 any 
+access-list acl_In permit tcp 172.16.14.0 255.255.255.0 any 
+access-list acl_In permit udp 172.16.14.0 255.255.255.0 any 
+access-list acl_In permit tcp 172.21.14.0 255.255.255.0 any 
+access-list acl_In permit udp 172.21.14.0 255.255.255.0 any 
+access-list acl_In permit tcp host 172.22.14.2 any 
+access-list acl_In permit udp host 172.22.14.2 any 
+access-list acl_In permit tcp host 172.22.16.2 any 
+access-list acl_In permit udp host 172.22.16.2 any 
+access-list acl_In permit tcp host 172.22.16.4 any 
+access-list acl_In permit udp host 172.22.16.4 any 
+access-list acl_In permit tcp 172.22.28.0 255.255.255.0 any 
+access-list acl_In permit udp 172.22.28.0 255.255.255.0 any 
+access-list acl_In permit tcp 172.24.0.0 255.255.0.0 any eq pop3 
+access-list acl_In permit tcp 172.24.0.0 255.255.0.0 any eq smtp 
+access-list acl_In permit ip any 192.168.3.0 255.255.255.0 
+access-list acl_In permit ip any 192.168.2.0 255.255.255.0 
+access-list acl_In permit ip any 192.168.1.0 255.255.255.0 
+access-list acl_In permit icmp any any 
+access-list acl_In permit ip host 172.16.15.10 any 
+access-list acl_In permit ip host 172.16.15.22 any 
+access-list acl_In permit tcp host 172.16.15.44 any 
+access-list acl_In permit udp host 172.16.15.44 any 
+access-list acl_In permit tcp 172.21.19.0 255.255.255.0 any eq 7000 
+access-list acl_In permit tcp 172.21.20.0 255.255.255.0 any eq 7000 
+access-list acl_In permit tcp 172.21.21.0 255.255.255.0 any eq 7000 
+access-list acl_In permit tcp any host 148.244.73.3 
+access-list acl_In permit tcp any host 137.56.12.42 eq 1011 
+access-list acl_In permit tcp any host 137.56.0.224 eq 7779 
+access-list acl_In permit tcp any host 69.56.144.137 eq 2082 
+access-list acl_In permit tcp any host 69.56.144.137 eq 2086 
+access-list acl_In permit tcp any host 69.56.144.137 eq 2095 
+access-list acl_In permit tcp any host 148.238.48.5 eq 8901 
+access-list acl_In permit tcp any host 200.34.175.21 
+access-list acl_In permit tcp any host 200.57.147.1 
+access-list acl_In permit tcp host 172.16.18.191 any eq 5432 
+access-list acl_In permit tcp any host 69.10.146.205 range ftp telnet 
+access-list acl_In permit tcp any host 69.10.146.205 eq 443 
+access-list acl_In permit tcp any host 69.10.146.205 eq 8443 
+access-list acl_In permit tcp any host 207.248.224.151 eq 8000 
+access-list acl_In permit tcp any host 129.64.16.2 eq 8993 
+access-list acl_In permit tcp host 172.16.28.18 any 
+access-list acl_In permit tcp any host 192.100.197.7 eq 8080 
+access-list acl_In permit tcp host 172.16.29.215 host 148.244.240.165 
+access-list acl_In permit udp host 172.16.29.215 host 148.244.240.165 
+access-list nonatdmz permit ip 192.168.0.0 255.255.0.0 10.1.1.0 255.255.255.0 
+access-list nonatdmz permit ip 10.1.1.0 255.255.255.0 192.168.0.0 255.255.0.0 
+access-list acl_dmz3 permit icmp any any 
+access-list acl_dmz3 permit tcp any any eq www 
+access-list acl_dmz3 permit tcp any any eq domain 
+access-list acl_dmz3 permit tcp any any 
+access-list acl_dmz3 permit udp any any 
+access-list acl_dmz3 permit tcp any host 192.168.143.30 eq domain 
+access-list acl_dmz3 permit udp any host 192.168.143.30 eq domain 
+access-list acl_dmz3 permit tcp any host 192.168.143.30 
+access-list acl_Dmz deny ip any any 
+ip address outside 10.20.8.2 255.255.0.0
+ip address inside 172.16.10.10 255.255.0.0
+ip address dmz 192.168.1.1 255.255.0.0
+ip address dmz2 192.168.2.1 255.255.255.0
+ip address dmz3 192.168.3.1 255.255.255.0
+ip address intf5 127.0.0.1 255.255.255.255
+ip local pool test 10.1.1.1-10.1.1.10
+ip local pool test2 10.1.2.1-10.1.2.10
+failover ip address outside 0.0.0.0
+failover ip address inside 0.0.0.0
+failover ip address dmz 0.0.0.0
+failover ip address dmz2 0.0.0.0
+failover ip address dmz3 0.0.0.0
+failover ip address intf5 0.0.0.0
+global (outside) 2 10.20.40.1-10.20.49.255 netmask 255.255.255.0
+global (outside) 11 10.20.227.100-10.20.227.200 netmask 255.255.255.0
+global (outside) 12 10.20.229.1-10.20.229.50 netmask 255.255.255.0
+global (outside) 3 10.20.70.1-10.20.79.254 netmask 255.255.255.0
+global (outside) 10 10.20.225.100-10.20.225.150 netmask 255.255.255.0
+global (outside) 4 10.20.100.1-10.20.109.255 netmask 255.255.255.0
+global (outside) 123 10.20.110.1-10.20.110.50 netmask 255.255.0.0
+global (outside) 5 10.20.160.1-10.20.160.255 netmask 255.255.255.0
+global (outside) 21 10.20.227.201-10.20.227.254 netmask 255.255.255.0
+global (outside) 6 10.20.130.1-10.20.130.255 netmask 255.255.255.0
+global (outside) 14 10.20.229.51-10.20.229.100 netmask 255.255.255.0
+global (outside) 1 10.20.11.1-10.20.20.254 netmask 255.255.255.0
+global (outside) 51 10.20.10.1-10.20.10.254 netmask 255.255.255.0
+global (outside) 31 10.20.228.1-10.20.228.10 netmask 255.255.255.0
+global (dmz) 4 192.168.100.1-192.168.109.254 netmask 255.255.255.0
+global (dmz) 3 192.168.70.1-192.168.79.255 netmask 255.255.255.0
+global (dmz) 2 192.168.40.1-192.168.49.254 netmask 255.255.255.0
+global (dmz) 5 192.168.110.1-192.168.119.254 netmask 255.255.255.0
+global (dmz) 6 192.168.120.1-192.168.120.254 netmask 255.255.255.0
+global (dmz) 1 192.168.11.1-192.168.19.254 netmask 255.255.255.0
+global (dmz) 21 192.168.130.1-192.168.130.254 netmask 255.255.255.0
+global (dmz) 51 192.168.10.1-192.168.10.254 netmask 255.255.255.0
+global (dmz) 14 192.168.26.1-192.168.26.128 netmask 255.255.255.0
+global (dmz) 31 192.168.26.129-192.168.26.254 netmask 255.255.255.0
+global (dmz2) 3 192.168.21.1-192.168.21.254 netmask 255.255.255.0
+global (dmz2) 4 192.168.22.1-192.168.22.254 netmask 255.255.255.0
+global (dmz2) 5 192.168.23.1-192.168.23.254 netmask 255.255.255.0
+global (dmz2) 6 192.168.24.1-192.168.24.254 netmask 255.255.255.0
+global (dmz2) 1 192.168.20.1-192.168.20.254 netmask 255.255.255.0
+global (dmz2) 14 192.168.25.129-192.168.25.254 netmask 255.255.255.0
+global (dmz2) 51 192.168.25.1-192.168.25.128 netmask 255.255.255.0
+global (dmz3) 2 192.168.150.1-192.168.159.254 netmask 255.255.255.0
+global (dmz3) 3 192.168.160.1-192.168.169.255 netmask 255.255.255.0
+global (dmz3) 4 192.168.170.1-192.168.179.254 netmask 255.255.255.0
+global (dmz3) 5 192.168.180.1-192.168.189.254 netmask 255.255.255.0
+global (dmz3) 6 192.168.190.1-192.168.190.254 netmask 255.255.255.0
+global (dmz3) 14 192.168.191.1-192.168.191.254 netmask 255.255.255.0
+global (dmz3) 21 192.168.192.1-192.168.192.254 netmask 255.255.255.0
+global (dmz3) 51 192.168.193.1-192.168.193.254 netmask 255.255.255.0
+global (dmz3) 1 192.168.140.1-192.168.149.254 netmask 255.255.0.0
+nat (inside) 0 access-list nonat
+nat (inside) 1 172.16.38.21 255.255.255.255 0 0
+nat (inside) 1 172.16.38.22 255.255.255.255 0 0
+nat (inside) 1 172.16.38.23 255.255.255.255 0 0
+nat (inside) 1 172.16.38.24 255.255.255.255 0 0
+nat (inside) 1 172.16.38.25 255.255.255.255 0 0
+nat (inside) 1 172.16.38.26 255.255.255.255 0 0
+nat (inside) 1 172.16.14.0 255.255.255.0 0 0
+nat (inside) 14 172.16.15.0 255.255.255.0 0 0
+nat (inside) 1 172.16.16.0 255.255.255.0 0 0
+nat (inside) 1 172.16.17.0 255.255.255.0 0 0
+nat (inside) 1 172.16.18.0 255.255.255.0 0 0
+nat (inside) 1 172.16.19.0 255.255.255.0 0 0
+nat (inside) 1 172.16.20.0 255.255.255.0 0 0
+nat (inside) 1 172.16.21.0 255.255.255.0 0 0
+nat (inside) 1 172.16.22.0 255.255.255.0 0 0
+nat (inside) 1 172.16.23.0 255.255.255.0 0 0
+nat (inside) 1 172.16.24.0 255.255.255.0 0 0
+nat (inside) 1 172.16.25.0 255.255.255.0 0 0
+nat (inside) 1 172.16.26.0 255.255.255.0 0 0
+nat (inside) 1 172.16.27.0 255.255.255.0 0 0
+nat (inside) 1 172.16.28.0 255.255.255.0 0 0
+nat (inside) 1 172.16.29.0 255.255.255.0 0 0
+nat (inside) 1 172.16.31.0 255.255.255.0 0 0
+nat (inside) 1 172.16.34.0 255.255.255.0 0 0
+nat (inside) 1 172.16.35.0 255.255.255.0 0 0
+nat (inside) 1 172.16.36.0 255.255.255.0 0 0
+nat (inside) 1 172.16.37.0 255.255.255.0 0 0
+nat (inside) 2 172.20.10.0 255.255.255.0 0 0
+nat (inside) 2 172.20.16.0 255.255.255.0 0 0
+nat (inside) 3 172.21.10.0 255.255.255.0 0 0
+nat (inside) 3 172.21.14.0 255.255.255.0 0 0
+nat (inside) 3 172.21.15.0 255.255.255.0 0 0
+nat (inside) 3 172.21.16.0 255.255.255.0 0 0
+nat (inside) 3 172.21.17.0 255.255.255.0 0 0
+nat (inside) 3 172.21.18.0 255.255.255.0 0 0
+nat (inside) 3 172.21.19.0 255.255.255.0 0 0
+nat (inside) 3 172.21.20.0 255.255.255.0 0 0
+nat (inside) 3 172.21.21.0 255.255.255.0 0 0
+nat (inside) 3 172.21.22.0 255.255.255.0 0 0
+nat (inside) 3 172.21.23.0 255.255.255.0 0 0
+nat (inside) 3 172.21.24.0 255.255.255.0 0 0
+nat (inside) 3 172.21.25.0 255.255.255.0 0 0
+nat (inside) 3 172.21.26.0 255.255.255.0 0 0
+nat (inside) 3 172.21.27.0 255.255.255.0 0 0
+nat (inside) 3 172.21.28.0 255.255.255.0 0 0
+nat (inside) 3 172.21.29.0 255.255.255.0 0 0
+nat (inside) 51 192.168.5.0 255.255.255.0 0 0
+nat (inside) 4 172.22.0.0 255.255.0.0 0 0
+nat (inside) 5 172.23.0.0 255.255.0.0 0 0
+nat (inside) 6 172.24.0.0 255.255.0.0 0 0
+nat (dmz) 0 access-list nonatdmz
+nat (dmz) 11 192.168.0.0 255.255.0.0 0 0
+nat (dmz2) 21 192.168.2.0 255.255.255.0 0 0
+nat (dmz3) 31 192.168.3.0 255.255.255.0 0 0
+static (inside,outside) 10.20.225.111 172.16.14.11 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.11 172.16.28.1 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.12 172.16.28.2 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.13 172.16.28.3 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.14 172.16.28.4 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.15 172.16.28.5 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.16 172.16.28.6 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.17 172.16.28.7 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.18 172.16.28.8 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.19 172.16.28.9 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.20 172.16.28.10 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.21 172.16.28.11 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.22 172.16.28.12 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.23 172.16.28.13 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.24 172.16.28.14 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.25 172.16.28.15 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.26 172.16.28.16 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.27 172.16.28.17 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.28 172.16.28.18 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.29 172.16.28.19 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.225.142 172.16.14.35 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.221.21 172.16.14.18 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.243.10 172.22.27.10 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.243.11 172.22.27.11 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.243.12 172.22.27.12 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.243.13 172.22.27.13 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.243.14 172.22.27.14 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.243.15 172.22.27.15 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.243.16 172.22.27.16 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.243.17 172.22.27.17 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.243.18 172.22.27.18 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.243.19 172.22.27.19 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.243.20 172.22.27.20 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.243.21 172.22.27.21 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.243.22 172.22.27.22 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.243.23 172.22.27.23 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.243.24 172.22.27.24 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.243.25 172.22.27.25 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.241.2 172.22.14.2 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.236.2 172.21.14.2 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.236.5 172.21.14.5 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.236.1 172.21.14.1 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.236.12 172.21.14.12 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.236.3 172.21.14.3 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.236.45 172.21.14.45 netmask 255.255.255.255 0 0
+static (inside,dmz) 192.168.11.22 172.16.14.30 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.225.113 172.16.14.13 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.241.11 172.22.16.2 netmask 255.255.255.255 0 0
+static (inside,dmz) 192.168.11.23 172.16.14.21 netmask 255.255.255.255 0 0
+static (dmz,outside) 10.20.225.103 192.168.1.23 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.221.17 172.16.14.17 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.2 172.16.29.11 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.222.30 172.16.31.30 netmask 255.255.255.255 0 0
+static (inside,dmz) 192.168.11.24 172.16.14.4 netmask 255.255.255.255 0 0
+static (dmz,outside) 10.20.229.4 192.168.1.30 netmask 255.255.255.255 0 0
+static (dmz2,outside) 10.20.227.27 192.168.2.27 netmask 255.255.255.255 0 0
+static (dmz2,outside) 10.20.227.100 192.168.2.100 netmask 255.255.255.255 0 0
+static (dmz2,outside) 10.20.227.180 192.168.2.180 netmask 255.255.255.255 0 0
+static (dmz2,outside) 10.20.227.181 192.168.2.181 netmask 255.255.255.255 0 0
+static (dmz2,outside) 10.20.227.182 192.168.2.182 netmask 255.255.255.255 0 0
+static (dmz2,outside) 10.20.227.183 192.168.2.183 netmask 255.255.255.255 0 0
+static (dmz,outside) 10.20.229.3 192.168.1.31 netmask 255.255.255.255 0 0
+static (inside,dmz) 192.168.11.25 172.16.14.17 netmask 255.255.255.255 0 0
+static (inside,dmz) 192.168.11.26 172.16.14.8 netmask 255.255.255.255 0 0
+static (inside,dmz) 192.168.11.27 172.16.14.12 netmask 255.255.255.255 0 0
+static (dmz,outside) 10.20.225.143 192.168.1.33 netmask 255.255.255.255 0 0
+static (dmz2,outside) 10.20.227.111 192.168.2.111 netmask 255.255.255.255 0 0
+static (dmz2,outside) 10.20.227.112 192.168.2.112 netmask 255.255.255.255 0 0
+static (dmz2,outside) 10.20.227.184 192.168.2.184 netmask 255.255.255.255 0 0
+static (dmz2,outside) 10.20.227.185 192.168.2.185 netmask 255.255.255.255 0 0
+static (inside,dmz) 192.168.11.28 172.16.14.11 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.225.112 172.16.14.12 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.225.180 172.16.14.80 netmask 255.255.255.255 0 0
+static (inside,dmz) 192.168.11.29 172.16.14.80 netmask 255.255.255.255 0 0
+static (inside,dmz) 192.168.11.30 172.21.14.5 netmask 255.255.255.255 0 0
+static (inside,dmz) 192.168.11.31 172.22.16.2 netmask 255.255.255.255 0 0
+static (dmz,outside) 10.20.225.140 192.168.1.32 netmask 255.255.255.255 0 0
+static (dmz,outside) 10.20.229.6 192.168.1.35 netmask 255.255.255.255 0 0
+static (dmz,outside) 10.20.229.5 192.168.1.36 netmask 255.255.255.255 0 0
+static (dmz,dmz2) 192.168.21.22 192.168.1.30 netmask 255.255.255.255 0 0
+static (inside,dmz2) 192.168.20.11 172.16.14.11 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.236.11 172.21.14.11 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.12.46 172.16.20.46 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.225.130 172.16.14.30 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.147 172.16.28.147 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.146 172.16.28.146 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.145 172.16.28.145 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.150 172.16.28.150 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.225.121 172.16.14.21 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.154 172.16.29.154 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.155 172.16.29.155 netmask 255.255.255.255 0 0
+static (inside,dmz2) 192.168.21.30 172.16.14.30 netmask 255.255.255.255 0 0
+static (inside,dmz2) 192.168.27.1 172.21.14.1 netmask 255.255.255.255 0 0
+static (inside,dmz2) 192.168.27.2 172.21.14.2 netmask 255.255.255.255 0 0
+static (inside,dmz2) 192.168.27.3 172.21.14.3 netmask 255.255.255.255 0 0
+static (inside,dmz2) 192.168.27.5 172.21.14.5 netmask 255.255.255.255 0 0
+static (inside,dmz2) 192.168.27.102 172.22.14.2 netmask 255.255.255.255 0 0
+static (inside,dmz2) 192.168.27.103 172.22.16.2 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.225.133 172.16.14.33 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.44 172.16.15.44 netmask 255.255.255.255 0 0
+static (inside,dmz) 192.168.11.33 172.16.14.33 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.241.14 172.22.16.4 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.212 172.16.29.212 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.213 172.16.29.213 netmask 255.255.255.255 0 0
+static (dmz,outside) 10.20.229.214 192.168.1.37 netmask 255.255.255.255 0 0
+static (inside,dmz) 192.168.11.32 172.16.14.13 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.95 172.16.29.95 netmask 255.255.255.255 0 0
+static (inside,dmz) 192.168.11.34 172.21.14.1 netmask 255.255.255.255 0 0
+static (inside,dmz) 192.168.11.35 172.21.14.2 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.225.134 172.16.14.34 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.229.211 172.16.29.211 netmask 255.255.255.255 0 0
+static (dmz,outside) 10.20.225.102 192.168.1.28 netmask 255.255.255.255 0 0
+static (inside,outside) 10.20.246.3 172.24.14.3 netmask 255.255.255.255 0 0
+static (dmz3,outside) 10.20.225.145 192.168.3.21 netmask 255.255.255.255 0 0
+static (inside,dmz) 192.168.11.36 172.16.14.39 netmask 255.255.255.255 0 0
+static (inside,dmz3) 192.168.143.30 172.16.14.17 netmask 255.255.255.255 0 0
+access-group acl_Out in interface outside
+access-group acl_In in interface inside
+access-group acl_dmz in interface dmz
+access-group acl_dmz2 in interface dmz2
+access-group acl_dmz3 in interface dmz3
+route outside 0.0.0.0 0.0.0.0 10.20.8.1 1
+route inside 172.16.110.0 255.255.255.0 172.16.37.11 1
+route inside 172.20.0.0 255.255.0.0 172.16.10.3 1
+route inside 172.21.0.0 255.255.0.0 172.16.10.3 1
+route inside 172.22.0.0 255.255.0.0 172.16.10.3 1
+route inside 172.23.0.0 255.255.0.0 172.16.10.3 1
+route inside 172.24.0.0 255.255.0.0 172.16.10.3 1
+filter url except 172.16.15.10 255.255.255.255 0.0.0.0 0.0.0.0 
+filter url except 172.16.15.11 255.255.255.255 0.0.0.0 0.0.0.0 
+filter url except 172.16.15.22 255.255.255.255 0.0.0.0 0.0.0.0 
+filter url except 0.0.0.0 0.0.0.0 10.4.45.7 255.255.255.255 
+filter url except 0.0.0.0 0.0.0.0 10.4.44.7 255.255.255.255 
+filter url except 0.0.0.0 0.0.0.0 10.4.53.7 255.255.255.255 
+filter url except 0.0.0.0 0.0.0.0 10.4.52.7 255.255.255.255 
+filter url except 0.0.0.0 0.0.0.0 10.4.43.7 255.255.255.255 
+filter url except 0.0.0.0 0.0.0.0 192.168.0.0 255.255.0.0 
+filter url http 0.0.0.0 0.0.0.0 0.0.0.0 0.0.0.0 allow 
+snmp-server host inside 172.16.14.18
+virtual http 172.16.14.111

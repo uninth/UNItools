@@ -1,0 +1,37 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	2014.05.13.21.48.40;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/sh
+#
+# $Header$
+#
+
+printf "%10s\t%-10s\t\t\t%-25s\n" "Interface" "Link status" "IPv4 addr"
+IFNAMES=`ifconfig -a|sed '/^[ 	]/d; s/[  ].*//; /^$/d; /^lo$/d; /sit/d'`
+for IFNAME in $IFNAMES
+do
+	ifconfig ${IFNAME} up
+	IPv4=`ifconfig ${IFNAME} |sed '/inet addr/!d; s/.*addr://; s/[ 	].*Mask:/\//'`
+	STATUS=`ethtool ${IFNAME} | sed '/Link/!d; s/^[ \t]*//;s/[ \t]*$//'`
+	printf "%10s\t%-10s\t/\t%25s\n" ${IFNAME} "${STATUS}"  "${IPv4}"
+done
+@

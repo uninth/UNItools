@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+ 
+  <meta http-equiv="Content-Language" content="en-us">
+ 
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=windows-1252">
+ 
+  <meta name="Author" content="Pedro Paixao">
+  <title>Web Interface for Object Filler and Object Dumper Version 2.0 - by Pedro Paixao</title>
+</head>
+  <body>
+
+<hr>
+<br>
+ 
+<h1>Object Filler - Import configuration from file</h1>
+ 
+<form method="post" name="ofiller" action="/cgi-bin/ofiller.pl"
+ enctype="multipart/form-data">   <input type="hidden" name="what_to_do"
+ value="import">   
+  <table border="1" cellspacing="1" style="border-collapse: collapse;"
+ width="58%" id="AutoNumber1" height="51">
+     <tbody>
+      <tr>
+       <td width="35%" height="18" bgcolor="#0000ff"><font color="#ffffff">       
+         <font face="Arial">File type :</font> </font></td>
+       <td width="65%" height="18">
+        <select size="1" name="type">
+        <option selected="selected" value="csv">Comma Separated (CSV) File</option>
+        <option value="list">List File</option>
+        <option value="hosts">OS Hosts File</option>
+        <option value="pix">Cisco PIX Config File</option>
+	<option value="ciscorouter">Cisco Router (IOS) Config File</option>
+	<option value="netscreen">Juniper/NetScreen Config File</option>
+        <option value="gauntlet">Gauntlet Config File</option>
+	<option value="sidewinder">SideWinder Config File</option>
+	<option value="raptor">Raptor Config File</option>
+        </select>
+        </td>
+     </tr>
+     <tr>
+       <td width="35%" bgcolor="#0000ff">       <font face="Arial"
+ color="#ffffff">Filename to process:</font></td>
+       <td height="26">       <input type="file" name="file" size="20"></td>
+     </tr>
+    
+    </tbody>
+  </table>
+    
+  <p><input type="submit" value="Import" name="B1"><input type="reset"
+ value="Reset" name="B2"></p>
+ </form>
+ 
+<hr> 
+<h1>Object Filler - Create objects</h1>
+ 
+<form method="post" name="ofiller" action="/cgi-bin/ofiller.pl">   <input
+ type="hidden" name="what_to_do" value="generate">   
+  <table border="1" cellspacing="1" style="border-collapse: collapse;"
+ width="58%" id="AutoNumber1" height="173">
+     <tbody>
+      <tr>
+       <td width="35%" height="22" bgcolor="#0000ff"><font
+ color="#ffffff">       <font face="Arial">Type :</font> </font></td>
+       <td width="65%" height="22">
+        <select size="1" name="type">
+        <option selected="selected" value="host">Hosts</option>
+        <option value="net">Networks</option>
+        <option value="cpgw">Check Point Gateways</option>
+        <option value="ss">Secure Servers (Check Point Hosts)</option>
+        <option value="range">IP Address Ranges</option>
+	<option value="idevice">Interoperable Devices</option>
+	<option value="ose">OSE Devices</option>
+	<option value="plaingw">Plain Gateways</option>
+	<option value="ledge">SmartLSM Edge X ROBO GWs</option>
+	<option value="lip40">SmartLSM IP40 ROBO GWs</option>
+        </select>
+        </td>
+     </tr>
+     <tr>
+       <td width="35%" height="41" bgcolor="#0000ff">       <font
+ face="Arial" color="#ffffff">Address Range:</font></td>
+       <td width="65%" height="41">       
+        <table border="0" cellpadding="0" cellspacing="0"
+ style="border-collapse: collapse;" bordercolor="#111111" width="62%"
+ id="AutoNumber2" height="39">
+         <tbody>
+            <tr>
+           <td width="24%" height="19"><font face="Arial">Start</font></td>
+           <td width="76%" align="center" height="19">           
+              <p align="left"><font face="Arial">End</font></p>
+              </td>
+         </tr>
+         <tr>
+           <td width="24%" height="19">           
+              <p align="center">           <!--webbot bot="Validation" s-display-name="First IP Address" s-data-type="String" b-allow-digits="TRUE" s-allow-other-chars="." b-value-required="TRUE" i-minimum-length="7" i-maximum-length="15" --><input
+ name="firstIP" size="16" maxlength="15" style="float: left;"></p>
+              </td>
+           <td width="76%" height="19">           
+              <p align="center">           <!--webbot bot="Validation" s-display-name="Last IP Address" s-data-type="String" b-allow-digits="TRUE" s-allow-other-chars="." b-value-required="TRUE" i-minimum-length="7" i-maximum-length="15" --><input
+ name="lastIP" size="16" maxlength="15" style="float: left;"></p>
+              </td>
+         </tr>
+       
+          </tbody>
+        </table>
+       </td>
+     </tr>
+     <tr>
+       <td width="35%" height="22" bgcolor="#0000ff">       <font
+ face="Arial" color="#ffffff">Netmask (in bits):</font></td>
+       <td width="65%" height="22">
+        <select size="1" name="netmask">
+        <option value="8">08 - (255.0.0.0)</option>
+        <option value="9">09 - (255.128.0.0)</option>
+        <option value="10">10 - (255.192.0.0)</option>
+        <option value="11">11 - (255.224.0.0)</option>
+        <option value="12">12 - (255.240.0.0)</option>
+        <option value="13">13 - (255.248.0.0)</option>
+        <option value="14">14 - (255.252.0.0)</option>
+        <option value="15">15 - (255.254.0.0)</option>
+        <option value="16">16 - (255.255.0.0)</option>
+        <option value="17">17 - (255.255.128.0)</option>
+        <option value="18">18 - (255.255.192.0))</option>
+        <option value="19">19 - (255.255.224.0)</option>
+        <option value="20">20 - (255.255.240.0)</option>
+        <option value="21">21 - (255.255.248.0)</option>
+        <option value="22">22 - (255.255.252.0)</option>
+        <option value="23">23 - (255.255.254.0)</option>
+        <option selected="selected" value="24">24 - (255.255.255.0)</option>
+        <option value="25">25 - (255.255.255.128)</option>
+        <option value="26">26 - (255.255.255.192)</option>
+        <option value="27">27 - (255.255.255.224)</option>
+        <option value="28">28 - (255.255.255.240)</option>
+        <option value="29">29 - (255.255.255.248)</option>
+        <option value="30">30 - (255.255.255.252)</option>
+        </select>
+        </td>
+      </tr>
+     <tr>
+       <td width="35%" height="22" bgcolor="#0000ff">       <font
+ face="Arial" color="#ffffff">Color:</font></td>
+       <td width="65%" height="22">
+        <select size="1" name="color">
+        <option>black</option>
+        <option>blue</option>
+        <option>brown</option>
+        <option>coral</option>
+        <option>cyan</option>
+        <option>gold</option>
+        <option>gray</option>
+        <option>green</option>
+        <option>magenta</option>
+        <option>orange</option>
+        <option>pink</option>
+        <option>red</option>
+        <option>sienna</option>
+        <option>yellow</option>
+        </select>
+        </td>
+     </tr>
+     <tr>
+       <td width="35%" height="22" bgcolor="#0000ff">       <font
+ face="Arial" color="#ffffff">Nat IP:</font></td>
+       <td width="65%" height="22">       <!--webbot bot="Validation" s-display-name="First IP Address" s-data-type="String" b-allow-digits="TRUE" s-allow-other-chars="." i-maximum-length="15" --><input
+ type="text" name="natIP" size="16" maxlength="15"></td>
+     </tr>
+     <tr>
+       <td width="35%" height="21" bgcolor="#0000ff">       <font
+ face="Arial" color="#ffffff">Hide Object Name:</font></td>
+       <td width="65%" height="21">       <!--webbot bot="Validation" s-display-name="First IP Address" s-data-type="String" b-allow-letters="TRUE" b-allow-digits="TRUE" i-maximum-length="32" --><input
+ type="text" name="hideObj" size="32" maxlength="32"></td>
+     </tr>
+   
+    </tbody>
+  </table>
+   
+  <p><input type="submit" value="Generate" name="B1"><input type="reset"
+ value="Reset" name="B2"></p>
+ </form>
+    
+<hr>
+
+<h1>Object Dumper - Dump contents of Objects_5_0.C file</h1>
+ 
+<form method="post" name="odumper" action="/cgi-bin/ofiller.pl"
+ enctype="multipart/form-data">   <input type="hidden" name="what_to_do"
+ value="objects_C_import">   
+  <table border="1" cellspacing="1" style="border-collapse: collapse;"
+ width="58%" id="AutoNumber1" height="51">
+     <tbody>
+     <tr>
+       <td width="35%" bgcolor="#0000ff">       <font face="Arial"
+       color="#ffffff">Fileneme to process:</font></td>
+       <td height="26">       <input type="file" name="file" size="20"></td>
+     </tr>
+    
+    </tbody>
+  </table>
+    
+  <p><input type="submit" value="Import" name="B1"><input type="reset"
+ value="Reset" name="B2"></p>
+ </form>
+
+ <br>
+ <hr>
+ 
+</body>
+</html>

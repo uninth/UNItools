@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>Tk::Submethods - add aliases for tk sub-commands</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>Tk::Submethods - add aliases for tk sub-commands</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Tk::Submethods - add aliases for tk sub-commands</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  use Tk::Submethods ( 'command1' =&gt; [qw(sub1 sub2 sub3)],
+                       'command2' =&gt; [qw(sub1 sub2 sub3)]);</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Creates <code>-&gt;commandSub(...)</code> as an alias for <code>-&gt;command('sub',...)</code>
+e.g. <code>-&gt;grabRelease</code> for <code>-&gt;grab('release')</code>.</p>
+<p>For each command/subcommand pair this creates a closure with command
+and subcommand as bound lexical variables and assigns a reference to this
+to a 'glob' in the callers package.</p>
+<p>Someday the sub-commands may be created directly in the C code.</p>
+
+</body>
+
+</html>

@@ -1,0 +1,5542 @@
+commit 96f14aa8d396210b24d6be0460939ee17f46cd8d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Jul 27 16:09:02 2009 -0500
+
+    uniq mo files per arch to allow simultaneous install of different versions between two arches.
+
+commit a20f6f104682753548cc018862f99155cc6ff82c
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Jul 24 23:14:34 2009 -0500
+
+    i686 pot
+
+commit ae4731b635c9dfcbd210ed322e789cd9ff2f3749
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Jul 24 23:04:26 2009 -0500
+
+    version bump
+
+commit 69b87703068b76aa03821ec188e90f6311f2b7f7
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Jul 24 23:03:44 2009 -0500
+
+    update string extract
+
+commit f3142ccb668cb84fb8a7997347992774f8883416
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Jul 24 23:00:58 2009 -0500
+
+    fixup multiarch conflict on .mo files when different vers are installed for each arch
+
+commit f33e2723e97892a6dea40ea8a5c136c8e1bc39ed
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Jul 8 18:19:43 2009 -0500
+
+    versioning on strings updated
+
+commit 77218c0572fcd5fae1bff03ddffd1cc09e121aed
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Jul 8 16:34:51 2009 -0500
+
+    fixup build for non-standard build locations.
+
+commit 33dac0928a23cfae234d42beee51d349dbdc1ed9
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Jul 8 14:58:15 2009 -0500
+
+    dont need to explicitly set CFLAGS/CXXFLAGS
+
+commit 084ccf77685e3858add28d032ff7dc56cc4f4eb0
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Jul 8 14:12:19 2009 -0500
+
+    fix from praveen for sles 9
+
+commit 40b85c3025c3df8cdc48912cb79af9f95ef2eba8
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Jun 24 17:24:10 2009 -0500
+
+    update strings
+
+commit ece117c855413801ef8fa63dcc9603d5d14bc16e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Jun 24 17:16:32 2009 -0500
+
+    generalize token skipping and output
+
+commit 5c2b67536a2f6587488149d3bd5a156b9a88b806
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jun 23 21:43:58 2009 -0500
+
+    fixup build to work on both rhel3 and sles11
+
+commit 54320910fcab6c8b76f2136f505dd251ef7944e1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jun 23 13:04:32 2009 -0500
+
+    Updates from lessons converting omsa.
+      -- CXXFLAGS/CFLAGS -> CPPFLAGS
+         Remove all preprocessor directives from CXXFLAGS/CFLAGS and put them in CPPFLAGS.
+      -- add -Wl,-as-needed flag with option to disable for older OS
+      -- add libsmbios pkg-config for c++ lib
+
+commit 5297baeb8d5e8ef4c9ba4a075077ca8bff5e0073
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jun 23 12:01:30 2009 -0500
+
+    remove code to override version at build
+
+commit 1b160f4812a673be85909882463eee12191cd758
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jun 23 11:58:34 2009 -0500
+
+    update configure.ac, make sys-info-lite static
+
+commit 512c316bbffde6ca07cf07bfb7e20386310957db
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Sat May 30 23:59:58 2009 -0500
+
+    try to let dual-arch devel pkgs coexist peacefully.
+
+commit 86ccf82531ad4096ab282c1c65abb9eb4ef147ac
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri May 29 16:47:21 2009 -0500
+
+    make 32/64 devel packages co-installable by fixing timestamp discrepancy
+
+commit dece18624fef983b3118503da2c6b2a3b8bff7cb
+Merge: 7a91679... 676899e...
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Mon May 18 22:43:12 2009 -0500
+
+    Merge branch 'master' of /var/ftp/pub/Applications/git/libsmbios
+
+commit 7a916798a52663d4515a6153897abfa51eb82c40
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Mon May 18 22:43:00 2009 -0500
+
+    rename dellsysidplugin2 to the less-verbose dellsysid.  Yum already prints that it's a plugin.
+
+commit 676899ee9f91e529c9b4dab0c0794f1d1d333c57
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon May 18 21:29:22 2009 -0500
+
+    shorten pkg summary to comply with guidelines.
+
+commit 22de8e8fca703985eb4eaa9a5632f85e7b790fb1
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Mon May 18 12:36:04 2009 -0500
+
+    split yum plugin into subpackage yum-dellsysid
+
+commit 44fed8165814426d389e27bc97c05815f508b8fe
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Sun May 17 14:22:33 2009 -0500
+
+    fixup info printout of version vars
+
+commit c96710abc1eac0049abed92b129d71c2c32d13f2
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Sun May 17 14:16:59 2009 -0500
+
+    use epel and obs compatible macros
+
+commit f183bdd8eac0122655a5c4ca8338da575139a777
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu May 14 23:09:47 2009 -0500
+
+    take out maintainer mode.
+
+commit e823cbbeddb1f417da3e99894ad5c1dd77482c48
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu May 14 23:09:30 2009 -0500
+
+    spec updates
+
+commit fc135b8451eb6830418fb637db925fa6c130c05b
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu May 14 15:43:42 2009 -0500
+
+    fix compiler warning.
+
+commit d580524d3450316ea079cf6d0a077832ffd1d465
+Merge: b7ec213... b3b25e9...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu May 14 13:56:51 2009 -0500
+
+    Merge branch 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios
+    
+    * 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios:
+      fix pointer aliasing issue in c++ id byte code.
+      version bump
+      update changelog in spec to match fedora
+      upgrade known version of gcc to 4.5
+      disable valgrind for sles9
+      add utility to do OBS upload.
+
+commit b7ec2130223a578c248d3e155e7d78f9b445c9e1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu May 14 13:56:47 2009 -0500
+
+    remove -e option as it kills build
+
+commit b3b25e94ffaa2136f66938884557eb3103ea90ef
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Mar 24 02:10:34 2009 -0500
+
+    fix pointer aliasing issue in c++ id byte code.
+
+commit 05cb862aa3c52422f2700a085876b0e2de45f523
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Mar 24 01:45:54 2009 -0500
+
+    version bump
+
+commit 7885166c4818d8c4a42649cb394236de3756f453
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Mar 24 01:45:47 2009 -0500
+
+    update changelog in spec to match fedora
+
+commit d601364eb3ee592eaf7a414f748d794d46785f01
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Mar 24 01:44:14 2009 -0500
+
+    upgrade known version of gcc to 4.5
+
+commit 143115c07c0430492b51bbc31152d819ebfed19c
+Merge: fca4b05... ba74ab0...
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Mar 24 00:38:36 2009 -0500
+
+    Merge branch 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios
+    
+    * 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios:
+      version bump
+      fixup missing import
+      disable valgrind/cppunit deps when unit tests disabled.
+
+commit ba74ab08deace4be3ec9cf33173c4dc8ed60fe6d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Mar 23 16:58:44 2009 -0500
+
+    version bump
+
+commit 03d05836beb6070e0271830b2850ed1c53a72a5a
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Mar 23 16:58:37 2009 -0500
+
+    fixup missing import
+
+commit c1f1af91c0fe31c4e40ee4e4cf0566e059701120
+Merge: bcfc547... e98f64e...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Mar 23 11:06:49 2009 -0500
+
+    Merge branch 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios
+    
+    * 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios:
+      add rhel3 back-compat support
+      make inline asm compat with rhel3
+      add cstdio include for gcc 4.4 compat.
+
+commit bcfc547428404e9853639abb472a19e759d4aabe
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Mar 23 11:06:46 2009 -0500
+
+    disable valgrind/cppunit deps when unit tests disabled.
+
+commit fca4b05710354745786a681fe94c06a3dd4a569b
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Feb 26 21:32:08 2009 -0600
+
+    disable valgrind for sles9
+
+commit 925b5cc65c2e06ce01eafee575c22fc68e083a53
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Feb 26 08:28:58 2009 -0600
+
+    add utility to do OBS upload.
+
+commit e98f64ea4db0a633df6088f294d2fd2919b8645b
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Feb 25 01:51:18 2009 -0600
+
+    add rhel3 back-compat support
+
+commit bf359288e05d1c6a969b8f6e65bc626748a31ae6
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Feb 25 00:46:30 2009 -0600
+
+    make inline asm compat with rhel3
+
+commit c369c056f919736c2937e448e6fb638e23ba27e3
+Merge: 05d8204... 7b796b2...
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Feb 24 23:13:33 2009 -0600
+
+    Merge branch 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios
+    
+    * 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios:
+      fixup build error when python enabled.
+      version bump
+      add ability to skip compile/install of python modules.
+      update string extract
+      allow build without python utilities, required for rhel3 build. Default to not require valgrind on RHEL3 where it isnt available.
+      fixup cut/paste error... change RELEASE_RELEASE_MAJOR back to LIBSMBIOS_RELEASE_MAJOR.
+      dont BR valgrind for RHEL < 4
+      allow replacement of versioning information at autogen.sh time.
+      port new env-var controlled debug output to windows.
+
+commit 7b796b202ed0e25732084ee4c028e5eef5faf67e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Feb 24 15:46:12 2009 -0600
+
+    fixup build error when python enabled.
+
+commit 1c859f6fd5e3201af53803b46802005c510a7eb6
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Feb 24 15:02:53 2009 -0600
+
+    version bump
+
+commit 1e8ceea4fb1993cb256e8046c643f59e27d68b7e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Feb 24 15:02:18 2009 -0600
+
+    add ability to skip compile/install of python modules.
+
+commit 27788dab6e178a480210eb8fba75c6798e113b77
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Feb 24 12:38:04 2009 -0600
+
+    update string extract
+
+commit 3260e088e986dafcd48375e7ea259f3675048acd
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Feb 24 12:37:39 2009 -0600
+
+    allow build without python utilities, required for rhel3 build. Default to not require valgrind on RHEL3 where it isnt available.
+
+commit 37728c28bc5db38ead8f2289db50073f52602756
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Feb 24 12:36:57 2009 -0600
+
+    fixup cut/paste error... change RELEASE_RELEASE_MAJOR back to LIBSMBIOS_RELEASE_MAJOR.
+
+commit 554482f891668f75ec50b761652bf9bfe71eebe5
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Feb 23 10:03:14 2009 -0600
+
+    dont BR valgrind for RHEL < 4
+
+commit 05d8204b17fe177d07fe0037922f39302590e176
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Feb 8 08:35:01 2009 -0600
+
+    add cstdio include for gcc 4.4 compat.
+
+commit 6ffe29cb4b3dfe9f99fb7d291da5d80e199f59b4
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Feb 6 16:23:35 2009 -0600
+
+    allow replacement of versioning information at autogen.sh time.
+
+commit b229fdfe88ab4fffd0007f51551b07671290d284
+Merge: 5b8db68... 4a28e05...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Feb 4 11:28:21 2009 -0600
+
+    Merge branch 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios
+    
+    * 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios:
+      dont barf trying to print ESC for invalid service tag.
+
+commit 4a28e05f23405535508eb39b871e7c3401c7ceb2
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Feb 4 00:29:31 2009 -0600
+
+    dont barf trying to print ESC for invalid service tag.
+
+commit 5b8db683317d06a03e4195f9a4c9c95dbb1d2466
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Feb 3 14:20:46 2009 -0600
+
+    port new env-var controlled debug output to windows.
+
+commit 3ad4ef93864009f1b72be04f06c1689e0a77be46
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Feb 3 13:03:58 2009 -0600
+
+    update string extract
+
+commit fc779bb9c766e68ed07a064ab8f47b67d5265751
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Feb 3 12:51:08 2009 -0600
+
+    Allow turning debugging output on/off at runtime via env variables.
+
+commit cc2007d8b939250d097fccb830b29e9dd0bf9225
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Feb 3 10:29:36 2009 -0600
+
+    fix syntax error in debug statement, only affects when debug turned on.
+
+commit dd4007dda6849ed9baba86b0934988824c2c4ae3
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Feb 2 17:05:35 2009 -0600
+
+    version bump
+
+commit b632d8125908c32f7e113e9c9ea3e2c99c8c7774
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Feb 2 17:02:00 2009 -0600
+
+    add -f option to be backwards compatibile with old dellBiosUpdate
+
+commit 52236d8f985b6f8b215aaf8e6413024c5d8d466a
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Feb 2 17:01:36 2009 -0600
+
+    fixup soname so bins run from source tree
+
+commit 359ffa0bf49e91b242df5fe5e085f469d40da2d8
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Feb 2 13:16:31 2009 -0600
+
+    version bump
+
+commit afbc539099c6439fc655a6bd2477f36b5ad8271e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Feb 2 13:15:53 2009 -0600
+
+    add missing pkgconfig buildrequire.
+
+commit 643ce6304794e47f070fe4c081b9f3734ef2d6c0
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Feb 2 12:50:58 2009 -0600
+
+    version bump
+
+commit d21782a457b4a3dbef5c433e700e03834bb7225c
+Merge: 339fc6c... e8f10f8...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Feb 2 12:50:15 2009 -0600
+
+    Merge branch 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios
+    
+    * 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios:
+      bump version for release
+      dont get service tag because there is a reported case of this function hanging on an Opti 755. re-enable once the underlying function is fixed.
+      use the bz2 tarball vs gz to save space.
+
+commit 339fc6c53bc4e62f3919d581a32bbde847588eaa
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Feb 2 12:49:31 2009 -0600
+
+    remove redundant specified path.
+
+commit e8f10f84a92e3e1ba90ab7eb14f3aa43f50ccba9
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Jan 22 02:26:10 2009 -0600
+
+    bump version for release
+
+commit 421270667c3f3e3e9f616aa07e96cf44034e8405
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Jan 22 02:20:19 2009 -0600
+
+    dont get service tag because there is a reported case of this function hanging on an Opti 755. re-enable once the underlying function is fixed.
+
+commit 5b2f5b9b45a6a41b7a19a65e304fc2f6b9460a56
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Jan 16 23:12:34 2009 -0600
+
+    use the bz2 tarball vs gz to save space.
+
+commit f2b770dc12d7acc3417094a4928c825f6cf73274
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Jan 21 17:22:01 2009 -0600
+
+    add a variable so pkgs know which python path to use
+
+commit dc9165debd283ecde0d63b84b810d5910a19b9ca
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Jan 21 17:21:37 2009 -0600
+
+    add comments, move a few lines around with no changes.
+
+commit ca589965cf4b725ee6ece470c9934eea7d17b3b1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Jan 21 17:21:12 2009 -0600
+
+    fixup for warning from new autotools
+
+commit 929601fedf0b1a747a5ecf84d695bfef17ebf8b4
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Jan 21 17:20:17 2009 -0600
+
+    fixup git cmds for new git 1.6.
+
+commit 8773750b866028166936416e3ed72b355a9850c3
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 19 16:05:59 2009 -0600
+
+    use the autogenerated libsmbios SONAME so we dont ever get out of date.
+
+commit 1bdf61c65d8af1800e5fedda64b79e5bba07b87a
+Merge: 3e9cd9b... 13ef3db...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 19 15:45:41 2009 -0600
+
+    Merge branch 'master' of /var/ftp/pub/Applications/git/libsmbios
+    
+    * 'master' of /var/ftp/pub/Applications/git/libsmbios:
+      fixup pkgconfig files to actually have a chance of working
+
+commit 13ef3db5b91e59bcb283516af35f36a57330f639
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 19 15:45:33 2009 -0600
+
+    fixup pkgconfig files to actually have a chance of working
+
+commit 3e9cd9b038ac39c57962b9785635a8e168742133
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 19 15:39:25 2009 -0600
+
+    properly quote version echos so spaces work.
+
+commit fcdbb6665a8d5a5d97be1649153ba2a97169c0e4
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 19 15:08:39 2009 -0600
+
+    change release script for new autogen changes.
+
+commit 87dd3bcc5b03aa07d1461cc819bb73d1ef312604
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 19 14:30:59 2009 -0600
+
+    update gitignore to ignore autotools-generated files.
+
+commit 75cdf8018af4f6f98d20cd6d12aeff61fc3112ee
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 19 14:28:28 2009 -0600
+
+    simplify autogen and include built-headers in -devel rpm. Remove autotools-generated text files.
+
+commit 9e5383a305d136269b40a9b961468db0e98ada1a
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 19 13:52:11 2009 -0600
+
+    update string extract
+
+commit 3fd2d8e2b08655798f2593468169ea2abf1a01b0
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 19 13:51:49 2009 -0600
+
+    fixup 'make clean' to not remove files created by ./configure.
+
+commit 66b946bffd407922289ebddbc6a174dd01707b0c
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 19 13:35:06 2009 -0600
+
+    calculate and export current correct soname for people who want to dlopen. include smbios/dlopen.h and use the define there for the name of the library.
+
+commit 831eca1fceec391b569c2d6a3dd430a41d087266
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 19 13:15:49 2009 -0600
+
+    separate out libsmbios C++/C library ABI versioning.
+
+commit 5fc876e5a930e37e9119807f5506b2270f6d2db7
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 19 12:46:51 2009 -0600
+
+    cleaner way to set version info.
+
+commit 18ca50ba95b2896854f8dee2a3b3c2623b70fbd7
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 19 12:22:56 2009 -0600
+
+    add pkg-config support for libsmbios users.
+
+commit 8a69a376351552711059518ba05012f3fe1f0e7b
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 19 11:39:30 2009 -0600
+
+    add dlopen.h header so people doing dlopen() always dlopen the ver they were compiled against.
+
+commit 9930801d306d85a2be7144246119189ccf058faf
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jan 16 12:16:19 2009 -0600
+
+    remove static libs from file list since we no longer build them.
+
+commit c650c5f2ffa2a209bab13f4fd8e29019bbf9705d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jan 16 11:46:17 2009 -0600
+
+    fixup find command for our current dir.
+
+commit 3f930515dad48526ee68e48348fac424e933d548
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Jan 16 05:02:24 2009 -0600
+
+    string extract update
+
+commit 3723595e0c67ed9073959ff24b6ec9c37758393a
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Jan 16 05:02:04 2009 -0600
+
+    version bump
+
+commit 6d14aae8d93680b0688a05a253b872368e56b5c1
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Jan 16 05:00:13 2009 -0600
+
+    use old libsmbios name for pot file.
+
+commit 051530aae1f1eb8a46d025a1722f2ecc7b85408f
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Jan 16 04:58:22 2009 -0600
+
+    make package adhere to both suse and fedora naming conventions.
+
+commit 3a9f7aa863dad5d6e9375e143e531508f07d48e9
+Merge: d35d31e... 0e9473b...
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Jan 7 01:23:17 2009 -0600
+
+    Merge branch 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios
+    
+    * 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios:
+      rename .pot file to match what is generated.
+      bump version.
+      add defattr for files in dummy smbios-util rpm.
+      updated string extract.
+      add dummy files to smbios-utils rpm so opensuse 11 doesnt barf.
+      fully initialize token_da errstring. skip unused tokens when we add them.
+      free smi obj in error path so we dont leak. add couple more debug prints.
+      free token errstring if it doesnt point to table errstring
+      several instances where _table_strerror was used incorrectly, should have been _obj_strerror.
+      add note about dcdbas in error message also since it sometimes is needed.
+      rename t to table for clarity.
+      ensure that buffer is 0 if we fall through to error path.
+      typo fix in debug print
+      have gettext package name include the version # so we can parallel install different versions. Only include major/minor not micro/extra because it is unlikely that we would parallel install multiple libs of same major/minor.
+      split smbios-utils into -bin and -python to allow install of only one or the other.
+      dont clean spec, save that for distclean.
+
+commit 0e9473b163177c30f83e224282ce6fbc898e6b30
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jan 6 16:11:44 2009 -0600
+
+    rename .pot file to match what is generated.
+
+commit 4d7b78b9048736f79a24bb277b83e0d92b6252e9
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jan 6 16:10:24 2009 -0600
+
+    bump version.
+
+commit 48dc4507c570eb919fb746630b42a5ed579ee3cc
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jan 6 16:08:44 2009 -0600
+
+    add defattr for files in dummy smbios-util rpm.
+
+commit d7efe941311abd365afbfd5a55125d7019498f65
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jan 6 13:56:30 2009 -0600
+
+    updated string extract.
+
+commit 9edd3927bf3c121564e72a9cfcf7a5502221ca1b
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jan 6 13:56:10 2009 -0600
+
+    add dummy files to smbios-utils rpm so opensuse 11 doesnt barf.
+
+commit 28e9d5041bb7f97778be4509735468059537c4d5
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jan 6 13:36:13 2009 -0600
+
+    fully initialize token_da errstring. skip unused tokens when we add them.
+
+commit e246c3ae2fa0145db11b61fd1beabc1d74d469e5
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jan 6 13:35:33 2009 -0600
+
+    free smi obj in error path so we dont leak. add couple more debug prints.
+
+commit ba3fe677cb78ea258291478860df9e36be42a392
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jan 6 13:34:58 2009 -0600
+
+    free token errstring if it doesnt point to table errstring
+
+commit 8ee086b07967fe475ad7578dcef7d26da974f2c3
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jan 6 13:33:48 2009 -0600
+
+    several instances where _table_strerror was used incorrectly, should have been _obj_strerror.
+
+commit 860ee1473e6ef4506580caf5ae642de8b9e464d3
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jan 6 13:33:21 2009 -0600
+
+    add note about dcdbas in error message also since it sometimes is needed.
+
+commit 5089dfe002cd9914f8b294093821b63992d0fd0e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jan 6 13:27:21 2009 -0600
+
+    rename t to table for clarity.
+    add enum for unused tokens
+
+commit 6ddd0d733caf456c342ca04c377963c64f67ad1e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jan 6 13:26:36 2009 -0600
+
+    ensure that buffer is 0 if we fall through to error path.
+
+commit 9c1f1f88235d4dcb79543d79469affdd67eff958
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jan 6 13:25:03 2009 -0600
+
+    typo fix in debug print
+
+commit 53d1fe2b3686755ed2e7ae9e6b60dde56bcdfd63
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 5 13:47:42 2009 -0600
+
+    have gettext package name include the version # so we can parallel install different versions. Only include major/minor not micro/extra because it is unlikely that we would parallel install multiple libs of same major/minor.
+
+commit 7dfbbb9581fc72d1bd58e1a508523ff38bc5ccbc
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 5 13:37:00 2009 -0600
+
+    split smbios-utils into -bin and -python to allow install of only one or the other.
+
+commit 92a7d6b381e8f18f1920db0773b3938b9f8f5020
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jan 5 12:33:06 2009 -0600
+
+    dont clean spec, save that for distclean.
+
+commit d35d31ea7b15f69c2081c100bef1e50683019e60
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Dec 9 15:57:28 2008 -0600
+
+    dont generate doxygen configs at configure time, just use exported environment variables.
+
+commit 69b333f35a529c749758ea8353e8c563ba322e18
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Dec 15 09:54:19 2008 -0600
+
+    update string extract
+
+commit ccdddd4ff498bc43db426cef080afaa8a0e780e2
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Dec 15 09:54:04 2008 -0600
+
+    set default project for buildservice upload to be home:$(username)
+
+commit 4cafc14c64b1f2d1662825a75565b9df2f62519a
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Dec 15 09:47:16 2008 -0600
+
+    version bump
+
+commit 47212b6366cb56c088397779949112f2a8d90da4
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Dec 15 09:46:21 2008 -0600
+
+    remove RELEASE_VERSION variable and use VERSION or PACKAGE_VERSION instead. setup python executables to replace __VERSION__ directly.
+
+commit 17c7b4293669e241b514921d31b6e39a6116793b
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Dec 8 14:21:09 2008 -0600
+
+    allow user to override version number on configure cmdline. sort of hacky but works.
+
+commit 831b724dbd6486bdb8243eb86973173801ce85b4
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Dec 4 15:43:41 2008 -0600
+
+    dont extra quote ut cflags
+
+commit e9babf7bf652e75965552f60dc98b2a5413b651d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Dec 4 14:11:25 2008 -0600
+
+    fixup couple of libsmbios-devel -> libsmbios2-devel missed changes
+
+commit 02df67b14695adf7cea5a73de3031c794e4b1c03
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Dec 4 13:09:52 2008 -0600
+
+    Revert "version bump"
+    
+     -- already had bumped revision and have not done a release.
+    
+    This reverts commit 76d120a4a40df3d04e54a6fa2dad82b34c4e81f0.
+
+commit 76d120a4a40df3d04e54a6fa2dad82b34c4e81f0
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Dec 4 13:07:19 2008 -0600
+
+    version bump
+
+commit 3fe170ec26d6edded8aafcfd436c0db8cf4de931
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Dec 4 13:06:22 2008 -0600
+
+    add back compat -u option to smbios-rbu-bios-update
+
+commit e769085221bdf699e7c2db45dcc3704c8bf41af6
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Dec 3 18:13:23 2008 -0600
+
+    string extraction.
+
+commit 95934394af55bad93830d872a2ccad8bc452dbe1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Dec 3 18:13:17 2008 -0600
+
+    add comments that files are generated by configure.
+
+commit 03c2bce764a3268da605584d391fa3dc71f81314
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Dec 3 18:11:59 2008 -0600
+
+    move automake options into configure.ac instead of makefile.am. use clean-local hook instead of overriding builting clean-generic.
+
+commit 9573941ab5f91e610f0a335b184ed44aca2ea142
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Dec 2 13:10:10 2008 -0600
+
+    fixup linker flags to pass through gcc with -Wl,...
+
+commit ffd7eb712c500882dd9eb6dd900aeef7a6cb7528
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Dec 2 13:09:17 2008 -0600
+
+    adjust quoting on AC_SUBST for F10
+
+commit 204e89311414250bf3f2db598464b63203c539d1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Dec 2 10:56:22 2008 -0600
+
+    fix for F10 autoconf
+
+commit 95654ab347c7cf126271f93d951ba352ea90eae3
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Dec 1 13:04:28 2008 -0600
+
+    libsmbios-devel -> libsmbios2-devel
+
+commit e7a2cca7aecd489764c1840369ad83b13d0c6f8c
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 26 09:15:09 2008 -0600
+
+    fixup label at end of function.
+
+commit 3cbb19bc380597e85e7ea34efcc8c21572218222
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 26 09:12:55 2008 -0600
+
+    fixup syntax error
+
+commit 290bc6743d17416d6d89d19c812e17a7dfd0a99d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 26 09:05:32 2008 -0600
+
+    use retvals to determine success of mem read fns
+
+commit 722ad89842694501adce24f299d2f3693011cfa0
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 24 22:46:44 2008 -0600
+
+    yet another mingw32 ldflag.
+
+commit 60f5d020d3555c97a13e022cbcb75f3ac2d7e9bf
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 24 22:46:24 2008 -0600
+
+    windows memory access now compiles. may or may not run.
+
+commit 7aae2f9780c66812980bd3d85c1665823445a3db
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Nov 23 09:37:44 2008 -0600
+
+    add mingw configure script that sets all the correct paths for cppunit, etc.
+
+commit 1a14ce4bf35768bc99a4f03009461a54a01b1827
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Nov 23 09:37:07 2008 -0600
+
+    distinguish between smi and smbios not-implemented messages.
+
+commit f30b4d0866b236402ad55baba054355418ce2af5
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Nov 23 09:31:39 2008 -0600
+
+    Add define so ut c code can know if we are linux or windows. only run linux-specific unit test on linux.
+
+commit 30c0540dc37b9f4be7d0e711f4579b3202924adc
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Nov 22 15:22:09 2008 -0600
+
+    enable runtests.sh to detect if it is supposed to run windows .exe's for unit testing.
+
+commit ec145e7d0e8ec0c2ee486c8b08a0889e09db9cab
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Nov 22 15:21:20 2008 -0600
+
+    UNREFERENCED_PARAMETER defined by mingw in some cases.
+
+commit 6135206672b2f3b5cffdcd962f6210e5da04fb46
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 21 22:41:13 2008 -0600
+
+    add miniddk and start adding windows-specific functions.
+
+commit 6f88f8e7fcae0b5988f6522fd6584c395fb24b95
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 21 22:40:51 2008 -0600
+
+    protect against unset fn pointers (not implemented).
+
+commit de838a960d22cecd3a0f62919d034373201ccaa9
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 21 17:08:16 2008 -0600
+
+    version bump
+
+commit 2091f1ee556506da5282890b70d11454ccd953bc
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 21 17:08:09 2008 -0600
+
+    fixup smbios-sys-info output to correctly mimic old getSystemId output.
+
+commit 4361d1f19f599f3317a6a11c2db15913c081ad17
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 21 17:05:18 2008 -0600
+
+    move and adjust comment for _vars.py
+
+commit d00edf52d8f98983ca4e9f5801c7c029f0bef481
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 21 15:18:46 2008 -0600
+
+    have autogen autodetect features from configure.ac to do right options.
+
+commit d1ff8696026cd97777a1ed45e0976b152386537b
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 21 11:22:17 2008 -0600
+
+    update string extract
+
+commit 1f2b6904548c2c0656661d863aa6e39f58d2efbe
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 21 11:21:59 2008 -0600
+
+    fixup build failure on suse factory, which doesnt have yum
+
+commit 001ba8d7a9102bdd2fdd5afa3fda63d29f525bca
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 21 11:21:25 2008 -0600
+
+    fix for internal compiler error on rhel4
+
+commit bb1381c468c53f10fb5dfe74d3bdc70b9d249085
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 21:56:27 2008 -0600
+
+    better error messages on systems that dont support RBU.
+
+commit 515b1ee5a72d92ec0bcb93b826405239f314373d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 21:51:57 2008 -0600
+
+    give friendly error message for systems that do not support rtc wakeups.
+
+commit 58be21aa3135d24a1176aaff72990281f6e98a03
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 21:38:17 2008 -0600
+
+    print out switch settings with rest of radio status
+
+commit 030f6119470d809a9915567da0cbb14a1e762d59
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 21:23:50 2008 -0600
+
+    print switch status when switch setting change.
+
+commit 9f15c137c1ffb28246970520646dcf81357f20d1
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 21:21:21 2008 -0600
+
+    add ability to switch locator.
+
+commit 764d8ce00224912dd12b5d468899b294e6cba390
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 20:37:51 2008 -0600
+
+    version bump
+
+commit e08ae269744e446ff09a0f9170afc30a07cf8d3d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Nov 20 20:35:26 2008 -0600
+
+    fix --sw_XXX options.
+
+commit da6ae20e75b24f817dd9622b2ce4773f189f7a69
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Nov 20 20:35:11 2008 -0600
+
+    fixup debug switch for smi
+
+commit dee54a786e1331bc0e920455e7d91c1dc02ff79d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 15:29:23 2008 -0600
+
+    version bump
+
+commit a2d346b91d3e9f691affe867e7e4815b38491429
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 15:25:39 2008 -0600
+
+    add more informative exception message.
+
+commit 9e7bef853f1dd6f6791353619fef1513b2353b2f
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 15:03:07 2008 -0600
+
+    update string extract
+
+commit ece9836d856addd3ba6e15d29dbf352c8125756d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 15:02:44 2008 -0600
+
+    add more informative exception message.
+
+commit 9f218d5ffebb2e245d39933da24687e1479f62bb
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 15:02:25 2008 -0600
+
+    fixup message formatting
+
+commit a866b2140ca8af40fa442259f80327191596950b
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 14:23:35 2008 -0600
+
+    fixup exception on systems without boot-time switch control.
+
+commit a3882079d06838ad883e7772e7fdde4a531a4179
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 14:13:14 2008 -0600
+
+    export functions for dll build.
+
+commit 40a3bd41219ea88fd70df332c353c24390a36854
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 01:19:24 2008 -0600
+
+    update DLL_SPEC exports
+
+commit b6a56d5a66b1f147d2c7e1a38c1ac46604e7601c
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 00:52:35 2008 -0600
+
+    update string extract
+
+commit 42a28a8678de8a8f1a4c98ec3f0b2177659cd05d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 00:49:18 2008 -0600
+
+    enable generic AM_LDFLAGS for our libraries. split out windows/linux specific compilation units.
+
+commit 198ae34e72da7c517a1d8631435de2814fa6edeb
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 00:48:26 2008 -0600
+
+    enable memory_ut to work for windows.
+
+commit 9c8437e451f67edc5563cb1225f6382888fd0224
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 00:47:58 2008 -0600
+
+    s/32/64 in win64 header
+
+commit 29fca75c843f730ad8e86bbd2be52754370d5b85
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 00:47:21 2008 -0600
+
+    remove c++ from c headers
+
+commit 97a4a619d17ceab4d94b2d25acfd4541598e5daa
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 00:46:53 2008 -0600
+
+    gcc on mingw doesnt honor visibility attributes, so ignore them.
+
+commit fd3234d150cde84be46803a9ac596c36efef96b7
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 00:46:21 2008 -0600
+
+    dont need fixed_strerror on mingw
+
+commit 3b5549bc9254b230b26320a5935662194c68f210
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 00:45:43 2008 -0600
+
+    dont build c++ executables on mingw
+
+commit 338e2b2d79220b32685b87fb610987e9394b4c3a
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 00:44:55 2008 -0600
+
+    add -no-undefined option to ldflags to enable building dlls on mingw
+
+commit 591fba2637f00eb2ab718ec0e17c7339509b56f8
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 20 00:44:30 2008 -0600
+
+    initialize dll support for mingw
+
+commit 07bd548f36f59c03500947b572d39d81b7820414
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 19 23:27:38 2008 -0600
+
+    revise a few strings to be compatible with mingw. ifdef some defs to not override mingw defs.
+
+commit f88c818681e99922680b40eac572f5e463580089
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 19 23:26:50 2008 -0600
+
+    mingw for some odd reason doenst have strnlen. fake it.
+
+commit ac6208ea9c1be63e5cad07ee76206e966555bc5e
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 19 23:26:00 2008 -0600
+
+    add dummy stub files for windows functions to let compile go.
+
+commit db468c98ca1aff5566982963a237b2ee57684ab2
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 19 23:25:35 2008 -0600
+
+    dont autolink when compiling with gcc.
+
+commit 0ac38c53591d38cd68b49a2b6482275c9b04b710
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 19 23:24:26 2008 -0600
+
+    add MARK_UNUSED macro to mark possibly unused vars in their defintions.
+
+commit 3a972c2c0933641ebb0b6694e8f99a7005f22afc
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 19 14:12:06 2008 -0600
+
+    link in windows or linux specific files depending on build
+
+commit 650bd64a4112c8d8e6775bf0e50ab57781f437fd
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 19 14:11:36 2008 -0600
+
+    dont enable auto-link for gcc.
+
+commit 1bfa123c42e3ec3461b7a30b0e692ea8c4ed0034
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 19 14:10:49 2008 -0600
+
+    add configure test for mingw
+
+commit 0b360c9d7158a46494ef8d9e9a22aa80c1b30892
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 19 00:59:55 2008 -0600
+
+    version bump
+
+commit 123310798b4b105e46b45d097dce34dde225f2a9
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 19 00:59:44 2008 -0600
+
+    fixup string return to give correct string size
+
+commit 82f7196b8b8a59208253a7b666b88dfb06d3a203
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 19 00:20:08 2008 -0600
+
+    tell glibc to init malloc areas and write data to freed areas to track use-after-free errors.
+
+commit 31cae8967c34c19ebfcca84f627b8ab3cdb73c41
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 19 00:19:29 2008 -0600
+
+    initialize gettext in rbu_update since we need _ before it is given by __init__
+
+commit 99ce4d1a27f9745e69cd941b97b6e35524643074
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 19 00:18:50 2008 -0600
+
+    nice error message for machines with no lcd brightness control
+
+commit c5e7c2549d5ea474517edeeada8ff9a0c7e8d343
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 19 00:18:23 2008 -0600
+
+    dont barf if try_password called on d4 token.
+
+commit 59060e08800c8f1862b60e986e8e94ad017b795a
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Nov 18 18:00:29 2008 -0600
+
+    obsolete old libsmbios rpm with libsmbios2 rpm.
+
+commit 788329f2b84c41c8388dcbd3e054118198bdaed6
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 18 13:00:55 2008 -0600
+
+    version bump
+
+commit 085048df7428f2ee80ac334d7375fcfdc9bce4cb
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 18 13:00:43 2008 -0600
+
+    install missing python lib files.
+
+commit c4d193ae7d936c55a839df6116db4fb50c7c1b2f
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 18 12:49:59 2008 -0600
+
+    require yum on suse >= 11 due to new rpmlint checks.
+
+commit f856df805d99f3f1210a479d0717c6d76cf164f2
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 18 10:36:27 2008 -0600
+
+    update release script
+
+commit edffacdad7e838006e60ef30aee9da8649fa9b78
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 18 10:36:20 2008 -0600
+
+    update string extract
+
+commit d867858fea54c2e9b8981e9d3f88b69a56bb794b
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 18 10:12:30 2008 -0600
+
+    fixup tag naming
+
+commit 2bde0e7f7cd0bf521ed2f07e9263180cb7e57552
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 23:07:50 2008 -0600
+
+    fixup release script
+
+commit 14483253c7c862c51cc143077638585f1f9959e5
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 22:03:01 2008 -0600
+
+    .in file should not be executable
+
+commit bed079652a8b2552b504669d1bcc1204e65fe5ed
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 17:56:25 2008 -0600
+
+    split out rbu stuff into its own libraries: rbu_hdr and rbu_update
+
+commit 7d9c297f021b6568017d0c779611f689bab3caa7
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 16:43:53 2008 -0600
+
+    add std opts after program-specific opts.
+
+commit d82721b62a37df277bebfcd87a2e64bdbe1d5b87
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 16:02:18 2008 -0600
+
+    add dell system id plugin to libsmbios
+
+commit ddd5e0de58794c3bced382e1389665ab1b94b522
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 15:40:10 2008 -0600
+
+    tweak ctypes BR to work across suse versions where they didnt add python-ctypes to python2.5 rpm.
+
+commit 407805e30490bc9e0a089e8c137877825f52b4b4
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 14:59:40 2008 -0600
+
+    finish adding no_err_clear support.
+
+commit aa1b3ece5660ba8b95a5cd35bb6a5c0d8052a341
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 14:55:01 2008 -0600
+
+    fdupes in > suse 10.20, not =
+
+commit f0f0b44d509c0a74a23a80e94be7f539943098e5
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 13:47:20 2008 -0600
+
+    update string extract
+
+commit 99c4f13407821a86daadb65e250479085584b29a
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 13:27:17 2008 -0600
+
+    remove unused exception class.
+
+commit c3a932d2f3884de4e35a040d5909bd24c8586857
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 13:26:16 2008 -0600
+
+    add exception handling
+
+commit 60dfe47be6c5c9d2354d5da42dda18dccf3a5182
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 13:23:03 2008 -0600
+
+    add a bit more null pointer protection.
+
+commit ea7bec929144d4a48a6673cf508946411372eb87
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 13:22:19 2008 -0600
+
+    fixup typo in token inheritance hierarchy. use class decorator to clean up a bit.
+
+commit 9139131a890ffd8267b87ce8b592514eb3279927
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 12:32:17 2008 -0600
+
+    fixup exception handling and error messages for passwd functions. add --info cmdline option.
+
+commit b76c0c6b7517fe2eca04b706dff5c8b4c11ba5e7
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 12:24:31 2008 -0600
+
+    fix __doc__ strings for binaries.
+
+commit 7828cd836c8148509e23f8b7a64ed31816242373
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 12:24:12 2008 -0600
+
+    set locale after imports. fixup __doc__
+
+commit 7d723d2128b742b6dc7f2bdf81cd5254104c5a9b
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 12:18:59 2008 -0600
+
+    add standard exception handling and error messages.
+
+commit 1d49db92a2d2943941c590d8d1901e66e5db3feb
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 12:18:25 2008 -0600
+
+    update example python outline.
+
+commit b6756c4690ffa1a40f18bb4cf823eb0f80c1be33
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 12:17:55 2008 -0600
+
+    fixup exception for null string return.
+
+commit 6b61f4ae8331201c337724fa8ab11e5bc559fde4
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 12:16:54 2008 -0600
+
+    fixup exception for null string return.
+
+commit 93e8904f0206a655e9b6b7108c26e5aad449ea0c
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 12:16:06 2008 -0600
+
+    add more descriptive function names for errcheck functions. Add trace log entries for the ctypes functions that were called.
+
+commit c8fbb8be68e1df4952702634a08b1bcd814d4642
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 12:15:07 2008 -0600
+
+    add get/set string functions for 0xDA tokens. remove unused get_string_len member fn pointer. protect against calling null functions.
+
+commit 4ac2973107c55c6d8f47ec1d044336ca56a299d9
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 12:12:35 2008 -0600
+
+    add function tracing for smi read/write calls.
+
+commit e4498b6efa40f0064104561f9976e7a4d91c1199
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 12:12:06 2008 -0600
+
+    fixup name for token_string_free. add to token.c
+
+commit 2e21c86082d9e6c969f806f934158909bdedd562
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 12:11:15 2008 -0600
+
+    flush buffers after each debugging print.
+
+commit d925e96f4a3ecd4b9ffdd3d79d011a85bc32bbc2
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 17 12:10:54 2008 -0600
+
+    move makePrintable to trace_decorator
+
+commit baa5841eaa846898466bfac53ce0a85748ad2ccd
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Sun Nov 16 20:50:15 2008 -0600
+
+    separate out password and security key opts. add gettext.
+
+commit cc3ad564aaeb0630c63a9dd18c06e551e0120403
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 14 11:29:56 2008 -0600
+
+    make saner exceptions for errors in smi.
+
+commit fd28bc30a59220a809ea5235e1c8abd49a782b82
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 14 11:28:46 2008 -0600
+
+    fixup strerror(). add no_err_clear support.
+
+commit 9b85cfb0107ded2565f6ce863c69dc3d7f77525d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 14 10:01:11 2008 -0600
+
+    get rid of extra class
+
+commit 32ef5d874f333aeab79d7fc48315694609006d03
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 14 10:00:39 2008 -0600
+
+    dont decorate __del__ methods
+
+commit 1411e5c035fa92e0e586c9bb62370531d394fa35
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 14 01:33:40 2008 -0600
+
+    update string extraction
+
+commit 4511d0d96d2dc670f6f935bfbefc4660b5aabe09
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 14 01:33:30 2008 -0600
+
+    update localized messages.
+
+commit 39b3c0b9e80b4e43bc5b3a18d31af2551cc73e03
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 14 01:27:32 2008 -0600
+
+    let doUpdate() method set return code. implement test mode.
+
+commit 5d064b5ae2af6c7d6f4d583a718c2c23ae9ac348
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 14 01:27:00 2008 -0600
+
+    rename old dellBiosUpdate and make compat symlink in rpm.
+
+commit aaafb023c07ddf4f2fffaac7b18fa6e27cd928f1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 14 01:10:30 2008 -0600
+
+    correct the return codes for failures. exception handline around main functions. add --reboot/--no-reboot command line parameters.
+
+commit 15ad87c24d6cf3669c1e78da43913933b401f911
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 14 00:57:25 2008 -0600
+
+    dont throw exception on zero system id, just return it and let caller sort it out for now.
+
+commit b76290c602fcd2e4f9078d9dfe809f24b4bcaa4e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 14 00:14:52 2008 -0600
+
+    consolidate _TokenTable and _token_table. Dont decorate __del__ since it is called without a stack frame in some cases.
+
+commit 2ed05cb503100e578153cc2bfb0309f14de10d15
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 14 00:12:42 2008 -0600
+
+    dont throw exception on empty string since that can be expected.
+
+commit c847528ba0a2d444e60f7380ed1dc3d5c5507f05
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 14 00:09:14 2008 -0600
+
+    dont trace __del__ since there isnt a stack.
+
+commit 4f4e1f19310f8165076ec1641fa867d54ba8af10
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Nov 13 15:26:50 2008 -0600
+
+    get rid of stupid gettext warning in a comment.
+
+commit 43a2b26cbc3b0fb23403e09fc30e7fc2f9de3ac6
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 12 23:29:42 2008 -0600
+
+    fix order of file writes to properly cancel on current driver
+
+commit ce3d2ce9788559022539a0a4898555248a3f369f
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 12 23:29:02 2008 -0600
+
+    implement older hdr check. implement fallback to dellBiosUpdate
+
+commit d6468e18c792f0b9d24d49702839a9de3cee7e3d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 12 17:30:28 2008 -0600
+
+    fixup makefile for file rename
+
+commit ec7e4c9c4ded41ec6c51ff6c46503be2d1e0dfa6
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 12 17:26:16 2008 -0600
+
+    add helper for getting BIOS version.
+
+commit 850a0d6af0d80ec9a0e1358668f734aee9ca9d2b
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 12 16:33:19 2008 -0600
+
+    check system id against header. activate rbu token to make bios update go.
+
+commit 0f35b0879d2c923fea1483fbf0dc7582f2b4fdee
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 12 16:08:38 2008 -0600
+
+    smbios-rbu-bios-update packet mode now produces same output as old dellBiosUpdate program.
+
+commit 103ffc093164f69508d90474b55f780e9d35f5f0
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 12 02:37:31 2008 -0600
+
+    implement packet mode. needs testing.
+
+commit b67b7f87197f65971f3957bb294b67ea67d5c1ed
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 11 01:03:24 2008 -0600
+
+    start adding packet mode.
+
+commit 916244328c1da8320a0cc8330d2d0e1adba66846
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 11 01:00:56 2008 -0600
+
+    fix bug passing wrong buffer size to fwrite.
+
+commit bebe48a6371dbd2558431835a916101ad4ac7ade
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 10 17:27:21 2008 -0600
+
+    more implementation for rbu update.
+
+commit 1d0060a164facd62865fabdcf23eee8467312794
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Nov 9 00:48:44 2008 -0600
+
+    start implementing update.
+
+commit 81ba44297553d11efd5827bcc448ec4d915bd07e
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Nov 9 00:47:28 2008 -0600
+
+    various python cleanups.
+
+commit 88e72f6eca4c66ae93dff74e60a476a8fd9d5f90
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Nov 9 00:45:54 2008 -0600
+
+    let python utils work when called from build tree without setting LD_LIBRARY_PATH if top_srcdir == top_builddir
+
+commit 12f0bb8d015c8e64088051efbeaffa6af715888a
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Nov 8 21:15:08 2008 -0600
+
+    dont need separate _cmos_access_obj class.
+
+commit b48fc1eb8a3d9caaae9d80e2d13bb0d3cbbb3f9b
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Nov 8 01:36:13 2008 -0600
+
+    _common.py needs _ definition as well since it throws localized exceptions.
+
+commit 70f60c8ba29e2bc8b3d447f2e0d0a61a3be14693
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Nov 8 01:34:17 2008 -0600
+
+    dont print out current status twice unless user changed something.
+
+commit 4a4e421a1a6976f6bf5e0fe824a54000e33fcac4
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Nov 8 01:34:00 2008 -0600
+
+    fixup import lines to be consistent for libsmbios_c stuff. use GETTEXT_PACKAGE and localedir from libsmbios_c module since thesse binaries are localized with the lib and will always use teh same package and localedir
+
+commit 51702bf5cf01016cb3f8eda62ac9fb6226107be1
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Nov 8 01:21:44 2008 -0600
+
+    centralize dll open in __init__. rearrange module stuff a little bit. Make it easier to import just libsmbios_c.
+
+commit a4a7ee020d9548bbe903d063af6121607ac8c58b
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Nov 8 00:48:45 2008 -0600
+
+    small changes to import format
+
+commit 866db93188d6bb34c951a4da1267b179fa883dea
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 7 01:18:45 2008 -0600
+
+    ignore compiled po files.
+
+commit 0981d7618ea1239b25e4a1848dfbee3127f3e4f1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 7 01:16:32 2008 -0600
+
+    add cmdline options to turn tracing on
+
+commit bb77acd6e19fcaaba921489ee5db068116ce2fda
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 7 01:16:17 2008 -0600
+
+    add logging to all the python modules.
+
+commit 7ea77f726c3182177944d409bd7deb1058643a49
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 7 01:14:47 2008 -0600
+
+    add __init__ code to pull all the modules into libsmbios_c
+
+commit aa96e7600e97c542e2397d066cf92e862e141a07
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Nov 6 17:29:48 2008 -0600
+
+    add logging infrastructure from firmware-tools
+
+commit d649561f6d5ba992842d5e70a4d500e6e04c60da
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Nov 6 16:30:40 2008 -0600
+
+    get rid of some historical cruft: example proggies and unused programs - probes.cpp, validateBios.cpp, smitest.cpp
+
+commit 089e9020b1d4d84e185764103aac42a8f18f6949
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Nov 6 00:20:56 2008 -0600
+
+    start to implement monolithic bios update
+
+commit 467230a7278edd390e51a6e3b75399b3fa3bd9e9
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 5 17:31:38 2008 -0600
+
+    add check for bios bug (unterminated token table).
+
+commit f056eda5b99b802baf31029c9a5658ff066403f1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 5 17:07:35 2008 -0600
+
+    update string extraction. add new source files to POTFILES.in
+
+commit f1091f018788fd204e7bfdf56bfeb9e79f143144
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 5 17:06:56 2008 -0600
+
+    fix distcheck and rpm build
+
+commit 9d32197f172b65c7ca4b54166d2b40e899b6ec2e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 5 16:40:36 2008 -0600
+
+    ignore .pyc files.
+
+commit ed6f8ec2e43996e0556973b639e1de989859e200
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 5 16:34:44 2008 -0600
+
+    add python lcd-brightness utility to replace old C++ one. Remove C++ version.
+
+commit 98dbe4476641beb718390c4937ab2d0f166517da
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 5 16:34:16 2008 -0600
+
+    pass password to token try_pass() function.
+
+commit 18cc5c0650613fc72fb93fc570883282dab083dd
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 5 16:33:22 2008 -0600
+
+    print out security key so user can use it in other cmdline utils
+
+commit 06cc9d259f291f9b4544f56b3734d7e06bd1ddef
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 5 16:32:39 2008 -0600
+
+    give distinguishable exceptions for failing smi execute() calls. Start laying infrastructure to distinguish different exceptions for different failures.
+
+commit c74c9f7b1dedd074df541e46beb84cc9577a1f59
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 5 16:31:52 2008 -0600
+
+    fixup cut/paste error in try_password function def
+
+commit 0bbef5ec48b77d37039bf5ef33f3572e27004c97
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 5 16:30:46 2008 -0600
+
+    add debugging printouts to the std token functions.
+
+commit 3b1be714b025d3de4a6e08172e8699b7222c8423
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 5 16:30:20 2008 -0600
+
+    fix try_password() function.\n We were not saving key properly in private_data
+
+commit 8bb8eba85711791012e9cf5b9df38bfd36568c0f
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 5 16:29:31 2008 -0600
+
+    fixup writing nvram values, cut-n-paste error meant we were simply reading them again instead of writing.
+
+commit 04bbf9937ae5bb60fe423e8d7d275e4eb6d9bc72
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 5 16:28:44 2008 -0600
+
+    allow user to pass security key on cmdline for some ops.
+
+commit fecc7262a85deb5891516a426a91dcf4e2ece77e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 5 13:09:14 2008 -0600
+
+    create a way to allow python code to get at the low-level token structures in a type-safe way.
+
+commit c7184738157739b8372a810fd409838b6c9e2870
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Nov 5 13:08:40 2008 -0600
+
+    fixup smi.py for API changes in C smi code.
+
+commit 20bee7292d6cea1c489477be3dbd552a82a03315
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 4 17:11:39 2008 -0600
+
+    fix for screwed up gnu strerror_r() in cmos module.
+
+commit 3fae92b7039c6edfe6d056a9f0ecfc93efe1b522
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 4 17:07:33 2008 -0600
+
+    fix for screwed up gnu strerror_r() in memory module.
+
+commit bbacbb6956bc8829b39d091ca0d609c97edd215e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 4 17:07:15 2008 -0600
+
+    Fixup smbios python module exceptions to be a bit more fine-grained. add smbios-rbu-bios-update to build and rpm.
+
+commit 75c705d0703f0da7140e0a99f81835a1c97d2671
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 4 14:55:14 2008 -0600
+
+    add missing locale.h includes
+
+commit 9dca364a66d088d516378a20653640a920c71acd
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 4 08:39:08 2008 -0600
+
+    small cut-n-paste error fix
+
+commit a916fdc3bb1a6e153e8bd26982db89a8c2f4d33f
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Nov 4 00:39:41 2008 -0600
+
+    update build and install to remove old utils from make and rpm spec. update wireless-ctl with i18n
+
+commit 2c641e1f7f8bce0eeaa91aa0a46e5092d07d4a61
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Nov 4 00:32:43 2008 -0600
+
+    protect against null deref attempt with better exception
+
+commit d5853970126cf4e441e599df9a0ba5ca82a0a5d4
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 3 18:18:52 2008 -0600
+
+    mostly working and implemented wireless ctl. needs a bit more testing.
+
+commit d347622ce8dff643b68d418d2349edb5b6a9b504
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 3 14:09:17 2008 -0600
+
+    incremental changes to start getting smbios-wireless-ctl working
+
+commit 3dcbbafa8a4c52c1073a18760d2801c7f4188323
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 3 14:05:16 2008 -0600
+
+    add 0xda tokens to token table.
+
+commit 3eb92abec1df373062e189c1a9283e3b01f0ae2a
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 3 10:42:03 2008 -0600
+
+    add begininning of python reimplementation of dellwirelessctl
+
+commit 2edb83d5fa6054f0046e997ccb8e1d3e76222bd6
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 3 10:41:18 2008 -0600
+
+    remove obsolete comment
+
+commit 8e1681cd8aef03ece390148166cb3abc0362b1b1
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Nov 1 21:47:21 2008 -0500
+
+    intlize cmdline progs. update string extracts.
+
+commit c3df448605a88512e15f130e2ed0907c1959f75f
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 31 22:15:17 2008 -0500
+
+    remove C++ upBootCtl and add C smbios-upflag-ctl
+
+commit f40fdeb5089b07e327ab908920da3f26cea80440
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 31 14:40:04 2008 -0500
+
+    allow cmdline additions to rpmbuild cmdline.
+
+commit eb0cf1806d05240f15b5d3441237c352b50a58e0
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 31 14:39:45 2008 -0500
+
+    rename smbios_cmos_save_to_file to smbios-get-ut-data. rename getSystemId_lite to smbios-sys-info-lite. remove stateByteCtl.cpp. add smbios-state-byte-ctl.c and related C API.
+
+commit 6e4a66385410ce00b794baa08b422833ffd8d9b4
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 31 12:28:51 2008 -0500
+
+    remove ascii2enUS_scancode as it is wrong and potentially dangerous. people should use showkey instead.
+
+commit fcb85e6119bedb226f71fb63dae9d9ae896ac038
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 31 12:28:09 2008 -0500
+
+    replace c++ wakeupCtl with python smbios-wakeup-ctl
+
+commit b0597a5fff6f3a84848e3e74f58828063c3136cf
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 31 12:24:32 2008 -0500
+
+    fix cut/paste error in set_string fn.
+
+commit 75550548143252fd4f0fb2d71843754c1b3bb238
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 31 10:07:51 2008 -0500
+
+    fixup path to buildlogs.txt file in unit tests.
+
+commit d1a3950f465ca0113c6999145406c8076a442a05
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 31 05:48:56 2008 -0500
+
+    update string extraction
+
+commit 2c74d313ea70f058e10d1b26eb91c19526cf7b58
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 31 05:48:48 2008 -0500
+
+    add new python utilites. remove obsolete sources.
+
+commit c204de0844ddffac36aa5b0bc0bb8e1628b4f3bc
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 31 05:28:07 2008 -0500
+
+    add dummy set_service_tag fn until we get it written.
+
+commit 65ac19fd4c2cbc9615c5c5bfa394807958bec9e4
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 31 03:08:07 2008 -0500
+
+    log unit test failures.
+
+commit 57a5c49abaaf15b6674ab7e137cecfd28b15f265
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 31 03:05:52 2008 -0500
+
+    fixup fdupes def for sles10. remove old _BR variables that we no longer need and can hardcode.
+
+commit 12d371df8f56f1ae4e9e8d56ffb8e06c7b8a48a5
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 31 02:53:53 2008 -0500
+
+    streamline distro-specific defines. add build logs and unit test logs to %doc for -devel rpm
+
+commit c139f5d4cb5cbc66014efc77b8b0c9579a472543
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 31 02:34:15 2008 -0500
+
+    include private stuff before public stuff or /usr/include/features.h gets confused. This fixes RHEL4 compile.
+
+commit fa951167d86ee2653b60d887ffa7108e05599214
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 30 17:39:32 2008 -0500
+
+    fixup lang file to pick up from correct dir.
+
+commit 839fc581b81742deb425f0f6aeba5b1b2fc98c17
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 30 17:18:13 2008 -0500
+
+    fixup largefile issues on RHEL4 (fseeko was not being defined.
+
+commit 73b9b8a788240d3594cdf97badf44d366dd0df95
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 30 17:17:55 2008 -0500
+
+    fixup docs for new build location.
+
+commit c9c1bd359d29a6f9d1f565b974e0dcbb7a616a9c
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 30 16:16:00 2008 -0500
+
+    prefix test dirs with _
+
+commit 2a5e720f6b875d511cb801fc51bdbab12181ab5e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 30 16:15:46 2008 -0500
+
+    update string extract
+
+commit 263d53432572f761b896f1bfea993379b24298e2
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 30 16:14:05 2008 -0500
+
+    separate builddir/srcdir for main build so we can have separate dirs for valgrind, check, strace tests.
+
+commit e31da7052ad87fe5b1abac0fe65e908102cac91c
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 30 15:15:53 2008 -0500
+
+    centralize autoheader config.h inclusion. rename config/config.h to disambiguate.
+
+commit b50e6e4e2a059095451d96fb251de67857940924
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 30 15:15:21 2008 -0500
+
+    need AC_FUNC_FSEEKO to compile on RHEL4
+
+commit 2ccc55546dc395ca054fc01e3281a323da37c399
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 30 13:27:48 2008 -0500
+
+    fixup 32-bit issues in print format strings size_t should be %zd.
+
+commit 832fbcd8ba5f0cb477ddda80f098d3c7a07999d2
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 30 10:26:35 2008 -0500
+
+    fixup build problem when debugging for cmos turned on in 32-bit builds.
+
+commit 1f1f697dabc231153226943453aa015eaefa2fc0
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 30 09:43:34 2008 -0500
+
+    separate deps for rhel4/5 so we can compile in obs for RHEL4.
+
+commit a81197011aa7b42ababa7e322354effd51737203
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 30 09:02:59 2008 -0500
+
+    remove obsolete and unused utilities
+
+commit 6e753da4898b0d3daf40af637866452620402b35
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 30 09:02:39 2008 -0500
+
+    update string extraction
+
+commit 44b313a76b3c210d792f4e7122e71d80b65747ba
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 30 01:03:06 2008 -0500
+
+    try to instantiate smi obj to test permissions before we do password checks. should catch most problems (except 'dcdbas' not loaded problems, but oh well...)
+
+commit dabff5ed3cb421cc45df8eeb7fd0f1e5dc9bc33c
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 30 00:56:42 2008 -0500
+
+    fixup errcheck function on factory. add None initializer for _smiobj so we dont throw exception on exit
+
+commit 707ac6ecb09c587b3ae11147105b0176ac02fddd
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 30 00:55:55 2008 -0500
+
+    fixup segfault bug where we had conditional backwards for init failure detection.
+
+commit 4f056eb7aadb4ed84841e3a982582079b7f3550a
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 30 00:55:15 2008 -0500
+
+    early exit from get_password_properties_2 if smi object doesnt construct. s/GET_NEW/DEFAULTS/
+
+commit d496bfb72c765b04394967e1aa83303473522b60
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 30 00:53:49 2008 -0500
+
+    initialize _memobj to None in case factory throws exception
+
+commit 9d44584d0d8321a7e8a47d125edd5bddb8f37341
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 30 00:53:16 2008 -0500
+
+    initialize _cmosobj to None in case factory throws exception
+
+commit 1ce2ec8c83b0437629e9e09e899ff049edd3ac09
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 30 00:33:50 2008 -0500
+
+    dont segfault when you cant construct. :(
+
+commit 67332ae3332be3e7711f71f1eab46a1c254adec7
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 30 00:20:19 2008 -0500
+
+    mostly working verifyPassword, take 2: fix scancode vs ascii
+
+commit 77660421edf41492e3c3e5a7ffbf3ea4be8dccac
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 30 00:11:47 2008 -0500
+
+    mostly working verifyPassword
+
+commit 4ce376a4eb28767f83c3ef593b853d3d570819fb
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 29 23:46:56 2008 -0500
+
+    begin replacing verifySmiPassword with python version
+
+commit d9ce6925e20f71af8761aa962fd1c27b74c1f686
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 29 23:44:02 2008 -0500
+
+    split out common routines for sharing among cli python progs.
+
+commit 0dc1c7e2ddfc5fab5e5dd856a05644fda6faa735
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 29 23:40:56 2008 -0500
+
+    make list of vars to replace in install-*-hook expandable.
+
+commit ccf26bb55b967553dae9bdce65a3e7b8d01b2fb1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 29 22:59:30 2008 -0500
+
+    add error string return for set property tag fn.
+
+commit b80eda4de902b7da43292a00c7717e5649e8eb81
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 29 22:58:59 2008 -0500
+
+    differentiate return codes between bad password and smi execution error.
+
+commit b230605b194aaf33682800dfd3b8300e9523d550
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 29 22:58:23 2008 -0500
+
+    clear error status on successful construction
+
+commit f3e5c6caabe0a81608ebbbd73947960572b0061f
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 29 15:06:58 2008 -0500
+
+    start plumbing error strings up through sysinfo functions. redo function prototype for property tag to match other sysinfo functions.
+
+commit 8ebd6972d7f4c9d4224aa7a4917b0ef11702490d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 29 15:04:55 2008 -0500
+
+    newline between smi error msg and smbios lowlevel error string.
+
+commit 2677141edc65e60dd1e5351f7bddafa09e6ed861
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 29 15:02:30 2008 -0500
+
+    use _DEFAULTS rather than hardcoding singleton.
+
+commit 73517156d286ea526093dbbf595195a5650c16bd
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 29 15:01:15 2008 -0500
+
+    dont clear error strings in free() functions because the string must remain available for non obj users.
+
+commit c321b9b00c650d16ca43ba6c3866afbcaf3af9ba
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 29 13:42:22 2008 -0500
+
+    add token strerror() simple function. change return for is_active() to pass through error conditions from lower levels.
+
+commit f809b3462c21e8393a9c65e2e8c8ac27b942b2cf
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 28 16:58:38 2008 -0500
+
+    clear previous error conditions on next smbios table op. cleanup init failure.
+
+commit 97eb3ed3f94ad8bed933b0643fe8592be2d55908
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 28 16:45:34 2008 -0500
+
+    streamline memory construction and failure exit. calloc sets errno, so we can share file and allocation failure exits.
+
+commit c6bc544c2c961b673d8ac90721ce1b5adaa8344e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 28 16:29:27 2008 -0500
+
+    further failure mode cleanups for memory/cmos. dont compile in memory_ut on linux since normal linux handles file access just fine.
+
+commit 0b88f197e1d3c4cf4ed23f44367154c33dce1896
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 28 16:12:05 2008 -0500
+
+    streamline cmos strerror() handling and free/cleanup
+
+commit a69708b984cc1fb991966bc988c6e8745e0d124d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 28 15:42:36 2008 -0500
+
+    also clear module errors when clearing obj errors.
+
+commit 8cf76f3059d7870544412145bafb5743f80914aa
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 28 15:37:13 2008 -0500
+
+    make module error string free() a destructor to be more compatible with dlopen and friends, also reduces code size.
+
+commit 50a5e385bfc2bcd0812ccbcf56212eb7908487ba
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 28 15:06:10 2008 -0500
+
+    rename _impl.h -> sysinfo_impl.h
+
+commit 0ddcfa96de6a490d70c6c9b80d939930c51713ba
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 28 15:04:54 2008 -0500
+
+    move property tag functions into system_info dir
+
+commit 496648327e83b0537475c94277c94d8f5c14c5e6
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 28 12:27:41 2008 -0500
+
+    add duplicate file hardlines to rpm to save space. other tweaks to get build going properly across all distros.
+
+commit 177a691155fa503efdef05c9b7b997582ac8ed7c
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 28 11:26:54 2008 -0500
+
+    update string extraction.
+
+commit eceba3515395af25a0d4d3680276a3c58108f3c2
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 28 11:26:12 2008 -0500
+
+    go back to single libsmbios package for both c/c++ libs. fixup rpmlint errors from suse and fedora builds. rename python subpackage to comply with naming conventions.
+
+commit f18a686c337c268b32de37b9cb87a1f4bb807e7d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 28 03:46:16 2008 -0500
+
+    add error checking and strerror() calls to token python api.
+
+commit 2091795e4e72622f519529d24ae1d0649b97b1bf
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 28 03:38:26 2008 -0500
+
+    save lowlevel smi error when token call fails.
+
+commit dcd84f186c12e8f21a8bf59253b6bd8e21f165d2
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 28 03:38:07 2008 -0500
+
+    add os error code to error string
+
+commit be384b02ccce9fa1dae523830791e0382aff1bde
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 28 03:06:59 2008 -0500
+
+    fixup error returns from smi functions to properly report error.
+
+commit e36aad85be6aeb67cf9e2e42b1a745059502e3a9
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 28 02:44:19 2008 -0500
+
+    update string extraction
+
+commit 6cf619f6e6f538cb033642fa094e9fb160b0df63
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 28 02:40:44 2008 -0500
+
+    instrument the rest of the smi functions to be able to return low-level errors.
+
+commit 0a6035f1755109e29fa13fc30c0d71df0b7942cc
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 28 01:56:46 2008 -0500
+
+    update "simple" functions so that they can accurately return error conditions from lower-level functions. Users should use strerror() functions to get at underlying error strings.
+
+commit 9104a20459f9a458e5b5e3a51806ac1d53e1de59
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 28 01:50:01 2008 -0500
+
+    start adding strerror() returns to token code.
+
+commit 9c40c2f6e0ad83de9cdae2f7fa2228cade8400a5
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 28 01:38:14 2008 -0500
+
+    instrument execute() method to allow return of error status. Update python code to extract error strings on error.
+
+commit c3fdb8b5ac533e95e3ebf2f80805a58cedd14587
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 28 01:26:04 2008 -0500
+
+    memset after free so we dont lose potential pointers.
+
+commit cf1d9629e6c8118311fe54cfe4bf95ef7583b0a9
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 28 01:25:37 2008 -0500
+
+    add strerror class function. change helper functions to use the singleton object by default so we can get good error status in strerror.
+
+commit e49d443a9a1b86cd55c39dc83a0327958c2f8dad
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 28 01:25:31 2008 -0500
+
+    add object strerror() fn. make obj functions resilient to null pointers.
+
+commit e99b6b83d1e3df8b3f5942c83bc3aa13e167cdd8
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 28 01:22:40 2008 -0500
+
+    add strerror() prototypes.
+
+commit dffe864397ed69f7fca777c76f19284d6e1c8c89
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 23:38:05 2008 -0500
+
+    add python-devel buildrequire now that we produce python subpkg.
+
+commit 0157119b9b5c01ea3d223eecf538b7f80bf1b175
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 15:45:51 2008 -0500
+
+    only build test libraries when we are running unit tests.
+
+commit 70f82b738ac6bd764be06e39ac62630e396ce741
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 15:45:22 2008 -0500
+
+    osc updatepacmetafromspec doesnt like it if %description line has anything on it.
+
+commit 9c22d839647a181027b913ccaf05133cbd40f745
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 15:00:45 2008 -0500
+
+    update message extraction
+
+commit 02cf0b3b24169c34e56ed73ad0af35bf1a8c9ffc
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 14:59:44 2008 -0500
+
+    update string extraction
+
+commit 3740fa03e3dc4080f17679d7dda6b781951c1224
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 14:59:30 2008 -0500
+
+    add common.c for string extraction
+
+commit 21f4c2503048ffcf9a310ed8592af5b535a39367
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 14:58:36 2008 -0500
+
+    dont need to call libc textdomain stuff.
+
+commit 4b9594830817b381cfa00677ab7404868207f50f
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 14:39:45 2008 -0500
+
+    add a couple more debug prints to see if gettext enabled.
+
+commit 4e19dfdaa3c8df8d85990161152e4f2585b71595
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 14:39:23 2008 -0500
+
+    use LIBSMBIOS_C macro (cut/paste error). add a debugging string so we can see if gettext enabled.
+
+commit 27cf9d5a3cd7504bb8fcdf304e3185931588ef25
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 14:38:36 2008 -0500
+
+    fixup fnprintf() macro to work with gettext.
+
+commit 7d03b641f1fde00d30b81a6aee81f6ced9e511cc
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 02:40:31 2008 -0500
+
+    mark strings for string extraction.
+
+commit 70d30f6b4b352be58b6b78bce042163b1e7ef185
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 02:39:41 2008 -0500
+
+    update string extraction
+
+commit 2820dd5402c42a48e3a131bc1d28dfb96511c889
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 02:39:02 2008 -0500
+
+    update translated sources list
+
+commit 5d34716f59d87b6a8ad1d6082fdd06ee7065a785
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 02:37:57 2008 -0500
+
+    add proper fnprintf() debugging to constructor.
+
+commit f3913fb11344052febf9473ee60040d308a6d9a7
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 02:27:46 2008 -0500
+
+    add constructor for lib that calls bindtextdomain.
+
+commit 80f73c8200845ca929b94db07f66f79ac9ffa15d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 01:20:31 2008 -0500
+
+    update message extraction to include python.
+
+commit 3b8fb997d69f6bcc0d0cedd8f8a03a04f773080d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 00:59:35 2008 -0500
+
+    add en string translations file.
+
+commit be36fffe73f3d1322944a97c68e3cb00e06c2506
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 00:38:36 2008 -0500
+
+    add en locale
+
+commit f920177ff3101075a6e80eb3b58a8597dd1c9a37
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 00:38:10 2008 -0500
+
+    start localizing python code.
+
+commit 5b6dc131e00752ef07e626b64668d613393ba3d6
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 27 00:31:36 2008 -0500
+
+    export GETTEXT_PACKAGE so we can use it in makefile shell scripts.
+
+commit 03f7f50fd8a990546fe431538ae645486e0e5947
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 26 01:32:17 2008 -0500
+
+    add l10n files to rpm.
+
+commit 25e9ebf7b0f1c5fcc3a7cbf196f6c71749fc6c66
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 26 00:54:57 2008 -0500
+
+    add default bare translation strings for default languages
+
+commit a7ff80505820dc00d099cfe05ac58b89406cc90e
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 26 00:54:37 2008 -0500
+
+    add define for localedir and libintl
+
+commit e3d370a4c574d93af1d2ea0a27317c48b14485e7
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 26 00:54:14 2008 -0500
+
+    fixup tokenCtl to use new variable names substituted on install.
+
+commit c5654a7d7d272d6a0d5d883f03db5c235efc5d81
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 26 00:52:11 2008 -0500
+
+    define a var especially for gettext package name.
+
+commit 602dbadc69d8bcd945451532bd150935974c9b05
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 26 00:51:51 2008 -0500
+
+    always include top-level AM_LDADD in program _LDADD vars.
+
+commit a99588933d193dbfc359079d33f4ef9069a86e3b
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 26 00:49:56 2008 -0500
+
+    simplify install-{exec,data}-hook.
+
+commit 6c62e3d018789bb01a3d671bd6a5c2b7cf32c8e3
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 23:21:43 2008 -0500
+
+    update string extraction
+
+commit 4b9760d3703ec32247843acae6785d160b95a601
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 23:19:18 2008 -0500
+
+    update list of files for string extraction.
+
+commit b87384b6aa3c1eed6d57220ff73a7f3a12d1f22c
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 23:18:49 2008 -0500
+
+    add python binaries to install and rpm.
+
+commit 82485c7b88c7101bbf5ad5c3e6485da8541444dd
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 17:15:08 2008 -0500
+
+    remove remnants of token xml since it is unused.
+
+commit 916e0540e4a2c3a382cdbdf93d7879c0aa563477
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 17:09:08 2008 -0500
+
+    add pattern matching to name match. tweak output format a bit. remove unused cmdline opts.
+
+commit 2d0b7f304e768f095fd8f1d0594e20f672fb24cf
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 16:41:36 2008 -0500
+
+    add debugging prints to trace. Run cmos callbacks manually if we rewrite anything to ensure that if we update a checksum that itself is inside another area, all the checksums get updated.
+
+commit a098cc214763b00b0b27bdc393bdd2eac374fac4
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 16:11:43 2008 -0500
+
+    lock callback so we dont recurse.
+
+commit b85e464f6a16031a468a668f7a8239abeaea841c
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 16:11:02 2008 -0500
+
+    reuse cmos_access_obj from the caller inside the checksum functions.
+
+commit 3c2705cbb37928ac4bd3da777c582793989c6708
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 15:53:54 2008 -0500
+
+    add partially tested tokenctl python binary
+
+commit 4960f615d2b6114b62b616b8277dcd4aa057e37f
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 15:53:37 2008 -0500
+
+    begin adding token functions to python interface.
+
+commit c330cccc3f428022980210da7aba9008a6eb1e97
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 02:00:45 2008 -0500
+
+    start adding strerror() infrastructure for token table.
+
+commit 95265cc8a70d627475d5f844a4adaac3251cd819
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 02:00:03 2008 -0500
+
+    avoid passing null pointers to strlcat.
+
+commit 4fd98f41821c05de45651b3b56de7f644631a6b5
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 01:59:33 2008 -0500
+
+    add definition for c_bool if not present.
+
+commit 246ff784436fae4ec277f149c8c0c762299933f6
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 00:48:42 2008 -0500
+
+    simplify strerror handling: no per-os strerror functions or strings, put them in main obj for simplicity.
+
+commit 006d6dd71627d4b45ef261e1cee98b2413ffea8d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 00:21:15 2008 -0500
+
+    if() not needed, just use smbios_table_free()
+
+commit 16a94e570d460ab4c1742b859f4432aa24fc6ddf
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 00:19:41 2008 -0500
+
+    cut-n-paste error in function definition.
+
+commit 73783139d352d20652d97e02e157744e3271dc85
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 25 00:02:08 2008 -0500
+
+    fixup token_factory -> token_table_factory rename
+
+commit c96c55a0e4fe703265771a5d8ad1bd2b7d8212d1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 24 17:01:43 2008 -0500
+
+    token prep: add stubs for strerror. add dllspec for obj/token.h. start fleshing out token.py interfaces.
+
+commit 74687bc4d08d0e40dae9a6c617e4f02818f4867e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 24 12:47:33 2008 -0500
+
+    fixup cut-n-paste error.
+
+commit b08daf6f95100592b397ad52d558758d0721ef6d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 24 12:47:12 2008 -0500
+
+    use generic helper functions for tokens rather than manaully searching table.
+
+commit 3fcced3fd8d2915a78ce844f1fa24b13fa62e7f1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 24 01:30:41 2008 -0500
+
+    implement more smbios functions.
+
+commit 13e8027b1c6f3e363af658b4b3119cc390c31332
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 23 18:08:25 2008 -0500
+
+    start implementing smbios table access and structure functions.
+
+commit 6427333eaf913e6bbd0e00aecc14214dfe8be73c
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 23 17:32:46 2008 -0500
+
+    updated .gitignore for added autoconf files from python.
+
+commit f4272556f538851c43373abfc0d1ed3ada9c306d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 23 17:05:41 2008 -0500
+
+    more string extracts.
+
+commit acee0516f52ee9f9c5b01987c5901d767f43ac8e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 23 17:05:16 2008 -0500
+
+    add python sub-rpm to the build.
+
+commit d873f1838692bf8250b7cd7999f936a4a1388e7d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 23 10:49:07 2008 -0500
+
+    split c/c++ library rpm.
+
+commit db322d51bcfcdc155c9f32d14851b0ae593a06d5
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 23 10:47:18 2008 -0500
+
+    fixup memset() that ran past tag buffer.
+
+commit 7ee7e5eda948e2bd150216460f5fcb65abac61df
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 23 02:25:17 2008 -0500
+
+    format error strings a bit better.
+
+commit 1bb370bce468c6f48d3b4b7338346f9259c183d6
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 23 02:18:52 2008 -0500
+
+    fixup crashes caused by freeing static data and trying to deref null pointer.
+
+commit 5527f8c688bb248357b0c00f5bbf563d3737d003
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 23 01:56:15 2008 -0500
+
+    dont free() statically allocated data. start adding error messages for smbios functions.
+
+commit d826066beb5519572f1f4e33508a30eab42997f9
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 23 01:53:47 2008 -0500
+
+    more files to pull msgs from.
+
+commit 1718ca270ab27ae485fb43099b96608091d4baac
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 22 17:25:52 2008 -0500
+
+    fixup distcheck... add new headers to dist.
+
+commit 656711961346b4a2552e801b8899671835a60150
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 22 16:38:52 2008 -0500
+
+    fix for distcheck, typo in filename .cpp should be .c
+
+commit 825fb65367c757969632e8432af0d91da59e6b6a
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 21 17:12:16 2008 -0500
+
+    add placeholder smbios python interface.
+
+commit 76bdfbbb4e72791f0dcc0fcefb2fee8320e591f0
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 21 17:11:52 2008 -0500
+
+    remove obsolete comments.
+
+commit 2787e164c3c0a0f25767e5b99c7b34804b91bb1f
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 21 16:03:48 2008 -0500
+
+    add strerror() functions for smbios
+
+commit dd21acc271f3335f2db4f22d691129c63cc7f4f1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 21 13:02:29 2008 -0500
+
+    use underlying library singleton by default.
+
+commit eeae721e16c89cb7093aa744cc7d29e6870c0eae
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 21 13:02:18 2008 -0500
+
+    add cmos python interface.
+
+commit f265a8db939320defa7ebb381376b6e2176ffba1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 21 12:24:46 2008 -0500
+
+    add initial msg catalog
+
+commit b34636dcb476f51716b34a2a206add566e6ee2a2
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 21 12:24:34 2008 -0500
+
+    better _strerror() function, more generic, use lambda for errcheck.
+
+commit 1db2d873510fa13063188566d00c98fda0cd6006
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 21 12:23:48 2008 -0500
+
+    avoid crashing on construction failure.
+
+commit 22e9213b7a9b22a5a1c110fc2c60a96b96be0434
+Merge: ed47e1a... 484d56d...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 21 11:40:23 2008 -0500
+
+    Merge branch 'master' of ssh://mock/~/git/libsmbios
+    
+    * 'master' of ssh://mock/~/git/libsmbios:
+      add strerror() and friends for cmos. dont crash on null pointers in param lists.
+      return_mem() function in memory_obj.c should be static.
+      remove stray DLL_SPEC from .c file.
+      better return codes for bad buffer ptr and bad memory_access_obj.
+      memory object construction can fail.
+      add check for null pointer return from factory function.
+      factor common code. add null pointer return check function.
+      add real i18n header. add these files to translation list. start adding support for getting an error string if construction fails.
+      add *_strerror function implementations. Make memory class resistant to passing in null pointers.
+      add exception handling where we initialize exception string from the library.
+      add args to the rest of the exception calls.
+      add unified setup/teardown for unit tests.
+
+commit 484d56d4d9d10a24949baf038bcb9357d34280d2
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 21 03:00:59 2008 -0500
+
+    add strerror() and friends for cmos. dont crash on null pointers in param lists.
+
+commit 70103d31a507677261c399dd0ea6019eb3afd15a
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 21 02:51:04 2008 -0500
+
+    return_mem() function in memory_obj.c should be static.
+
+commit ed124c3e1d6a250c0ce42b454c237c59e837cbe5
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 21 01:45:44 2008 -0500
+
+    remove stray DLL_SPEC from .c file.
+
+commit 6ac2c0f541bdeb3fa16b37fafb3aaa3151bee694
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 21 01:43:09 2008 -0500
+
+    better return codes for bad buffer ptr and bad memory_access_obj.
+
+commit 5dffa553f8ee292f5d891527e5ac8ec0006fa385
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 21 01:36:09 2008 -0500
+
+    memory object construction can fail.
+
+commit fb2975ad62e807984f86c522026cec7d8081b1ee
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 21 01:35:32 2008 -0500
+
+    add check for null pointer return from factory function.
+
+commit b02b51267ee8bb74639f0b6264739bca9728bd1c
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 21 01:35:13 2008 -0500
+
+    factor common code. add null pointer return check function.
+
+commit 5c50bdc0ee77c3de4292129b5cebe23ece4d269a
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 21 00:23:03 2008 -0500
+
+    add real i18n header. add these files to translation list. start adding support for getting an error string if construction fails.
+
+commit 011910cdd408a11e4419f0412ff69c9d7e508dd3
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 21 00:07:32 2008 -0500
+
+    add *_strerror function implementations. Make memory class resistant to passing in null pointers.
+
+commit 16bb43b0601b116d58f6ab76766b22a8f983a926
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 21 00:06:40 2008 -0500
+
+    add exception handling where we initialize exception string from the library.
+
+commit f23522c41f95e2517036e9b44bc54839f05fc9b6
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 21 00:05:47 2008 -0500
+
+    add args to the rest of the exception calls.
+
+commit b6b92c716f029e7c06d6d2859ea0b5dac52f95ec
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 20 22:54:21 2008 -0500
+
+    add unified setup/teardown for unit tests.
+
+commit ed47e1a1f7cbb65a544f0fbcfbd2e12c5b7ce65d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Oct 20 12:00:41 2008 -0500
+
+    now with fewer buffer overflows!
+
+commit c9ee5cf3c8ffcb64e7d1a6367eff8b331d2ef4a3
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 20 11:46:15 2008 -0500
+
+    move smi ut setup to common code.
+
+commit 772e1e96dbbac8a7c94a5b991472c8f5275439b7
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 18 21:00:09 2008 -0500
+
+    delete strategyPtr if we dont end up creating a SMI object.
+
+commit 56bee8f254ea2d2b06e3521ea12f014baf521cd4
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 18 01:43:36 2008 -0500
+
+    dont set basedir here because it uses a value from the stack that becomes invalid.
+
+commit 803e75f23ce44c5f25ca85cf8704b11440e036ec
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 18 01:42:57 2008 -0500
+
+    bail if smi call fails.
+
+commit edbbb3a5fb0018931888e8a9ba5d8e6a339876df
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 18 01:28:48 2008 -0500
+
+    remove debugging cout statements from unit tests.
+
+commit 889a160d8b418ba52d00e8e96a2476f367b5d2af
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 18 01:27:11 2008 -0500
+
+    setup UT SMI before trying to run any tests that might cause smis
+
+commit ab879707c9c48d2c1ee0786a0fa51a9868d3ef72
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 18 01:25:11 2008 -0500
+
+    protect against null parameters.
+
+commit 8520b93999d7fdc627e533fcdedd41f891ea7624
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 18 01:12:53 2008 -0500
+
+    set res[0] = -3 immediately before execute() in case we execute multiple times.
+
+commit d7b1142e983a1052ff03fb94a8530261eaf0ae48
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 18 01:07:20 2008 -0500
+
+    make variables static since they are not needed outside single source file.
+
+commit c5218ec3bc526e9d95f45f8d4ff143c1916ab798
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 18 00:47:27 2008 -0500
+
+    add strlcpy/strlcat functions for use.
+
+commit 0954b79a604d83a6e563edb52b712afa3f548896
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 17 23:49:49 2008 -0500
+
+    add memory_obj_strerror() function and stub.
+
+commit c4a4109981a1bc13b7eca80ed91b7eaa50f3324b
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 17 23:37:18 2008 -0500
+
+    add beginnings of unit tests for python code.
+
+commit 0d0a3faa481e917b1653eafa0da55898202cb082
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 17 23:36:06 2008 -0500
+
+    change property tag set to take pass ascii/scancodes
+
+commit 472640313fdcfdf4a1e9f573ac76869164988dd0
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 17 23:35:24 2008 -0500
+
+    add asset tag get/set functions.
+
+commit 3995fdac37d445e11de911f6ac492bb5e30ec40a
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 17 23:34:38 2008 -0500
+
+    adjust function return for setting tag via smi. add declaration in private header for use by asset tag file.
+
+commit db64663e1a505aeb856773df0fe30aa5c3d96d02
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 17 23:33:14 2008 -0500
+
+    add asset tag to printout
+
+commit c31a8262caee82f61ba350fe4b48b9cba3653176
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 17 23:31:24 2008 -0500
+
+    add token_try_password() for global singleton.
+
+commit a80a9269e8d74aa95a2d5061e6c3b9514176da85
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 17 15:40:54 2008 -0500
+
+    add fn to set smi service/asset tags
+
+commit ddd1bfa353896be5e94683e2d1a9428704dba83a
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 17 14:54:33 2008 -0500
+
+    add service-tag from smi function.
+
+commit 1c53bba68763220545d396715cd4a98d237dfe02
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 17 14:42:03 2008 -0500
+
+    add smi class for doing raw smi from python.
+
+commit 8a4074ae60664530e93ea6bafa8d3f769dd3afdf
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 17 02:39:50 2008 -0500
+
+    add memory access functions.
+
+commit 4fb427ff095307306149d065b52b5d12d7c94271
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 17 02:39:30 2008 -0500
+
+    use _common functions for errcheck.
+
+commit a043e7210db131340fa65bd70e3ab0f042ea3e12
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 17 02:34:22 2008 -0500
+
+    make resistant to crashes from null pointers.
+
+commit fb28d22e691a744badde9804b4f0ce9b9dd0680c
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 17 02:25:41 2008 -0500
+
+    copy common functions into _common. currently has exception and errcheck functions.
+
+commit dce9fbe3619425a1767c0843ab5bdeb91ea523cb
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 17 02:20:29 2008 -0500
+
+    add small command for ascii-scancode conversion fn not to use it.
+
+commit 3e2e88a80812c9946925a040bc15ff1f016ef8d9
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 16 20:48:39 2008 -0500
+
+    implement the rest of the generic password functions. change get_security_key() into a loop, since docs are wrong and return codes do, in fact, match.
+
+commit 2e7543a36eed73dd4fc30e4344f8cdb1fefabeff
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 16 20:47:43 2008 -0500
+
+    strip whitespace before returning result for ownership tag.
+
+commit 73b6178a742f259125c84371bbf7d578b352b73d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 16 20:45:02 2008 -0500
+
+    slightly more informative debuging printfs.
+
+commit b428af7871f6a8be0272410dca0a17d5c06bdf9b
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 16 14:02:01 2008 -0500
+
+    more informative debug print
+
+commit 7411453bf987d1a5210fe5fa2aaec7dc9245d7d2
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 15 19:30:29 2008 -0500
+
+    add write functions for smi to python bindings.
+
+commit 4341de78884b941e4b749a08701904234e4d9737
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 15 17:45:44 2008 -0500
+
+    start adding python wrappers for smi funcs.
+
+commit c7088516a3877d29842f17803d9b7f58401f8ef6
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 15 16:01:51 2008 -0500
+
+    fixup gcc type-aliasing problem.
+
+commit 59d84836b991894b72bb6b96d3dbe6c211d3e2ee
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 15 11:38:52 2008 -0500
+
+    implement (untested) version of get_security_key, and hook up the d4 tokens to this method.
+
+commit 154d66565544d45e3705ce6e91035fe58b75a441
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 15 10:47:53 2008 -0500
+
+    implement read/write nv storage smi ops. implement minimal 0xDA token.
+
+commit 64a6e3578d446c34194402461480ae627bc520f5
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 15 01:39:43 2008 -0500
+
+    add dox for property tag funcs.
+
+commit b5aad14f5711fb73dd9549bdb52b09de8c9693d6
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 15 01:35:19 2008 -0500
+
+    rename property tag func and move to system_info.h. add python binding.
+
+commit 12e08495064dd1dbdd09259f2cdd3f86a7a09929
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 15 00:35:30 2008 -0500
+
+    begin adding python interface.
+
+commit 6ee1adefdfe505ac0f7076abb6cd6d1a3e9168e6
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 15 00:35:15 2008 -0500
+
+    fix use-after-free of args in set property tag.
+
+commit 3b29b4bf2a15b3a6876a010b670a6a286f81df09
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 14 18:17:42 2008 -0500
+
+    start looking at standard interface for smi password functions.
+
+commit e2bed9326370f3fa0e0810b4b087940c32cc4f3f
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 14 18:16:54 2008 -0500
+
+    standard way to upload to build service without extra script
+
+commit 636a3e2e7f594ac6f116bced71d470f5b34ed336
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 14 10:57:05 2008 -0500
+
+    start implementing password functions and setting property tag.
+
+commit 7422c8e4c3b90be3772027b305690318ae9365f3
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 13 23:50:54 2008 -0500
+
+    add working property tag retrieval. start adding other helper functions.
+
+commit 2d1998568b65f103ce20bb3f85d5d49ddef85e71
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 13 23:49:40 2008 -0500
+
+    naming style fixups
+
+commit 5c4987c3daa2d3fb6574f1f8814d58f7e7f25098
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 13 23:48:59 2008 -0500
+
+    linux smi_request file must be opened 'wb' mode.
+
+commit 4f2ba33201c20cbd5249851494f7e082452d9718
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 13 20:43:23 2008 -0500
+
+    implement linux smi calls, implement more unit tests for smi.
+
+commit a2992ad73918ccd45172b5f344f0073a2842465f
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 13 11:33:08 2008 -0500
+
+    add more smi unit tests.
+
+commit f2dc908936d8bf67a0beac17cf519f37b34b9d31
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 13 11:32:55 2008 -0500
+
+    add ability to skip system dump tests, as they take a while.
+
+commit 6b5763700adc8278b891765c726e4f3cd0c14ac9
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 13 09:27:13 2008 -0500
+
+    fixup access beyond end of array in service tag decode.
+
+commit ef65edac1a1653f8f073daed3134b1686ce34031
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 13 02:23:06 2008 -0500
+
+    start implementing smi and unit test for smi.
+
+commit 65bc1e52c4b1bc9130e3071da874fcf48167553f
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 13 02:10:04 2008 -0500
+
+    install unit test generator in /usr/sbin
+
+commit 7791958695c4062f0f36b312d57434f3f4d8ea34
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 13 01:48:11 2008 -0500
+
+    update .gitignore for new autotools file locations.
+
+commit ee84bec04c0102d70117b774c1ad90546c244c7b
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 13 01:45:26 2008 -0500
+
+    add test data dumps for precision 390
+
+commit f0e123e2f4b984b7bb99550a715fab1ee0c99995
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 13 01:42:51 2008 -0500
+
+    fread()/fwrite() fixup return value checking.
+
+commit 19ee49b7871bf60f76b53f28bedfc09e5844a097
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 13 01:41:44 2008 -0500
+
+    simplify test setup by using std helpers.
+
+commit 57e385453d64db647b967be2e31e52f7776c4bec
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 13 01:40:16 2008 -0500
+
+    fixup tests for systems with trailing whitespace in smbios table strings. add a helper to setup memory dump and cmos dump copies. Link in libsmbios to the libtestmain so we dont have to link into each individual test.
+
+commit 874a17fcd5585e973b50c00a39e0aaf858e85de0
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 13 00:07:53 2008 -0500
+
+    finish up cmos/smbios dump-to-file program.
+
+commit 7f4370c647050f35abec7ee15cce7a5c37587d4d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 13 00:07:30 2008 -0500
+
+    update .gitignore to remove entries that dont apply anymore.
+
+commit 5394f1d7ebaa7bb6b913299a41f9155b6443e1b8
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 23:31:51 2008 -0500
+
+    move d5 and d6 token definitions to public header file.
+
+commit 344910d71727e689a30ec6a31ea371eacc08860f
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 23:03:46 2008 -0500
+
+    add cmos unit test mode as well.
+
+commit 0dbc0b012e18d89f78c476fb4d33ad590390c806
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 23:03:34 2008 -0500
+
+    arrange getopt args in numerical order
+
+commit 4952431d8940eff82f7bc74330e60b925befeae5
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 21:21:02 2008 -0500
+
+    comment out unneeded output in test script.
+
+commit cc4977a454e99e88ab866242d43d82304eab7bab
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 17:50:50 2008 -0500
+
+    enable dimension 4400 unit test
+
+commit 6ef5342e9a868659ae07c14d41afb9f0e9662711
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 17:50:23 2008 -0500
+
+    dont return service tag with zero length, try next function.
+
+commit 8a829e2e5d91bc0c5d140df33cd25be1ac114c93
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 17:35:10 2008 -0500
+
+    fixup return value to not break script if memdump.dat is present.
+
+commit 2058f369a6f9438cbd669eaf393e54437b87cc66
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 17:31:46 2008 -0500
+
+    add new unit test dirs to tarball.
+
+commit 5bea919527a3308d496a8f8e269ae7f4d6194a14
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 17:31:27 2008 -0500
+
+    fixup NO_FIXUPS flag test.
+
+commit 1451f20b995bff6887a38029482b139e8c69d491
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 17:30:57 2008 -0500
+
+    add existing unit test data dirs using new dump format
+
+commit da4fe98ced5ca08607d70c77d9e1bbaf8de2762e
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 17:30:25 2008 -0500
+
+    add support to put together arbitrary offsets.
+
+commit 718fb01d6a80dde0f952c24b9c6b525860ab6b31
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 12:18:19 2008 -0500
+
+    dont need full BIOS HDR file for unit tests, just the first 84 bytes. Maybe at some point we will need checksum at the end, but for now, no.
+
+commit 6df8f1a6b25873530cd156f07a9952aaa4873144
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 12:07:48 2008 -0500
+
+    rbu memdump is same as opti, symlink to save space.
+
+commit 05e476d53e76adcbf39fae841d424ec858c16b2a
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 12:07:28 2008 -0500
+
+    dont need bad_data dir
+
+commit 0a24d3fed0d68b1f64645666399653a460761c0d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 12:02:53 2008 -0500
+
+    streamline unit tests
+    
+    1) enable us to run without full memdump. reconstruct memdump at runtime from smbios dump.
+    2) copy unit test data into tmpdir from script rather than having to do it in code
+    3) regen opti unit test data so we dont carry full memory dump. helps with copyright/redist issues.
+
+commit 87a04a1fdfb0b40cc017a757499d7d236a99afa9
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 03:18:59 2008 -0500
+
+    fixup fread/fwrite return code checking
+
+commit 9c3b1edd5e0e757cb5e1f438d555d2ab85e5c402
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 03:18:18 2008 -0500
+
+    fixup fread/fwrite return code checking
+
+commit 7342927afa6a844721924ecb4e14bedd619cbe98
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 03:17:39 2008 -0500
+
+    add small debugging print.
+
+commit 1e786be8e7e26e962d1ee370b97743e4d26f553f
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 03:16:45 2008 -0500
+
+    add small script to reconstruct memory dump from individual dumps.
+
+commit d7f98f760ed58fbddfac897a4844ed39087d3a88
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 03:15:57 2008 -0500
+
+    add more stuff to savesmbios - save id byte structure and system string.
+
+commit ac9f834e7b38a6816e7185783ff4c24e6b44189e
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 01:21:48 2008 -0500
+
+    fixup comment for doxygen.
+
+commit 85a957e32af43cb5f2ce0e1f0c7f17084d71eef1
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 01:21:35 2008 -0500
+
+    add NO_FIXUPS flag for smbios to get raw table (to write out unit test files...)
+
+commit d23aa3f04ed67370f776c719f4b3ce4e6ccd57c1
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 00:46:11 2008 -0500
+
+    add windows dll export tags to exported functions.
+
+commit 35ce511cfdb1a9f536ad58ebcb0d384c6bfe0b39
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 12 00:29:15 2008 -0500
+
+    document token functions and do some cleanups based on doc writing. get_string should return length as well. need token_get_type(). The get_type function should return an int, not string, for easier use. remove multiple definitions of token_free_string().
+
+commit f033159a7ef55ccdfe81cf8ae4c6ac5c8adddb9e
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 11 20:07:14 2008 -0500
+
+    add dox to system_info.h
+
+commit 9ee3caf0996a592dab71e935c07e8e8f47170126
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 11 19:57:52 2008 -0500
+
+    add docs for smbios.h
+
+commit 293f678db521e68a01a59ca42f71be46d82f35ea
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 11 00:56:46 2008 -0500
+
+    remove unused debug print
+
+commit 9f3f4eb3c10fe5e8ea0fb056bc73a9f0d7b80bed
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 11 00:56:34 2008 -0500
+
+    updated dox
+
+commit 3cdc5854f54297f51d6a148e7ddaaa7a06388cb8
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 11 00:56:06 2008 -0500
+
+    fixup deps for dox in srcdir != builddir case.
+
+commit 8cb751e5139752140f97dc9b9dbf5bea90d9e298
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 11 00:33:21 2008 -0500
+
+    tell doxygen to ignore some macros
+
+commit 3c6420285b05a7179673f367a922c62f94aba3f6
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 11 00:32:56 2008 -0500
+
+    add make deps from docs on the headers in the docs
+
+commit c7e6cfd1c57fc2737197f22fb75b267d1f212673
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 11 00:32:28 2008 -0500
+
+    fix incorrect return value for cmos read function.
+
+commit 618190ca21bdf834382198b69781e29dc7aab4e2
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sat Oct 11 00:24:08 2008 -0500
+
+    add doxygen docs for cmos.h
+
+commit bd554cddbd205b968e02f6c461a00ef86317804d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 23:59:31 2008 -0500
+
+    rename dir with c++ code to libsmbios_c++ to parallel the c code better.
+
+commit d4b1d971d70721ddf25daa6cd6520b3d02664055
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 23:57:57 2008 -0500
+
+    enable automatic brief comments in doxygen.
+
+commit 4e1cc5435893d0507867401a6a19f899e1f62bbb
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 22:57:37 2008 -0500
+
+    grand bin-supported/bin-unsupported unification.
+
+commit b511275385c3bd3df60278f3f6a8c54aec43f3c7
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 10 16:59:52 2008 -0500
+
+    rename c++ libsmbios dox cfg files. add libsmbios_c and libsmbios_c++ to %doc in rpm.
+
+commit 7f6cbb7b83e919827ae5bcdaa835350abc444f2e
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 13:45:07 2008 -0500
+
+    generate mk-rel-rpm script from configure so we replace version info there.
+
+commit a8a81a2534f53c25d3700d2887403fcbc000b14d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 13:44:31 2008 -0500
+
+    update doxygen doc output
+
+commit 30858b73444a2882273d6b588a87a3d2751afc83
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 13:43:58 2008 -0500
+
+    allow passing extra rpmbuild options.
+
+commit 1aa4d3d8933b23338610986cde32d5d40177b641
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 13:42:30 2008 -0500
+
+    remove some of the complexity from configure by no longer allowing version overrides.
+
+commit 00bc635c25c6ab511c2248d213aaf028e31cb295
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 13:41:24 2008 -0500
+
+    remove old autobuilder files.
+
+commit 3d8628179c9081046cbac29ec57c78fcc0221053
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 07:55:20 2008 -0500
+
+    remove static binaries from default build list as we can easily build them from make by setting LDFLAGS
+
+commit f9647474c42da10aa79ad810c4b5b26cdfdb2ec4
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 07:38:23 2008 -0500
+
+    only need one copy of config.h
+
+commit 5f12224a1ade5b38a861341cd4e0ae1b796ff1d7
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 07:32:29 2008 -0500
+
+    kill auto-generated version.h and replace with static. remove include where it isnt needed.
+
+commit f4f1549d9c962236d1f831071aeb5119b09fa667
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 07:01:53 2008 -0500
+
+    create config.h for use by .cpp and .c files
+
+commit 2f10531b631643cd032e2128bbadb41a56faec47
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 06:58:19 2008 -0500
+
+    add code coverage makefile target (replaces gprof)
+
+commit 0f1a44254d091ec52cf6d8184d5a46f4d23e4e1f
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 06:49:04 2008 -0500
+
+    update coverage summary utility for new paths
+
+commit 1e66229ea0bc2cd0655a3383369540fe6314b4b4
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 02:30:47 2008 -0500
+
+    compile unit tests statically so we can use gprof/gcov. add gprof make target
+
+commit dbcce8ee90d21112610e22f52e87b04322accbed
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 01:59:02 2008 -0500
+
+    increment libtool 'current' version for c interface, increment 'age' because we are backwards compatible.
+
+commit af0b710acd6c76d444b5ba9613be99c62c3b3f16
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 01:58:21 2008 -0500
+
+    dont install some of the non-useful programs.
+
+commit 90761c28849fcebe984be26cd8eeb849395942cc
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 10 01:57:39 2008 -0500
+
+    compile fix for savesmbios.c
+
+commit 846412c2b249b9169d699bc210ee793cc7bb6d30
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 10 00:30:37 2008 -0500
+
+    check retval from fwrite.
+
+commit 7f05a9ba5aeeac55be41fc482fe17ca374c6f2c1
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 9 23:56:09 2008 -0500
+
+    version bump
+
+commit 6899231b518f5eefd425d62011ed302a40be554d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 9 23:54:33 2008 -0500
+
+    fix for distcheck
+
+commit 4d09aa7ccebdbb09e3da5c4947904ad3733a5b55
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 9 23:42:50 2008 -0500
+
+    fixup wrong file extension for savesmbios.
+
+commit 3f2d816f055e22a813e027e0b9c8920b99bc9f1b
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 9 23:24:49 2008 -0500
+
+    Use autotools and libtools features correctly
+    
+    set up convenience libraries for test stuff to cut down the extra flags to pass and not have to recompile XmlUtils.cpp and main.cpp individually for each testt.
+    
+    Properly use "xx_LDADD = out/libsmbios.la" instead of the old, hacky, and wrong "xx_LDFLAGS = -lsmbios". This fixes up the dependencies as well, so we no longer have to manually tell automake that our bins depend on our libs.
+
+commit 16333a2a8170b1297e500f86ac89d3bbc02202b1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 9 23:24:28 2008 -0500
+
+    write out table correctly
+
+commit 4850a093ccf0bb32069ed914ccbb9790a7fee0b8
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 9 18:04:44 2008 -0500
+
+    fixup makefile to make proper use of LDADD/LDFLAGS
+
+commit e29fd33216915990bee73ab650a7123c281b64a8
+Merge: a885a36... 7ff0722...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 9 15:39:31 2008 -0500
+
+    Merge branch 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios
+    
+    * 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios:
+      fixup spec file to not include dellMediaDirectCtl on ia64, since it doesnt compile on ia64.
+      Only build MediaDirect progs if BUILD_MEDIA_DIRECT
+      Unset new AM_CONDITIONAL for media direct on ia64
+      Call AC_CANONICAL_HOST to set host and host_* vars
+
+commit a885a367c9070d0f499bf6b2c358e402fc5d14bc
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 9 15:38:19 2008 -0500
+
+    add bin to save smbios table to file. wip.
+
+commit 7ff072295fd26f5a6d2689a7cf5a87b5992a8a20
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 9 12:34:17 2008 -0500
+
+    fixup spec file to not include dellMediaDirectCtl on ia64, since it doesnt compile on ia64.
+
+commit 9503286fbee18df836a81ae47268ebbfdaa0b380
+Merge: e3b7991... 565004c...
+Author: Loïc Minier <lool@dooz.org>
+Date:   Thu Oct 9 17:34:20 2008 +0200
+
+    Fix build on ia64 by disabling media direct
+    
+    Merge branch 'ia64-support'
+
+commit 565004c19640a6134330b6c4b065efcb99771365
+Author: Loïc Minier <lool@dooz.org>
+Date:   Thu Oct 9 17:32:46 2008 +0200
+
+    Only build MediaDirect progs if BUILD_MEDIA_DIRECT
+    
+    Only add out/dellMediaDirectCtl to sbin_PROGRAMS and
+    out/dellMediaDirectCtlS to EXTRA_PROGRAMS when the BUILD_MEDIA_DIRECT
+    conditional is set.
+
+commit 1adaa63f01291e75ff7ba9a67806ca873e8a550c
+Author: Loïc Minier <lool@dooz.org>
+Date:   Thu Oct 9 17:15:59 2008 +0200
+
+    Unset new AM_CONDITIONAL for media direct on ia64
+    
+    Add a new AM_CONDITIONAL BUILD_MEDIA_DIRECT which is set to false on
+    ia64.  The manual assembly in the media direct sources fails to build on
+    ia64 as it relies on more registers than available on ia64; there's no
+    ia64 system with media direct, so it should be disabled on ia64.
+
+commit b9269ee462f2d52ee63d1698cfa734a9355eadfe
+Author: Loïc Minier <lool@dooz.org>
+Date:   Thu Oct 9 16:39:47 2008 +0200
+
+    Call AC_CANONICAL_HOST to set host and host_* vars
+
+commit b37590ce7427eef98ff8a2a5fc9754101673c45c
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 9 02:20:42 2008 -0500
+
+    add test for leaks in smbios obj.
+
+commit 864dd03357c6fcbc37e20d92c250d1ada2011027
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 9 01:29:58 2008 -0500
+
+    call cmos_obj_free() when we get singleton from factory to accomodate future cleanup() actions.
+
+commit 97c0eede53239506e425942a4e6091c0253a81de
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 9 01:27:43 2008 -0500
+
+    call memory_obj_free() when we get singleton from factory to accomodate future cleanup() actions.
+
+commit b951840ee8a9318316b90dd4bdbfe3e80d51bcee
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 9 01:26:46 2008 -0500
+
+    make sure we dont return before we free... doh.
+
+commit 69a1a21ba557b84f567a102a0276af6c56d0cea2
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 9 01:23:30 2008 -0500
+
+    fix bug in smbios_table_walk where it erroneously free'd table. in smbios functions, call smbios_table_free() even though it is a singleton in case there is any future cleanup that happens.
+
+commit 135746f6fa42f90064a81c5e298feea828c5e356
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 9 01:19:11 2008 -0500
+
+    make valgrind target a bit more elegant.
+
+commit de3d48af6ad645b3adf65fbc6242f80b8de558d9
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 9 01:09:02 2008 -0500
+
+    little bit more stress on leak test.
+
+commit cb4274c97c99f85c60b528168c2336ce1958f956
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 9 01:07:00 2008 -0500
+
+    add ability to turn on all debugging at once.
+
+commit c16530f49f53542921db4aa231812cdd374509f8
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 9 01:05:24 2008 -0500
+
+    remove redundant if(), it is safe to free(0).
+
+commit a9464a6cfb845d13c2fe6bd3d9069d20b323038b
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 9 01:01:33 2008 -0500
+
+    fixup memory leak when user doesnt use singleton but rather does individual objects.
+
+commit 76ab389f60d0bc04d4e1da28857d4d7cf672157d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 9 00:12:32 2008 -0500
+
+    add standardized DCOUT/DCERR to outputctl.h that works with both smbios and smbios_c. convert tests to use new, shorter version. Add test for memory leaks in smbios/cmos construct/destruct.
+
+commit 1e8cb3b0e41fb9e9f07d70d1227ec8bbf60c847f
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 9 00:09:59 2008 -0500
+
+    use proper std test start for smi test.
+
+commit 5c9f373be8382a3709b9112b06a81546463d6066
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 9 00:09:08 2008 -0500
+
+    use new shorter debug output syntax
+
+commit 23e1a622fe7a25b76a9ad49c63a7217b7b93ccdf
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 8 23:57:40 2008 -0500
+
+    another small simplification for debug output. individual files can just #define DEBUG_OUTPUT_ALL to get DCOUT/DCERR.
+
+commit b1562735917a6e18b961737ae77c945428d4fef5
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 8 23:39:08 2008 -0500
+
+    make outputctl work with both smbios and smbios_c.
+
+commit f15e91b6d3b47312b7f552b6414db63fc4442492
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 8 23:34:37 2008 -0500
+
+    consolidate DCOUT/DCERR defs now that we define in common header
+
+commit ca09dbc545eb569a733808bdd52edbd6d981a672
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 8 22:56:48 2008 -0500
+
+    spec updates to add valgrind checks during build.
+
+commit 1a2527546f5c3e858eca6fcbc0f7f9aea5ef5da1
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 8 22:36:03 2008 -0500
+
+    add MIT license to smbios schema and convert to dos format.
+
+commit a35ea2b0d34c65f866462e25131f99c4956e58dc
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 7 17:32:38 2008 -0500
+
+    add stub unit test for smi
+
+commit dad92a2252402fd54043ce9eb4190cd04c6c8274
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 7 17:28:01 2008 -0500
+
+    remove arg class as it conficts with c++, leave out varname.
+
+commit fb710940b32af00125385b89c8961e223515756f
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 7 16:21:51 2008 -0500
+
+    stubbed-out smi functions. compile tested.
+
+commit f6da895efbad5a22c6f3fb0e95993df6424a15a4
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 7 15:26:25 2008 -0500
+
+    add common/ dir to EXTRA_DIST to make distcheck happy.
+
+commit d76be34706c2ed7a4c38e05c2ce3be801bdbbba8
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 7 15:04:32 2008 -0500
+
+    add common/ include directory and move defines like dbg_print, FSEEK, etc to them so we dont pollute other users namespaces.
+
+commit 745878edbb1f577ca079e83558aa9791d1efc9eb
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 7 14:03:43 2008 -0500
+
+    dprintf -> dbg_printf. Move definitions of dbg_printf into std compiler headers and let individual source files enable debugging if requested (default is off).
+
+commit 51dfa6d36f18e0a3e621d2d2e88d88ffc27e48d9
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 7 12:50:42 2008 -0500
+
+    s/LIBSMBIOS_SOURCE/LIBSMBIOS_C_SOURCE/; move _snprintf define into windows platform includes.
+
+commit bda07e0ae857a4715b5941f365ec49ab19f75a8d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Oct 7 12:28:08 2008 -0500
+
+    centralize __internal and __hidden defines inside appropriate compiler-specific include files. remove defs from individual files.
+
+commit defe4a5129d5874a454cbb7b1941fceb3c5da418
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 7 12:16:42 2008 -0500
+
+    start adding smi code.
+
+commit 5959c92213885ce708788f123a91f31e4ce52ad8
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Oct 7 00:56:16 2008 -0500
+
+    add token.h header that was missed in the last commit.
+
+commit 39577b2891d36a88e85df318aa58bedfd6166b5c
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 6 23:31:26 2008 -0500
+
+    split token functions into obj-oriented base + helpers
+
+commit 9e5b03689dd1516b66a026cf7a773220531ad9ab
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 6 22:58:19 2008 -0500
+
+    rename sysinfo functions to be prefixed with sysinfo_ rather than smbios_.
+
+commit b47b5869d1cff84b557b46d91f4a7a80ae604ed7
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 6 22:21:15 2008 -0500
+
+    split smbios functions into obj-oriented base + helpers.
+
+commit 90de6a5e18e9d40644b2d420d22f4f4748c23923
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 6 20:35:14 2008 -0500
+
+    make include/smbios and include/smbios_c files compatbile, ie. can include either and they dont conflict.
+
+commit 8c3dd35b24108dc5a66a4ab7f46f535874d3e19f
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 6 12:43:24 2008 -0500
+
+    add make target for obs upload
+
+commit daf5c8ed76c6550af6c7059365d077b5c47db363
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 6 12:43:07 2008 -0500
+
+    fixup debug define to be more correct for the undefined case.
+
+commit 3d1547230a7c6aff4790bcd78c473cd822591a21
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 6 12:42:24 2008 -0500
+
+    add debug prints, change test file initialization.
+
+commit d1911f0836c4c62ccfe63c606f4b14e2719eaa8d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 6 01:52:50 2008 -0500
+
+    small optimization: skip munmap/mmap if we are already mapped at this location.
+
+commit ea975c7de8c49ff960acc5ac645c7d5b88a733af
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 6 01:26:27 2008 -0500
+
+    refactor copy_mmap() into more logical sub-functions. make code smaller and easier to read/maintain.
+
+commit 69b89c58ad577eccbd0e82f86640077d38182e42
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 6 01:25:57 2008 -0500
+
+    remove incorrect and unneeded dprint()
+
+commit b8046e1542160265d25b77f5f6f82e1c5956c644
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 3 23:38:29 2008 -0500
+
+    split out cmos into simplified singleton methods and object methods.
+
+commit 9b801a1df36eae2164d872f0a43f9fec28861148
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Oct 3 23:37:19 2008 -0500
+
+    comment out not-yet-implemented fmt_err function
+
+commit 6856ed2bad817186db34241b9084c556b2fd6b4e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 3 17:44:41 2008 -0500
+
+    fix bug where we re-opened memory file each time.
+
+commit b8608d06f57e57e0a0019e2a5892ed8cd78513d9
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 3 14:50:24 2008 -0500
+
+    fixup compile to work on SLES10 from git (autotools on suse is older and requires tweaks).
+
+commit 0db550626cbb291cc6c28c832e183d729ce50859
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 3 10:33:30 2008 -0500
+
+    add integrated valgrind to unit test suite via 'make valgrind'
+
+commit 0fd168d3225275c5dfd4163b75df23c7c886ced5
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 3 09:43:19 2008 -0500
+
+    cleanup unit test includes. move iostream/iomanip includes into outputctl so they are near what uses them. remove fstream include as it is only needed in unit test main.cpp now.
+
+commit 0818dce55c3046cca878a4533a4e4bfaac330289
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 3 09:42:53 2008 -0500
+
+    remove a level of indentation by using goto out
+
+commit 554b1651881676018c1d2a9b8d32c4bc57d74371
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 3 03:40:19 2008 -0500
+
+    add braces to avoid ambiguous 'else'
+
+commit 34e43c79c74f60e54a3e0a0412a4183e310eaec7
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 3 02:40:21 2008 -0500
+
+    fixup spec file for new bin.
+
+commit 5a551dbed258a55045ab2e1d00c0063a362ec7f8
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 3 02:40:01 2008 -0500
+
+    fix innocuous compile warning in test suite
+
+commit 41051fcbdf6306cd1bc58751b57675ed1d21e03a
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 3 02:27:34 2008 -0500
+
+    trailing whitespace cleanups
+
+commit f59005dab90fc355fe9e6f5c6c2846037d39deba
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 3 02:27:16 2008 -0500
+
+    place unit test files in out/ dir
+
+commit 686e2a6f6339ab98a03f9003e099a4d4d129c393
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 3 02:26:44 2008 -0500
+
+    split memory ops, default ops that operate on singleton and ops that work on objs. Should make main memory.h header easier to follow, plus easier programming.
+
+commit bb6e5d93bb9b02402948d9b0a46bb2aa74c37892
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 2 16:06:17 2008 -0500
+
+    add new main.h to makefile to satisfy distcheck.
+
+commit 72b93bcc5be1ad280e4a2278b90b26cb3986c6c6
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 2 16:04:36 2008 -0500
+
+    fixup unreferenced variable warning in non-debug builds.
+
+commit a2707f066b23a9cf697ae0a6e230ed8fcd1564dd
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 2 16:01:58 2008 -0500
+
+    add missing headers to makefile to fix distcheck
+
+commit 6d15d451cd2b57ae774f40ac8faf68f83bdf92a5
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 2 15:58:54 2008 -0500
+
+    move checksum type enum to public header to fixup distcheck builds.
+
+commit 3373303583e5ae7f14e59752569b8398464dc2d3
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 2 15:56:32 2008 -0500
+
+    fixup makefile from platform->test_data dir rename.
+
+commit 9d06d82f8bd1fd0cf4a9eb7fed8c4293e58ded9b
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 2 15:21:18 2008 -0500
+
+    add fixups for buggy bios
+    make smbios_get_next_* return non-const
+
+commit feb54cbab09a5b43c0b5c47e1bb311f15cb7ec1a
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 2 15:21:03 2008 -0500
+
+    small cleanups to debug output. bugfix to not setup checksum for start==end==location==0.
+
+commit 3e4fc79292eeb41c16a0d14963ba5dad8bc11472
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 2 15:19:38 2008 -0500
+
+    trivial fn renames to conform to c naming guide.
+
+commit 2f2b7a87aebdbdfad4eda0681fd49b5555ccfd21
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 2 15:18:55 2008 -0500
+
+    guard dprintf #define against multiple definitions. add definitions to couple cross-object functions to smbios_impl for convenience.
+
+commit 4c80be6cb394dc583e96dd2a767b8300abb0d9cc
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 2 14:03:04 2008 -0500
+
+    register cmos checksum observers. implement unit tests for cmos checksum.
+
+commit 92a1e06222c10f2f9395d3612f0d5d8b46d52cd8
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 2 11:53:36 2008 -0500
+
+    initial implementation of checksum of cmos locations on write. untested.
+
+commit 0e013ce22ad8f73733ef4743683f2d034d1cff8e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 2 10:09:57 2008 -0500
+
+    add a way to manually run callbacks in non-updating mode.
+
+commit f665b93cf7f524c48ac82c4312b8889ac5875d94
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 2 10:09:34 2008 -0500
+
+    remove printf() from test.
+
+commit 246a53c56ec653440d7fa534e8af012794900608
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 2 10:08:34 2008 -0500
+
+    add stdbool to types.h so we dont have to include it individually. remove from where it currently is in.
+
+commit 9efbc71e834d5565b6eeaabb7083ebec287aa06a
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 2 02:31:33 2008 -0500
+
+    add base checksum algorithms.
+
+commit ef2e593728478e117f36a108a55b81f54be7e0b1
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 2 02:31:00 2008 -0500
+
+    fixup unit test write fn to use correct offset calculations
+
+commit f6ec18b7c75ccc4b58248861cb54a656fd6b83b1
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 2 02:17:13 2008 -0500
+
+    add checksum to service tag
+
+commit e6a72596d87da7b8d38832b1389afbb7a16ad070
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 2 02:16:54 2008 -0500
+
+    add accessor to get token_ptr. user is responsible for casting correctly.
+
+commit 9fa036c3a7a16404ae6c3c6ad25323b6e7d962ec
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 2 02:15:52 2008 -0500
+
+    fix service tag test if service tag returns null.
+
+commit 631b08c97d580d0a3f2e6f1780a3699d753288bb
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 2 01:39:59 2008 -0500
+
+    move structure definition into public header.
+
+commit f79ea4f5a1c7be45b9793f98a2c7094d0d62ddcb
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 2 01:36:30 2008 -0500
+
+    add minimal service tag from cmos... missing checksum for now.
+
+commit d5092fac990e93f604b9b90a1b8313796da7347e
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 2 01:36:02 2008 -0500
+
+    make cmos UT mode compatible with existing cmos dumps. add debugging dprintf() statements.
+
+commit 34601273c092027dbb13d3b4bb89755fc3f7c4e9
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 2 01:35:17 2008 -0500
+
+    add dprintf()
+
+commit c1016bcca6fc1077381f9f455625eb5e4c4a4633
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 2 01:33:05 2008 -0500
+
+    set_string requires a size param.
+    implement set_string
+
+commit a2fcab64a6f5b7c91fae80eec170bb5d993d91f9
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 2 01:32:40 2008 -0500
+
+    comment out UP test as it takes too long.
+
+commit d8fff61da79290c03f5cd0255b94ad44a296cc5f
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 2 00:19:50 2008 -0500
+
+    int->bool retval where we need a bool. implement more d4 stuff.
+
+commit f0d8c3de261ca7cb4567daa44e36713d3246a7c9
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Thu Oct 2 00:18:55 2008 -0500
+
+    switch order of args for cmos read/write to match arg order for memory read/write.
+
+commit d6bb92550103cab6f655b77dcaa1611c79309925
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 1 23:02:24 2008 -0500
+
+    finish token forwarding functions. add stubs for all d4 functions. add unit test harness.
+
+commit 214aa0e14dec829b6f4bee72b25785709c8e5342
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 1 23:00:57 2008 -0500
+
+    remove unused header
+
+commit cfba0efbd0918a4ca0139b457a28d076f1e2e26b
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 1 23:00:32 2008 -0500
+
+    slight style fix: single entry, single exit
+
+commit 2edb60b3470dc8b8cd8bb7e2c892204d0d940d44
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 1 18:28:22 2008 -0500
+
+    stub out remaining functions for d4 token.
+
+commit d48238a5659a4fd2e7e4ee1a90cc8989ebef76de
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 1 18:22:36 2008 -0500
+
+    fixup syntax errors from splitting out d4 stuff into its own file.
+
+commit e559649af852591bd2853079551386b736ff9a11
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 1 18:09:54 2008 -0500
+
+    start adding support for tokens.
+
+commit d7f6fd5c5a0b261a51f17479432be7dcc42d1301
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 1 18:09:45 2008 -0500
+
+    begin adding support to pull service tag from cmos.
+
+commit b667c2ac5bb2620f3bee0f8f1b00f1078dbd50fd
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 1 18:09:27 2008 -0500
+
+    fixup c++ header include inside c headers. use the c version instead.
+
+commit 0b69ee2e6c76674715205336c588b5ef1048f99f
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Sep 30 17:24:40 2008 -0500
+
+    add #include header for when debug enabled to enable printf.
+
+commit e21831ef17c505c147ab4651a00aa06b04584e10
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Sep 30 16:54:59 2008 -0500
+
+    remove unneeded headers.
+
+commit f00b73e47d502160369075263954c58fbfd174d7
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Sep 30 16:53:07 2008 -0500
+
+    remove unneeded includes. add code to read/write cmos on linux.
+
+commit 4cf2940a3c3afeb08e534584ce0b06ef679e5861
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Sep 30 16:49:34 2008 -0500
+
+    remove unneeded #includes
+
+commit 333642f9d8258614484577ce6e637e463ffd3721
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Sep 30 16:41:39 2008 -0500
+
+    enable callbacks for cmos writes
+
+commit 2f8e5eee262f3f39b235d2e207f3ce567f0323d1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Sep 30 16:41:25 2008 -0500
+
+    fixup type for cmos callback fn.
+
+commit 515a07f416832ae7632446d97c79d6b326e2d577
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Sep 30 16:16:13 2008 -0500
+
+    start adding write callbacks
+
+commit 2778d5278cc219cbf6d9542252b871312bb4c740
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Sep 30 15:20:57 2008 -0500
+
+    split out UT functions and add file for linux functions.
+
+commit e9e0669d4c3f1b30ed018d14735ad97e89555358
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Sep 30 15:20:20 2008 -0500
+
+    add missing LIBSMBIOS_SOURCE def
+
+commit 28666501938694b9ceb29665267f04fc46e16890
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Sep 30 15:17:22 2008 -0500
+
+    remove extraneous {}
+
+commit 301e063ee8e7ebe86789fc377974dfedb2eee17e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Sep 30 14:38:17 2008 -0500
+
+    rename struct cmos -> cmos_obj and cmos_free -> cmos_obj_free
+
+commit 72cc77fe70488367b2899a540098fa5f5d158321
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Sep 30 12:58:43 2008 -0500
+
+    add more sys info functions and unit tests.
+
+commit 36da871c16eecb16c47999ffc9e8fb6464938b3f
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Sep 30 11:27:28 2008 -0500
+
+    rename smbios_free -> smbios_table_free and memory_free -> memory_obj_free. Start adding more sysinfo functions.
+
+commit 8f671092409df4947f480a1d2a4bc2ee1b8ae0c6
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Sep 30 11:25:37 2008 -0500
+
+    always autogen in source tree.
+
+commit 1e76b7b1c17bb8a0018ae7da96f4ca55bb1d3cfb
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Sep 30 01:31:12 2008 -0500
+
+    add lite version of getSystemId that will eventually replace full version.
+
+commit 8f2e40afcaea02d87455fd2827b95d0fdaf9b4d1
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Sep 30 01:19:41 2008 -0500
+
+    add version functions.
+
+commit 4779deb9c7e83949521c30be9c60b0f0b0a1077a
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Sep 30 01:11:30 2008 -0500
+
+    add additional version info. remove unused version.h.in. stop copying smbios_c/version.h as it wont be the preferred header.
+
+commit b4743d2f07b23ba46d941229874b01201293742c
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Sep 30 00:57:26 2008 -0500
+
+    add functions to get system id from c code and unit tests.
+
+commit c3220eab2db8d88648fed81940716e5de4bb9907
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Sep 30 00:56:27 2008 -0500
+
+    rename struct memory to memory_obj to not conflict with c++ namespace. fix unchecked pointer access crash in smbios loop.
+
+commit c2daf8b519c294f6e7a840158de99b25fdce740d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Sep 30 00:54:19 2008 -0500
+
+    add looping statements for ease of use
+
+commit 0e6dd96f93a642ff083002b86a1dcfc402453453
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Sep 29 23:09:11 2008 -0500
+
+    move around some of the test .cpp/.h files to get rid of unneeded dir structure
+
+commit df33b86e2351934033968a595faa555590f1a06d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Sep 29 22:26:40 2008 -0500
+
+    implement accessor functions and unit tests for such.
+
+commit 95978a6cb179abbec3de88288fb82913938aaca9
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Sep 29 15:14:18 2008 -0500
+
+    start adding smbios code. get table from memory. add placeholder unit tests.
+
+commit b887c44781ce6a634852750fbf3363732a9fdbf3
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Sep 29 15:13:09 2008 -0500
+
+    make cmos api more const correct
+
+commit be897afacc5f446fc70fde473c2989d83ce95da0
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Sep 29 15:12:45 2008 -0500
+
+    make memory module api more const-correct.
+
+commit ee48101541e58cd147fbcf67011d35e06d5c5dcd
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Sep 26 17:29:42 2008 -0500
+
+    factor out common functions into main
+
+commit 84d1629c2daa049d6c23016ce4a48a1248a88d4b
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Sep 26 17:20:34 2008 -0500
+
+    initial commit of start of unit test framework for c-based smbios
+
+commit 69aba266e899a2ea86da7b7febb0149b715af2b0
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Sep 26 16:58:20 2008 -0500
+
+    streamline test cmdlines to remove unneeded params. remove unused global vars. rename c unit tests because we are going to add more.
+
+commit 16aa75b7e7337c0ad811fce8c64a3a7d80311f09
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Sep 26 16:56:44 2008 -0500
+
+    remove redundant stdbool check.
+
+commit 9e36a36ebd2904a311a08ae99b54e9422728f306
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Sep 26 16:56:25 2008 -0500
+
+    fix find statement to work with builddir != srcdir
+
+commit 721a2e79ed19064ee4a545ceeae3671937093062
+Merge: 749c114... eefc88b...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Sep 26 11:01:47 2008 -0500
+
+    Merge branch 'master' of ssh://HOME_BY_PROXY/~/git/libsmbios
+    
+    * 'master' of ssh://HOME_BY_PROXY/~/git/libsmbios:
+      start adding skeleton smbios code.
+      better name for error formatting. make caller allocate.
+      fixup comment.
+      add helper functions to suggest memory subsystem close or not.
+      whitespace cleanup
+      add c99 build flags and check for bool type.
+
+commit 749c1140cc33fa2d737b0ed560bda28fcd1c278b
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Sep 26 11:01:43 2008 -0500
+
+    build static bins as noinst_PROGRAMS
+
+commit eefc88b20a1a90c54b3c347513867003cac3c629
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Sep 26 01:49:54 2008 -0500
+
+    start adding skeleton smbios code.
+
+commit a89b7d992b9f0fd910dc97c8f67d864d84cefb91
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Sep 26 01:48:31 2008 -0500
+
+    better name for error formatting. make caller allocate.
+
+commit a7c6bb7a02835ed36da08ea5fa4026ea839cfb85
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Sep 26 00:34:01 2008 -0500
+
+    fixup comment.
+
+commit 5a5f818e9555e53d7d37a7af69559fdd233711c2
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Sep 26 00:32:45 2008 -0500
+
+    add helper functions to suggest memory subsystem close or not.
+
+commit 64d65d5a432e0e65ed320b80f881ce47fa07e748
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Sep 26 00:31:35 2008 -0500
+
+    whitespace cleanup
+
+commit 393850b55e33d686c7f688b5ce6d482b091510a0
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Sep 26 00:31:27 2008 -0500
+
+    add c99 build flags and check for bool type.
+
+commit 987ac1410d86dbdc8d835e4346798c4e8717a64c
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Sep 10 13:23:44 2008 -0500
+
+    fixup build for new autotools release.
+
+commit e3b7991348edd916ba3b9126744db5c454e0c207
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Aug 27 10:26:51 2008 -0500
+
+    add Makefile-std and cleanup Makefile.am. fix spec file bug from build/ -> pkg/ move
+
+commit 654d99ef3b7ae6d55c0ea5c7b1d0d91a830ee82f
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Aug 27 09:53:20 2008 -0500
+
+    add suse build upload script
+
+commit 873b19de70ee3817146418ebdbc5473a875322ae
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Aug 27 09:40:07 2008 -0500
+
+    rename build/ dir to pkg/ to match the rest of the projects
+
+commit 582c47ede0ddf1353341cd03627589f69c65d605
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Aug 26 09:45:01 2008 -0500
+
+    fixup distcheck for srcdir != builddir
+
+commit fba17e6911e4f353d1a06661298435e4afd50588
+Merge: 1650482... 9a2ba33...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Aug 26 09:29:57 2008 -0500
+
+    Merge branch 'smbios_c'
+    
+    * smbios_c:
+      add missing header required for 'cout'
+
+commit 1650482a96132a174ba17e9095ccf916c5571816
+Merge: cf73175... 8639003...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Aug 19 16:42:45 2008 -0500
+
+    bump version to 2.1 for smbios_c branch merge.
+
+commit cf73175eb9eff815ebd0b9d0937e78c0ec96f8fe
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Aug 19 16:08:45 2008 -0500
+
+    fix compile on systems with strict gcc checking for headers, need <iostream>
+
+commit 6d4331baee785ba5d106853d656bab5c3a8e318c
+Merge: dd8b182... f10f631...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Aug 19 16:07:05 2008 -0500
+
+    merge in smbios_c branch
+
+commit 863900372f88f108328dbda62ef302e706480466
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Aug 19 01:44:04 2008 -0500
+
+    bump version for official release.
+
+commit 9a2ba330ce66d98165171caed50c4bb4082fe2f5
+Merge: 72ef861... f10f631...
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Aug 18 23:45:01 2008 -0500
+
+    Merge branch 'smbios_c' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios into smbios_c
+    
+    * 'smbios_c' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios:
+      allow rpm build from git-generated archive.
+      add small comments
+
+commit f10f631172cad6f1791fb17737a0eb98901b35f3
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Aug 18 17:43:13 2008 -0500
+
+    allow rpm build from git-generated archive.
+
+commit c20fd858a56ca79a266e49828319bb3f08da0e25
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Aug 18 17:41:42 2008 -0500
+
+    add small comments
+
+commit 72ef8617ae7a35b85ec54e6f561e88840dec9725
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Aug 15 17:27:19 2008 -0500
+
+    add missing header required for 'cout'
+
+commit e5edd218b54bf5c9679276d06405ede8f83eb2f9
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Aug 15 01:09:41 2008 -0500
+
+    fixup paths in doxygen files for moved paths.
+
+commit de4d5cc96a0bd7d849dd697d82c5bc94f3947cd5
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Aug 15 01:06:00 2008 -0500
+
+    start chnages needed to build using suse build service.
+
+commit 81caa05d13617c9cb120b30844b41f8f581f66f4
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Aug 15 00:34:35 2008 -0500
+
+    add AM_LDFLAGS to all builds. Add -Lout to specify search path. Fixup dependenciesf for binaries to always have them build after all libs.
+
+commit dd8b18274bfbe948a9a4376e3f8c1fa753fd67ff
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Aug 14 11:02:53 2008 -0500
+
+    update mock build list for latest list of supported distros.
+
+commit cd24ca5bd640e69c7cce7ada66e3110d2d5a2ff0
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Aug 14 11:01:23 2008 -0500
+
+    add media direct binary to rpm
+
+commit 60a238c6efebef7c49086f83ec606eb78c9cf876
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Aug 13 12:42:26 2008 -0500
+
+    license cleanup
+
+commit 124b81be17c2e51c7cfd55b178164415207db6aa
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Aug 13 12:40:00 2008 -0500
+
+    EXTRA_CFLAGS is old, fix for autoconf.
+
+commit b73fc17ddacf2dfaa1fb6abe5e7e767c55ba9535
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Aug 13 12:35:22 2008 -0500
+
+    license/whitespace cleanup.
+
+commit f514b8e31a5118c20be2d075fb5959ea269aa7b8
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Aug 13 12:02:23 2008 -0500
+
+    add placeholder linux cmos file.
+
+commit b135823f00ebb2a16ff1612f86d76c10c9cfb2b8
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Mar 3 08:51:47 2008 -0600
+
+    fix provides/obsoletes
+
+commit f1b74524cc9ddae2a2a2e22fc2aaeff4f19cbab6
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Feb 13 00:33:33 2008 -0600
+
+    update changelog, fix spec file generation to append changelog.
+
+commit 6eda1bbd608eccd03cb976b9c0cb60ae4ee83a3a
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Aug 7 02:25:25 2008 -0500
+
+    start adding cmos write functions... unit test only versions for now.
+
+commit 17e65e2c2af372f3f1d9ff5ae0d51f69d05f7d7d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Aug 7 02:24:57 2008 -0500
+
+    FWRITE emulation func doesnt need to be global.
+
+commit 03c7e95a861a88cb19b2c12cd8588929dede05e1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Aug 7 02:24:25 2008 -0500
+
+    singleton doesnt need to be global.
+
+commit 0c6ee520e187b160895205731c4089383b1b1d00
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Aug 6 18:05:12 2008 -0500
+
+    version bump
+
+commit 22da816a9cf989a37359fac945588bc5acde1866
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Aug 6 18:04:32 2008 -0500
+
+    minor changes to spec to fixup for new source paths.
+
+commit 0ee9a76a829fb763f9caeff2dd903cdfa7db1d9d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Aug 6 18:03:48 2008 -0500
+
+    fixup doc dir in EXTRA_DIST, remove trailing /
+
+commit 145dfb43451d596041fdc568d2e30478f17f32d5
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Aug 6 17:49:08 2008 -0500
+
+    fwrite() fixes for -Wall.
+
+commit eb10521e145ecac8ea15f12920999d5ac76941ee
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Aug 6 17:37:33 2008 -0500
+
+    add -Wall
+
+commit b4ba5d982ec0775cfd542e677920d34ac5baa66f
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Aug 6 17:36:10 2008 -0500
+
+    cleanup -Wall warnings and catch fread()/fwrite() short read/write and throw exception. This needs to be fixed up later to retry the read.
+
+commit be73fca6bf6f6b1e6fc29e2f6a1b25347fe9ee5d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Aug 6 16:54:32 2008 -0500
+
+    rearrange files to make EXTRA_DIST much simpler. separate generated files from dist files.
+
+commit b15a019a20dbef6660055ccae6197fb9b817a681
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Aug 6 15:05:41 2008 -0500
+
+    dont need redundant 'static' and hidden visibility attribute. static is good enough.
+
+commit 6b629067478db7a1b81d3150c21f1ca14d875920
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Aug 6 01:56:47 2008 -0500
+
+    file rearrangement.
+
+commit 8c966ddd7a300363691046707384d4abd9b3b3e8
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Aug 5 18:02:56 2008 -0500
+
+    fixup distcheck errors.
+
+commit b59f4f21b938c28b67a43db638d00337ff48b1ae
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Aug 5 13:44:31 2008 -0500
+
+    begin adding memory_strerror() function.
+
+commit 55826bfb14a503cc68578f1a9093cc47dbeade0d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Aug 5 13:42:45 2008 -0500
+
+    remove CHANGELOG and AUTHORS from source control and auto generate from git.
+
+commit 5ca18fec88477d1aa3912b1a26eb55c3613ee633
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Aug 5 13:37:41 2008 -0500
+
+    add gettext
+
+commit 650d4bf38710539ac422d69495441b58f87d3b78
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Aug 5 02:07:26 2008 -0500
+
+    ignore unit test output
+
+commit 9e879cd75344c3e4b6d6e7ef71dfa6d6dd504d46
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Aug 5 02:07:13 2008 -0500
+
+    uninitialize after free()
+
+commit 07ed4742ae8d0f577bae0149e66dd5e9b01d8044
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Aug 5 02:03:09 2008 -0500
+
+    add memory_search() api and test.
+
+commit 8c9a328c27ebed1003077bd61996729de643f4d2
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Aug 5 02:02:30 2008 -0500
+
+    add .gitignore file to clean up git status.
+
+commit 382aa5415cbc162bd7f64ceffcb228ec2af35698
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Aug 5 01:32:58 2008 -0500
+
+    add support for mmap
+
+commit ea7dbb7050a10b831486338afaf970e3ee4b1815
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Aug 4 17:48:45 2008 -0500
+
+    add start of smbios_c library
+
+commit 3fbf0c1f8e91f2c35c40a3ee1366ea187706a5f7
+Author: Mario Limonciello <Mario_Limonciello@Dell.com>
+Date:   Fri Jul 18 15:26:37 2008 -0500
+
+    fix data checked in getPasswordPropertiesII to check right bits
+
+commit ad6c807303b7db44cc8c71f8b01722ff2b7b8d68
+Author: Mario Limonciello <Mario_Limonciello@Dell.com>
+Date:   Fri Jul 18 15:15:58 2008 -0500
+
+    add new function for checking bios password status and stub it out
+
+commit 1168ed653e2d95cb2336d0e851822fcd23265718
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed May 14 10:25:31 2008 -0500
+
+    add experimental support to install xloader
+
+commit 101bddd3324bed9cca2082fb942f6d586d1ee1c0
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed May 14 10:25:12 2008 -0500
+
+    add some sample xloader files.
+
+commit 7ed1e8ba98be2ca24988adf08608b7f600452eec
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue May 13 10:25:36 2008 -0500
+
+    fixup comments, make prettier, no code changes.
+
+commit 0de6d9a203067221cd8d65a32b5fd6ab576b657d
+Author: root <root@localhost.localdomain>
+Date:   Tue May 13 02:19:48 2008 -0400
+
+    finish implementing info. implement xloader remove.
+
+commit c4002b2201ba71410a6a63a3cd0c55040b506928
+Author: root <root@localhost.localdomain>
+Date:   Tue May 13 02:05:23 2008 -0400
+
+    more info functions.
+
+commit 38f335acbc4d748c5633623275e1f94e69aa5a3d
+Author: root <root@localhost.localdomain>
+Date:   Tue May 13 01:55:14 2008 -0400
+
+    fixup logical-or vs bitwise-or
+
+commit 50499d8f8d659829708e0a9692b778d3d3947708
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue May 13 01:41:01 2008 -0500
+
+    gcc 4.3 fix
+
+commit 6efb176b524f5e0bd9a3834383bcbfcd4184fe0e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue May 13 01:15:02 2008 -0500
+
+    implement smi and start to implement info methods.
+
+commit 234960fef98608942e1cc2bdf1e3e9e21f217e94
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon May 12 14:06:08 2008 -0500
+
+    start adding dell media direct control.
+
+commit 11927ce3dfa3feb27a9b37df5f3ef9c77f61579c
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu May 8 14:26:11 2008 -0500
+
+    change to gzip compression so it works better in embedded.
+
+commit 28a5bf0faddac5a1ce7d4cd3015144fe60355783
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri May 2 11:14:10 2008 -0500
+
+    speling fickes
+
+commit 31dfd50562e7c8c7e432e6507971c53f91ab3e9c
+Merge: f32b660... d270293...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri May 2 11:13:23 2008 -0500
+
+    Merge branch 'master' of /var/ftp/pub/Applications/git/libsmbios
+    
+    * 'master' of /var/ftp/pub/Applications/git/libsmbios:
+      use obsoletes < 2.0.0 to allow space for bugfixes on 0.13 branch
+      add obsoletes libsmbios-libs (bz440334)
+
+commit d27029349d7351443314551020cc2c5df2364350
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Sat Apr 19 08:27:28 2008 -0500
+
+    use obsoletes < 2.0.0 to allow space for bugfixes on 0.13 branch
+
+commit 52be88ce74efa2125d6e451f3b8c4ee5f8b28af4
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Sat Apr 19 08:09:10 2008 -0500
+
+    add obsoletes libsmbios-libs (bz440334)
+
+commit f32b660975401c07d3186c90d4dc3e9961d2cf7e
+Merge: cc1cb26... 58a98d9...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Apr 8 11:30:16 2008 -0500
+
+    Merge branch 'master' of /var/ftp/pub/Applications/git/libsmbios
+    
+    * 'master' of /var/ftp/pub/Applications/git/libsmbios:
+      version bump
+      patch from Jon Barnett <jbarnett@pobox.com> to fix dellLEDCtl on XPS1730
+      minor output cleanups.
+      output cleanup for mkbiospkg.sh
+      add bios dup-like package support... initial commit.
+
+commit 58a98d9f4cf1283b68bce2542af82659f993eb94
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Mar 31 10:42:04 2008 -0500
+
+    version bump
+
+commit 2260f5e03d24895d8c9faae0d915e855239ea0ad
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Mar 31 10:40:49 2008 -0500
+
+    patch from Jon Barnett <jbarnett@pobox.com> to fix dellLEDCtl on XPS1730
+    
+    Signed-off-by: Michael E Brown <michael_e_brown@dell.com>
+
+commit ca3df38068498e7f241d2c201adc91f4db3f68d8
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Mar 26 15:13:01 2008 -0500
+
+    minor output cleanups.
+
+commit fd25eef412363686d093f3070904647f5c9b0a34
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Mar 26 13:16:31 2008 -0500
+
+    output cleanup for mkbiospkg.sh
+
+commit f543bb9205bb66fedb07ff47a92f24e3a2b4c407
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Mar 26 12:45:09 2008 -0500
+
+    add bios dup-like package support... initial commit.
+
+commit cc1cb268b2594317726a571deb79668c5679f5b4
+Merge: 80dc0be... 1a8470e...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Sat Mar 8 21:36:28 2008 -0600
+
+    Merge branch 'master' of /var/ftp/pub/Applications/git/libsmbios
+    
+    * 'master' of /var/ftp/pub/Applications/git/libsmbios:
+      fixup help text.
+
+commit 1a8470eae7d85dbd4cb1f68631c5bb5f24034e88
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Mar 6 12:03:01 2008 -0600
+
+    fixup help text.
+
+commit 80dc0bee8c9bbc79e9b050df0d25cd6df1d72b88
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Feb 18 17:16:17 2008 -0600
+
+    add build override so we build for sles.
+
+commit 0736fa1491c4456bc56a18389fe0930a1e5370ac
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Feb 13 13:46:07 2008 -0600
+
+    gcc 4.3 compile fixes.
+
+commit 7808d94de0df6a338cf6df6ae838c43aeb4a0b47
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Feb 13 13:13:45 2008 -0600
+
+    fixup header problem with strerror.
+
+commit b374b357a21d981b5b0bc96391ac8fb23e4d8ca7
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Feb 13 11:31:54 2008 -0600
+
+    version bump
+
+commit 2ad707dc2be9e840afcf8c0309bdbfc3e4525818
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Feb 13 11:31:31 2008 -0600
+
+    release script updates.
+
+commit b5c1d90ca70cbbecc2463ac33c96c408b4ccccc1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Jan 9 00:04:39 2008 -0600
+
+    update autobuilder hooks for new build method with autogen.sh
+
+commit ac3acbefccc6cdf647b08dac2720f0fd0aebf833
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Jan 9 00:00:58 2008 -0600
+
+    remove generated files from version control.
+
+commit 2a77d3541190cf96f0f7a00c5b5a352ff61c2337
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Fri Jan 4 23:42:30 2008 -0600
+
+    s/insmod/modprobe/ in printed help messages in probes.cpp
+
+commit 004c6b1310713d77a2eb493e745ff9d7a5907efc
+Author: Matt Domsch <Matt_Domsch@dell.com>
+Date:   Fri Jan 4 23:41:40 2008 -0600
+
+    s/insmod/modprobe/ in printed help messages
+
+commit 14ebb79902133fc6e3742735097196866d63f767
+Merge: c34aaae... 84627d4...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 27 11:36:18 2007 -0600
+
+    Merge branch 'master' of ssh://mock.linuxdev.us.dell.com/var/ftp/pub/Applications/git/libsmbios
+
+commit c34aaaedb2276ea15fca9b465b6dcc5150874b1d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 27 11:36:14 2007 -0600
+
+    fix library ordering to make unit tests compile against local copy
+
+commit 84627d49a22d6891e86c7ab5258cc8b64710464d
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 16 01:22:15 2007 -0600
+
+    tokenCtl no longer exists.
+
+commit 744557f902dfb2149c72d80c64a0db3f0d2cb0ae
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 16 01:11:35 2007 -0600
+
+    fixup official release script.
+
+commit 10cb889936681541678e68de42875bc66d8c2572
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 16 00:47:52 2007 -0600
+
+    add operator= for const iterator to construct one from a regular iterator.
+
+commit b119cb41d837e780b35d42694a62507d2cf06f5c
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 16 00:46:39 2007 -0600
+
+    rerun autoreconf for latest makefile.am changes.
+
+commit 4efc8722cf288d37d933e2df544edb0f467255d4
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 16 00:02:51 2007 -0600
+
+    remove tokenCtl in favor of pysmbios version.
+
+commit d4a1564660747af94b6c6aba3f6f6e335872996b
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 12 18:03:55 2007 -0600
+
+    no need to return const size_t for return-by-value.
+
+commit 973e98b8154dbdd7c278d014925c35394dcff57c
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 12 18:03:35 2007 -0600
+
+    comment out unimplemented functions.
+
+commit e57379923531da67e14f1b527749c1cd11c072e6
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 12 12:51:33 2007 -0600
+
+    make streamify() a protected member and make the ostream operator << a friend function.
+
+commit cbef136eaaddb9a6287c055cf3f315ca39bc418c
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 12 12:19:37 2007 -0600
+
+    smi interface changes to make it more friendly with pysmbios
+
+commit 912567b88eabcf77220c557c99981fd0337b5c49
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Nov 11 15:04:50 2007 -0600
+
+    - make ISmbios.h match old version (v0.13.13) so it is easier to see the changes between old and new
+    - Make const_iterator take const SmbiosTable*, and iterator take SmbiosTable*, to make compile error much more clear when you try to intitialize the iterator from the wrong type.
+
+commit 74086ba7e41385f675fd1ab054b99cb51fd528f3
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Nov 11 13:56:50 2007 -0600
+
+    better error message for when it cant open unit test file.
+
+commit e0996314d6c5e3b58d05a1e788b2c72fe30a1d6d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 9 16:52:36 2007 -0600
+
+    fix eof() member for token semantics
+
+commit ec4b0e7c6153942212d408973552c75ada893ad0
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 9 16:32:24 2007 -0600
+
+    add eof() and reset() to token table iterator. Fix smbios iterator eof() and reset()
+
+commit fff48a2d90d4b1387057d617171aa8619014ecf5
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 9 12:00:10 2007 -0600
+
+    remove table_iterator since we can reimplement that in python with the normal iterator now.
+
+commit febe93abaeb2792116fcf75258dbd3a0f7a7831b
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 9 02:48:02 2007 -0600
+
+    merge ISmbios.h back into one header. dont need the breakup for py++
+
+commit 729bdd91109bcbbf80c544a0fabb532cd9e97da3
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 9 02:47:16 2007 -0600
+
+    const correct fixes for iterators.
+
+commit 1448170615916a5133e6922fcd39a610c2d12c54
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 9 02:46:50 2007 -0600
+
+    pull common defs into base class. fix template args.
+
+commit d61a3e8a06c71ec80bcb621a7f41c9d167000916
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 9 02:46:18 2007 -0600
+
+    remove old smbiostablebase stuff.
+
+commit 574575917b77a1eea2b28d18c422c1267ea3f9ad
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 9 02:45:34 2007 -0600
+
+    const-correct iterators.
+
+commit 1705156a55c62524e36df7881c8006385dcd1192
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Fri Nov 9 02:45:20 2007 -0600
+
+    const-correct iterators.
+
+commit 950fb08d4b6cb584f9bdd9e687b016a8cd580553
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Nov 8 18:08:27 2007 -0600
+
+    1) add enough to public iterator interface so python can use it, because python cannot use the overloaded operators.
+    
+    2) move all of the implementation into the .cpp file out of the header.
+
+commit 75532d0c64e8c436fe9ba1f5bca38b31b28b186e
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 7 16:07:23 2007 -0600
+
+    remove operator<< or ISmbiosTableBase because it wasnt actually implemented and was messing up pysmbios code generation.
+
+commit 952e6e56690ddcdb1dc2a1b5e1304e27dd6c561d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Nov 7 14:00:31 2007 -0600
+
+    changes to allow wrapping by boost python libs.
+
+commit 7ac2d75200471e5268d757d6a591b8c41a1a7139
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 6 18:48:02 2007 -0600
+
+    encapsulate iterator stuff for now.
+
+commit 85c04031c95a05e239311851c40a965410e08640
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 6 17:22:34 2007 -0600
+
+    opaque iter type for smbiostablebase traversal
+
+commit 79045c34647b0e02d5ca97d1719d96e83d0d74b8
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 6 17:22:06 2007 -0600
+
+    add beta tag to version
+
+commit c3156aa35e593012c7e3d8c3ca9e185e3460cf2b
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 6 16:00:59 2007 -0600
+
+    add missing header to extradist.
+
+commit fb968f0de65177cde6dcf58556f6bc9513e43636
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Nov 6 15:31:56 2007 -0600
+
+    split ISmbiosTable into ISmbiosTableBase that doesnt need to do operator overloading, and SmbiosTable which just adds operator overloading on top of that.
+
+commit 91594c87f4a83565861ca934a4179997ddda16ea
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 5 23:09:35 2007 -0600
+
+    make ISmbiosTable and ISmbiosItem const-mostly
+
+commit 93a207af5f3b03712918d74e69e5c708bd840993
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 5 17:47:02 2007 -0600
+
+    let new libsmbios coexist with old libsmbios libraries.
+
+commit 62959a7e87bb83721b0b9aeaadddf9aaa728e729
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 5 17:37:04 2007 -0600
+
+    generic spec build rule in configure. Get rid of libsmbios prefix on libtool variables to make it easier to cut-n-paste to other projects. Remove old libsmbiosxml libtool variables.
+
+commit 4de3c310744066594612d6c6ecbfd894c89c5502
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 5 14:35:11 2007 -0600
+
+    bump version so soname matches version name.
+
+commit 1ce4a2c8f1b4a5b6c6cf7c78c9278eb72705f019
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 5 14:30:57 2007 -0600
+
+    small distcheck fix.
+
+commit dd742de70d8a9e14b5974d0c539b2d576474bd0d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 5 14:27:17 2007 -0600
+
+    last vestiges of libsmbiosxml from rpm and dist
+
+commit 1fbb3b7240816475ba956ed78cbf0bca3d79769d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 5 14:21:40 2007 -0600
+
+    rip out smbiosxml components for integration into a separate project.
+
+commit d27c682df73cc573fcc176b96a71aa68c7925564
+Merge: 298041c... 27dad8c...
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 5 11:32:11 2007 -0600
+
+    Merge ../libsmbios-duo
+    
+    * ../libsmbios-duo:
+      fixup unit test for small api breakage... add const.
+
+commit 298041c8946d273f4d945b915b00191f578d92d7
+Merge: ea7591f... c4f6bc5...
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 5 11:24:14 2007 -0600
+
+    Merge branch 'small-fixes' of ssh://duo/~/git/libsmbios
+    
+    * 'small-fixes' of ssh://duo/~/git/libsmbios:
+      make output consistent between error/no-error.
+      rhel3 doesnt support "+" param to find ... -exec ...
+      add speedstep tokens
+
+commit ea7591f1227079821ea67d333872c1eb535799f1
+Merge: 2eecc59... 080bd7b...
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 5 10:58:21 2007 -0600
+
+    Merge branch 'master' of http://hb.us.dell.com/pub/Applications/git/libsmbios
+    
+    * 'master' of http://hb.us.dell.com/pub/Applications/git/libsmbios:
+      version bump
+
+commit 27dad8c504ec2144e544eb96d469031e66703bed
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 5 08:56:36 2007 -0600
+
+    fixup unit test for small api breakage... add const.
+
+commit 3d2d7de9be091a962712790ca6cfbab7016e6cd8
+Merge: 2eecc59... c4f6bc5...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Nov 5 01:29:13 2007 -0600
+
+    Merge branch 'small-fixes' into merge
+
+commit c4f6bc5ef6ee70c8fa1a748f0660252b9b067fd8
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Sat Nov 3 00:58:24 2007 -0500
+
+    make output consistent between error/no-error.
+
+commit 7f6d54b4fef4de4f9a007d2ec4e4f6f334c947fd
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 31 15:48:17 2007 -0500
+
+    rhel3 doesnt support "+" param to find ... -exec ...
+
+commit c1585e479c9ba855bbae4d97f264edaddbf6e079
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 18 10:39:06 2007 -0500
+
+    add speedstep tokens
+
+commit 2eecc59f0df01a2e50d7e97c874accfcbddc66a0
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 5 01:11:48 2007 -0600
+
+    - factor out SmbiosTableBase which has no C++ iterators but has all the functionality that can be used to build iterators
+    - make SmbiosItem const since it has no non-const members.
+    - Fixup all references to SmbiosItem
+    - Remove redundant methods that are not needed if SmbiosItem can never be non-const (clone)
+    - change iterator to use SmbiosTableBase methods to iterate.
+
+commit 7bdbebd6ac4c00aae67cb96f6896a8dadaa09100
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 5 01:01:33 2007 -0600
+
+    const correctness fix for rbu.
+
+commit 2ce5a5994867d5a5ac1f6869457697f0c31e553a
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Nov 5 01:01:10 2007 -0600
+
+    const-correct fixes for probes.cpp.
+
+commit 080bd7ba9b1f78caad6927895bd8cb97d3f3fb89
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Nov 2 13:26:57 2007 -0500
+
+    version bump
+
+commit 50269153e9a43ca4a7f7824d7aad6fab2ae349d1
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 31 15:48:17 2007 -0500
+
+    rhel3 doesnt support "+" param to find ... -exec ...
+
+commit b485c610a76713eafeee234e82d37abd3a7bfd05
+Merge: c6dacd8... 169d551...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 31 14:57:07 2007 -0500
+
+    Merge branch 'master' of http://hb.us.dell.com/pub/Applications/git/libsmbios
+
+commit 169d55193c2471150fe4b34f6dd8218842812500
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 31 14:42:44 2007 -0500
+
+    remove dead, commented out code.
+
+commit c6dacd873ef265f45c212abed7b360431c4b2488
+Merge: e1610ac... b41d009...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Oct 31 14:22:57 2007 -0500
+
+    Merge branch 'master' of http://hb.us.dell.com/pub/Applications/git/libsmbios
+
+commit b41d009eb43a47b30bb833d19c76336378ecd091
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 31 01:55:03 2007 -0500
+
+    backward compat link for HAL using old location for binary.
+
+commit 43c07214d922410aa4cec4a6c3e0301bf3c479a3
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 26 00:25:24 2007 -0500
+
+    obsolete unsupported bins rpm. fold those binaries into normal rpm.
+
+commit 386fbf0359679836964dd94e2d174662d96b8196
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Oct 24 10:06:16 2007 -0500
+
+    great rpm rename.
+
+commit f8668fc9c81ad1b46a5dbe195166844e6a23be66
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 22 14:43:37 2007 -0500
+
+    should fix multiarch file conflicts in /usr/share/doc/
+
+commit 5bf135a564533524c3038bb4d7e771b86da5ca8d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 22 00:33:50 2007 -0500
+
+    fix deps
+
+commit 239457cb11dd8aa74871f49478453c0ce10c8db0
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 22 00:33:48 2007 -0500
+
+    fix deps
+
+commit 2404454af5d3bc78e8578838a7ee7190c3411b8c
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 22 00:33:18 2007 -0500
+
+    fix deps
+
+commit 50bfe7120c68ffe10e2464e15289549bd5adf04d
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Oct 22 00:33:10 2007 -0500
+
+    version bump
+
+commit d7d3a19e4b20ca171029baa5a60189e29304ac61
+Merge: 03d3bf5... d04bb6c...
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 21 15:04:13 2007 -0500
+
+    Merge commit 'origin/master'
+    
+    * commit 'origin/master':
+      patch from Danny Kukawka <dkukawka@suse.de> to compile on GCC 4.3. We were missing headers.
+      move bins from /usr/bin to /usr/sbin/
+      add comment so we dont accidentally remove version file until after we update autobuilder.
+      Revert "dont need version file generated from configure"
+      Revert "updated autoconf files."
+      updated autoconf files.
+      dont need version file generated from configure
+      fix release script
+      push tags to origin after successful official release.
+
+commit 03d3bf5911552ab4cf0bb58da347e13df0701386
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Sun Oct 21 14:56:58 2007 -0500
+
+    fix multiarch conflicts due to different timestamps.
+
+commit d04bb6c9645544c198b5ad9d5213a0a2506930ad
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 19 17:37:42 2007 -0500
+
+    patch from Danny Kukawka <dkukawka@suse.de> to compile on GCC 4.3. We were missing headers.
+
+commit e1610ac91c4ba8f72ee4f125113e8c9dd0c0ecfb
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Oct 18 10:39:06 2007 -0500
+
+    add speedstep tokens
+
+commit 0baa7f2fd61a9d57fa052fd302108bd3db85870e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Oct 12 17:21:03 2007 -0500
+
+    move bins from /usr/bin to /usr/sbin/
+
+commit 18cca7cc38b7e469cd24f14d4417cc356d48f543
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Oct 8 16:19:56 2007 -0500
+
+    add comment so we dont accidentally remove version file until after we update autobuilder.
+
+commit ac2d51e9246c0d357aabf5b6378f1549ee94ebff
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Oct 8 16:18:18 2007 -0500
+
+    Revert "dont need version file generated from configure"
+    
+    This reverts commit 8f0c865dc13398023c6a7d5b110dba8f00df509e.
+
+commit ba31ceacc091daec831f351ead2cbbee14d910ce
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Oct 8 16:18:11 2007 -0500
+
+    Revert "updated autoconf files."
+    
+    This reverts commit 42559c016ba4c7516179adfed7cb874eabac043f.
+
+commit 42559c016ba4c7516179adfed7cb874eabac043f
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Oct 8 15:23:44 2007 -0500
+
+    updated autoconf files.
+
+commit 8f0c865dc13398023c6a7d5b110dba8f00df509e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Oct 8 15:13:01 2007 -0500
+
+    dont need version file generated from configure
+
+commit 392b127ae6785bfc8cc7bc7dbe03e7823a0b2737
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Aug 27 23:06:15 2007 -0500
+
+    fix release script
+
+commit 3fcacc34675e1b26ecf374576c3f7587eeb37f35
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Aug 27 18:27:20 2007 -0500
+
+    push tags to origin after successful official release.
+
+commit 0fb1d172192c872cb0bb753b4bd2dac3b8e08547
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Aug 27 18:14:40 2007 -0500
+
+    fix path for rpm release script
+
+commit a0a555bf1a7ef446ce5113f80906208909c89109
+Merge: 4569ba5... 93af491...
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Aug 27 18:14:10 2007 -0500
+
+    Merge branch 'master' of /var/ftp/pub/Applications/git/libsmbios
+    
+    * 'master' of /var/ftp/pub/Applications/git/libsmbios:
+      version bump
+      back out fread retval check as it causes problem.
+      update changelog
+      update license to be fedora compliant
+
+commit 93af4911412398e6fd5ed5c0b50f0fcba35ef340
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Aug 27 18:11:56 2007 -0500
+
+    version bump
+
+commit 81a3d3f99a6268dc1e4436ce76f022e673a720e6
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Mon Aug 27 18:09:14 2007 -0500
+
+    back out fread retval check as it causes problem.
+
+commit 40b9ea8f0a99d7d030f226d6b95349f03e508542
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Aug 22 23:13:26 2007 -0500
+
+    update changelog
+
+commit 034ba7cb51c3d77123ae21c48a0734cba6fe6f6a
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Wed Aug 22 23:09:14 2007 -0500
+
+    update license to be fedora compliant
+
+commit 4569ba537d9332b212f80197313acf6ce8368854
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed Aug 22 21:46:55 2007 -0500
+
+    ignore error from chmod if _builddir doesnt exist
+
+commit 666c7a2dfe38b260c57c2d6627f739363f919b72
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Aug 21 02:13:33 2007 -0500
+
+    collection of short read fixes
+
+commit 49254e21f7641705d187bf0e2f1030ca7f995d87
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Aug 21 01:09:39 2007 -0500
+
+    version bump
+
+commit ed973035bccc6ecbd8af79f6d86aed59ce12c507
+Author: Michael E Brown <mebrown@michaels-house.net>
+Date:   Tue Aug 21 01:06:59 2007 -0500
+
+    implement hinting to tell memory subsystem when to close and reopen memory file. the idea is that it normally should close between calls, but there are sometimes where we should keep it open for efficiency (scanning). The upper layer knows this and can tell the memory object through the new hinting interface.
+
+commit 43bfe00c5258c9f57cb1d21eca1580ab6dc17662
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jul 24 15:47:49 2007 -0500
+
+    wildcard or else we miss the file because sometimes it has %{dist} appended.
+    
+    Signed-off-by: Michael E Brown <michael_e_brown@dell.com>
+
+commit 4ce7513f5d83cd2c41e503ca3b2beb3d647260d2
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jul 24 14:47:42 2007 -0500
+
+    ran autoupdate to update autoconf files to F7 level. Fixed a couple warnings.
+
+commit ddde0a06dc946e8e11dea21540b163f16753c024
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue Jul 24 14:33:05 2007 -0500
+
+    fix DEST var to not use package_string
+
+commit f05cfe694ae9fcb4a5302d1206a9211a3a419f9b
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jul 23 15:58:40 2007 -0500
+
+    fix autobuild script to use proper srpm name.
+
+commit 328d426fead5e0224712b44475df9b3cb7b91033
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jul 23 15:52:38 2007 -0500
+
+    fix src.rpm name for upload script.
+
+commit e5d0c962b6091c9a907fdb89a92ae388b4e4573c
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jul 23 15:41:49 2007 -0500
+
+    remove _builddir before starting
+
+commit a566b3f5751d6b723e71c972642193b8951cf200
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jul 23 15:41:11 2007 -0500
+
+    remove extraneous )
+
+commit 5cab57520b333bba4eef4ff0a0fbbe1fcaa0ff8a
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jul 23 15:41:01 2007 -0500
+
+    accidentally overwrote version file with each line. append instead.
+
+commit cb773efbe0e35130eb575abfbd0070294079881b
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jul 23 15:29:33 2007 -0500
+
+    cleanup version file generated by configure
+
+commit 96c51956da4a34dbdf9169e2581c28dc931a0f0a
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jul 23 15:20:56 2007 -0500
+
+    regenerate configure based on configure.ac changes.
+
+commit 63174c10bc163ce5c961268e1a88f392611f8d5e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jul 23 15:12:42 2007 -0500
+
+    move setting of env vars up because libtool variables were using them before they were initialized.
+
+commit 925e3939842b568bcb0ca333f09b93807ad5ba4c
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jul 23 15:12:14 2007 -0500
+
+    check dist as part of release
+
+commit 1cd8b0047070f1d3ed1598de82bf5a88e2a82fe8
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jul 23 15:04:49 2007 -0500
+
+    work on autobuild script
+
+commit 8230862d251a3106435b26bd474c72d620048e80
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jul 23 15:03:34 2007 -0500
+
+    more work to get official release script working
+
+commit bdd47c2e2df4e5e6c2ef0cd2edf0b9e318b82494
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jul 23 12:27:42 2007 -0500
+
+    replace version string in release script
+
+commit c76ba41df0b484865badb074bc2cd3de0ed85706
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon Jul 23 12:21:42 2007 -0500
+
+    version bump for official release
+
+commit 16e49fbff846f93881454dbaca22e4787388d031
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jul 20 19:15:10 2007 -0500
+
+    need to redefine vars at end of file or they get overwritten
+
+commit a7d41108bfc32ab59a05ae9d23029001d7f1f452
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jul 20 18:35:56 2007 -0500
+
+    testresults.xml moved dirs when we execute script main dir.
+
+commit d067d0c2261f4aaef50fe72ceaf9369eebc194ca
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jul 20 18:10:47 2007 -0500
+
+    add extra dep for binaries on the libs so parallel make works properly. let directories be added to CLEANFILES by using rm -rf.
+
+commit 681e3b59bab595a5936afd4f6213890f54c85ccf
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jul 20 18:09:47 2007 -0500
+
+    Add floating .libs dir to cleanup list since automake forgets.
+
+commit c53a1e2afe08fe17aa4f7539a50dfcba7b402719
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jul 20 18:09:25 2007 -0500
+
+    remove version.h from deps since it is now made by configure. Add floating .libs dir to cleanup list since automake forgets.
+
+commit e216dd69f2ecc6675a0ab50991dfc55e291e8f7f
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jul 20 18:06:00 2007 -0500
+
+    full path to executables to support split builddir/srcdir builds
+
+commit 9abf667cd75f8e9b4da874a806f3e78ba1fd667e
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jul 20 18:05:35 2007 -0500
+
+    remove .libs dir since automake misses it in non-recursive mode.
+
+commit 698a23d565798b47f1a54fd9399ff509a8fe8401
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jul 20 14:04:36 2007 -0500
+
+    enable unit test compilation/running. fixup paths for nonrecursive make
+
+commit 615e6633dbcbeadf523e22d8ba38a32385d65a15
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jul 20 13:46:53 2007 -0500
+
+    forgot to change EXTRA_DIST for move of RbuLowLevel.h
+
+commit 5ad1590cac4d6f09e5af739fb9e93ae2b64fcae5
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jul 20 13:40:47 2007 -0500
+
+    forgot to set RELEASE_NAME
+
+commit 0dc4db405cc021a61275cd93a944c79b81b502f7
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jul 20 13:40:27 2007 -0500
+
+    move RbuLowLevel.h to public directory so we dont have to hack around that in dellBiosUpdate. It is not guaranteed ABI stable, so add warning.
+
+commit ef39d85f7d209dac72cccd5250b29486779911ea
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jul 20 13:19:19 2007 -0500
+
+    update generated makefile.in
+
+commit 0a02f54a52ac15b91b89329c73c5736586ff3483
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jul 20 13:14:34 2007 -0500
+
+    updated autogenerated files
+
+commit 495e7a1b07a24f7e95c0e12635cd622863ff85c7
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jul 20 13:13:31 2007 -0500
+
+    add version.h to generated output file list.
+
+commit 496b87094a17cf7845a4a8a07ecec84bc20d12db
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jul 20 12:53:40 2007 -0500
+
+    pulled all version handling into configure. version.mk no longer needed.
+
+commit 5cc18da83451f0e065ab5d2279f22ef7707a8190
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Fri Jul 20 12:51:04 2007 -0500
+
+    remove old automake files not needed in non-recursive mode
+
+commit 2c8e54abcae80c9811312abfad640ea110af5a93
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu Jul 19 18:53:29 2007 -0500
+
+    initial commit for nonrecursive make support
+
+commit 4350357bcba9ddf410c40c0cc20a05aae5b67538
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Thu May 24 10:45:43 2007 -0500
+
+    build hook updates: uniform umask, uniform set -e, use common code for submitting rpms to plague
+
+commit 8d8e2d491403f15955026e9d3d6260822a86d143
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Wed May 23 18:06:35 2007 -0500
+
+    autobuild hook updates.
+
+commit b292c741838deb7a4d2ca7a4d25e18e4efc174ba
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon May 21 14:42:11 2007 -0500
+
+    autobuild scripting updates: push plague packages.
+
+commit b0e2f96d3691710a3465d4b0b527dbe9207207af
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Mon May 21 12:49:19 2007 -0500
+
+    add git-autobuilder initial hooks
+
+commit 547a4d4c6f2ebf5132ab6dd978a30716869b8598
+Author: Michael E Brown <michael_e_brown@dell.com>
+Date:   Tue May 15 15:00:18 2007 -0500
+
+    initial import from clearcase

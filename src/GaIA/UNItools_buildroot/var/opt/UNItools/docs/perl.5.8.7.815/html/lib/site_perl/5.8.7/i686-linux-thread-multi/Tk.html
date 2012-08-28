@@ -1,0 +1,702 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../tocTab.js"></script>
+<title>Tk - a graphical user interface toolkit for Perl</title>
+<link rel="stylesheet" href="../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',4);</script>
+<h1><a>Tk - a graphical user interface toolkit for Perl</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<ul>
+
+		<li><a href="#introduction">Introduction</a></li>
+		<li><a href="#tk_geometry_management">Tk Geometry Management</a></li>
+		<li><a href="#binding_events_and_callbacks">Binding Events and Callbacks</a></li>
+		<li><a href="#tk_image_classes">Tk Image Classes</a></li>
+		<li><a href="#tix_extensions">Tix Extensions</a></li>
+		<li><a href="#tk_widget_classes">Tk Widget Classes</a></li>
+		<li><a href="#tk_generic_methods">Tk Generic Methods</a></li>
+		<li><a href="#user_interaction">User Interaction</a></li>
+		<li><a href="#creating_and_configuring_widgets">Creating and Configuring Widgets</a></li>
+		<li><a href="#popups_and_dialogs">Popups and Dialogs</a></li>
+		<li><a href="#derived_widgets">Derived Widgets</a></li>
+		<li><a href="#c_programming">C Programming</a></li>
+		<li><a href="#implementation">Implementation</a></li>
+		<li><a href="#experimental_modules">Experimental Modules</a></li>
+		<li><a href="#other_modules_and_languages">Other Modules and Languages</a></li>
+	</ul>
+
+	<li><a href="#author">AUTHOR</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Tk - a graphical user interface toolkit for Perl</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    use Tk;
+    $top = new MainWindow;
+    MainLoop;</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>The Perl/Tk manual is split up into a number of sections:</p>
+<p>
+</p>
+<h2><a name="introduction">Introduction</a></h2>
+<ul>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/overview.html">Tk::overview</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/UserGuide.html">Tk::UserGuide</a></p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="tk_geometry_management">Tk Geometry Management</a></h2>
+<ul>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Adjuster.html">Tk::Adjuster</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/form.html">Tk::form</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/grid.html">Tk::grid</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/pack.html">Tk::pack</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/place.html">Tk::place</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Table.html">Tk::Table</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Tiler.html">Tk::Tiler</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Wm.html">Tk::Wm</a></p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="binding_events_and_callbacks">Binding Events and Callbacks</a></h2>
+<ul>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/After.html">Tk::After</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/bind.html">Tk::bind</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/bindtags.html">Tk::bindtags</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/callbacks.html">Tk::callbacks</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Error.html">Tk::Error</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/event.html">Tk::event</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/exit.html">Tk::exit</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/fileevent.html">Tk::fileevent</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/IO.html">Tk::IO</a></p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="tk_image_classes">Tk Image Classes</a></h2>
+<ul>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Animation.html">Tk::Animation</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Bitmap.html">Tk::Bitmap</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Compound.html">Tk::Compound</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Image.html">Tk::Image</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Photo.html">Tk::Photo</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Pixmap.html">Tk::Pixmap</a></p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="tix_extensions">Tix Extensions</a></h2>
+<ul>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Balloon.html">Tk::Balloon</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/BrowseEntry.html">Tk::BrowseEntry</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/DialogBox.html">Tk::DialogBox</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/DirTree.html">Tk::DirTree</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/DItem.html">Tk::DItem</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/InputO.html">Tk::InputO</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/LabFrame.html">Tk::LabFrame</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Mwm.html">Tk::Mwm</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/NoteBook.html">Tk::NoteBook</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/TixGrid.html">Tk::TixGrid</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/tixWm.html">Tk::tixWm</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/TList.html">Tk::TList</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Tree.html">Tk::Tree</a></p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="tk_widget_classes">Tk Widget Classes</a></h2>
+<ul>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Button.html">Tk::Button</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Canvas.html">Tk::Canvas</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Checkbutton.html">Tk::Checkbutton</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Entry.html">Tk::Entry</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Frame.html">Tk::Frame</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/HList.html">Tk::HList</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Label.html">Tk::Label</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Listbox.html">Tk::Listbox</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Menu.html">Tk::Menu</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Menubutton.html">Tk::Menubutton</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Message.html">Tk::Message</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Optionmenu.html">Tk::Optionmenu</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Radiobutton.html">Tk::Radiobutton</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Scale.html">Tk::Scale</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Scrollbar.html">Tk::Scrollbar</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Text.html">Tk::Text</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Toplevel.html">Tk::Toplevel</a></p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="tk_generic_methods">Tk Generic Methods</a></h2>
+<ul>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Font.html">Tk::Font</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/send.html">Tk::send</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/tkvars.html">Tk::tkvars</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Widget.html">Tk::Widget</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/X11Font.html">Tk::X11Font</a></p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="user_interaction">User Interaction</a></h2>
+<ul>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/DropSite.html">Tk::DropSite</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Clipboard.html">Tk::Clipboard</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/focus.html">Tk::focus</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/grab.html">Tk::grab</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/selection.html">Tk::selection</a></p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="creating_and_configuring_widgets">Creating and Configuring Widgets</a></h2>
+<ul>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/CmdLine.html">Tk::CmdLine</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/MainWindow.html">Tk::MainWindow</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/option.html">Tk::option</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/options.html">Tk::options</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/palette.html">Tk::palette</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Xrm.html">Tk::Xrm</a></p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="popups_and_dialogs">Popups and Dialogs</a></h2>
+<ul>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/chooseColor.html">Tk::chooseColor</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/ColorEditor.html">Tk::ColorEditor</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Dialog.html">Tk::Dialog</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Dialog.html">Tk::Dialog</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/FileSelect.html">Tk::FileSelect</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/getOpenFile.html">Tk::getOpenFile</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/messageBox.html">Tk::messageBox</a></p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="derived_widgets">Derived Widgets</a></h2>
+<ul>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/composite.html">Tk::composite</a></p>
+</li>
+<li>
+<p><a href="../../../../Tk/configspec.html">Tk::configspec</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Derived.html">Tk::Derived</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/mega.html">Tk::mega</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/ROText.html">Tk::ROText</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Scrolled.html">Tk::Scrolled</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/TextUndo.html">Tk::TextUndo</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Reindex.html">Tk::Reindex</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Pane.html">Tk::Pane</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/ProgressBar.html">Tk::ProgressBar</a></p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="c_programming">C Programming</a></h2>
+<ul>
+<li>
+<p>Internals</p>
+</li>
+<li>
+<p>pTk</p>
+</li>
+<li>
+<p>3DBorder</p>
+</li>
+<li>
+<p>BackgdErr</p>
+</li>
+<li>
+<p>BindTable</p>
+</li>
+<li>
+<p>CanvPsY</p>
+</li>
+<li>
+<p>CanvTkwin</p>
+</li>
+<li>
+<p>CanvTxtInfo</p>
+</li>
+<li>
+<p>Clipboard</p>
+</li>
+<li>
+<p>ClrSelect</p>
+</li>
+<li>
+<p>ConfigWidg</p>
+</li>
+<li>
+<p>ConfigWind</p>
+</li>
+<li>
+<p>CoordToWin</p>
+</li>
+<li>
+<p>CrtErrHdlr</p>
+</li>
+<li>
+<p>CrtGenHdlr</p>
+</li>
+<li>
+<p>CrtImgType</p>
+</li>
+<li>
+<p>CrtItemType</p>
+</li>
+<li>
+<p>CrtMainWin</p>
+</li>
+<li>
+<p>CrtPhImgFmt</p>
+</li>
+<li>
+<p>CrtSelHdlr</p>
+</li>
+<li>
+<p>CrtWindow</p>
+</li>
+<li>
+<p>DeleteImg</p>
+</li>
+<li>
+<p>DoOneEvent</p>
+</li>
+<li>
+<p>DoWhenIdle</p>
+</li>
+<li>
+<p>DrawFocHlt</p>
+</li>
+<li>
+<p>EventHndlr</p>
+</li>
+<li>
+<p>EventInit</p>
+</li>
+<li>
+<p>FileHndlr</p>
+</li>
+<li>
+<p>FindPhoto</p>
+</li>
+<li>
+<p>FontId</p>
+</li>
+<li>
+<p>FreeXId</p>
+</li>
+<li>
+<p>GeomReq</p>
+</li>
+<li>
+<p>GetAnchor</p>
+</li>
+<li>
+<p>GetBitmap</p>
+</li>
+<li>
+<p>GetCapStyl</p>
+</li>
+<li>
+<p>GetClrmap</p>
+</li>
+<li>
+<p>GetColor</p>
+</li>
+<li>
+<p>GetCursor</p>
+</li>
+<li>
+<p>GetFont</p>
+</li>
+<li>
+<p>GetFontStr</p>
+</li>
+<li>
+<p>GetGC</p>
+</li>
+<li>
+<p>GetImage</p>
+</li>
+<li>
+<p>GetJoinStl</p>
+</li>
+<li>
+<p>GetJustify</p>
+</li>
+<li>
+<p>GetOption</p>
+</li>
+<li>
+<p>GetPixels</p>
+</li>
+<li>
+<p>GetPixmap</p>
+</li>
+<li>
+<p>GetRelief</p>
+</li>
+<li>
+<p>GetRootCrd</p>
+</li>
+<li>
+<p>GetScroll</p>
+</li>
+<li>
+<p>GetSelect</p>
+</li>
+<li>
+<p>GetUid</p>
+</li>
+<li>
+<p>GetVisual</p>
+</li>
+<li>
+<p>GetVRoot</p>
+</li>
+<li>
+<p>HandleEvent</p>
+</li>
+<li>
+<p>IdToWindow</p>
+</li>
+<li>
+<p>ImgChanged</p>
+</li>
+<li>
+<p>InternAtom</p>
+</li>
+<li>
+<p>MainLoop</p>
+</li>
+<li>
+<p>MaintGeom</p>
+</li>
+<li>
+<p>MainWin</p>
+</li>
+<li>
+<p>ManageGeom</p>
+</li>
+<li>
+<p>MapWindow</p>
+</li>
+<li>
+<p>MeasureChar</p>
+</li>
+<li>
+<p>MoveToplev</p>
+</li>
+<li>
+<p>Name</p>
+</li>
+<li>
+<p>NameOfImg</p>
+</li>
+<li>
+<p>OwnSelect</p>
+</li>
+<li>
+<p>ParseArgv</p>
+</li>
+<li>
+<p>Preserve</p>
+</li>
+<li>
+<p>QWinEvent</p>
+</li>
+<li>
+<p>Restack</p>
+</li>
+<li>
+<p>RestrictEv</p>
+</li>
+<li>
+<p>SetAppName</p>
+</li>
+<li>
+<p>SetClass</p>
+</li>
+<li>
+<p>SetGrid</p>
+</li>
+<li>
+<p>SetVisual</p>
+</li>
+<li>
+<p>Sleep</p>
+</li>
+<li>
+<p>StrictMotif</p>
+</li>
+<li>
+<p>TextLayout</p>
+</li>
+<li>
+<p>TimerHndlr</p>
+</li>
+<li>
+<p>Tk_Init</p>
+</li>
+<li>
+<p>WindowId</p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="implementation">Implementation</a></h2>
+<ul>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Eventloop.html">Tk::Eventloop</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Item.html">Tk::Item</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Submethods.html">Tk::Submethods</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/WidgetDemo.html">Tk::WidgetDemo</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/widgets.html">Tk::widgets</a></p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="experimental_modules">Experimental Modules</a></h2>
+<ul>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Common.html">Tk::Common</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/SunConst.html">Tk::SunConst</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/WinPhoto.html">Tk::WinPhoto</a></p>
+</li>
+</ul>
+<p>
+</p>
+<h2><a name="other_modules_and_languages">Other Modules and Languages</a></h2>
+<ul>
+<li>
+<p><a href="../../../../Tk/Compile.html">Tk::Compile</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/Tcl-perl.html">Tk::Tcl-perl</a></p>
+</li>
+<li>
+<p><a href="../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/X.html">Tk::X</a></p>
+</li>
+</ul>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Nick Ing-Simmons</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../../lib/5.8.7/pod/perl.html">perl(1)</a>, <em>wish(1)</em>.</p>
+
+</body>
+
+</html>

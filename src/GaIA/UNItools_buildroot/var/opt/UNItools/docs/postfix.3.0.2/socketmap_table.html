@@ -1,0 +1,176 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of SOCKETMAP_TABLE</TITLE>
+</HEAD><BODY>
+<H1>SOCKETMAP_TABLE</H1>
+Section: File Formats (5)<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+socketmap_table
+-
+Postfix socketmap table lookup client
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+
+<PRE>
+<B>postmap -q &quot;</B><I>string</I><B>&quot; socketmap:inet:</B><I>host</I><B>:</B><I>port</I><B>:</B><I>name</I>
+<BR>
+<B>postmap -q &quot;</B><I>string</I><B>&quot; socketmap:unix:</B><I>pathname</I><B>:</B><I>name</I>
+
+<B>postmap -q - socketmap:inet:</B><I>host</I><B>:</B><I>port</I><B>:</B><I>name</I><B> &lt;</B><I>inputfile</I>
+<BR>
+<B>postmap -q - socketmap:unix:</B><I>pathname</I><B>:</B><I>name</I><B> &lt;</B><I>inputfile</I>
+</PRE><A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+
+
+The Postfix mail system uses optional tables for address
+rewriting. mail routing or policy lookup.
+<P>
+The Postfix socketmap client expects TCP endpoint names of
+the form <B>inet:</B><I>host</I><B>:</B><I>port</I><B>:</B><I>name</I>, or
+UNIX-domain endpoints of the form <B>unix:</B><I>pathname</I><B>:</B><I>name</I>.
+In both cases, <I>name</I> specifies the name field in a
+socketmap client request (see &quot;REQUEST FORMAT&quot; below).
+<A NAME="lbAE">&nbsp;</A>
+<H2>PROTOCOL</H2>
+
+
+<PRE>
+</PRE>
+
+Socketmaps use a simple protocol: the client sends one
+request, and the server sends one reply.  Each request and
+reply are sent as one netstring object.
+<A NAME="lbAF">&nbsp;</A>
+<H2>REQUEST FORMAT</H2>
+
+
+<PRE>
+</PRE>
+
+The socketmap protocol supports only the lookup request.
+<P>
+Postfix will not generate partial search keys such as domain
+names without one or more subdomains, network addresses
+without one or more least-significant octets, or email
+addresses without the localpart, address extension or domain
+portion. This behavior is also found with cidr:, pcre:, and
+regexp: tables.
+<DL COMPACT>
+<DT><B></B><I>name</I><B> &lt;space&gt; </B><I>key</I><DD>
+Search the named socketmap for the specified key.
+</DL>
+<A NAME="lbAG">&nbsp;</A>
+<H2>REPLY FORMAT</H2>
+
+
+<PRE>
+</PRE>
+
+The Postfix socketmap client requires that replies are not
+longer than 100000 characters (not including the netstring
+encapsulation). Replies must have the following form:
+<DL COMPACT>
+<DT><B>OK &lt;space&gt; </B><I>data</I><DD>
+The requested data was found.
+<DT><B>NOTFOUND &lt;space&gt;<DD>
+The requested data was not found.
+<DT>TEMP &lt;space&gt; </B><I>reason</I><DD>
+<DT><B>TIMEOUT &lt;space&gt; </B><I>reason</I><DD>
+<DT><B>PERM &lt;space&gt; </B><I>reason</I><DD>
+The request failed. The reason, if non-empty, is descriptive
+text.
+</DL>
+<A NAME="lbAH">&nbsp;</A>
+<H2>SECURITY</H2>
+
+
+<PRE>
+This map cannot be used for security-sensitive information,
+because neither the connection nor the server are authenticated.
+</PRE><A NAME="lbAI">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+
+<PRE>
+<A HREF="http://cr.yp.to/proto/netstrings.txt,">http://cr.yp.to/proto/netstrings.txt,</A> netstring definition
+<A HREF="../man1/postconf.1.html">postconf</A>(1), Postfix supported lookup tables
+<A HREF="../man1/postmap.1.html">postmap</A>(1), Postfix lookup table manager
+<A HREF="../man5/regexp_table.5.html">regexp_table</A>(5), format of regular expression tables
+<A HREF="../man5/pcre_table.5.html">pcre_table</A>(5), format of PCRE tables
+<A HREF="../man5/cidr_table.5.html">cidr_table</A>(5), format of CIDR tables
+</PRE><A NAME="lbAJ">&nbsp;</A>
+<H2>README FILES</H2>
+
+
+<PRE>
+</PRE>
+
+Use &quot;<B>postconf readme_directory</B>&quot; or
+&quot;<B>postconf html_directory</B>&quot; to locate this information.
+
+<PRE>
+DATABASE_README, Postfix lookup table overview
+</PRE><A NAME="lbAK">&nbsp;</A>
+<H2>BUGS</H2>
+
+
+
+The protocol limits are not yet configurable.
+<A NAME="lbAL">&nbsp;</A>
+<H2>LICENSE</H2>
+
+
+<PRE>
+</PRE>
+
+The Secure Mailer license must be distributed with this software.
+<A NAME="lbAM">&nbsp;</A>
+<H2>HISTORY</H2>
+
+
+<PRE>
+Socketmap support was introduced with Postfix version 2.10.
+</PRE><A NAME="lbAN">&nbsp;</A>
+<H2>AUTHOR(S)</H2>
+
+
+<PRE>
+Wietse Venema
+IBM T.J. Watson Research
+P.O. Box 704
+Yorktown Heights, NY 10598, USA
+
+</PRE>
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">PROTOCOL</A><DD>
+<DT><A HREF="#lbAF">REQUEST FORMAT</A><DD>
+<DT><A HREF="#lbAG">REPLY FORMAT</A><DD>
+<DT><A HREF="#lbAH">SECURITY</A><DD>
+<DT><A HREF="#lbAI">SEE ALSO</A><DD>
+<DT><A HREF="#lbAJ">README FILES</A><DD>
+<DT><A HREF="#lbAK">BUGS</A><DD>
+<DT><A HREF="#lbAL">LICENSE</A><DD>
+<DT><A HREF="#lbAM">HISTORY</A><DD>
+<DT><A HREF="#lbAN">AUTHOR(S)</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 12:21:52 GMT, August 25, 2016
+</BODY>
+</HTML>

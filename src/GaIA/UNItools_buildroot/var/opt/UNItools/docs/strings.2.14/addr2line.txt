@@ -1,0 +1,91 @@
+ADDR2LINE(1)		     GNU Development Tools		  ADDR2LINE(1)
+
+
+
+NAME
+       addr2line - convert addresses into file names and line numbers.
+
+SYNOPSIS
+       addr2line [-b bfdname│--target=bfdname]
+		 [-C│--demangle[=style]]
+		 [-e filename│--exe=filename]
+		 [-f│--functions] [-s│--basename]
+		 [-H│--help] [-V│--version]
+		 [addr addr ...]
+
+DESCRIPTION
+       addr2line  translates  program  addresses into file names and line num-
+       bers.  Given an address and an executable, it uses the debugging infor-
+       mation  in the executable to figure out which file name and line number
+       are associated with a given address.
+
+       The executable to use is specified with the -e option.  The default  is
+       the file a.out.
+
+       addr2line has two modes of operation.
+
+       In  the first, hexadecimal addresses are specified on the command line,
+       and addr2line displays the file name and line number for each  address.
+
+       In  the	second,	 addr2line  reads  hexadecimal addresses from standard
+       input, and prints the file name and line number	for  each  address  on
+       standard output.	 In this mode, addr2line may be used in a pipe to con-
+       vert dynamically chosen addresses.
+
+       The format of the output is FILENAME:LINENO.  The file  name  and  line
+       number  for  each  address  is  printed	on a separate line.  If the -f
+       option is used, then each FILENAME:LINENO line is preceded by  a	 FUNC-
+       TIONNAME line which is the name of the function containing the address.
+
+       If the file name or function name can not be determined, addr2line will
+       print two question marks in their place.	 If the line number can not be
+       determined, addr2line will print 0.
+
+OPTIONS
+       The long and short forms of options, shown here	as  alternatives,  are
+       equivalent.
+
+       -b bfdname
+       --target=bfdname
+	   Specify  that  the  object-code format for the object files is bfd-
+	   name.
+
+       -C
+       --demangle[=style]
+	   Decode (demangle) low-level symbol  names  into  user-level	names.
+	   Besides  removing  any  initial underscore prepended by the system,
+	   this makes C++ function names readable.  Different  compilers  have
+	   different  mangling	styles. The optional demangling style argument
+	   can be used to choose an appropriate demangling style for your com-
+	   piler.
+
+       -e filename
+       --exe=filename
+	   Specify  the	 name  of the executable for which addresses should be
+	   translated.	The default file is a.out.
+
+       -f
+       --functions
+	   Display function names as well as file and line number information.
+
+       -s
+       --basenames
+	   Display only the base of each file name.
+
+SEE ALSO
+       Info entries for binutils.
+
+COPYRIGHT
+       Copyright  (c)  1991, 92, 93, 94, 95, 96, 97, 98, 99, 2000, 2001, 2002,
+       2003 Free Software Foundation, Inc.
+
+       Permission is granted to copy, distribute and/or modify	this  document
+       under  the  terms of the GNU Free Documentation License, Version 1.1 or
+       any later version published by the Free Software	 Foundation;  with  no
+       Invariant  Sections,  with no Front-Cover Texts, and with no Back-Cover
+       Texts.  A copy of the license is included in the section entitled ‘‘GNU
+       Free Documentation License’’.
+
+
+
+binutils-2.13.90		  2003-04-27			  ADDR2LINE(1)

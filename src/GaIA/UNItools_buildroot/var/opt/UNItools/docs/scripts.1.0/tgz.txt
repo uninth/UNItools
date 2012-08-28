@@ -1,0 +1,47 @@
+TGZ(1)									TGZ(1)
+
+
+
+NAME
+       tgz - Make a gzip’d tar archive
+
+PACKAGE
+       UNItools
+
+SYNOPSIS
+       tgz [destination [source...] ]
+
+DESCRIPTION
+       tgz  makes  a  gzip’d tar archive $1 (or stdout) out of specified files
+       (or, if not specified, from everything in the current directory).
+
+       Requires gzip in the user’s path.
+
+       Requires gnu tar (or something close) in the user’s path due to use  of
+       --exclude, --totals and -S.
+
+COMMANDS
+       sh(1), tar(1), gzip(1)
+
+SEE ALSO
+BUGS
+       Probably. Please report them to the call-desk or the author.
+
+VERSION
+       $Date: 2003/02/21 14:41:28 $
+       $Revision: 1.3 $
+       $Source: /var/opt/UNItools/src/scripts/RCS/tgz,v $
+       $State: Exp $
+
+HISTORY
+       $Log:  tgz,v  $	Revision  1.3  2003/02/21 14:41:28  root *** empty log
+       message ***
+
+
+AUTHOR(S)
+       David C. Niemi
+       E-mail: niemidc@erols.com
+
+
+
+									TGZ(1)

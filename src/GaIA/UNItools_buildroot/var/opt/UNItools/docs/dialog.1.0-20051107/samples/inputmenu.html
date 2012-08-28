@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./inputmenu</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir">#! /bin/bash</span>
+<span class="line">    1 </span><span class="dir"># $Id: inputmenu,v 1.6 2004/09/19 17:59:14 tom Exp $</span>
+<span class="line">    2 </span><span class="dir"># 2002 - written by Tobias Rittweiler &lt;tobrit&#64;freebits.de&gt;</span>
+<span class="line">    3 </span><span class="sym">:</span> $<span class="sym">{</span>DIALOG<span class="sym">=</span>dialog<span class="sym">}</span>
+<span class="line">    4 </span>
+<span class="line">    5 </span>user<span class="sym">=</span><span class="str">&quot;$USER&quot;</span>    <span class="sym">;</span> uid<span class="sym">=</span><span class="str">&quot;$UID&quot;</span>   <span class="sym">;</span>
+<span class="line">    6 </span>gid<span class="sym">=</span><span class="str">&quot;$GROUPS&quot;</span>  <span class="sym">;</span> home<span class="sym">=</span><span class="str">&quot;$HOME&quot;</span>  <span class="sym">;</span>
+<span class="line">    7 </span>
+<span class="line">    8 </span><span class="kwa">while</span> <span class="sym">[</span> $<span class="sym">{</span>returncode<span class="sym">:-</span><span class="num">99</span><span class="sym">} -</span>ne <span class="num">1</span> <span class="sym">-</span>a $<span class="sym">{</span>returncode<span class="sym">:-</span><span class="num">99</span><span class="sym">} -</span>ne <span class="num">250</span> <span class="sym">];</span> <span class="kwa">do</span>
+<span class="line">    9 </span>       exec <span class="num">3</span><span class="sym">&gt;&amp;</span><span class="num">1</span>
+<span class="line">   10 </span>       value<span class="sym">=</span>$<span class="sym">(</span><span class="str">&quot;$DIALOG&quot;</span> <span class="sym">--</span>clear <span class="sym">--</span>ok<span class="sym">-</span>label <span class="str">&quot;Create&quot;</span> \
+<span class="line">   11 </span>                          <span class="sym">--</span>backtitle <span class="str">&quot;An Example for the use of --inputmenu:&quot;</span> \
+<span class="line">   12 </span>                          <span class="sym">--</span>inputmenu <span class="str">&quot;Originally I designed --inputmenu for a</span> <span class="esc">\</span>
+<span class="line">   13 </span><span class="str">configuration purpose. Here is a possible piece of a configuration program.</span> <span class="esc">\</span>
+<span class="line">   14 </span><span class="str">&quot;</span> <span class="num">20 50 10</span> \
+<span class="line">   15 </span><span class="str">&quot;Username:&quot;</span> <span class="str">&quot;$user&quot;</span> \
+<span class="line">   16 </span><span class="str">&quot;UID:&quot;</span>      <span class="str">&quot;$uid&quot;</span> \
+<span class="line">   17 </span><span class="str">&quot;GID:&quot;</span>      <span class="str">&quot;$gid&quot;</span> \
+<span class="line">   18 </span><span class="str">&quot;HOME:&quot;</span>     <span class="str">&quot;$home&quot;</span> \
+<span class="line">   19 </span><span class="num">2</span><span class="sym">&gt;&amp;</span><span class="num">1 1</span><span class="sym">&gt;&amp;</span><span class="num">3</span> <span class="sym">)</span>
+<span class="line">   20 </span>       returncode<span class="sym">=</span>$?
+<span class="line">   21 </span>       exec <span class="num">3</span><span class="sym">&gt;&amp;-</span>
+<span class="line">   22 </span>       <span class="kwa">case</span> $returncode in
+<span class="line">   23 </span>       <span class="num">1</span><span class="sym">)</span>
+<span class="line">   24 </span>               <span class="str">&quot;$DIALOG&quot;</span>  <span class="sym">--</span>clear <span class="sym">--</span>backtitle <span class="str">&quot;An Example for the use of --inputmenu:&quot;</span> \
+<span class="line">   25 </span>                               <span class="sym">--</span>yesno <span class="str">&quot;Really quit?&quot;</span> <span class="num">10 30</span>
+<span class="line">   26 </span>               <span class="kwa">case</span> $? in
+<span class="line">   27 </span>                       <span class="num">0</span><span class="sym">)</span> <span class="kwa">break</span><span class="sym">;;</span>
+<span class="line">   28 </span>                       <span class="num">1</span><span class="sym">)</span> returncode<span class="sym">=</span><span class="num">99</span><span class="sym">;;</span>
+<span class="line">   29 </span>               esac
+<span class="line">   30 </span>               <span class="sym">;;</span>
+<span class="line">   31 </span>       <span class="num">0</span><span class="sym">)</span>
+<span class="line">   32 </span>               <span class="str">&quot;$DIALOG&quot;</span> <span class="sym">--</span>clear <span class="sym">--</span>backtitle <span class="str">&quot;An Example for the use of --inputmenu:&quot;</span>  \
+<span class="line">   33 </span>			<span class="sym">--</span>msgbox <span class="str">&quot;useradd</span> <span class="esc">\n\</span>
+<span class="line">   34 </span><span class="str">				-d $home</span> <span class="esc">\n\</span>
+<span class="line">   35 </span><span class="str">				-u $uid</span> <span class="esc">\n\</span>
+<span class="line">   36 </span><span class="str">				-g $gid</span> <span class="esc">\n\</span>
+<span class="line">   37 </span><span class="str">				$user&quot;</span> <span class="num">10 40</span>
+<span class="line">   38 </span>               <span class="sym">;;</span>
+<span class="line">   39 </span>       <span class="num">3</span><span class="sym">)</span>
+<span class="line">   40 </span>               value<span class="sym">=</span><span class="str">&quot;${value:8:${#value}}&quot;</span>
+<span class="line">   41 </span>               tag<span class="sym">=</span><span class="str">&quot;${value%:*}&quot;</span>
+<span class="line">   42 </span>               item<span class="sym">=</span><span class="str">&quot;${value#*: }&quot;</span>
+<span class="line">   43 </span>
+<span class="line">   44 </span>               <span class="kwa">case</span> <span class="str">&quot;$tag&quot;</span> in
+<span class="line">   45 </span>                       Username<span class="sym">)</span> user<span class="sym">=</span><span class="str">&quot;$item&quot;</span><span class="sym">;;</span>
+<span class="line">   46 </span>                       UID<span class="sym">)</span> uid<span class="sym">=</span><span class="str">&quot;$item&quot;</span><span class="sym">;;</span>
+<span class="line">   47 </span>                       GID<span class="sym">)</span> gid<span class="sym">=</span><span class="str">&quot;$item&quot;</span><span class="sym">;;</span>
+<span class="line">   48 </span>                       HOME<span class="sym">)</span> home<span class="sym">=</span><span class="str">&quot;$item&quot;</span><span class="sym">;;</span>
+<span class="line">   49 </span>               esac
+<span class="line">   50 </span>               <span class="sym">;;</span>
+<span class="line">   51 </span>
+<span class="line">   52 </span>       <span class="num">255</span><span class="sym">)</span>
+<span class="line">   53 </span>                echo <span class="str">&quot;ESC pressed.&quot;</span>
+<span class="line">   54 </span>                <span class="kwa">break</span>
+<span class="line">   55 </span>                <span class="sym">;;</span>
+<span class="line">   56 </span>
+<span class="line">   57 </span>       esac
+<span class="line">   58 </span>done
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

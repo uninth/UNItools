@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./copifuncs/copi.ifreq2</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir"># this is the base directory, where the req-files are stored and the</span>
+<span class="line">    1 </span><span class="dir"># default outbound</span>
+<span class="line">    2 </span>$flo_path <span class="sym">=</span> <span class="str">&quot;/var/spool/ifmail&quot;</span><span class="sym">;</span>
+<span class="line">    3 </span>$outbound <span class="sym">=</span> <span class="str">&quot;/outb&quot;</span><span class="sym">;</span> <span class="dir"># don</span><span class="dstr">'t be confused, it means &quot;/var/spool/ifmail/outb&quot;</span>
+<span class="line">    4 </span><span class="dstr"></span>
+<span class="line">    5 </span><span class="dstr"># end of configuration #############################################</span>
+<span class="line">    6 </span><span class="dstr"></span>
+<span class="line">    7 </span><span class="dstr"># main()</span>
+<span class="line">    8 </span><span class="dstr">#</span>
+<span class="line">    9 </span><span class="dstr">if ((&#64;ARGV &lt; 1) || &#64;ARGV &gt; 2 || $ARGV[0] eq &quot;-?&quot;) {</span>
+<span class="line">   10 </span><span class="dstr">    &amp;usage;</span>
+<span class="line">   11 </span><span class="dstr">} elsif ($ARGV[1] ne &quot;&quot;) {</span>
+<span class="line">   12 </span><span class="dstr">    $node = $ARGV[1];</span>
+<span class="line">   13 </span><span class="dstr">}</span>
+<span class="line">   14 </span><span class="dstr">$file = $ARGV[0];</span>
+<span class="line">   15 </span><span class="dstr"></span>
+<span class="line">   16 </span><span class="dstr">if (! ($node =~ /</span><span class="esc">\d</span><span class="dstr">+:</span><span class="esc">\d</span><span class="dstr">+</span><span class="esc">\/\d</span><span class="dstr">+/)) {</span>
+<span class="line">   17 </span><span class="dstr">    die &quot;Wrong address: $node!!!&quot;;</span>
+<span class="line">   18 </span><span class="dstr">}</span>
+<span class="line">   19 </span><span class="dstr"></span>
+<span class="line">   20 </span><span class="dstr">($zone, $netnode) = split (/:/, $node);</span>
+<span class="line">   21 </span><span class="dstr">$reqfile = sprintf(&quot;%04x%04x&quot;, split(/</span><span class="esc">\/</span><span class="dstr">/, $netnode));</span>
+<span class="line">   22 </span><span class="dstr"></span>
+<span class="line">   23 </span><span class="dstr">if ($reqfile eq &quot;00000000&quot;) {</span>
+<span class="line">   24 </span><span class="dstr">    print (&quot;can'</span><span class="dir">t resolve the fido address \&quot;$node\&quot;\n</span><span class="dstr">&quot;);</span>
+<span class="line">   25 </span><span class="dstr">    &amp;usage;</span>
+<span class="line">   26 </span><span class="dstr">} else {</span>
+<span class="line">   27 </span><span class="dstr">    if ( $zone == 2 ) {</span>
+<span class="line">   28 </span><span class="dstr">        $reqfile = $flo_path . $outbound . &quot;</span><span class="dir">/</span><span class="dstr">&quot; . $reqfile . &quot;</span><span class="dir">.req</span><span class="dstr">&quot;;</span>
+<span class="line">   29 </span><span class="dstr">    } elsif ( $zone &lt; 7 ) {</span>
+<span class="line">   30 </span><span class="dstr">        $reqfile = $flo_path . $outbound . &quot;</span><span class="dir">.00$zone/</span><span class="dstr">&quot; . $reqfile . &quot;</span><span class="dir">.req</span><span class="dstr">&quot;;</span>
+<span class="line">   31 </span><span class="dstr">    } else {</span>
+<span class="line">   32 </span><span class="dstr">        $outbound = &quot;</span><span class="dir"></span><span class="dstr">&quot;;</span>
+<span class="line">   33 </span><span class="dstr">        open (CONFIG, &quot;</span><span class="dir">&lt; $config</span><span class="dstr">&quot;) || die &quot;</span><span class="dir">can</span><span class="dstr">'t open $config&quot;;</span>
+<span class="line">   34 </span><span class="dstr">        while ($_ = &lt;CONFIG&gt;) {</span>
+<span class="line">   35 </span><span class="dstr">            if ( /^address.*$zone:.*</span><span class="esc">\&#64;</span><span class="dstr">(</span><span class="esc">\w</span><span class="dstr">*)/ ) { $outbound = $1; }</span>
+<span class="line">   36 </span><span class="dstr">        }</span>
+<span class="line">   37 </span><span class="dstr">        if ( $outbound eq &quot;&quot; ) {</span>
+<span class="line">   38 </span><span class="dstr">            die &quot;No Zone $zone found in $config&quot;;</span>
+<span class="line">   39 </span><span class="dstr">        }</span>
+<span class="line">   40 </span><span class="dstr">        $reqfile = $flo_path . &quot;/$outbound/&quot; . $reqfile . &quot;.req&quot;;</span>
+<span class="line">   41 </span><span class="dstr">    }</span>
+<span class="line">   42 </span><span class="dstr"></span>
+<span class="line">   43 </span><span class="dstr">    # seperate the file names of the first argument</span>
+<span class="line">   44 </span><span class="dstr">    &#64;files = split (/</span><span class="esc">\s</span><span class="dstr">+/, $ARGV[0]);</span>
+<span class="line">   45 </span><span class="dstr"></span>
+<span class="line">   46 </span><span class="dstr">    # open the flofile for appending</span>
+<span class="line">   47 </span><span class="dstr">    open(FLOFILE, &quot;&gt;&gt;&quot; . $reqfile) || die &quot;can'</span><span class="dir">t open $reqfile</span><span class="dstr">&quot;;</span>
+<span class="line">   48 </span><span class="dstr">        while (&#64;files) {</span>
+<span class="line">   49 </span><span class="dstr">            print (FLOFILE shift(&#64;files), &quot;</span><span class="dir">\n</span><span class="dstr">&quot;);</span>
+<span class="line">   50 </span><span class="dstr">        }</span>
+<span class="line">   51 </span><span class="dstr">    close(FLOFILE);</span>
+<span class="line">   52 </span><span class="dstr"></span>
+<span class="line">   53 </span><span class="dstr">    print (&quot;</span><span class="dir">--- fido request $ver ---------------------------\n</span><span class="dstr">&quot;);</span>
+<span class="line">   54 </span><span class="dstr">    print (&quot;</span><span class="dir">requesting \&quot;$file\&quot; from fido-node $node\n</span><span class="dstr">&quot;);</span>
+<span class="line">   55 </span><span class="dstr">    print (&quot;</span><span class="dir">--- executing ifstat .. ------------------------\n</span><span class="dstr">&quot;);</span>
+<span class="line">   56 </span><span class="dstr">    system(&quot;</span><span class="dir">ifstat</span><span class="dstr">&quot;);</span>
+<span class="line">   57 </span><span class="dstr">}</span>
+<span class="line">   58 </span><span class="dstr"></span>
+<span class="line">   59 </span><span class="dstr">#</span>
+<span class="line">   60 </span><span class="dstr"># subroutine &quot;</span><span class="dir">usage</span><span class="dstr">&quot;</span>
+<span class="line">   61 </span><span class="dstr">#</span>
+<span class="line">   62 </span><span class="dstr">sub usage {</span>
+<span class="line">   63 </span><span class="dstr">    printf (&quot;</span><span class="dir">--- fido request %s -------------\n</span><span class="dstr">&quot;, $ver);</span>
+<span class="line">   64 </span><span class="dstr">    printf (&quot;</span><span class="dir">usage: ifreq &lt;file&gt; [&lt;3-d address&gt;]\n</span><span class="dstr">&quot;);</span>
+<span class="line">   65 </span><span class="dstr">    printf (&quot;</span><span class="dir">e.g. : ifreq FILES 2:2410/305\n</span><span class="dstr">&quot;);</span>
+<span class="line">   66 </span><span class="dstr">    exit 1;</span>
+<span class="line">   67 </span><span class="dstr">}</span><span class="dir"></span>
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

@@ -1,0 +1,80 @@
+        _                           ____
+  _ __ (_)_ __  _ __   ___ _ __    / ->/|
+ | '_ \| | '_ \| '_ \ / _ \ '__|  /<-_/ |
+ | | | | | |_) | |_) |  __/ |     |   | /
+ |_| |_|_| .__/| .__/ \___|_|     |___|/
+         |_|   |_|
+
+    The Network Infrastructure Parser
+
+This document is a TODO list of features and functionality to be added to
+the next feature release of nipper. This list should not be seen as definative
+and will expand and contract over time. If you have feature requests, please
+add them to the sourceforge project page. Additionally, any bugs and patches
+should also be added to the sourceforge project page.
+
+NTP
+VLAN 1
+Create a default Console line
+
+
+TODO before 0.12 release:
+  * Improve ScreenOS Interfaces
+  * Look into protocol inspection (where applicable)
+  * IOS Interface "encapsulation"
+  * IOS Interface "ip vrf"
+  * Add ScreenOS Intrusion Prevention
+  * Add Banners for all devices
+  * Look for services allowed in the firewall rules
+  * Look for service ranges.
+
+
+OTHER STUFF
+===========
+
+nipper common:
+  * Glossary section
+  * Latex output enhancements (including longtable)
+  * Auto-detection of configuration type
+  * Allow specific sections of ACL to be analysed
+  * Better SNMP config retrieval
+  * Kommander script?
+
+Cisco IOS-based devices:
+  * Policy-based routing
+  * Complete AAA authentication support
+  * ISIS Support (NSAR104)
+  * Improve BGP support
+  * NTP/SNTP issues
+  * Wireless
+  * VTP
+  * Spanning Tree and issues.
+  * Different Banner Types
+
+Cisco PIX-, ASA- or FWSM-based devices:
+  * Failover
+  * Logging
+  * Dynamic NAT
+  * PAT & NAT (Name -> IP map option)
+  * SSH Protocol Versions (FWSM)
+  * PIX Net Speed / Duplex
+  * PIX Interface VLAN
+  * PIX services
+
+Cisco NMP- or CatOS-based devices:
+  * Improve support
+
+Juniper NetScreen-based devices:
+  * Default netscreen password of "netscreen" : set admin password nKVUM2rwMUzPcrkG5sWIHdCtqkAibn
+
+Cisco CSS-based devices:
+  * Improve support.
+
+Nortel Passport-based devices:
+  * Improve support.
+
+CheckPoint Firewall-1-based devices:
+  * Improve support.
+
+SonicWall SonicOS-based devices:
+  * Improve support.

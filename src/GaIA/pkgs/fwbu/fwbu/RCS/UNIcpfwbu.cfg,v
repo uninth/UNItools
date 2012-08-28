@@ -1,0 +1,995 @@
+head	1.21;
+access;
+symbols;
+locks
+	root:1.21; strict;
+comment	@# @;
+
+
+1.21
+date	2015.06.11.08.45.54;	author root;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	2015.06.02.13.01.42;	author root;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	2015.02.05.19.51.33;	author root;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	2015.02.03.15.18.04;	author root;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	2015.02.02.16.06.05;	author root;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	2014.10.08.10.06.40;	author root;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	2014.08.19.13.45.10;	author root;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	2014.08.19.09.55.22;	author root;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	2014.08.19.09.38.51;	author root;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	2014.08.18.13.48.56;	author root;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	2014.03.07.10.48.33;	author root;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	2013.06.27.10.39.46;	author root;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	2012.08.30.10.00.51;	author root;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	2012.08.21.19.37.12;	author root;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	2012.08.21.11.28.59;	author root;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	2012.08.21.09.08.32;	author root;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	2012.08.21.08.48.04;	author root;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	2012.08.21.08.45.59;	author root;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	2012.08.20.19.26.43;	author root;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	2012.07.03.10.49.18;	author root;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	2012.07.02.07.47.49;	author root;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.21
+log
+@tilføjet tar arkiv af /etc
+@
+text
+@:
+#
+# Check Point SecurePlatform R65 - R75
+#
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.20 2015/06/02 13:01:42 root Exp root $
+#
+################################################################################
+#
+# Vars
+#
+################################################################################
+
+# Extra files - ignored if not found
+EXTRAFILES=/var/opt/UNItools/fwbu/etc/extra_files_for_backup.txt
+
+# Mimic backup file name construction of backup_util sched ... 
+BACKUPFILE="backup_${FQDN}"
+YEAR=`/bin/date +%Y`
+MONTH=`/bin/date '+%d_%m' | sed 's/_0/_/g'`	# remove leading 0 from month
+TIME=`/bin/date '+%H_%M'`
+
+BACKUPFILE="${BACKUPFILE}_${MONTH}_${YEAR}_${TIME}"
+
+################################################################################
+#
+# Functions
+#
+################################################################################
+
+function do_system_backup()
+{
+	#
+	# actual backup
+	#
+	logit "Starting backup to '${BACKUPFILE}' ... "
+	cd $HOME
+
+	echo y | /bin/backup -d --file ${BACKUPFILE} > ${TMPFILE} 2>&1
+	# exit status ignored in pipe
+
+	BACKUP_SUCCEDDED_OK=`grep "Backup operation succedded" /tmp/output.txt | wc -l | tr -d ' '`
+	logit < /tmp/output.txt
+
+	case ${BACKUP_SUCCEDDED_OK} in
+		1)	:
+		;;
+		*)	logit "Huston we got a problem: BACKUP_SUCCEDDED_OK = '${BACKUP_SUCCEDDED_OK}' should be 1"
+			logit < ${TMPFILE}
+			logit "cat /var/log/CPbackup_err.txt"
+			logit < /var/log/CPbackup_err.txt
+		;;
+	esac
+
+	sync; sync; sync
+}
+
+function write_restore_procedure() {
+	logit "Creating README ... "
+
+	/bin/rpm -qa 			> ${RESTORE_INFO_DIR}/rpm--qa.txt
+	/sbin/sysctl -a 		> ${RESTORE_INFO_DIR}/sysctl-a.txt
+	/var/opt/UNItools/bin/lshw	> ${RESTORE_INFO_DIR}/lshw.txt
+	/bin/cp /var/CPbackup/schemes/system_configuration.cpbak ${RESTORE_INFO_DIR}
+
+	/bin/tar --create --file=${RESTORE_INFO_DIR}/etc.tgz --force-local --gzip --exclude=/etc/auto_hfs --exclude=/etc/ppk.boot /etc
+
+	#
+	# Do an export of the OS/IP configuration
+	#
+	grep -iq gaia /etc/cp-release >/dev/null
+	case $? in
+		0)	(cd ${RESTORE_INFO_DIR}; clish -c "save configuration ipconfig.clish" 2>&1 | logit)
+			CONFIG=ipconfig.clish
+			CP_RELEASE=GaIA
+		;;
+		*)	(cd ${RESTORE_INFO_DIR}; /etc/sysconfig/netconf.C . )
+			CONFIG=netconfig.C
+			CP_RELEASE=SPLAT
+		;;
+	esac
+
+	logit "OS is $CP_RELEASE, saved ip config as $CONFIG"
+
+	#
+	# Export the firewall configuration. R7x, but not R6x
+	#
+	HOSTNAME=`hostname`
+	        migrate="/var/opt/UNItools/fwbu/upgrade_tools/migrate"
+	MIGRATE_VERSION="/var/opt/UNItools/fwbu/upgrade_tools/VERSION"
+	if [ -x $migrate ]; then
+		logit "Using migrate version `cat $MIGRATE_VERSION` from UNItools ... "
+		$migrate export -n /tmp/$HOSTNAME-export
+	else
+		logit "In order to migrate to a newer version you have to install the "
+		logit "version of migrate for that version. If this is the latest version"
+		logit "you should use backup/restore instead"
+	fi
+
+	/bin/mv /tmp/$HOSTNAME-export* ${RESTORE_INFO_DIR}
+
+printf "%65s\n" "`date`" > ${RESTORE_INFO_DIR}/README
+cat << EOF >> ${RESTORE_INFO_DIR}/README
+
+This  documentation  is  beeing made as part of the backup proce-
+dure. The latest version of this text is stored in
+	${RESTORE_INFO_DIR}
+
+on the machine ${FQDN}.
+
+If you are reading this file chances are that this machine has to
+be restored after a major crash. Well, such is life.
+
+First, A word of WARNING The next check list does not claim to be
+exhaustive, error free, user friendly, or complete. There is most
+probably something that I forgot to put in it or things that have
+been modified on the system since this list was made.  So  please
+make use of discretion while using it.
+
+The README is accompanied with theese documents:
+
+*  backup_<hostname>.<domainname>_<day>_<month>_<year>_<time>.tgz
+   Link to the backup archive.  Move to /var/CPbackup/backups be-
+   fore calling Check Points restore procedure.
+*  backup_<hostname>.<domainname> <...> backup.log
+   Link the output from the backup.
+*  etc.tgz
+   Tar archive of /etc except /etc/auto_hfs and /etc/ppk.boot.
+*  lshw.txt
+   Output from the command lshw describing the hardware.
+*  rpm--qa.txt
+   Output from rpm -qa - describing all installed packages.
+*  sysctl-a.txt
+   Output from sysctl -a -- the system configuration.
+*  system_configuration.cpbak
+   The system backup configuration file (copy).
+*  date-of-last-successful-backup
+   Date and time for last successful backup - should  match  this
+   archive.
+*  backup_status
+   Backup status for *this* backup archive: If the content is the
+   word 'ok' then the backup is valid.   Otherwise the backup has
+   failed and cannot be used.
+*  $CONFIG - ip/os configuration for $CP_RELEASE
+   A SPLAT IP configuration (netconf.C) can  be restored with the
+   command
+   mv netconf.C /etc/sysconfig/netconf.C; cpnetconf load
+   A GaIA IP/OS  configuration  (ipconfig.clish) can  be restored
+   with the command
+   clish -c 'load configuration ipconfig.clish'
+*  $HOSTNAME-export.tgz
+   The exported Check Point configuration. It can be restored with
+   the command \$FWDIR/bin/migrate import $HOSTNAME-export.tgz
+
+EOF
+
+LAST_SUCCESSFUL_BACKUP_TIME=`cat ${RESTORE_INFO_DIR}/date-of-last-successful-backup`
+LAST_SUCCESSFUL_BACKUP_ARCHIVE="backup_${FQDN}_`cat ${RESTORE_INFO_DIR}/date-of-last-successful-backup | sed 's/ /_/g'`.tgz"
+
+logit "last successful backup: $LAST_SUCCESSFUL_BACKUP_ARCHIVE"
+logit "last successful backup completed on $LAST_SUCCESSFUL_BACKUP_TIME"
+
+case ${BACKUP_SUCCEDDED_OK} in
+	1)	echo "   The backup status for the archive is ok." >> ${RESTORE_INFO_DIR}/README
+	;;
+	*)	echo "   The backup status for the archive is NOT ok." >> ${RESTORE_INFO_DIR}/README
+
+	case "$LAST_SUCCESSFUL_BACKUP_TIME" in
+		never)
+		cat << EOF >> ${RESTORE_INFO_DIR}/README
+	
+You are out of luck. The machine was never backed up successfully
+restoring from the archive will fail.
+
+EOF
+		;;
+		*)
+		cat << EOF >> ${RESTORE_INFO_DIR}/README
+
+   Use the backup which date  matches $LAST_SUCCESSFUL_BACKUP_ARCHIVE
+
+EOF
+		;;
+	esac
+	;;
+esac
+
+#
+# GAiA or SecurePlatform or something else?
+#
+
+if [ -f /etc/cp-release ]; then
+	FW_VERSION=`cat /etc/cp-release`
+else
+	FW_VERSION="firewall-1"	# unknown
+fi
+
+cat << EOF >> ${RESTORE_INFO_DIR}/README
+
+This machine is a firewall running $FW_VERSION,
+so it is not that hard restoring it to normal operations.
+
+However there are at least two pitfals:
+
+*  The installed products should match the products of the failed
+   machine
+*  The patch level should match exactly too.
+
+You will need similar hardware, the install media and all instal-
+led patches.  The  most critical component of the hardware is the
+number of physical netcards (see below).
+
+Non VLAN interface configuration below to ease off-site restore.
+-----------------------------------------------------------------
+EOF
+
+/sbin/ifconfig -a|sed '/^eth/!d; s/\..*//; s/ .*//;' |sed '$!N; /^\(.*\)\n\1$/!P; D'|while read INTERFACENAME
+do
+	echo "${INTERFACENAME}: `/sbin/ifconfig ${INTERFACENAME}|sed '/inet6/d;/inet/!d; s/ *Bcast.*Mask:/\//'`"
+done >> ${RESTORE_INFO_DIR}/README
+
+
+cat << EOF >> ${RESTORE_INFO_DIR}/README
+
+Disk layout (made by the installation procedure):
+-----------------------------------------------------------------
+df -h:
+`df -h`
+
+Pay attention to Use% when sizing a new disk.
+-----------------------------------------------------------------
+Output from
+	fdisk -l
+`/sbin/fdisk -l`
+-----------------------------------------------------------------
+
+Check Point Firewall Software:
+=================================================================
+
+It is difficult to  determin if any non-standard patches has been
+applied. First the official information:
+-----------------------------------------------------------------
+output from
+	$FWDIR/bin/hfa_ver.sh
+`$FWDIR/bin/hfa_ver.sh 2>&1`
+-----------------------------------------------------------------
+output from
+	$CPDIR/bin/cpprod_util CPPROD_GetCurrentVersion FW1
+`$CPDIR/bin/cpprod_util CPPROD_GetCurrentVersion FW1`
+-----------------------------------------------------------------
+output from
+	$CPDIR/bin/cpprod_util CPPROD_GetValue "FW1//$curVer" CurrentLabel 1
+`$CPDIR/bin/cpprod_util CPPROD_GetValue "FW1//$curVer" CurrentLabel 1`
+-----------------------------------------------------------------
+output from
+	$CPDIR/bin/cpprod_util CPPROD_GetValue "FW1//$curVer//HotFixes//LastInfo" LastHFAIndex 1
+`$CPDIR/bin/cpprod_util CPPROD_GetValue "FW1//$curVer//HotFixes//LastInfo" LastHFAIndex 1`
+-----------------------------------------------------------------
+output from
+	cpinfo -i -y all
+`cpinfo -i -y all`
+-----------------------------------------------------------------
+output from
+	$FWDIR/bin/fw ver -k
+`$FWDIR/bin/fw ver -k`
+-----------------------------------------------------------------
+
+Patches usually goes into /var/hfa, at least on Secure Platform.
+Output from
+	find /var/hfa* -maxdepth 1
+`find /var/hfa* -maxdepth 1`
+
+The firewall runs this rulebase:
+-----------------------------------------------------------------
+$FWDIR/bin/fw stat
+`$FWDIR/bin/fw stat`
+-----------------------------------------------------------------
+
+Disaster Recovery / Restore
+=================================================================
+
+1  Do a  new installation and don't pay  too  much  attention the
+   configuration. Install the OS from a boot media, and enable or
+   install the firewall software (cpconfig).
+   Follow the on-screen instructions.
+
+2  Apply all relevant  patches (only the same as applied for this
+   host)
+
+3  Install any other tools (UNI*).
+
+4  Copy the backup archive to /var/CPbackup/backups, and do a re-
+   store (restore - select the backup archive)
+   
+5  If you run into problems, try a search on Check Point knowled-
+   gebase.
+
+A more  detailed instructions available on the internal wiki, in
+the section Firewall -- Disaster recovery.
+
+Good luck
+
+EOF
+}
+
+function do_pre_backup() {
+	#
+	# preserve last succcess full backup info
+	#
+
+	if [ ! -d "${RESTORE_INFO_DIR}" ]; then
+		mkdir "${RESTORE_INFO_DIR}"
+		echo never > /tmp/date-of-last-successful-backup
+	else
+		if [ -f "${RESTORE_INFO_DIR}/date-of-last-successful-backup" ]; then
+			/bin/mv "${RESTORE_INFO_DIR}/date-of-last-successful-backup" /tmp/date-of-last-successful-backup
+		else
+			echo never > /tmp/date-of-last-successful-backup
+		fi
+
+		/bin/rm -fr "${RESTORE_INFO_DIR}"
+		mkdir "${RESTORE_INFO_DIR}"
+	fi
+
+	/bin/mv /tmp/date-of-last-successful-backup "${RESTORE_INFO_DIR}/date-of-last-successful-backup"
+
+	logit "Last successful backup: `cat ${RESTORE_INFO_DIR}/date-of-last-successful-backup`"
+
+	add_files_to_backup_config
+}
+
+function add_files_to_backup_config() {
+
+	logit "Adding files to the backup configuration ... "
+	CFG=/var/CPbackup/schemes/system_configuration.cpbak
+
+	#
+	# Append a number of files to CFG
+	#
+	test -f ${CFG}.org || {
+		cp ${CFG} ${CFG}.org
+		logit "preserving original ${CFG} ... "
+	}
+
+	grep -q ${CFG} ${CFG}
+	case $? in
+		0)	logit "already done, ${CFG} found in ${CFG}"
+		;;
+		1)	# missing, add files
+		logit "adding files to ${CFG} ... "
+		awk '
+			BEGIN { IN_FILE_SECTION = 0 }
+
+			$0 ~ /<INCLUDE_FILES>/ {
+				IN_FILE_SECTION = 1;
+				print $0
+				next
+			}
+
+			$0 ~ /<\/INCLUDE_FILES>/ {
+				IN_FILE_SECTION = 0;
+				#
+				# Add files here
+				#
+
+				while ((getline line < "'"$EXTRAFILES"'") > 0)
+				{
+					print line
+
+				}
+				close("'"$EXTRAFILES"'");
+				print $0
+				next
+			}
+
+			{
+				print $0
+			}
+
+		' < ${CFG}.org >  ${CFG}
+
+		diff ${CFG} ${CFG}.org
+		;;
+		*)	logit "what?!"
+	esac
+}
+
+function do_post_backup() {
+	#
+	# Copy 'real' backup log and archive to RESTORE_INFORMATION
+	#
+	LOGFILE=`find /var/CPbackup/log/backups /var/log/CPbackup/log -mmin -30 -type f | tail -1`
+	ARCHIVE=`find /var/CPbackup/backups /var/log/CPbackup/backups  -mmin -30 -type f | tail -1`
+
+	if [ -f "${LOGFILE}" ]; then
+		/bin/cp ${LOGFILE} ${RESTORE_INFO_DIR}
+	else
+		logit "Real backup logfile is in /var/CPbackup/log/backups/"
+		logit "logfile (${LOGFILE}) not found"
+	fi
+
+	if [ -f "${ARCHIVE}" ]; then
+		/bin/cp ${ARCHIVE} ${RESTORE_INFO_DIR}
+	else
+		logit "Real backup archive is in /var/CPbackup/backups/"
+		logit "archive (${ARCHIVE}) not found"
+	fi
+
+	case ${BACKUP_SUCCEDDED_OK} in
+		1)	echo ok		> ${RESTORE_INFO_DIR}/backup_status
+			echo "${MONTH} ${YEAR} ${TIME}"	> ${RESTORE_INFO_DIR}/date-of-last-successful-backup
+		;;
+		*)	echo failed	> ${RESTORE_INFO_DIR}/backup_status
+		# date-of-last-successful-backup exists
+		;;
+	esac
+
+	write_restore_procedure
+}
+
+function rm_old_archives {
+	logit "pruning backup archives and keeping the last ${BACKLOG}"
+	/bin/echo y | /bin/backup -p ${BACKLOG} | logit
+
+	logit "logfile saved in RESTORE_INFORMATION"
+	/bin/mv /var/log/backup.log ${RESTORE_INFO_DIR}
+
+	logit "removing files older than '${BACKLOG:=10}' in /tmp/temp_tar_* and /var/CPbackup/log ... "
+	find /tmp/temp_tar_* /var/CPbackup/log -type f -mtime +${BACKLOG:=10} -exec /bin/rm {} \;
+}
+@
+
+
+1.20
+log
+@manglede et -i til cpinfo
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.19 2015/02/05 19:51:33 root Exp $
+d64 3
+d88 5
+a92 3
+	if [ -x /var/opt/UNItools/fwbu/migrate/upgrade_tools/migrate ]; then
+		logit "Using migrate version `cat /var/opt/UNItools/fwbu/migrate/VERSION` from UNItools ... "
+		/var/opt/UNItools/fwbu/migrate/upgrade_tools/migrate export -n /tmp/$HOSTNAME-export
+d94 3
+a96 2
+		logit "Using migrate from $FWDIR Please install the latest migration tools"
+		$FWDIR/bin/upgrade_tools/migrate export -n /tmp/$HOSTNAME-export
+d126 2
+@
+
+
+1.19
+log
+@added cleanup of logfiles, export of config and OS/IP config
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.17 2015/02/02 16:06:05 root Exp $
+d250 3
+a252 2
+
+All fine, but I think you should relay on this:
+@
+
+
+1.18
+log
+@migration tools
+@
+text
+@d79 2
+d85 3
+a87 4
+	if [ -f /var/opt/UNItools/fwbu/migrate/upgrade_tools/migrate ]; then
+		migrate=/var/opt/UNItools/fwbu/migrate/upgrade_tools/migrate
+		if [ -f /var/opt/UNItools/fwbu/migrate/VERSION ]; then
+			logit "using migration tools version `cat /var/opt/UNItools/fwbu/migrate/VERSION`"
+d89 2
+a90 2
+		logit "using migration tools in \$FWDIR/bin .... will only work with the same version"
+		migrate=$FWDIR/bin/upgrade_tools/migrate
+a92 1
+	$migrate export -n /tmp/$HOSTNAME-export
+d382 2
+a383 2
+	LOGFILE=`find /var/CPbackup/log/backups -mmin -30 -type f | tail -1`
+	ARCHIVE=`find /var/CPbackup/backups     -mmin -30 -type f | tail -1`
+a408 1
+
+d412 1
+d418 2
+@
+
+
+1.17
+log
+@tilføjet ip-export og cp-export arkiver
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.11 2014/03/07 10:48:33 root Exp $
+d83 10
+a92 1
+	$FWDIR/bin/upgrade_tools/migrate export -n /tmp/$HOSTNAME-export
+@
+
+
+1.16
+log
+@added rm /tmp/temp_ ...
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.15 2014/08/19 13:45:10 root Exp $
+d58 1
+a58 2
+
+	logit "Creating system information ... "
+d64 14
+d79 6
+a84 8
+	logit "Preserving a copy of /etc config files (except emergendisk pkk.boot and auto_hfs)"
+
+	(
+		cd /
+		tar --create --exclude=etc/ppk.boot --exclude=etc/emergendisk --exclude=etc/auto_hfs --gzip --file ${RESTORE_INFO_DIR}/etc-backup.tgz etc
+	)
+
+	logit "Creating README ... "
+a110 3
+*  etc.tgz
+   Files  in  /etc  except  /etc/auto_hfs   /etc/emergendisk  and 
+   /etc/ppk.boot
+d126 10
+a314 2
+	ALTERATION_DONE="/var/opt/UNItools/conf/smtpclient.SH"			# marker set once in the config file
+
+d326 1
+a326 1
+	grep -q "${ALTERATION_DONE}" ${CFG}
+d328 1
+a328 1
+		0)	logit "already done, ${ALTERATION_DONE} found in ${CFG}"
+a334 5
+			$0 ~ /.etc.udev.rules.d.00-..rules/ {
+				# print "# REMOVED BY FWBU: /etc/udev/rules.d/00-*.rules, see /etc/rc.sysinit"
+				next
+			}
+
+a408 3
+	logit "removing files older than '${BACKLOG:=10}' in /tmp/temp_tar_* and /var/CPbackup/log ... "
+	find /tmp/temp_tar_* /var/CPbackup/log -type f -mtime +${BACKLOG:=10} -exec echo {} \;
+
+@
+
+
+1.15
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.14 2014/08/19 09:55:22 root Exp $
+d398 3
+@
+
+
+1.14
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.13 2014/08/19 09:38:51 root Exp $
+d297 1
+a297 1
+	ALTERATION_DONE="# UPDATED-BY-FWBU"			# marker set once in the config file
+d320 1
+a320 1
+				print "# REMOVED BY FWBU: /etc/udev/rules.d/00-*.rules, see /etc/rc.sysinit"
+@
+
+
+1.13
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.12 2014/08/18 13:48:56 root Exp $
+d70 1
+a70 1
+		tar --create --exclude=etc/ppk.boot --exclude=etc/emergendisk --exclude=etc/auto_hfs --gzip --file ${RESTORE_INFO_DIR}/etc-backup.tgz
+d100 3
+d310 1
+a310 1
+	grep -q ${CFG} ${CFG}
+d312 1
+a312 1
+		0)	logit "already done, ${CFG} found in ${CFG}"
+@
+
+
+1.12
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.11 2014/03/07 10:48:33 root Exp root $
+d58 2
+a59 1
+	logit "Creating README ... "
+d66 9
+@
+
+
+1.11
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+# $Header: /root/personal/nth/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.10 2013/06/27 10:39:46 root Exp $
+d284 2
+d306 5
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.9 2012/08/30 10:00:51 root Exp $
+d139 10
+d151 2
+a152 2
+This machine is a firewall running Check Point SecurePlatform, so
+it is not that hard restoring it to normal operations.
+@
+
+
+1.9
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.8 2012/08/21 19:37:12 root Exp root $
+a162 1
+ROOT_FS=`df|awk '$NF == "/" { gsub (/[0-9]/,""); print $1 }'`
+d173 3
+a175 2
+fdisk -l ${ROOT_FS}
+`fdisk -l ${ROOT_FS}`
+d184 2
+a185 1
+$FWDIR/bin/hfa_ver.sh
+d188 2
+a189 2
+
+$CPDIR/bin/cpprod_util CPPROD_GetCurrentVersion FW1
+d192 2
+a193 2
+
+$CPDIR/bin/cpprod_util CPPROD_GetValue "FW1//$curVer" CurrentLabel 1
+d196 2
+a197 2
+
+$CPDIR/bin/cpprod_util CPPROD_GetValue "FW1//$curVer//HotFixes//LastInfo" LastHFAIndex 1
+d203 2
+a204 1
+$FWDIR/bin/fw ver -k
+d208 3
+a210 1
+Patches usually goes into /var/hfa. And the content is:
+d222 1
+a222 1
+1  Do a dnew installation and don't pay  too  much  attention the
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.7 2012/08/21 11:28:59 root Exp root $
+a17 1
+
+d19 1
+a19 1
+MONTH=`/bin/date '+%d_%m' | sed 's/0//g'`
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.6 2012/08/21 09:08:32 root Exp root $
+a345 3
+	logit "logfile saved in RESTORE_INFORMATION"
+	/bin/mv /var/log/backup.log ${RESTORE_INFO_DIR}
+
+d356 1
+d361 4
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.5 2012/08/21 08:48:04 root Exp root $
+a58 1
+
+d99 9
+d109 32
+a140 4
+Finally the document backup_status, if the content is the word ok
+then the backup exit'ed correctly,  otherwise the backup  archive
+can not be used to restore the host. Select an other archive from
+the list in ... /var/CPbackup/backups
+a266 3
+
+	write_restore_procedure
+
+d271 1
+a271 1
+	logit "in add_files_to_backup_config"
+d284 1
+a284 1
+		0)	logit "${CFG} found in ${CFG}"
+a290 1
+
+d351 1
+a351 1
+			/bin/date '+%Y %m %d %H:%M'	> ${RESTORE_INFO_DIR}/date-of-last-successful-backup
+d357 2
+@
+
+
+1.5
+log
+@Last successful backup
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.4 2012/08/21 08:45:59 root Exp root $
+d319 1
+d322 1
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.3 2012/08/20 19:26:43 root Exp root $
+d228 2
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.2 2012/07/03 10:49:18 root Exp $
+d208 3
+d214 1
+d216 6
+d226 2
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+# $Header: /lan/ssi/projects/UNItools/src/SPLAT/NGX/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.1 2012/07/02 07:47:49 root Exp $
+d89 1
+a89 1
+   fore calling restore.
+d101 5
+d128 2
+d139 2
+a140 2
+fdisk -l /dev/sda
+`fdisk -l /dev/sda`
+d183 3
+a185 2
+1  Make a dummy installation: same major version of the OS and
+   firewall. Enable/install the firewall software (cpconfig).
+d188 1
+a188 1
+2  Apply all relevant patches (only the same as applied for this
+d191 1
+a191 1
+3  Copy the backup archive to /var/CPbackup/backups
+d193 5
+a197 1
+4  Install any other tools (UNI*).
+d199 1
+a199 1
+A more detailed instructions available on the internal wiki, in
+d202 1
+d304 1
+a304 1
+		1)	echo ok		> ${RESTORE_INFO_DIR}/.backup_status
+d306 1
+a306 1
+		*)	echo failed	> ${RESTORE_INFO_DIR}/.backup_status
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@d5 1
+a5 1
+# $Header$
+d268 1
+a268 1
+	# Link 'real' backup log and archive to RESTORE_INFORMATION
+d270 2
+a271 2
+	LOGFILE=/var/CPbackup/log/backups/`ls -tr /var/CPbackup/log/backups | tail -1`
+	ARCHIVE=/var/CPbackup/backups/`ls -tr /var/CPbackup/backups/        |tail -1`
+d274 4
+a277 1
+		ln -s ../${LOGFILE} ${RESTORE_INFO_DIR}
+d281 1
+a281 1
+		ln -s ../${ARCHIVE} ${RESTORE_INFO_DIR}
+d284 1
+@

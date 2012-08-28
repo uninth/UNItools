@@ -1,0 +1,418 @@
+:
+#
+# Check Point SecurePlatform R65 - R75
+#
+# $Header: /lan/ssi/shared/software/internal/UNItools/src/GaIA/pkgs/fwbu/fwbu/RCS/UNIcpfwbu.cfg,v 1.18 2015/02/03 15:18:04 root Exp $
+#
+################################################################################
+#
+# Vars
+#
+################################################################################
+
+# Extra files - ignored if not found
+EXTRAFILES=/var/opt/UNItools/fwbu/etc/extra_files_for_backup.txt
+
+# Mimic backup file name construction of backup_util sched ... 
+BACKUPFILE="backup_${FQDN}"
+YEAR=`/bin/date +%Y`
+MONTH=`/bin/date '+%d_%m' | sed 's/_0/_/g'`	# remove leading 0 from month
+TIME=`/bin/date '+%H_%M'`
+
+BACKUPFILE="${BACKUPFILE}_${MONTH}_${YEAR}_${TIME}"
+
+################################################################################
+#
+# Functions
+#
+################################################################################
+
+function do_system_backup()
+{
+	#
+	# actual backup
+	#
+	logit "Starting backup to '${BACKUPFILE}' ... "
+	cd $HOME
+
+	echo y | /bin/backup -d --file ${BACKUPFILE} > ${TMPFILE} 2>&1
+	# exit status ignored in pipe
+
+	BACKUP_SUCCEDDED_OK=`grep "Backup operation succedded" /tmp/output.txt | wc -l | tr -d ' '`
+	logit < /tmp/output.txt
+
+	case ${BACKUP_SUCCEDDED_OK} in
+		1)	:
+		;;
+		*)	logit "Huston we got a problem: BACKUP_SUCCEDDED_OK = '${BACKUP_SUCCEDDED_OK}' should be 1"
+			logit < ${TMPFILE}
+			logit "cat /var/log/CPbackup_err.txt"
+			logit < /var/log/CPbackup_err.txt
+		;;
+	esac
+
+	sync; sync; sync
+}
+
+function write_restore_procedure() {
+	logit "Creating README ... "
+
+	/bin/rpm -qa 			> ${RESTORE_INFO_DIR}/rpm--qa.txt
+	/sbin/sysctl -a 		> ${RESTORE_INFO_DIR}/sysctl-a.txt
+	/var/opt/UNItools/bin/lshw	> ${RESTORE_INFO_DIR}/lshw.txt
+	/bin/cp /var/CPbackup/schemes/system_configuration.cpbak ${RESTORE_INFO_DIR}
+	#
+	# Do an export of the OS/IP configuration
+	#
+	grep -iq gaia /etc/cp-release >/dev/null
+	case $? in
+		0)	(cd ${RESTORE_INFO_DIR}; clish -c "save configuration ipconfig.clish" 2>&1 | logit)
+			CONFIG=ipconfig.clish
+			CP_RELEASE=GaIA
+		;;
+		*)	(cd ${RESTORE_INFO_DIR}; /etc/sysconfig/netconf.C . )
+			CONFIG=netconfig.C
+			CP_RELEASE=SPLAT
+		;;
+	esac
+
+	#
+	# Export the firewall configuration. R7x, but not R6x
+	#
+	HOSTNAME=`hostname`
+	if [ -f /var/opt/UNItools/fwbu/migrate/upgrade_tools/migrate ]; then
+		migrate=/var/opt/UNItools/fwbu/migrate/upgrade_tools/migrate
+		if [ -f /var/opt/UNItools/fwbu/migrate/VERSION ]; then
+			logit "using migration tools version `cat /var/opt/UNItools/fwbu/migrate/VERSION`"
+	else
+		logit "using migration tools in \$FWDIR/bin .... will only work with the same version"
+		migrate=$FWDIR/bin/upgrade_tools/migrate
+	fi
+
+	$migrate export -n /tmp/$HOSTNAME-export
+	/bin/mv /tmp/$HOSTNAME-export* ${RESTORE_INFO_DIR}
+
+printf "%65s\n" "`date`" > ${RESTORE_INFO_DIR}/README
+cat << EOF >> ${RESTORE_INFO_DIR}/README
+
+This  documentation  is  beeing made as part of the backup proce-
+dure. The latest version of this text is stored in
+	${RESTORE_INFO_DIR}
+
+on the machine ${FQDN}.
+
+If you are reading this file chances are that this machine has to
+be restored after a major crash. Well, such is life.
+
+First, A word of WARNING The next check list does not claim to be
+exhaustive, error free, user friendly, or complete. There is most
+probably something that I forgot to put in it or things that have
+been modified on the system since this list was made.  So  please
+make use of discretion while using it.
+
+The README is accompanied with theese documents:
+
+*  backup_<hostname>.<domainname>_<day>_<month>_<year>_<time>.tgz
+   Link to the backup archive.  Move to /var/CPbackup/backups be-
+   fore calling Check Points restore procedure.
+*  backup_<hostname>.<domainname> <...> backup.log
+   Link the output from the backup.
+*  lshw.txt
+   Output from the command lshw describing the hardware.
+*  rpm--qa.txt
+   Output from rpm -qa - describing all installed packages.
+*  sysctl-a.txt
+   Output from sysctl -a -- the system configuration.
+*  system_configuration.cpbak
+   The system backup configuration file (copy).
+*  date-of-last-successful-backup
+   Date and time for last successful backup - should  match  this
+   archive.
+*  backup_status
+   Backup status for *this* backup archive: If the content is the
+   word 'ok' then the backup is valid.   Otherwise the backup has
+   failed and cannot be used.
+*  $CONFIG - ip/os configuration for $CP_RELEASE
+   A SPLAT IP configuration (netconf.C) can  be restored with the
+   command
+   mv netconf.C /etc/sysconfig/netconf.C; cpnetconf load
+   A GaIA IP/OS  configuration  (ipconfig.clish) can  be restored
+   with the command
+   clish -c 'load configuration ipconfig.clish'
+*  $HOSTNAME-export.tgz
+   The exported Check Point configuration. It can be restored with
+   the command \$FWDIR/bin/migrate import $HOSTNAME-export.tgz
+
+EOF
+
+LAST_SUCCESSFUL_BACKUP_TIME=`cat ${RESTORE_INFO_DIR}/date-of-last-successful-backup`
+LAST_SUCCESSFUL_BACKUP_ARCHIVE="backup_${FQDN}_`cat ${RESTORE_INFO_DIR}/date-of-last-successful-backup | sed 's/ /_/g'`.tgz"
+
+logit "last successful backup: $LAST_SUCCESSFUL_BACKUP_ARCHIVE"
+logit "last successful backup completed on $LAST_SUCCESSFUL_BACKUP_TIME"
+
+case ${BACKUP_SUCCEDDED_OK} in
+	1)	echo "   The backup status for the archive is ok." >> ${RESTORE_INFO_DIR}/README
+	;;
+	*)	echo "   The backup status for the archive is NOT ok." >> ${RESTORE_INFO_DIR}/README
+
+	case "$LAST_SUCCESSFUL_BACKUP_TIME" in
+		never)
+		cat << EOF >> ${RESTORE_INFO_DIR}/README
+	
+You are out of luck. The machine was never backed up successfully
+restoring from the archive will fail.
+
+EOF
+		;;
+		*)
+		cat << EOF >> ${RESTORE_INFO_DIR}/README
+
+   Use the backup which date  matches $LAST_SUCCESSFUL_BACKUP_ARCHIVE
+
+EOF
+		;;
+	esac
+	;;
+esac
+
+#
+# GAiA or SecurePlatform or something else?
+#
+
+if [ -f /etc/cp-release ]; then
+	FW_VERSION=`cat /etc/cp-release`
+else
+	FW_VERSION="firewall-1"	# unknown
+fi
+
+cat << EOF >> ${RESTORE_INFO_DIR}/README
+
+This machine is a firewall running $FW_VERSION,
+so it is not that hard restoring it to normal operations.
+
+However there are at least two pitfals:
+
+*  The installed products should match the products of the failed
+   machine
+*  The patch level should match exactly too.
+
+You will need similar hardware, the install media and all instal-
+led patches.  The  most critical component of the hardware is the
+number of physical netcards (see below).
+
+Non VLAN interface configuration below to ease off-site restore.
+-----------------------------------------------------------------
+EOF
+
+/sbin/ifconfig -a|sed '/^eth/!d; s/\..*//; s/ .*//;' |sed '$!N; /^\(.*\)\n\1$/!P; D'|while read INTERFACENAME
+do
+	echo "${INTERFACENAME}: `/sbin/ifconfig ${INTERFACENAME}|sed '/inet6/d;/inet/!d; s/ *Bcast.*Mask:/\//'`"
+done >> ${RESTORE_INFO_DIR}/README
+
+
+cat << EOF >> ${RESTORE_INFO_DIR}/README
+
+Disk layout (made by the installation procedure):
+-----------------------------------------------------------------
+df -h:
+`df -h`
+
+Pay attention to Use% when sizing a new disk.
+-----------------------------------------------------------------
+Output from
+	fdisk -l
+`/sbin/fdisk -l`
+-----------------------------------------------------------------
+
+Check Point Firewall Software:
+=================================================================
+
+It is difficult to  determin if any non-standard patches has been
+applied. First the official information:
+-----------------------------------------------------------------
+output from
+	$FWDIR/bin/hfa_ver.sh
+`$FWDIR/bin/hfa_ver.sh 2>&1`
+-----------------------------------------------------------------
+output from
+	$CPDIR/bin/cpprod_util CPPROD_GetCurrentVersion FW1
+`$CPDIR/bin/cpprod_util CPPROD_GetCurrentVersion FW1`
+-----------------------------------------------------------------
+output from
+	$CPDIR/bin/cpprod_util CPPROD_GetValue "FW1//$curVer" CurrentLabel 1
+`$CPDIR/bin/cpprod_util CPPROD_GetValue "FW1//$curVer" CurrentLabel 1`
+-----------------------------------------------------------------
+output from
+	$CPDIR/bin/cpprod_util CPPROD_GetValue "FW1//$curVer//HotFixes//LastInfo" LastHFAIndex 1
+`$CPDIR/bin/cpprod_util CPPROD_GetValue "FW1//$curVer//HotFixes//LastInfo" LastHFAIndex 1`
+-----------------------------------------------------------------
+
+All fine, but I think you should relay on this:
+-----------------------------------------------------------------
+output from
+	$FWDIR/bin/fw ver -k
+`$FWDIR/bin/fw ver -k`
+-----------------------------------------------------------------
+
+Patches usually goes into /var/hfa, at least on Secure Platform.
+Output from
+	find /var/hfa* -maxdepth 1
+`find /var/hfa* -maxdepth 1`
+
+The firewall runs this rulebase:
+-----------------------------------------------------------------
+$FWDIR/bin/fw stat
+`$FWDIR/bin/fw stat`
+-----------------------------------------------------------------
+
+Disaster Recovery / Restore
+=================================================================
+
+1  Do a  new installation and don't pay  too  much  attention the
+   configuration. Install the OS from a boot media, and enable or
+   install the firewall software (cpconfig).
+   Follow the on-screen instructions.
+
+2  Apply all relevant  patches (only the same as applied for this
+   host)
+
+3  Install any other tools (UNI*).
+
+4  Copy the backup archive to /var/CPbackup/backups, and do a re-
+   store (restore - select the backup archive)
+   
+5  If you run into problems, try a search on Check Point knowled-
+   gebase.
+
+A more  detailed instructions available on the internal wiki, in
+the section Firewall -- Disaster recovery.
+
+Good luck
+
+EOF
+}
+
+function do_pre_backup() {
+	#
+	# preserve last succcess full backup info
+	#
+
+	if [ ! -d "${RESTORE_INFO_DIR}" ]; then
+		mkdir "${RESTORE_INFO_DIR}"
+		echo never > /tmp/date-of-last-successful-backup
+	else
+		if [ -f "${RESTORE_INFO_DIR}/date-of-last-successful-backup" ]; then
+			/bin/mv "${RESTORE_INFO_DIR}/date-of-last-successful-backup" /tmp/date-of-last-successful-backup
+		else
+			echo never > /tmp/date-of-last-successful-backup
+		fi
+
+		/bin/rm -fr "${RESTORE_INFO_DIR}"
+		mkdir "${RESTORE_INFO_DIR}"
+	fi
+
+	/bin/mv /tmp/date-of-last-successful-backup "${RESTORE_INFO_DIR}/date-of-last-successful-backup"
+
+	logit "Last successful backup: `cat ${RESTORE_INFO_DIR}/date-of-last-successful-backup`"
+
+	add_files_to_backup_config
+}
+
+function add_files_to_backup_config() {
+
+	logit "Adding files to the backup configuration ... "
+	CFG=/var/CPbackup/schemes/system_configuration.cpbak
+
+	#
+	# Append a number of files to CFG
+	#
+	test -f ${CFG}.org || {
+		cp ${CFG} ${CFG}.org
+		logit "preserving original ${CFG} ... "
+	}
+
+	grep -q ${CFG} ${CFG}
+	case $? in
+		0)	logit "already done, ${CFG} found in ${CFG}"
+		;;
+		1)	# missing, add files
+		logit "adding files to ${CFG} ... "
+		awk '
+			BEGIN { IN_FILE_SECTION = 0 }
+
+			$0 ~ /<INCLUDE_FILES>/ {
+				IN_FILE_SECTION = 1;
+				print $0
+				next
+			}
+
+			$0 ~ /<\/INCLUDE_FILES>/ {
+				IN_FILE_SECTION = 0;
+				#
+				# Add files here
+				#
+
+				while ((getline line < "'"$EXTRAFILES"'") > 0)
+				{
+					print line
+
+				}
+				close("'"$EXTRAFILES"'");
+				print $0
+				next
+			}
+
+			{
+				print $0
+			}
+
+		' < ${CFG}.org >  ${CFG}
+
+		diff ${CFG} ${CFG}.org
+		;;
+		*)	logit "what?!"
+	esac
+}
+
+function do_post_backup() {
+	#
+	# Copy 'real' backup log and archive to RESTORE_INFORMATION
+	#
+	LOGFILE=`find /var/CPbackup/log/backups -mmin -30 -type f | tail -1`
+	ARCHIVE=`find /var/CPbackup/backups     -mmin -30 -type f | tail -1`
+
+	if [ -f "${LOGFILE}" ]; then
+		/bin/cp ${LOGFILE} ${RESTORE_INFO_DIR}
+	else
+		logit "Real backup logfile is in /var/CPbackup/log/backups/"
+		logit "logfile (${LOGFILE}) not found"
+	fi
+
+	if [ -f "${ARCHIVE}" ]; then
+		/bin/cp ${ARCHIVE} ${RESTORE_INFO_DIR}
+	else
+		logit "Real backup archive is in /var/CPbackup/backups/"
+		logit "archive (${ARCHIVE}) not found"
+	fi
+
+	case ${BACKUP_SUCCEDDED_OK} in
+		1)	echo ok		> ${RESTORE_INFO_DIR}/backup_status
+			echo "${MONTH} ${YEAR} ${TIME}"	> ${RESTORE_INFO_DIR}/date-of-last-successful-backup
+		;;
+		*)	echo failed	> ${RESTORE_INFO_DIR}/backup_status
+		# date-of-last-successful-backup exists
+		;;
+	esac
+
+	write_restore_procedure
+
+}
+
+function rm_old_archives {
+	/bin/echo y | /bin/backup -p ${BACKLOG} | logit
+
+	logit "logfile saved in RESTORE_INFORMATION"
+	/bin/mv /var/log/backup.log ${RESTORE_INFO_DIR}
+
+}

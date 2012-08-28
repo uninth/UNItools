@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>Tk::FBox - a file dialog</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>Tk::FBox - a file dialog</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Tk::FBox - a file dialog</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+    use Tk::FBox;
+    $file = $mw-&gt;FBox(...)-&gt;Show;</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p><code>Tk::FBox</code> is the dialog implementation behind the <code>getOpenFile</code> and
+<code>getSaveFile</code> method calls in the Unix/X11 world. As such, it
+supports all options for these methods and additionally:</p>
+<dl>
+<dt><strong><a name="item__2dsortcmd__3d_3e_sub__7b__24__5b0_5d_cmp__24__5b1">-sortcmd =&gt; sub { $_[0] cmp $_[1] }</a></strong>
+
+<dd>
+<p>Specified a callback for changing the sorting of the icons in the
+<code>IconList</code> widget. By default, perl's <code>cmp</code> operator will be used.</p>
+</dd>
+<dd>
+<p>From the source code:</p>
+</dd>
+<dd>
+<pre>
+  # Using -sortcmd is really strange :-(
+  # $top-&gt;getOpenFile(-sortcmd =&gt; sub { package Tk::FBox; uc $b cmp uc $a});
+  # or, un-perlish, but useable (now activated in code):
+  # $top-&gt;getOpenFile(-sortcmd =&gt; sub { uc $_[1] cmp uc $_[0]});</pre>
+</dd>
+<dd>
+<p>This is an experimental option!</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dtype__3d_3e__24type">-type =&gt; $type</a></strong>
+
+<dd>
+<p>Type should be ``open'' (default) or ``save''.</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dfilter__3d_3e__24glob">-filter =&gt; $glob</a></strong>
+
+<dd>
+<p>To be documented...</p>
+</dd>
+</li>
+<dt><strong><a name="item__2dforce__3d_3e__24bool">-force =&gt; $bool</a></strong>
+
+<dd>
+<p>If true, then there will be no dialog if a file already exists.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>The original tkfbox.tcl from Tcl/Tk is:</p>
+<p>Copyright (c) 1994-1996 Sun Microsystems, Inc.</p>
+<p>See the file ``license.terms'' for information on usage and redistribution
+of this file, and for a DISCLAIMER OF ALL WARRANTIES.</p>
+<p>Translated to Perl/Tk by Slaven Rezic &lt;<a href="mailto:slaven.rezic@berlin.de">slaven.rezic@berlin.de</a>&gt;.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>Tk::getOpenFile, Tk::IconList.</p>
+
+</body>
+
+</html>

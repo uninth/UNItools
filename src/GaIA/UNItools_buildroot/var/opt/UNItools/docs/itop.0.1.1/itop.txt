@@ -1,0 +1,51 @@
+ITOP(1)								       ITOP(1)
+
+
+
+NAME
+       itop - top-like interrupt load monitor
+
+PACKAGE
+       UNItools
+
+SYNOPSIS
+       itop [-n][-a]
+
+BESKRIVELSE
+       itop(1) is a glorified Linux centric vesion of cat /proc/interrupts.
+
+OPTIONS
+       -a     Display information on all interrupts.
+
+       -n number
+	      Stop  after  fInumber  interactions. May kill the application in
+	      suc a way, that the tty becomes useless.
+
+INTERRUPT TABLE
+       Kernel dependent.
+
+COMMANDS
+       Written in C(1), but requires procfs(1)0
+
+SE OGS.ad
+       Dokumentationen for UNItools.
+
+DIAGNOSTICS
+       None.
+
+BUGS
+       Report them to the author.
+
+VERSION
+       0.1.1
+
+AUTHOR(S)
+       Benedikt ’Hunz’ Heinz <hunz@hunz.org> (http://hunz.org)
+       Manual page by Niels Thomas Haug
+       UNI·C
+       DTU, Building 304
+       DK-2800 Kgs. Lyngby
+
+
+
+								       ITOP(1)

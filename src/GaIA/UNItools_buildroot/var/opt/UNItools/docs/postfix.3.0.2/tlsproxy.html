@@ -1,0 +1,294 @@
+Content-type: text/html
+
+<HTML><HEAD><TITLE>Manpage of TLSPROXY</TITLE>
+</HEAD><BODY>
+<H1>TLSPROXY</H1>
+Section: Maintenance Commands (8)<BR><A HREF="#index">Index</A>
+<A HREF="../index.html">Return to Main Contents</A><HR>
+
+
+
+<A NAME="lbAB">&nbsp;</A>
+<H2>NAME</H2>
+
+tlsproxy
+-
+Postfix TLS proxy
+<A NAME="lbAC">&nbsp;</A>
+<H2>SYNOPSIS</H2>
+
+
+<PRE>
+<B>tlsproxy</B> [generic Postfix daemon options]
+</PRE><A NAME="lbAD">&nbsp;</A>
+<H2>DESCRIPTION</H2>
+
+
+
+The <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server implements a server-side TLS
+proxy. It is used by <B><A HREF="../man8/postscreen.8.html">postscreen</A></B>(8) to talk SMTP-over-TLS
+with remote SMTP clients that are not whitelisted (including
+clients whose whitelist status has expired),
+but it should also work for non-SMTP protocols.
+<P>
+Although one <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) process can serve multiple
+sessions at the same time, it is a good idea to allow the
+number of processes to increase with load, so that the
+service remains responsive.
+<A NAME="lbAE">&nbsp;</A>
+<H2>PROTOCOL EXAMPLE</H2>
+
+
+<PRE>
+</PRE>
+
+The example below concerns <B><A HREF="../man8/postscreen.8.html">postscreen</A></B>(8). However,
+the <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server is agnostic of the application
+protocol, and the example is easily adapted to other
+applications.
+<P>
+After receiving a valid remote SMTP client STARTTLS command,
+the <B><A HREF="../man8/postscreen.8.html">postscreen</A></B>(8) server sends the remote SMTP client
+endpoint string, the requested role (server), and the
+requested timeout to <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8).  <B><A HREF="../man8/postscreen.8.html">postscreen</A></B>(8)
+then receives a &quot;TLS available&quot; indication from <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8).
+If the TLS service is available, <B><A HREF="../man8/postscreen.8.html">postscreen</A></B>(8) sends
+the remote SMTP client file descriptor to <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8),
+and sends the plaintext 220 greeting to the remote SMTP
+client.  This triggers TLS negotiations between the remote
+SMTP client and <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8).  Upon completion of the
+TLS-level handshake, <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) translates between
+plaintext from/to <B><A HREF="../man8/postscreen.8.html">postscreen</A></B>(8) and ciphertext to/from
+the remote SMTP client.
+<A NAME="lbAF">&nbsp;</A>
+<H2>SECURITY</H2>
+
+
+<PRE>
+</PRE>
+
+The <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server is moderately security-sensitive.
+It talks to untrusted clients on the network. The process
+can be run chrooted at fixed low privilege.
+<A NAME="lbAG">&nbsp;</A>
+<H2>DIAGNOSTICS</H2>
+
+
+
+Problems and transactions are logged to <B><A HREF="../man8/syslogd.8.html">syslogd</A></B>(8).
+<A NAME="lbAH">&nbsp;</A>
+<H2>CONFIGURATION PARAMETERS</H2>
+
+
+<PRE>
+</PRE>
+
+Changes to <B>main.cf</B> are not picked up automatically,
+as <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) processes may run for a long time
+depending on mail server load.  Use the command &quot;<B>postfix
+reload</B>&quot; to speed up a change.
+<P>
+The text below provides only a parameter summary. See
+<B><A HREF="../man5/postconf.5.html">postconf</A></B>(5) for more details including examples.
+<A NAME="lbAI">&nbsp;</A>
+<H2>STARTTLS SUPPORT CONTROLS</H2>
+
+
+<PRE>
+</PRE>
+
+<DL COMPACT>
+<DT><B>tlsproxy_tls_CAfile ($smtpd_tls_CAfile)</B><DD>
+A file containing (PEM format) CA certificates of root CAs
+trusted to sign either remote SMTP client certificates or intermediate
+CA certificates.
+<DT><B>tlsproxy_tls_CApath ($smtpd_tls_CApath)</B><DD>
+A directory containing (PEM format) CA certificates of root CAs
+trusted to sign either remote SMTP client certificates or intermediate
+CA certificates.
+<DT><B>tlsproxy_tls_always_issue_session_ids ($smtpd_tls_always_issue_session_ids)</B><DD>
+Force the Postfix <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server to issue a TLS session id,
+even when TLS session caching is turned off.
+<DT><B>tlsproxy_tls_ask_ccert ($smtpd_tls_ask_ccert)</B><DD>
+Ask a remote SMTP client for a client certificate.
+<DT><B>tlsproxy_tls_ccert_verifydepth ($smtpd_tls_ccert_verifydepth)</B><DD>
+The verification depth for remote SMTP client certificates.
+<DT><B>tlsproxy_tls_cert_file ($smtpd_tls_cert_file)</B><DD>
+File with the Postfix <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server RSA certificate in PEM
+format.
+<DT><B>tlsproxy_tls_ciphers ($smtpd_tls_ciphers)</B><DD>
+The minimum TLS cipher grade that the Postfix <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server
+will use with opportunistic TLS encryption.
+<DT><B>tlsproxy_tls_dcert_file ($smtpd_tls_dcert_file)</B><DD>
+File with the Postfix <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server DSA certificate in PEM
+format.
+<DT><B>tlsproxy_tls_dh1024_param_file ($smtpd_tls_dh1024_param_file)</B><DD>
+File with DH parameters that the Postfix <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server
+should use with non-export EDH ciphers.
+<DT><B>tlsproxy_tls_dh512_param_file ($smtpd_tls_dh512_param_file)</B><DD>
+File with DH parameters that the Postfix <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server
+should use with export-grade EDH ciphers.
+<DT><B>tlsproxy_tls_dkey_file ($smtpd_tls_dkey_file)</B><DD>
+File with the Postfix <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server DSA private key in PEM
+format.
+<DT><B>tlsproxy_tls_eccert_file ($smtpd_tls_eccert_file)</B><DD>
+File with the Postfix <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server ECDSA certificate in
+PEM format.
+<DT><B>tlsproxy_tls_eckey_file ($smtpd_tls_eckey_file)</B><DD>
+File with the Postfix <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server ECDSA private key in
+PEM format.
+<DT><B>tlsproxy_tls_eecdh_grade ($smtpd_tls_eecdh_grade)</B><DD>
+The Postfix <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server security grade for ephemeral
+elliptic-curve Diffie-Hellman (EECDH) key exchange.
+<DT><B>tlsproxy_tls_exclude_ciphers ($smtpd_tls_exclude_ciphers)</B><DD>
+List of ciphers or cipher types to exclude from the <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8)
+server cipher list at all TLS security levels.
+<DT><B>tlsproxy_tls_fingerprint_digest ($smtpd_tls_fingerprint_digest)</B><DD>
+The message digest algorithm to construct remote SMTP
+client-certificate
+fingerprints.
+<DT><B>tlsproxy_tls_key_file ($smtpd_tls_key_file)</B><DD>
+File with the Postfix <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server RSA private key in PEM
+format.
+<DT><B>tlsproxy_tls_loglevel ($smtpd_tls_loglevel)</B><DD>
+Enable additional Postfix <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server logging of TLS
+activity.
+<DT><B>tlsproxy_tls_mandatory_ciphers ($smtpd_tls_mandatory_ciphers)</B><DD>
+The minimum TLS cipher grade that the Postfix <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server
+will use with mandatory TLS encryption.
+<DT><B>tlsproxy_tls_mandatory_exclude_ciphers ($smtpd_tls_mandatory_exclude_ciphers)</B><DD>
+Additional list of ciphers or cipher types to exclude from the
+<B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server cipher list at mandatory TLS security levels.
+<DT><B>tlsproxy_tls_mandatory_protocols ($smtpd_tls_mandatory_protocols)</B><DD>
+The SSL/TLS protocols accepted by the Postfix <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server
+with mandatory TLS encryption.
+<DT><B>tlsproxy_tls_protocols ($smtpd_tls_protocols)</B><DD>
+List of TLS protocols that the Postfix <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server will
+exclude or include with opportunistic TLS encryption.
+<DT><B>tlsproxy_tls_req_ccert ($smtpd_tls_req_ccert)</B><DD>
+With mandatory TLS encryption, require a trusted remote SMTP
+client certificate in order to allow TLS connections to proceed.
+<DT><B>tlsproxy_tls_security_level ($smtpd_tls_security_level)</B><DD>
+The SMTP TLS security level for the Postfix <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) server;
+when a non-empty value is specified, this overrides the obsolete
+parameters smtpd_use_tls and smtpd_enforce_tls.
+</DL>
+<P>
+
+Available in Postfix version 2.11 and later:
+<DL COMPACT>
+<DT><B>tlsmgr_service_name (tlsmgr)</B><DD>
+The name of the <B><A HREF="../man8/tlsmgr.8.html">tlsmgr</A></B>(8) service entry in master.cf.
+</DL>
+<A NAME="lbAJ">&nbsp;</A>
+<H2>OBSOLETE STARTTLS SUPPORT CONTROLS</H2>
+
+
+<PRE>
+</PRE>
+
+These parameters are supported for compatibility with
+<B><A HREF="../man8/smtpd.8.html">smtpd</A></B>(8) legacy parameters.
+<DL COMPACT>
+<DT><B>tlsproxy_use_tls ($smtpd_use_tls)</B><DD>
+Opportunistic TLS: announce STARTTLS support to remote SMTP clients,
+but do not require that clients use TLS encryption.
+<DT><B>tlsproxy_enforce_tls ($smtpd_enforce_tls)</B><DD>
+Mandatory TLS: announce STARTTLS support to remote SMTP clients, and
+require that clients use TLS encryption.
+</DL>
+<A NAME="lbAK">&nbsp;</A>
+<H2>RESOURCE CONTROLS</H2>
+
+
+<PRE>
+</PRE>
+
+<DL COMPACT>
+<DT><B>tlsproxy_watchdog_timeout (10s)</B><DD>
+How much time a <B><A HREF="../man8/tlsproxy.8.html">tlsproxy</A></B>(8) process may take to process local
+or remote I/O before it is terminated by a built-in watchdog timer.
+</DL>
+<A NAME="lbAL">&nbsp;</A>
+<H2>MISCELLANEOUS CONTROLS</H2>
+
+
+<PRE>
+</PRE>
+
+<DL COMPACT>
+<DT><B>config_directory (see 'postconf -d' output)</B><DD>
+The default location of the Postfix main.cf and master.cf
+configuration files.
+<DT><B>process_id (read-only)</B><DD>
+The process ID of a Postfix command or daemon process.
+<DT><B>process_name (read-only)</B><DD>
+The process name of a Postfix command or daemon process.
+<DT><B>syslog_facility (mail)</B><DD>
+The syslog facility of Postfix logging.
+<DT><B>syslog_name (see 'postconf -d' output)</B><DD>
+The mail system name that is prepended to the process name in syslog
+records, so that &quot;smtpd&quot; becomes, for example, &quot;postfix/smtpd&quot;.
+</DL>
+<A NAME="lbAM">&nbsp;</A>
+<H2>SEE ALSO</H2>
+
+
+<PRE>
+<A HREF="../man8/postscreen.8.html">postscreen</A>(8), Postfix zombie blocker
+<A HREF="../man8/smtpd.8.html">smtpd</A>(8), Postfix SMTP server
+<A HREF="../man5/postconf.5.html">postconf</A>(5), configuration parameters
+<A HREF="../man5/syslogd.5.html">syslogd</A>(5), system logging
+</PRE><A NAME="lbAN">&nbsp;</A>
+<H2>LICENSE</H2>
+
+
+<PRE>
+</PRE>
+
+The Secure Mailer license must be distributed with this software.
+<A NAME="lbAO">&nbsp;</A>
+<H2>HISTORY</H2>
+
+
+<PRE>
+</PRE>
+
+This service was introduced with Postfix version 2.8.
+<A NAME="lbAP">&nbsp;</A>
+<H2>AUTHOR(S)</H2>
+
+
+<PRE>
+Wietse Venema
+IBM T.J. Watson Research
+P.O. Box 704
+Yorktown Heights, NY 10598, USA
+
+</PRE>
+<HR>
+<A NAME="index">&nbsp;</A><H2>Index</H2>
+<DL>
+<DT><A HREF="#lbAB">NAME</A><DD>
+<DT><A HREF="#lbAC">SYNOPSIS</A><DD>
+<DT><A HREF="#lbAD">DESCRIPTION</A><DD>
+<DT><A HREF="#lbAE">PROTOCOL EXAMPLE</A><DD>
+<DT><A HREF="#lbAF">SECURITY</A><DD>
+<DT><A HREF="#lbAG">DIAGNOSTICS</A><DD>
+<DT><A HREF="#lbAH">CONFIGURATION PARAMETERS</A><DD>
+<DT><A HREF="#lbAI">STARTTLS SUPPORT CONTROLS</A><DD>
+<DT><A HREF="#lbAJ">OBSOLETE STARTTLS SUPPORT CONTROLS</A><DD>
+<DT><A HREF="#lbAK">RESOURCE CONTROLS</A><DD>
+<DT><A HREF="#lbAL">MISCELLANEOUS CONTROLS</A><DD>
+<DT><A HREF="#lbAM">SEE ALSO</A><DD>
+<DT><A HREF="#lbAN">LICENSE</A><DD>
+<DT><A HREF="#lbAO">HISTORY</A><DD>
+<DT><A HREF="#lbAP">AUTHOR(S)</A><DD>
+</DL>
+<HR>
+This document was created by
+<A HREF="http://localhost/cgi-bin/man/man2html">man2html</A>,
+using the manual pages.<BR>
+Time: 12:21:41 GMT, August 25, 2016
+</BODY>
+</HTML>

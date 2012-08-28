@@ -1,0 +1,42 @@
+# Download URL, product name and version
+URL="http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.39.tar.gz"
+PKG="lighthttpd"
+VER="1.4.39"
+
+# Description used internally
+NAME="lighthttpd"
+
+# The creator/copyright holder
+VENDOR="http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-1.4.39.tar.gz"
+
+# Local source location
+SRC="lighttpd-1.4.39"
+
+# prefix for ''make install' Do not change
+ROOT=/var/opt/UNItools
+
+# Arguments to configure, build command and installation command
+CONFIGURE="./configure --prefix=$ROOT --enable-static --sbindir=$ROOT/bin --with-openssl=/usr/local/ssl --with-openssl-libs=/usr/local/ssl"
+BUILD="make"
+INSTALL="make install"
+# clean-up commands
+MAKECLEAN="make distclean"
+DELEFILES="*.bak"
+
+# Script to add information not added by make install
+INSTALL_MORE="/bin/sh install_more.sh"
+
+# Prototype rc start/stop script (absolute path or relative to CFG)
+RCPROTO=""
+# RCSTART="S88unizlib"
+RCSTART=""
+# RCSTOP="S88unizlib"
+RCSTOP=""
+# Run level /etc/rcX.d. Network: 3, hernel S, user space (databases etc): 3
+# netværksdaemoner: normalt 2, kerneting normalt S, databaser mv normalt 3
+# RCSTARTDIRS="3"
+RCSTARTDIRS=""
+# Same for stop scripts: S, 0 and 1 - multible doesn't make any difference
+# RCSTOPDIRS="S 0 1"
+RCSTOPDIRS=""
+

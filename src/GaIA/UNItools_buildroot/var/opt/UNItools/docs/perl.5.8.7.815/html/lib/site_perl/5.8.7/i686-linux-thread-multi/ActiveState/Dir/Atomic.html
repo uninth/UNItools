@@ -1,0 +1,296 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../../tocTab.js"></script>
+<title>ActiveState::Dir::Atomic - update directory contents atomically</title>
+<link rel="stylesheet" href="../../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',6);</script>
+<h1><a>ActiveState::Dir::Atomic - update directory contents atomically</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>ActiveState::Dir::Atomic - update directory contents atomically</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  use ActiveState::Dir::Atomic;
+  my $at = ActiveState::Dir::Atomic-&gt;new($dirname);</pre>
+<pre>
+  # Typically, an application for AS::Dir::Atomic is to
+  # watch for changes to a data directory, and reload a
+  # set of data files when a change is detected.
+  my $cur = $at-&gt;currentpath;
+  while (1) {
+     
+     # do some work with $cur
+     
+     if ($cur ne $at-&gt;currentpath) {
+        $cur = $at-&gt;currentpath;
+        
+        # reload data files from $cur
+        
+     }
+  }</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>ActiveState::Dir::Atomic makes it easier to write code that modifies a
+directory safely. It does this by enforcing a particular directory structure.
+It keeps a configurable number of backup directories, and can be used to
+rollback a commit.</p>
+<p>The directory structure is as follows:</p>
+<dl>
+<dt><strong><a name="item_root_2f">ROOT/</a></strong>
+
+<dd>
+<p>The ``root'' of the ActiveState::Dir::Atomic structure.  This is the name of the
+directory passed to new().</p>
+</dd>
+</li>
+<dt><strong><a name="item_root_2f_2elock">ROOT/.lock</a></strong>
+
+<dd>
+<p>The lock file used if the directory is opened for writing.  Not used for
+reading.</p>
+</dd>
+</li>
+<dt><strong><a name="item_root_2f1">ROOT/1</a></strong>
+
+<dt><strong><a name="item_root_2f2">ROOT/2</a></strong>
+
+<dt><strong><a name="item_root_2f_2e_2e_2e">ROOT/...</a></strong>
+
+<dd>
+<p>The actual directories as exposed to the application.  These directories form
+a circular buffer of directories. The active directory cycles through these
+numbers over time.  The number of directories is determined by the <a href="#item_rotate"><code>rotate</code></a>
+parameter to new(); once the directory exists, this parameter is read from the
+file <em>ROOT/.top</em>.</p>
+</dd>
+</li>
+<dt><strong><a name="item_root_2fcurrent">ROOT/current</a></strong>
+
+<dd>
+<p>A symbolic link that points to the currently active subdirectory. When you
+commit(), this symbolic link is updated.</p>
+</dd>
+</li>
+<dt><strong><a name="item_root_2f_2etop">ROOT/.top</a></strong>
+
+<dd>
+<p>A file containing the number of backups to keep before <a href="#item_commit"><code>commit()</code></a> overwrites
+backups.  When a directory is first created, this number is specified by the
+<a href="#item_rotate"><code>rotate</code></a> parameter.</p>
+</dd>
+</li>
+</dl>
+<p>This package does <em>not</em> abstract access to the actual directory -- use
+standard Perl functions for that. It just ensures that while you modify the
+contents of the scratch directory, other applications can safely use the
+active directory.</p>
+<p>ActiveState::Dir::Atomic provides the following methods:</p>
+<dl>
+<dt><strong><a name="item_new"><code>new()</code></a></strong>
+
+<dd>
+<pre>
+   $dir = ActiveState::Dir::Atomic($dirname, %opts);</pre>
+</dd>
+<dd>
+<p>Creates a new object, opening <code>$dirname</code> for reading or writing.  If the
+directory is opened for writing it is locked; otherwise no lock is used.  If
+the directory cannot be opened or the lock obtained, the constructor will
+croak.</p>
+</dd>
+<dd>
+<p>Options are passed as key/value pairs after the directory name.  The supported
+options are:</p>
+</dd>
+<dl>
+<dt><strong><a name="item_writable">writable</a></strong>
+
+<dd>
+<p>A boolean.  If true, the directory is opened for writing and is locked
+exclusively. You can call the scratchdir(), <a href="#item_scratchpath"><code>scratchpath()</code></a> and <a href="#item_commit"><code>commit()</code></a>
+methods.  If not, the directory is opened for reading only, and these methods
+will croak if you try to use them.</p>
+</dd>
+</li>
+<dt><strong><a name="item_create">create</a></strong>
+
+<dd>
+<p>A boolean.  If true, and writable is also true, the directory is created if it
+does not already exist.  Note that the directory will be created when the
+object is created, so it will end up existing and empty even if <a href="#item_commit"><code>commit()</code></a> is
+not called.</p>
+</dd>
+</li>
+<dt><strong><a name="item_timeout">timeout</a></strong>
+
+<dd>
+<p>A number representing seconds.  Normally ActiveState::Dir::Atomic will wait
+forever trying to acquire a lock on the directory if <a href="#item_writable"><code>writable</code></a> is true.  You
+can specify how long to wait with this option.  The constructor will croak
+if it times out waiting for the lock.</p>
+</dd>
+</li>
+<dt><strong><a name="item_rotate">rotate</a></strong>
+
+<dd>
+<p>A number.  If <a href="#item_create"><code>create</code></a> is true, and the directory did not exist, this is the
+number of backups to keep before commits overwrite old directories.  The
+default is 4.  If the directory exists, this number is read from a hidden file
+that ActiveState::Dir::Atomic saves when it creates directories.</p>
+</dd>
+</li>
+</dl>
+<dt><strong><a name="item_current"><code>current()</code></a></strong>
+
+<dd>
+<pre>
+  my $current = $at-&gt;current;</pre>
+</dd>
+<dd>
+<p>Returns the index of the current subdirectory. This method consults the
+symbolic link each time it is called, to detect changes by other applications.
+The index is always an integer greater than 1.</p>
+</dd>
+<dt><strong><a name="item_currentpath"><code>currentpath()</code></a></strong>
+
+<dd>
+<pre>
+  my $path = $at-&gt;currentpath;</pre>
+</dd>
+<dd>
+<p>Returns the full path to the current subdirectory. This method consults the
+symbolic link each time it is called, to detect changes by other applications.</p>
+</dd>
+<dt><strong><a name="item_scratch"><code>scratch()</code></a></strong>
+
+<dd>
+<pre>
+  my $scratch = $at-&gt;scratch;</pre>
+</dd>
+<dd>
+<p>Returns the index of the directory that will become the current directory if
+<a href="#item_commit"><code>commit()</code></a> is called. This croaks if the directory was not opened for writing.</p>
+</dd>
+<dt><strong><a name="item_scratchpath"><code>scratchpath()</code></a></strong>
+
+<dd>
+<pre>
+  my $path = $at-&gt;scratchpath;</pre>
+</dd>
+<dd>
+<p>Returns the full path to the directory that will become the current directory
+if <a href="#item_commit"><code>commit()</code></a> is called. This croaks if the directory was not opened for writing.</p>
+</dd>
+<dt><strong><a name="item_version"><code>version()</code></a></strong>
+
+<dd>
+<pre>
+  my $version = $at-&gt;version;</pre>
+</dd>
+<dd>
+<p>Returns the ``version'' of the directory. The version string is an optional
+parameter to commit(), and is intended to provide a more useful string than
+the directory index number.</p>
+</dd>
+<dt><strong><a name="item_scan"><code>scan()</code></a></strong>
+
+<dd>
+<pre>
+  my $num = $at-&gt;scan(\&amp;callback);</pre>
+</dd>
+<dd>
+<p>Invokes the <code>&amp;callback</code> for each subdirectory in the directory, beginning
+with the current directory and moving backwards in time.  The callback is
+invoked like so:</p>
+</dd>
+<dd>
+<pre>
+  &amp;callback($fullpath, $index);</pre>
+</dd>
+<dd>
+<p>The callback can return false to stop walking.</p>
+</dd>
+<dd>
+<p>The <a href="#item_scan"><code>scan()</code></a> method normally returns the number of times the callback was
+invoked; however, if the callback is not provided, then <a href="#item_scan"><code>scan()</code></a> returns the
+number of subdirectories.</p>
+</dd>
+<dt><strong><a name="item_commit"><code>commit()</code></a></strong>
+
+<dd>
+<pre>
+  $at-&gt;commit;
+  $at-&gt;commit($version);</pre>
+</dd>
+<dd>
+<p>Updates the <em>ROOT/current</em> symbolic link to the next directory. The method
+will croak on failure or if the <a href="#item_writable"><code>writable</code></a> option was not passed to the
+constructor.</p>
+</dd>
+<dd>
+<p>Calling <a href="#item_commit"><code>commit()</code></a> implies close(). You should not call any other method on the
+object after calling commit().</p>
+</dd>
+<dt><strong><a name="item_rollback"><code>rollback()</code></a></strong>
+
+<dd>
+<pre>
+  $at-&gt;rollback($index);</pre>
+</dd>
+<dd>
+<p>Sets the <em>ROOT/current</em> symbolic link to the specified index. Subsequent
+calls to <a href="#item_commit"><code>commit()</code></a> will begin overwriting from that index.</p>
+</dd>
+<dt><strong><a name="item_close"><code>close()</code></a></strong>
+
+<dd>
+<p>Reverts any uncommitted changes and unlocks the directory. You should not call
+any other methods after calling close().</p>
+</dd>
+<dd>
+<p>Normally there is no need to call <a href="#item_close"><code>close()</code></a> explicitly since the object
+destructor will invoke it when the object goes out of scope.</p>
+</dd>
+<dd>
+<p>This method can not fail and has no return value.</p>
+</dd>
+</li>
+</dl>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2003, ActiveState Corporation.  All Rights Reserved.</p>
+
+</body>
+
+</html>

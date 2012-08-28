@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+<title>./msgbox4-utf8</title>
+<style type="text/css">
+<!--
+body.hl	{ background-color:#ffffff; }
+pre.hl	{ color:#000000; background-color:#ffffff; font-size:10pt; font-family:Courier;}
+.num	{ color:#ff0000; }
+.esc	{ color:#ff22ff; }
+.str	{ color:#ff0000; }
+.dstr	{ color:#ff0000; }
+.slc	{ color:#0000ff; }
+.com	{ color:#0000ff; }
+.dir	{ color:#ff22ff; }
+.sym	{ color:#000000; }
+.line	{ color:#0000ff; }
+.kwa	{ color:#B26818; }
+.kwb	{ color:#00ff00; }
+.kwc	{ color:#B26818; }
+.kwd	{ color:#000000; }
+//-->
+</style>
+</head>
+<body class="hl">
+<pre class="hl"><span class="line">    0 </span><span class="dir">#!/bin/sh</span>
+<span class="line">    1 </span><span class="dir"># $Id: msgbox4-utf8,v 1.6 2004/12/19 16:27:15 tom Exp $</span>
+<span class="line">    2 </span><span class="sym">:</span> $<span class="sym">{</span>DIALOG<span class="sym">=</span>dialog<span class="sym">}</span>
+<span class="line">    3 </span>
+<span class="line">    4 </span><span class="sym">:</span> $<span class="sym">{</span>DIALOG_OK<span class="sym">=</span><span class="num">0</span><span class="sym">}</span>
+<span class="line">    5 </span><span class="sym">:</span> $<span class="sym">{</span>DIALOG_CANCEL<span class="sym">=</span><span class="num">1</span><span class="sym">}</span>
+<span class="line">    6 </span><span class="sym">:</span> $<span class="sym">{</span>DIALOG_ESC<span class="sym">=</span><span class="num">255</span><span class="sym">}</span>
+<span class="line">    7 </span>
+<span class="line">    8 </span><span class="kwa">case</span> none<span class="str">&quot;$LANG$LC_ALL$LC_CTYPE&quot;</span> in
+<span class="line">    9 </span><span class="sym">*</span>UTF<span class="sym">-</span><span class="num">8</span><span class="sym">*)</span>
+<span class="line">   10 </span>	<span class="sym">;;</span>
+<span class="line">   11 </span><span class="sym">*)</span>
+<span class="line">   12 </span>	echo <span class="str">&quot;This script must be run in a UTF-8 locale&quot;</span>
+<span class="line">   13 </span>	exit <span class="num">1</span>
+<span class="line">   14 </span>	<span class="sym">;;</span>
+<span class="line">   15 </span>esac
+<span class="line">   16 </span>
+<span class="line">   17 </span>width<span class="sym">=</span><span class="num">30</span>
+<span class="line">   18 </span><span class="kwa">while</span> test $width <span class="sym">!=</span> <span class="num">61</span>
+<span class="line">   19 </span><span class="kwa">do</span>
+<span class="line">   20 </span>$DIALOG <span class="sym">--</span>title <span class="str">&quot;MESSAGE BOX (width $width)&quot;</span> <span class="sym">--</span>no<span class="sym">-</span>collapse \
+<span class="line">   21 </span>        <span class="sym">--</span>msgbox <span class="str">&quot;</span><span class="esc">\</span>
+<span class="line">   22 </span><span class="str">This sample is written in UTF-8.</span>
+<span class="line">   23 </span><span class="str">There are several checking points:</span>
+<span class="line">   24 </span><span class="str">(1) whether the fullwidth characters are displayed well or not,</span>
+<span class="line">   25 </span><span class="str">(2) whether the width of characters are evaluated properly, and</span>
+<span class="line">   26 </span><span class="str">(3) whether the character at line-folding is lost or not.</span>
+<span class="line">   27 </span><span class="str"></span>
+<span class="line">   28 </span><span class="str">あいうえおかきくけこさしすせそたちつてとなにぬねの</span>
+<span class="line">   29 </span><span class="str">１２３４５６７８９０１２３４５６７８９０１２３４５</span>
+<span class="line">   30 </span><span class="str">ＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＹ</span>
+<span class="line">   31 </span><span class="str"></span>
+<span class="line">   32 </span><span class="str">Hi, this is a simple message box.  You can use this to</span> <span class="esc">\</span>
+<span class="line">   33 </span><span class="str">display any message you like.  The box will remain until</span> <span class="esc">\</span>
+<span class="line">   34 </span><span class="str">you press the ENTER key.&quot;</span> <span class="num">22</span> $width
+<span class="line">   35 </span>retval<span class="sym">=</span>$?
+<span class="line">   36 </span>
+<span class="line">   37 </span><span class="kwa">case</span> $retval in
+<span class="line">   38 </span>  $DIALOG_CANCEL<span class="sym">)</span>
+<span class="line">   39 </span>    echo <span class="str">&quot;Cancel pressed.&quot;</span><span class="sym">;</span>exit<span class="sym">;;</span>
+<span class="line">   40 </span>  $DIALOG_ESC<span class="sym">)</span>
+<span class="line">   41 </span>    echo <span class="str">&quot;ESC pressed.&quot;</span><span class="sym">;</span>exit<span class="sym">;;</span>
+<span class="line">   42 </span>esac
+<span class="line">   43 </span>
+<span class="line">   44 </span>width<span class="sym">=</span>`expr $width <span class="sym">+</span> <span class="num">1</span>`
+<span class="line">   45 </span>
+<span class="line">   46 </span>done
+</pre>
+</body>
+</html>
+<!--HTML generated by highlight 2.4.3, http://www.andre-simon.de/-->

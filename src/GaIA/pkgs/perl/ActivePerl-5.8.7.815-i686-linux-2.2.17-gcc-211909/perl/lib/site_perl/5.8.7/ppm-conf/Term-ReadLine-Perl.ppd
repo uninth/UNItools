@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOFTPKG NAME="Term-ReadLine-Perl" VERSION="1,2,3,2">
+  <TITLE>Term-ReadLine-Perl</TITLE>
+  <ABSTRACT>Readline implementation in Perl</ABSTRACT>
+  <AUTHOR>Ilya Zakharevich &lt;cpan@ilyaz.org></AUTHOR>
+  <IMPLEMENTATION>
+    <CODEBASE HREF="http://ppm.ActiveState.com/PPMPackages/5.8-linux/i686-linux-thread-multi-5.8/Term-ReadLine-Perl.tar.gz"/>
+  </IMPLEMENTATION>
+</SOFTPKG>

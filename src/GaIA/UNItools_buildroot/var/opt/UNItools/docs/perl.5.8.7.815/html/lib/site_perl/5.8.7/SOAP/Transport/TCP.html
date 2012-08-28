@@ -1,0 +1,69 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>SOAP::Transport::TCP - Server/Client side TCP support for SOAP::Lite</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>SOAP::Transport::TCP - Server/Client side TCP support for SOAP::Lite</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+	<li><a href="#author">AUTHOR</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>SOAP::Transport::TCP - Server/Client side TCP support for SOAP::Lite</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+  use SOAP::Transport::TCP;</pre>
+<pre>
+  my $daemon = SOAP::Transport::TCP::Server
+    -&gt; new (LocalAddr =&gt; 'localhost', LocalPort =&gt; 82, Listen =&gt; 5, Reuse =&gt; 1)
+    -&gt; objects_by_reference(qw(My::PersistentIterator My::SessionIterator My::Chat))
+    -&gt; dispatch_to('/Your/Path/To/Deployed/Modules', 'Module::Name', 'Module::method')
+  ;
+  print &quot;Contact to SOAP server at &quot;, join(':', $daemon-&gt;sockhost, $daemon-&gt;sockport), &quot;\n&quot;;
+  $daemon-&gt;handle;</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p>Copyright (C) 2000-2001 Paul Kulchenko. All rights reserved.</p>
+<p>This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.</p>
+<p>
+</p>
+<hr />
+<h1><a name="author">AUTHOR</a></h1>
+<p>Paul Kulchenko (<a href="mailto:paulclinger@yahoo.com">paulclinger@yahoo.com</a>)</p>
+
+</body>
+
+</html>

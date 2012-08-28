@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<!-- saved from url=(0017)http://localhost/ -->
+<script language="JavaScript" src="../../../../../displayToc.js"></script>
+<script language="JavaScript" src="../../../../../tocParas.js"></script>
+<script language="JavaScript" src="../../../../../tocTab.js"></script>
+<title>Tk::Xrm - X Resource/Defaults/Options routines that obey the rules.</title>
+<link rel="stylesheet" href="../../../../../Active.css" type="text/css" />
+<link rev="made" href="mailto:support@ActiveState.com" />
+</head>
+
+<body>
+
+<script>writelinks('__top__',5);</script>
+<h1><a>Tk::Xrm - X Resource/Defaults/Options routines that obey the rules.</a></h1>
+<p><a name="__index__"></a></p>
+
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#keywords">KEYWORDS</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<h1><a name="name">NAME</a></h1>
+<p>Tk::Xrm - X Resource/Defaults/Options routines that obey the rules.</p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<pre>
+   use Tk;
+   use Tk::Xrm;</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Using this modules causes Tk's Option code to be replaced by versions
+which use routines from &lt;X11/Xresource.h&gt; - i.e. same ones every other
+X toolkit uses.</p>
+<p>Result is that ``matching'' of name/Class with the options database follows
+the same rules as other X toolkits. This makes it more predictable,
+and makes it easier to have a single ~/.Xdefaults file which gives sensible
+results for both Tk and (say) Motif applications.</p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>Currently <strong>optionAdd</strong>(<em>key</em> =&gt; <em>value</em>?, <em>priority</em>?) ignores optional
+priority completely and just does XrmPutStringResource().
+Perhaps it should be more subtle and do <code>XrmMergeDatabases()</code> or
+XrmCombineDatabase().</p>
+<p>This version is a little slower than Tk's re-invention but there is
+more optimization that can be done.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p><a href="../../../../../lib/site_perl/5.8.7/i686-linux-thread-multi/Tk/option.html">Tk::option</a></p>
+<p>
+</p>
+<hr />
+<h1><a name="keywords">KEYWORDS</a></h1>
+<p>database, option, priority, retrieve</p>
+
+</body>
+
+</html>

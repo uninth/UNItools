@@ -1,0 +1,212 @@
+src/libsmbios_c/memory/out_libsmbios_c_la-memory_linux.lo \
+  src/libsmbios_c/memory/out_libsmbios_c_la-memory_linux.o:  \
+ src/libsmbios_c/memory/memory_linux.c src/include/smbios_c/compat.h \
+  src/libsmbios_c/common/libsmbios_c_source.h out/include/config.h \
+  src/libsmbios_c/common/select_compiler_config.h \
+  src/libsmbios_c/common/compiler/gcc.h /usr/include/stdio.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/gnu/stubs.h \
+  /usr/lib/gcc-lib/i386-redhat-linux/3.2.3/include/stddef.h \
+  /usr/include/bits/types.h /usr/include/bits/wordsize.h \
+  /usr/include/bits/typesizes.h /usr/include/libio.h \
+  /usr/include/_G_config.h /usr/include/wchar.h /usr/include/bits/wchar.h \
+  /usr/include/gconv.h \
+  /usr/lib/gcc-lib/i386-redhat-linux/3.2.3/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/bits/stdio.h /usr/include/string.h /usr/include/xlocale.h \
+  /usr/include/bits/string.h /usr/include/bits/string2.h \
+  /usr/include/endian.h /usr/include/bits/endian.h /usr/include/stdlib.h \
+  /usr/include/bits/waitflags.h /usr/include/bits/waitstatus.h \
+  /usr/include/sys/types.h /usr/include/time.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/bits/sigset.h \
+  /usr/include/bits/time.h /usr/include/sys/sysmacros.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/bits/sched.h \
+  /usr/include/alloca.h src/libsmbios_c/common/select_platform_config.h \
+  src/libsmbios_c/common/platform/linux.h \
+  src/include/smbios_c/config/get_config.h \
+  src/include/smbios_c/config/user.h \
+  src/include/smbios_c/config/select_compiler_config.h \
+  src/include/smbios_c/config/compiler/gcc.h \
+  src/include/smbios_c/config/select_platform_config.h \
+  src/include/smbios_c/config/platform/linux.h /usr/include/unistd.h \
+  /usr/include/bits/posix_opt.h /usr/include/bits/environments.h \
+  /usr/include/bits/confname.h /usr/include/getopt.h \
+  src/include/smbios_c/config/suffix.h \
+  /usr/lib/gcc-lib/i386-redhat-linux/3.2.3/include/limits.h \
+  /usr/lib/gcc-lib/i386-redhat-linux/3.2.3/include/syslimits.h \
+  /usr/include/limits.h /usr/include/bits/posix1_lim.h \
+  /usr/include/bits/local_lim.h /usr/include/linux/limits.h \
+  /usr/include/bits/posix2_lim.h /usr/include/bits/xopen_lim.h \
+  src/include/smbios_c/config/auto_link.h /usr/include/ctype.h \
+  /usr/include/errno.h /usr/include/bits/errno.h \
+  /usr/include/linux/errno.h /usr/include/asm/errno.h \
+  /usr/include/sys/mman.h /usr/include/bits/mman.h \
+  src/include/smbios_c/obj/memory.h src/include/smbios_c/types.h \
+  /usr/lib/gcc-lib/i386-redhat-linux/3.2.3/include/stdbool.h \
+  src/libsmbios_c/memory/memory_impl.h \
+  src/libsmbios_c/common/common_internal.h \
+  src/libsmbios_c/common/internal_strl.h \
+  src/libsmbios_c/common/libsmbios_c_intlize.h /usr/include/libintl.h \
+  /usr/include/locale.h /usr/include/bits/locale.h
+
+src/include/smbios_c/compat.h:
+
+src/libsmbios_c/common/libsmbios_c_source.h:
+
+out/include/config.h:
+
+src/libsmbios_c/common/select_compiler_config.h:
+
+src/libsmbios_c/common/compiler/gcc.h:
+
+/usr/include/stdio.h:
+
+/usr/include/features.h:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/gnu/stubs.h:
+
+/usr/lib/gcc-lib/i386-redhat-linux/3.2.3/include/stddef.h:
+
+/usr/include/bits/types.h:
+
+/usr/include/bits/wordsize.h:
+
+/usr/include/bits/typesizes.h:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/wchar.h:
+
+/usr/include/bits/wchar.h:
+
+/usr/include/gconv.h:
+
+/usr/lib/gcc-lib/i386-redhat-linux/3.2.3/include/stdarg.h:
+
+/usr/include/bits/stdio_lim.h:
+
+/usr/include/bits/sys_errlist.h:
+
+/usr/include/bits/stdio.h:
+
+/usr/include/string.h:
+
+/usr/include/xlocale.h:
+
+/usr/include/bits/string.h:
+
+/usr/include/bits/string2.h:
+
+/usr/include/endian.h:
+
+/usr/include/bits/endian.h:
+
+/usr/include/stdlib.h:
+
+/usr/include/bits/waitflags.h:
+
+/usr/include/bits/waitstatus.h:
+
+/usr/include/sys/types.h:
+
+/usr/include/time.h:
+
+/usr/include/sys/select.h:
+
+/usr/include/bits/select.h:
+
+/usr/include/bits/sigset.h:
+
+/usr/include/bits/time.h:
+
+/usr/include/sys/sysmacros.h:
+
+/usr/include/bits/pthreadtypes.h:
+
+/usr/include/bits/sched.h:
+
+/usr/include/alloca.h:
+
+src/libsmbios_c/common/select_platform_config.h:
+
+src/libsmbios_c/common/platform/linux.h:
+
+src/include/smbios_c/config/get_config.h:
+
+src/include/smbios_c/config/user.h:
+
+src/include/smbios_c/config/select_compiler_config.h:
+
+src/include/smbios_c/config/compiler/gcc.h:
+
+src/include/smbios_c/config/select_platform_config.h:
+
+src/include/smbios_c/config/platform/linux.h:
+
+/usr/include/unistd.h:
+
+/usr/include/bits/posix_opt.h:
+
+/usr/include/bits/environments.h:
+
+/usr/include/bits/confname.h:
+
+/usr/include/getopt.h:
+
+src/include/smbios_c/config/suffix.h:
+
+/usr/lib/gcc-lib/i386-redhat-linux/3.2.3/include/limits.h:
+
+/usr/lib/gcc-lib/i386-redhat-linux/3.2.3/include/syslimits.h:
+
+/usr/include/limits.h:
+
+/usr/include/bits/posix1_lim.h:
+
+/usr/include/bits/local_lim.h:
+
+/usr/include/linux/limits.h:
+
+/usr/include/bits/posix2_lim.h:
+
+/usr/include/bits/xopen_lim.h:
+
+src/include/smbios_c/config/auto_link.h:
+
+/usr/include/ctype.h:
+
+/usr/include/errno.h:
+
+/usr/include/bits/errno.h:
+
+/usr/include/linux/errno.h:
+
+/usr/include/asm/errno.h:
+
+/usr/include/sys/mman.h:
+
+/usr/include/bits/mman.h:
+
+src/include/smbios_c/obj/memory.h:
+
+src/include/smbios_c/types.h:
+
+/usr/lib/gcc-lib/i386-redhat-linux/3.2.3/include/stdbool.h:
+
+src/libsmbios_c/memory/memory_impl.h:
+
+src/libsmbios_c/common/common_internal.h:
+
+src/libsmbios_c/common/internal_strl.h:
+
+src/libsmbios_c/common/libsmbios_c_intlize.h:
+
+/usr/include/libintl.h:
+
+/usr/include/locale.h:
+
+/usr/include/bits/locale.h:
